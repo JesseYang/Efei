@@ -1,6 +1,7 @@
 //= require 'utility/ajax'
 $ ->
 
+  ################ operations about groups ###################
   $(".group-div").hover (->
     edit_question = false
     $(this).find(".question-editor-div").each ->
@@ -27,15 +28,13 @@ $ ->
     $(this).closest(".group-div").find(".select-div label").removeClass("hide")
 
   $(".cancel").click ->
-    $(this).closest(".group-div").find(".editor-div").addClass("hide")
+    $(this).closest(".editor-div").addClass("hide")
     $(this).closest(".group-div").find(".operation-div").removeClass("hide")
     $this = $(this)
     set_options($this)
     false
 
   $(".ok").click ->
-    $(this).closest(".group-div").find(".editor-div").addClass("hide")
-    $(this).closest(".group-div").find(".operation-div").removeClass("hide")
     random_select = $(this).closest(".editor-div").find(".random").hasClass("active")
     random_number = $(this).closest(".editor-div").find(".random-number").val()
     manual_select = []
@@ -49,78 +48,16 @@ $ ->
         random_select: random_select,
         random_number: random_number,
         manual_select: manual_select
-        },
+      },
       (retval) ->
+        $this.closest(".editor-div").addClass("hide")
+        $this.closest(".group-div").find(".operation-div").removeClass("hide")
         $this.closest(".editor-div").find(".select-style").data("random", random_select)
         $this.closest(".editor-div").find(".random-number").data("random-number", random_number)
         $this.closest(".group-div").find(".select-div").each ->
           qid = $(this).data("question-id")
           $(this).data("selected", (!random_select && qid in manual_select))
         set_options($this)
-    )
-    false
-
-  $(".question-div").click ->
-    label = $(this).closest(".question-with-select-div").find("label")
-    if !label.hasClass("hide")
-      label.find("input").prop('checked', !label.find("input").prop('checked'))
-
-
-  $(".question-div").hover (->
-    if $(this).find(".question-editor-div").hasClass("hide") && $(this).closest(".group-div").find(".editor-div").hasClass("hide")
-      $(this).find(".question-operation-div").removeClass('hide')
-  ), ->
-    $(this).find(".question-operation-div").addClass('hide')
-
-  $(".question-operation-div a").click ->
-    $(this).closest(".group-div").find(".operation-div").addClass("hide")
-    q_div = $(this).closest(".question-div")
-    q_div.find(".question-editor-div").removeClass("hide")
-    q_div.find(".question-editor-confirm-div").removeClass("hide")
-    q_div.find(".question-operation-div").addClass("hide")
-    q_div.find(".question-content-div").addClass("hide")
-    content = q_div.find(".question-content p").html()
-    q_div.find("textarea").height(1);
-    q_div.find("textarea").val(content)
-    q_div.find("textarea").autogrow()
-    items = []
-    q_div.find(".question-items span").each ->
-      items.push $(this).html()
-    index = 0
-    q_div.find(".question-editor-div input").each ->
-      $(this).val(items[index++])
-    false
-
-  $(".question-cancel").click ->
-    $(this).closest(".group-div").find(".operation-div").removeClass("hide")
-    $(this).closest(".question-div").find(".question-editor-div").addClass("hide")
-    $(this).closest(".question-div").find(".question-editor-confirm-div").addClass("hide")
-    $(this).closest(".question-div").find(".question-operation-div").removeClass("hide")
-    $(this).closest(".question-div").find(".question-content-div").removeClass("hide")
-    false
-
-  $(".question-ok").click ->
-    $(this).closest(".group-div").find(".operation-div").removeClass("hide")
-    q_div = $(this).closest(".question-div")
-    content = q_div.find(".question-editor-div textarea").val()
-    items = []
-    q_div.find(".question-editor-div input").each ->
-      items.push $(this).val()
-    $.putJSON(
-      '/admin/questions/' + $(this).data("question-id"),
-      {
-        content: content,
-        items: items
-        },
-      (retval) ->
-        q_div.find(".question-editor-div").addClass("hide")
-        q_div.find(".question-editor-confirm-div").addClass("hide")
-        q_div.find(".question-operation-div").removeClass("hide")
-        q_div.find(".question-content-div").removeClass("hide")
-        q_div.find(".question-content p").html(retval.content)
-        index = 0
-        q_div.find(".question-items span").each ->
-          $(this).html(retval.items[index++])
     )
     false
 
@@ -161,3 +98,67 @@ $ ->
     else
       str = "手动选择" + fix_number + "道题"
     btn_ele.closest(".group-div").find(".select-tooltip").attr('data-original-title', str).tooltip('fixTitle')
+  
+  $(".question-div").click ->
+    label = $(this).closest(".question-with-select-div").find("label")
+    if !label.hasClass("hide")
+      label.find("input").prop('checked', !label.find("input").prop('checked'))
+
+  ################ operations about questions ###################
+  $(".question-div").hover (->
+    if $(this).find(".question-editor-div").hasClass("hide") && $(this).closest(".group-div").find(".editor-div").hasClass("hide")
+      $(this).find(".question-operation-div").removeClass('hide')
+  ), ->
+    $(this).find(".question-operation-div").addClass('hide')
+
+  $(".question-operation-div a").click ->
+    q_div = $(this).closest(".question-div")
+    enter_question_editor(q_div)
+    content = q_div.find(".question-content p").html()
+    q_div.find("textarea").height(1).val(content).autogrow()
+    items = []
+    q_div.find(".question-items span").each ->
+      items.push $(this).html()
+    index = 0
+    q_div.find(".question-editor-div input").each ->
+      $(this).val(items[index++])
+    false
+
+  $(".question-cancel").click ->
+    leave_question_editor($(this).closest(".question-div"))
+    false
+
+  $(".question-ok").click ->
+    q_div = $(this).closest(".question-div")
+    content = q_div.find(".question-editor-div textarea").val()
+    items = []
+    q_div.find(".question-editor-div input").each ->
+      items.push $(this).val()
+    $.putJSON(
+      '/admin/questions/' + $(this).data("question-id"),
+      {
+        content: content,
+        items: items
+      },
+      (retval) ->
+        leave_question_editor(q_div)
+        q_div.find(".question-content p").html(retval.content)
+        index = 0
+        q_div.find(".question-items span").each ->
+          $(this).html(retval.items[index++])
+    )
+    false
+
+  enter_question_editor = (q_div) ->
+    q_div.closest(".group-div").find(".operation-div").addClass("hide")
+    q_div.find(".question-editor-div").removeClass("hide")
+    q_div.find(".question-editor-confirm-div").removeClass("hide")
+    q_div.find(".question-operation-div").addClass("hide")
+    q_div.find(".question-content-div").addClass("hide")
+
+  leave_question_editor = (q_div) ->
+    q_div.closest(".group-div").find(".operation-div").removeClass("hide")
+    q_div.find(".question-editor-div").addClass("hide")
+    q_div.find(".question-editor-confirm-div").addClass("hide")
+    q_div.find(".question-operation-div").removeClass("hide")
+    q_div.find(".question-content-div").removeClass("hide")

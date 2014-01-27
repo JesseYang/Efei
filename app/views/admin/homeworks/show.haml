@@ -40,9 +40,10 @@
                 .question-content-div
                   .question-content
                     %p= q.content
-                  .question-items.row
-                    - q.items.each do |item|
-                      .col-md-3
+                  .question-items
+                    - q.items.each_with_index do |item, index|
+                      %p
+                        %label= d2c(index) + ". "
                         %span= item
                 .question-operation-div.hide
                   %a{href: "#"}
