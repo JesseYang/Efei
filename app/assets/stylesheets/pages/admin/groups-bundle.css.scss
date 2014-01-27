@@ -17,7 +17,8 @@ $question_width: 97%;
 }
 
 .question-with-select-div {
-  padding-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .select-div {
@@ -47,28 +48,44 @@ $question_width: 97%;
 .operation-div {
   float: right;
   width: $op_width;
-  ul {
+  a {
     padding-right: 10px;
     float: right;
-    li {
-      width: 25px;
-      float: left;
-      list-style-type: none;
-      span {
-        color: grey;
-        display: block;
-        text-align: center;
-      }
-      a {
-        display: block;
-        text-align: center;
-      }
-      em {
-        line-height: 20px;
-        font-size: 1.0em;
-      }
+    display: block;
+    text-align: center;
+    em {
+      line-height: 20px;
+      font-size: 1.0em;
     }
   }
+}
+
+.question-content-div {
+  float: left;
+  width: 95%;
+}
+
+.question-operation-div {
+  float: right;
+  width: 5%;
+}
+
+.question-editor-confirm-div {
+  float: right;    
+}
+
+.question-editor-div {
+  width: 88%;
+  float: left;
+  textarea {
+    width: 90%;
+  }
+}
+
+.question-editor-div .input-group {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 90%;
 }
 
 .clear-both {

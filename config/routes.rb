@@ -16,6 +16,8 @@ MathLib::Application.routes.draw do
         post :update_select
       end
     end
+
+    resources :questions
   end
 
   namespace :user do

@@ -37,19 +37,38 @@
                 %span.select-indicator{class: g.random_select || !g.manual_select.include?(q.id.to_s) ? "hide" : ""}
                   %em.glyphicon.glyphicon-asterisk
               .question-div
-                .question-content
-                  = q.content
-                .question-items.row
-                  - q.items.each do |item|
-                    .col-md-3
-                      %span= item
+                .question-content-div
+                  .question-content
+                    %p= q.content
+                  .question-items.row
+                    - q.items.each do |item|
+                      .col-md-3
+                        %span= item
+                .question-operation-div.hide
+                  %a{href: "#"}
+                    %em.glyphicon.glyphicon-pencil
+                .question-editor-div.hide
+                  %textarea.form-control
+                  .input-group
+                    %span.input-group-addon A
+                    %input.form-control{type: "text"}/
+                  .input-group
+                    %span.input-group-addon B
+                    %input.form-control{type: "text"}/
+                  .input-group
+                    %span.input-group-addon C
+                    %input.form-control{type: "text"}/
+                  .input-group
+                    %span.input-group-addon D
+                    %input.form-control{type: "text"}/
+                .question-editor-confirm-div.hide
+                  %a.question-ok.btn.btn-primary.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => q.id.to_s}} 确定
+                  %a.question-cancel.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true"} 取消
               .clear-both
         .operation-div.hide
-          %ul
-            %li.select-tooltip.tooltips{title: g.select_style, data: {toggle: "tooltip", placement: "bottom"}}
-              %a.editor_trigger{href: "#"}
-                %em.glyphicon.glyphicon-random{class: !g.random_select ? "hide" : ""}
-                %em.glyphicon.glyphicon-hand-up{class: g.random_select ? "hide" : ""}
+          %a.select-tooltip.tooltips{href: "#", title: g.select_style, data: {toggle: "tooltip", placement: "bottom"}}
+            %em.glyphicon.glyphicon-random{class: !g.random_select ? "hide" : ""}
+            %em.glyphicon.glyphicon-hand-up{class: g.random_select ? "hide" : ""}
         .editor-div.hide
           .select-style.btn-group{data: {toggle: "buttons", random: g.random_select.to_s}}
             %label.random.btn.btn-sm{class: g.random_select ? "active" : ""}
