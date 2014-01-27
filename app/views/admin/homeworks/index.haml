@@ -1,0 +1,45 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/homeworks-bundle"
+  = stylesheet_link_tag "pages/admin/homeworks-bundle", :media => "all"
+
+.container
+  / .col-sm-10.col-sm-offset-1.col-xs-10.col-xs-offset-1
+  .lib-content
+    - if @homeworks.blank?
+      %h4
+        没有查到作业
+    - else
+      .table-responsive
+        %table.table.table-striped
+          %tr
+            %th 名称
+            %th 创建日期
+            %th 分组数/题目数
+            %th 操作
+            %th
+          - @homeworks.each do |hw|
+            %tr
+              %td
+                = link_to hw.name, { controller: :homeworks, action: :show, id: hw.id.to_s}
+              %td= hw.created_at.strftime("%Y-%m-%d")
+              %td= "#{hw.groups.length}/#{hw.questions.length}"
+              %td
+                = link_to "删除", { controller: "homeworks", action: "destroy", id: hw._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+                = link_to "生成", { controller: "homeworks", action: "generate", id: hw._id.to_s }, :class => 'btn btn-default btn-xs'
+                = link_to "导出", { controller: "homeworks", action: "export", id: hw._id.to_s }, :class => 'btn btn-default btn-xs'
+    %button.btn.btn-bottom.btn-primary{data: {toggle: "modal", target: "#newHomework"} } 创建新作业
+
+#newHomework.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(admin_homeworks_path, method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 创建新作业
+        .modal-body
+          .form-group
+            = label_tag :name, "选择文件"
+            = file_field_tag "file"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "创建", :class => 'btn-primary btn'

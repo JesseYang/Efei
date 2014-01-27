@@ -1,0 +1,76 @@
+@import 'utility';
+$op_width: 15%;
+$content_width: 85%;
+$select_width: 3%;
+$question_width: 97%;
+
+.group-div {
+  background: white;
+  @include border-radius(10px);
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.select-indicator {
+  color: red;
+  font-size: 0.8em;
+}
+
+.question-with-select-div {
+  padding-bottom: 20px;
+}
+
+.select-div {
+  float: left;
+  width: $select_width;
+}
+
+.question-div {
+  float: right;
+  width: $question_width;
+}
+
+.content-div {
+  float:left;
+  width: $content_width;
+}
+
+.editor-div {
+  float: right;
+  width: $op_width;
+  .input-group {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.operation-div {
+  float: right;
+  width: $op_width;
+  ul {
+    padding-right: 10px;
+    float: right;
+    li {
+      width: 25px;
+      float: left;
+      list-style-type: none;
+      span {
+        color: grey;
+        display: block;
+        text-align: center;
+      }
+      a {
+        display: block;
+        text-align: center;
+      }
+      em {
+        line-height: 20px;
+        font-size: 1.0em;
+      }
+    }
+  }
+}
+
+.clear-both {
+  clear: both;
+}

@@ -1,0 +1,82 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/homeworks-bundle"
+  = javascript_include_tag "pages/admin/groups-bundle"
+  = stylesheet_link_tag "pages/admin/homeworks-bundle", :media => "all"
+  = stylesheet_link_tag "pages/admin/groups-bundle", :media => "all"
+
+.container
+  / .col-sm-8.col-sm-offset-2.col-xs-10.col-xs-offset-1
+  .sub-banner
+    .wrap
+      %h2= @homework.name
+      %ul
+        %li.tooltips{title: "返回", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to admin_homeworks_path do
+            %em.glyphicon.glyphicon-log-out
+        %li.tooltips{title: "生成", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to generate_admin_homework_path(@homework) do
+            %em.glyphicon.glyphicon-cloud-download
+        %li.tooltips{title: "导出", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to export_admin_homework_path(@homework) do
+            %em.glyphicon.glyphicon-save
+        %li.tooltips{title: "更换", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to "#", data: {toggle: "modal", target: "#replaceModal"} do
+            %em.glyphicon.glyphicon-transfer
+        %li.tooltips{title: "删除", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to admin_homework_path(@homework), method: "delete", confirm: "确定删除？" do
+            %em.glyphicon.glyphicon-trash
+  .lib-content
+    - @homework.groups.asc(:created_at).each do |g|
+      .group-div
+        .content-div
+          - g.questions.each do |q|
+            .question-with-select-div
+              .select-div{data: {"question-id" => q.id.to_s, selected: (!g.random_select && g.manual_select.include?(q.id.to_s)).to_s}}
+                %label.hide
+                  %input{checked: !g.random_select && g.manual_select.include?(q.id.to_s), type: "checkbox"}/
+                %span.select-indicator{class: g.random_select || !g.manual_select.include?(q.id.to_s) ? "hide" : ""}
+                  %em.glyphicon.glyphicon-asterisk
+              .question-div
+                .question-content
+                  = q.content
+                .question-items.row
+                  - q.items.each do |item|
+                    .col-md-3
+                      %span= item
+              .clear-both
+        .operation-div.hide
+          %ul
+            %li.select-tooltip.tooltips{title: g.select_style, data: {toggle: "tooltip", placement: "bottom"}}
+              %a.editor_trigger{href: "#"}
+                %em.glyphicon.glyphicon-random{class: !g.random_select ? "hide" : ""}
+                %em.glyphicon.glyphicon-hand-up{class: g.random_select ? "hide" : ""}
+        .editor-div.hide
+          .select-style.btn-group{data: {toggle: "buttons", random: g.random_select.to_s}}
+            %label.random.btn.btn-sm{class: g.random_select ? "active" : ""}
+              %input{name: "selectStyle", type: "radio"}>/
+              随机
+            %label.fixed.btn.btn-sm{class: !g.random_select ? "active" : ""}
+              %input{name: "selectStyle", type: "radio"}>/
+              指定
+          .input-group.input-group-sm
+            %span.input-group-addon 选择
+            %input.random-number.form-control{placeholder: "数量", type: "text", disabled: !g.random_select, value: g.random_number, data: {"random-number" => g.random_number}}/
+            %span.input-group-addon 道题
+          %a.ok.btn.btn-primary.btn-sm{href: "#", "aria-hidden" => "true", data: {"group-id" => g.id.to_s}} 确定
+          %a.cancel.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true"} 取消
+        .clear-both
+
+#replaceModal.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(replace_admin_homework_path(@homework), method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 替换当前作业
+        .modal-body
+          .form-group
+            = label_tag :name, "选择文件"
+            = file_field_tag "file"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "创建", :class => 'btn-primary btn'

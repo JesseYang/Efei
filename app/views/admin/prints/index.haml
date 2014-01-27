@@ -1,0 +1,23 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/prints-bundle"
+  = stylesheet_link_tag "pages/admin/prints-bundle", :media => "all"
+
+.container
+  .span9.offset1
+    - if @prints.blank?
+      %span 还没有打印历史
+    - else
+      %table{class: "table"}
+        %tr
+          %th 名称
+          %th 打印时间
+          %th 操作
+          %th
+        - @prints.each do |p|
+          %tr
+            %td
+              = link_to p.name, { controller: "admin/prints", action: "show", id: p._id.to_s }
+            %td= p.created_at.strftime("%Y-%m-%d %H-%M-%S")
+            %td
+              = link_to "删除", { controller: "admin/prints", action: "destroy", id: p._id.to_s }, :method => "delete", :class => 'btn btn-mini btn-danger' 
+              = link_to "复制", { controller: "admin/prints", action: "clone", id: p._id.to_s }, :method => "post", :class => 'btn btn-mini'
