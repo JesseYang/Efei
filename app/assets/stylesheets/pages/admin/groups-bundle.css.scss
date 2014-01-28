@@ -63,6 +63,12 @@ $question_width: 97%;
 .question-content-div {
   float: left;
   width: 95%;
+  .question-content p {
+    white-space: pre;
+  }
+  .question-items span {
+    white-space: pre;
+  }
 }
 
 .question-operation-div {
