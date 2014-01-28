@@ -19,9 +19,9 @@ class Homework
 
   def export
     groups_data = []
-    self.groups.each do |g|
+    self.groups.asc(:created_at).each do |g|
       questions = []
-      g.questions.each do |q|
+      g.questions.asc(:created_at).each do |q|
         questions << {"content" => q.content, "items" => q.items}
       end
       groups_data << questions

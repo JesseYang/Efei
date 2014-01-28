@@ -2,6 +2,9 @@
 $ ->
 
   ################ operations about groups ###################
+  $(".select-tooltip").hover ->
+    $(this).tooltip('show')
+
   $(".group-div").hover (->
     edit_question = false
     $(this).find(".question-editor-div").each ->
@@ -41,6 +44,12 @@ $ ->
     $(this).closest(".group-div").find(".select-div").each ->
       if $(this).find("input").prop('checked')
         manual_select.push $(this).data("question-id")
+    console.log parseInt(random_number)
+    console.log $(this).closest(".group-div").find(".select-div").length
+    if random_select && parseInt(random_number) > $(this).closest(".group-div").find(".select-div").length
+      $(this).closest(".editor-div").find(".input-group").addClass("has-error")
+      $(this).closest(".editor-div").find(".input-group").tooltip("show")
+      return false
     $this = $(this)
     $.postJSON(
       '/admin/groups/' + $(this).data("group-id") + '/update_select',
@@ -60,6 +69,9 @@ $ ->
         set_options($this)
     )
     false
+
+  $(".editor-div .input-group input").focus ->
+    $(this).closest(".input-group").removeClass("has-error")
 
   # set the editors based on the current data
   set_options = (btn_ele) ->
@@ -105,14 +117,22 @@ $ ->
       label.find("input").prop('checked', !label.find("input").prop('checked'))
 
   ################ operations about questions ###################
-  $(".question-div").hover (->
-    if $(this).find(".question-editor-div").hasClass("hide") && $(this).closest(".group-div").find(".editor-div").hasClass("hide")
-      $(this).find(".question-operation-div").removeClass('hide')
-  ), ->
-    $(this).find(".question-operation-div").addClass('hide')
+  # $(".question-div").hover (->
+  #   if $(this).find(".question-editor-div").hasClass("hide") && $(this).closest(".group-div").find(".editor-div").hasClass("hide")
+  #     $(this).find(".question-operation-div").removeClass('hide')
+  # ), ->
+  #   $(this).find(".question-operation-div").addClass('hide')
 
-  $(".question-operation-div a").click ->
-    q_div = $(this).closest(".question-div")
+  $(".question-with-select-div").hover (->
+    if $(this).find(".question-editor-div").hasClass("hide") && $(this).closest(".group-div").find(".editor-div").hasClass("hide")
+      $(this).find(".notification-div").fadeIn()
+  ), ->
+    $(this).find(".notification-div").hide()
+
+  $(".question-with-select-div").dblclick ->
+    return if !$(this).closest(".group-div").find(".editor-div").hasClass("hide")
+    $(this).find(".notification-div").hide()
+    q_div = $(this).find(".question-div")
     enter_question_editor(q_div)
     content = q_div.find(".question-content p").html()
     q_div.find("textarea").height(1).val(content).autogrow()
@@ -122,7 +142,19 @@ $ ->
     index = 0
     q_div.find(".question-editor-div input").each ->
       $(this).val(items[index++])
-    false
+
+  # $(".question-operation-div a").click ->
+  #   q_div = $(this).closest(".question-div")
+  #   enter_question_editor(q_div)
+  #   content = q_div.find(".question-content p").html()
+  #   q_div.find("textarea").height(1).val(content).autogrow()
+  #   items = []
+  #   q_div.find(".question-items span").each ->
+  #     items.push $(this).html()
+  #   index = 0
+  #   q_div.find(".question-editor-div input").each ->
+  #     $(this).val(items[index++])
+  #   false
 
   $(".question-cancel").click ->
     leave_question_editor($(this).closest(".question-div"))
@@ -153,12 +185,12 @@ $ ->
     q_div.closest(".group-div").find(".operation-div").addClass("hide")
     q_div.find(".question-editor-div").removeClass("hide")
     q_div.find(".question-editor-confirm-div").removeClass("hide")
-    q_div.find(".question-operation-div").addClass("hide")
+    # q_div.find(".question-operation-div").addClass("hide")
     q_div.find(".question-content-div").addClass("hide")
 
   leave_question_editor = (q_div) ->
     q_div.closest(".group-div").find(".operation-div").removeClass("hide")
     q_div.find(".question-editor-div").addClass("hide")
     q_div.find(".question-editor-confirm-div").addClass("hide")
-    q_div.find(".question-operation-div").removeClass("hide")
+    # q_div.find(".question-operation-div").removeClass("hide")
     q_div.find(".question-content-div").removeClass("hide")

@@ -28,8 +28,10 @@
     - @homework.groups.asc(:created_at).each do |g|
       .group-div
         .content-div
-          - g.questions.each do |q|
+          - g.questions.asc(:created_at).each do |q|
             .question-with-select-div
+              .notification-div
+                %span 双击编辑
               .select-div{data: {"question-id" => q.id.to_s, selected: (!g.random_select && g.manual_select.include?(q.id.to_s)).to_s}}
                 %label.hide
                   %input{checked: !g.random_select && g.manual_select.include?(q.id.to_s), type: "checkbox"}/
@@ -71,10 +73,10 @@
             %em.glyphicon.glyphicon-hand-up{class: g.random_select ? "hide" : ""}
         .editor-div.hide
           .select-style.btn-group{data: {toggle: "buttons", random: g.random_select.to_s}}
-            %label.random.btn.btn-sm{class: g.random_select ? "active" : ""}
+            %label.random.btn.btn-default.btn-sm{class: g.random_select ? "active" : ""}
               %input{name: "selectStyle", type: "radio"}>/
               随机
-            %label.fixed.btn.btn-sm{class: !g.random_select ? "active" : ""}
+            %label.fixed.btn.btn-default.btn-sm{class: !g.random_select ? "active" : ""}
               %input{name: "selectStyle", type: "radio"}>/
               指定
           .input-group.input-group-sm

@@ -3,6 +3,8 @@ $op_width: 15%;
 $content_width: 85%;
 $select_width: 3%;
 $question_width: 97%;
+$msg_background: #F9EDBE;
+$msg_border: #F0C36D;
 
 .group-div {
   background: white;
@@ -19,6 +21,14 @@ $question_width: 97%;
 .question-with-select-div {
   margin-top: 20px;
   margin-bottom: 20px;
+  .notification-div {
+    position: absolute;
+    display: inline;
+    margin-left: 60%;
+    background-color: $msg_background;
+    border: 2px $msg_border;
+    display: none;
+  }
 }
 
 .select-div {
@@ -39,9 +49,12 @@ $question_width: 97%;
 .editor-div {
   float: right;
   width: $op_width;
+  .btn-group {
+    margin-top: 10px;
+    margin-bottom: 30px;
+  }
   .input-group {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    margin-bottom: 30px
   }
 }
 
