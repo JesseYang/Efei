@@ -28,4 +28,7 @@ MathLib::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # host name
+  config.server_host = "http://localhost:9000"
 end

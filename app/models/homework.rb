@@ -37,7 +37,14 @@ class Homework
     self.groups.each do |g|
       if g.random_select
         g.questions.shuffle[0..[g.questions.length, g.random_number].min-1].each do |q|
-          questions << {"content" => q.content, "items" => q.items, "link" => "http://www.google.com.hk"}
+          link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
+          questions << {"content" => q.content, "items" => q.items, "link" => link}
+        end
+      else
+        g.manual_select.each do |qid|
+          q = Question.find(qid)
+          link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
+          questions << {"content" => q.content, "items" => q.items, "link" => link}
         end
       end
     end

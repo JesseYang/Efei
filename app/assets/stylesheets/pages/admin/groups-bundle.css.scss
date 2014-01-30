@@ -6,6 +6,7 @@ $question_width: 97%;
 $msg_background: #F9EDBE;
 $msg_border: #F0C36D;
 
+
 .group-div {
   background: white;
   @include border-radius(10px);
@@ -105,8 +106,4 @@ $msg_border: #F0C36D;
   margin-top: 5px;
   margin-bottom: 5px;
   width: 90%;
-}
-
-.clear-both {
-  clear: both;
 }

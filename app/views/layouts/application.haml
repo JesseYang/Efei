@@ -7,13 +7,11 @@
     = yield :app_head
     = csrf_meta_tags
   %body
+    .jesse-notification
+      - flash.each do |name, msg|
+        %span= msg
     #wrap
       = yield :app_nav
-      .container
-        - flash.each do |name, msg|
-          %div{:class => "alert alert-#{ name == :notice ? "success" : "danger" }"}
-            %button{type: "button", class: "close", "aria-hidden" => "true", data: {dismiss: "alert"}} &times;
-            = msg
       = yield :app_content
       #push
     #footer

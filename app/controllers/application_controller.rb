@@ -3,19 +3,37 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'layouts/user'
 
+  def store_location
+    # store last url - this is needed for post-login redirect to whatever the user last visited.
+    if (request.fullpath != "/users/sign_in" &&
+        request.fullpath != "/users/sign_up" &&
+        request.fullpath != "/users/password" &&
+        request.fullpath != "/users/sign_out" &&
+        !request.xhr?) # don't store ajax calls
+      session[:previous_url] = request.fullpath 
+    end
+  end
+
   def require_sign_in
-    redirect_to :root if current_user.blank?
+    respond_to do |format|
+      format.html do
+        redirect_to new_user_session_path if current_user.blank?
+      end
+      format.json do
+        render json: { success: false, reason: "require sign in" }
+      end
+    end
   end
 
   def require_admin
-    redirect_to :root if current_user.try(:admin) != true
+    redirect_to new_user_session_path if current_user.try(:admin) != true
   end
 
   def after_sign_in_path_for(resource)
     if current_user.try(:admin)
-      admin_homeworks_path
+      session[:previous_url] || admin_homeworks_path
     else
-      user_questions_path
+      session[:previous_url] || user_questions_path
     end
   end
 

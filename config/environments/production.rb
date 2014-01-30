@@ -62,4 +62,6 @@ MathLib::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  # host name
+  config.server_host = "http://117.121.10.67:9000"
 end

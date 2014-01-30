@@ -1,4 +1,6 @@
 MathLib::Application.routes.draw do
+  match '/:unique_key' => 'mongoid_shortener/shortened_urls#translate', :via => :get, :constraints => { :unique_key => /~.+/ }
+
   get "welcome/index"
 
   devise_for :users, :controllers => {:registrations => "registrations"}
@@ -21,12 +23,14 @@ MathLib::Application.routes.draw do
   end
 
   namespace :user do
+    resources :notes do
+    end
+    resources :prints do
+    end
     resources :questions do
       member do
-        post :add_to_note
-        delete :remove_from_note
-        post :add_to_print
-        delete :remove_from_print
+        get :similar
+        post :append_note
       end
     end
   end

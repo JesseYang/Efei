@@ -1,31 +1,23 @@
 class User::QuestionsController < User::ApplicationController
-  def index
-    @questions = Question.all
+  before_filter :require_sign_in, only: [:append_note]
+  def show
+    @question = Question.find(params[:id])
+  end
+
+  def similar
+    q = Question.find(params[:id])
+    q_ids = q.group.questions.map { |e| e.id.to_s }
+    q_ids.delete(q.id.to_s)
+    similar_questions = q_ids.map { |e| Question.find(e) }
+    render partial: "user/questions/similar_questions", locals: { questions: similar_questions} and return
+  end
+
+  def append_note
     respond_to do |format|
       format.html
-      format.pdf do
-        render pdf: "file_name", template: "user/questions/show.pdf.haml", print_media_type: true
+      format.json do
+        render json: { success: true }
       end
     end
-  end
-
-  def add_to_note
-    @note = current_user.notes.find(params[:note_id])
-    retval = @note.add_question(params[:id], description)
-    render json: retval
-  end
-
-  def remove_from_note
-    @note = current_user.notes.find(params[:note_id])
-    retval = @note.remove_question(params[:id])
-    render json: retval
-  end
-
-  def add_to_print
-  	
-  end
-
-  def remove_from_print
-    
   end
 end

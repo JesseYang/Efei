@@ -1,0 +1,15 @@
+$msg_background: #F9EDBE;
+$msg_border: #F0C36D;
+
+.jesse-notification {
+  visibility: hidden;
+  padding: 3px;
+  z-index: 2;
+  font-weight: bold;
+  position: absolute;
+  margin-top: 0px;
+  display: inline;
+  left: 50%;
+  background-color: $msg_background;
+  border: 2px solid $msg_border;
+}

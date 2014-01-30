@@ -1,0 +1,29 @@
+- content_for :head do
+  = javascript_include_tag "pages/user/questions-bundle"
+  = stylesheet_link_tag "pages/user/questions-bundle", :media => "all"
+
+.container
+  .lib-content
+    .question-div
+      .question-content-div
+        .question-content
+          %p= @question.content
+        .question-items
+          - @question.items.each_with_index do |item, index|
+            %p
+              %label= d2c(index) + ". "
+              %span= item
+      .question-operation-div.hide
+        %ul
+          %li
+            %a{href: "#"}
+              %em.glyphicon.glyphicon-paperclip
+          %li
+            %a{href: "#"}
+              %em.glyphicon.glyphicon-book
+      .clear-both
+    #similar-questions-div
+    .page-operation-div
+      %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 查看同组题 
+      %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本 
+      .clear-both

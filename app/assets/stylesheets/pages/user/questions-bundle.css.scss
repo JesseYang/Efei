@@ -1,0 +1,57 @@
+@import 'utility';
+
+.question-div {
+  background: white;
+  @include border-radius(10px);
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.question-content-div {
+  float: left;
+  width: 85%;
+  .question-content p {
+    white-space: pre;
+  }
+  .question-items span {
+    white-space: pre;
+  }
+}
+
+.question-operation-div {
+  float: right;
+  width: 15%;
+  ul {
+    width: 100%;
+    li {
+      width: 50%;
+      float: left;
+      list-style-type: none;
+      a {
+        display: block;
+        text-align: center;
+      }
+      em {
+        line-height: 66px;
+        font-size: 2.0em;
+      }
+    }
+  }
+}
+
+#similar-questions-div {
+  display: none;
+}
+
+.page-operation-div {
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+  #check_questions {
+    float: left;
+  }
+  #append_note {
+    float: right;
+  }
+}
+

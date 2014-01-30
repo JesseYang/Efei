@@ -40,9 +40,8 @@ class User
 
   field :admin, :type => Boolean, :default => false
 
-  has_many :homeworks
+  field :note, :type => Array, :default => []
 
-  def ensure_print
-    self.print || self.create_print
-  end
+  has_many :homeworks
+  has_many :prints
 end
