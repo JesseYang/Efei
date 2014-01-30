@@ -27,3 +27,26 @@
       %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 查看同组题 
       %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本 
       .clear-both
+
+
+#sign.modal.fade
+  .modal-dialog
+    .modal-content
+      #sign-notification.jesse-notification
+        %span
+      = form_for(resource, :as => resource_name,
+                          :url => session_path(resource_name),
+                          :html => {:id => "sign_in_user"},
+                          :format => :json,
+                          :remote => true ) do |f|
+        %div
+          = f.email_field :email, placeholder: 'email'
+        %div
+          = f.password_field :password, placeholder: "password"
+        - if devise_mapping.rememberable?
+          %div.remember
+            = f.check_box :remember_me
+            = f.label :remember_me
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = f.submit "登录", class: 'btn btn-primary'

@@ -7,9 +7,8 @@
     = yield :app_head
     = csrf_meta_tags
   %body
-    .jesse-notification
-      - flash.each do |name, msg|
-        %span= msg
+    #app-notification.jesse-notification
+      %span= (flash.map { |name, msg| msg }).join(', ')
     #wrap
       = yield :app_nav
       = yield :app_content

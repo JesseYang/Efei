@@ -5,4 +5,4 @@
 #= require jquery.jesse.notification
 
 $ ->
-  $(".jesse-notification").notification()
+  $("#app-notification").notification()

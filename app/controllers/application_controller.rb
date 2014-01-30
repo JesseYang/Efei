@@ -17,10 +17,12 @@ class ApplicationController < ActionController::Base
   def require_sign_in
     respond_to do |format|
       format.html do
-        redirect_to new_user_session_path if current_user.blank?
+        redirect_to new_user_session_path and return if current_user.blank?
       end
       format.json do
-        render json: { success: false, reason: "require sign in" }
+        if current_user.blank?
+          render json: { success: false, reason: "require sign in" } and return
+        end
       end
     end
   end

@@ -12,6 +12,7 @@
     else
       that.css "visibility", "visible"
       that.css "margin-left", - width / 2
+      that.show()
       timer = window.setTimeout(->
         that.fadeOut "slow"
       , opts.delay)
@@ -23,6 +24,7 @@
       return if !that.is(':visible')
       timer = window.setTimeout(->
         that.fadeOut "slow"
+        that.css "visibility", "visible"
       , opts.delay)
 
   $.fn.notification.defaults = {
