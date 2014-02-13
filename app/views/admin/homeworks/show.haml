@@ -7,7 +7,11 @@
 .container
   .sub-banner
     .wrap
-      %h2= @homework.name
+      %h2= truncate_u(@homework.name, 10)
+      .title-edit.hide
+        %input.form-control{type: "text", value: @homework.name}/
+        %button.btn.btn-default.btn-sm.title-ok{data: {"homework-id" => @homework.id.to_s}} 确 定
+        %button.btn.btn-default.btn-sm.title-cancel 取 消
       %ul
         %li.tooltips{title: "返回", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to admin_homeworks_path do
@@ -30,8 +34,6 @@
         .content-div
           - g.questions.asc(:created_at).each do |q|
             .question-with-select-div
-              .notification-div
-                %span 双击编辑
               .select-div{data: {"question-id" => q.id.to_s, selected: (!g.random_select && g.manual_select.include?(q.id.to_s)).to_s}}
                 %label.hide
                   %input{checked: !g.random_select && g.manual_select.include?(q.id.to_s), type: "checkbox"}/

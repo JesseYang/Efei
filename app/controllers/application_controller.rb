@@ -3,6 +3,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'layouts/user'
 
+  before_filter :set_flash
+  before_filter :store_location
+
+  def set_flash
+    @flash = params[:flash]
+  end
+
   def store_location
     # store last url - this is needed for post-login redirect to whatever the user last visited.
     if (request.fullpath != "/users/sign_in" &&

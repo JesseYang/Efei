@@ -10,6 +10,7 @@ MathLib::Application.routes.draw do
         get :generate
         get :export
         post :replace
+        post :rename
       end
     end
 
@@ -25,12 +26,22 @@ MathLib::Application.routes.draw do
   namespace :user do
     resources :notes do
     end
-    resources :prints do
+    resources :papers do
+      collection do
+        get :current
+      end
+      member do
+        get :print
+        get :archive
+        get :email
+        post :rename
+      end
     end
     resources :questions do
       member do
         get :similar
         post :append_note
+        post :append_paper
       end
     end
   end

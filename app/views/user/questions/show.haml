@@ -4,49 +4,36 @@
 
 .container
   .lib-content
-    .question-div
-      .question-content-div
-        .question-content
-          %p= @question.content
-        .question-items
-          - @question.items.each_with_index do |item, index|
-            %p
-              %label= d2c(index) + ". "
-              %span= item
-      .question-operation-div.hide
-        %ul
-          %li
-            %a{href: "#"}
-              %em.glyphicon.glyphicon-paperclip
-          %li
-            %a{href: "#"}
-              %em.glyphicon.glyphicon-book
-      .clear-both
+    #current-question-div
+      .question-div
+        .question-content-div
+          .question-content
+            %p= @question.content
+          .question-items
+            - @question.items.each_with_index do |item, index|
+              %p
+                %label= d2c(index) + ". "
+                %span= item
+        .question-operation-div.hide
+          %ul
+            %li
+              - if current_user && current_user.has_question_in_paper?(@question)
+                %a.paper-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => @question.id.to_s}} 已加入试卷
+              - else
+                %a.paper-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入试卷
+            %li
+              - if current_user && current_user.has_question_in_note?(@question)
+                %a.note-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => @question.id.to_s}} 已加入错题本
+              - else
+                %a.note-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本
+        .clear-both
     #similar-questions-div
     .page-operation-div
-      %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 查看同组题 
-      %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本 
+      %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 查看同组题
+      - if current_user && current_user.has_question_in_note?(@question)
+        %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => @question.id.to_s}} 已加入错题本 
+      -else
+        %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本
       .clear-both
 
-
-#sign.modal.fade
-  .modal-dialog
-    .modal-content
-      #sign-notification.jesse-notification
-        %span
-      = form_for(resource, :as => resource_name,
-                          :url => session_path(resource_name),
-                          :html => {:id => "sign_in_user"},
-                          :format => :json,
-                          :remote => true ) do |f|
-        %div
-          = f.email_field :email, placeholder: 'email'
-        %div
-          = f.password_field :password, placeholder: "password"
-        - if devise_mapping.rememberable?
-          %div.remember
-            = f.check_box :remember_me
-            = f.label :remember_me
-        .modal-footer
-          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-          = f.submit "登录", class: 'btn btn-primary'
+= render "partials/sign_modal"

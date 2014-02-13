@@ -1,5 +1,5 @@
+#= require 'utility/ajax'
 $ ->
-
   $(".tooltips").hover ->
     $(this).tooltip('show')
 
@@ -16,7 +16,7 @@ $ ->
     new_name = $(this).closest(".wrap").find("input").val()
     $this = $(this)
     $.postJSON(
-      '/admin/homeworks/' + $(this).data("homework-id") + '/rename',
+      '/user/papers/' + $(this).data("paper-id") + '/rename',
       {
         name: new_name
       },
@@ -30,9 +30,9 @@ $ ->
     if e.which is 13
       new_name = $(this).val()
       $this = $(this)
-      homework_id = $(this).closest(".wrap").find(".title-ok").data("homework-id")
+      paper_id = $(this).closest(".wrap").find(".title-ok").data("paper-id")
       $.postJSON(
-        '/admin/homeworks/' + homework_id + '/rename',
+        '/user/papers/' + paper_id + '/rename',
         {
           name: new_name
         },

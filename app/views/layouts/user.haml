@@ -1,8 +1,8 @@
 - content_for :app_head do
-  = javascript_include_tag "layouts/admin-layout"
+  = javascript_include_tag "layouts/user-layout"
   = yield :head
 - content_for :app_nav do
-  .navbar.navbar-default{role: "navigation"}
+  #app-user-navbar.navbar.navbar-default{role: "navigation"}
     .navbar-header
       %button.navbar-toggle.collapsed{ type: "button", data: {toggle: "collapse", target: "#navbar-collapse"}}
         %span.sr-only Toggle navigation
@@ -17,7 +17,7 @@
           %a{href: "/user/notes/"} 错题本
         %li.divider-vertical
         %li
-          %a{href: "/user/prints/"} 打印纸
+          %a{href: "/user/papers/current"} 试卷
         %li.divider-vertical
         %li
           %a{href: "#"} 关于我们
@@ -28,14 +28,14 @@
         %li.dropdown
           - if user_signed_in?
             %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
-              = current_user.email
+              %span= current_user.email
               %b.caret
             %ul.dropdown-menu
               %li
                 %a{href: "/users/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
           - else
             %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
-              Account
+              %span Account
               %b.caret
             %ul.dropdown-menu
               %li

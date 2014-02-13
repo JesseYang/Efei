@@ -15,9 +15,13 @@
     .question-operation-div
       %ul
         %li
-          %a{href: "#"}
-            %em.glyphicon.glyphicon-paperclip
+          - if current_user && current_user.has_question_in_paper?(q)
+            %a.paper-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => q.id.to_s}} 已加入试卷
+          - else
+            %a.paper-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => q.id.to_s}} 加入试卷
         %li
-          %a{href: "#"}
-            %em.glyphicon.glyphicon-book
+          - if current_user && current_user.has_question_in_note?(q)
+            %a.note-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => q.id.to_s}} 已加入错题本
+          - else
+            %a.note-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => q.id.to_s}} 加入错题本
     .clear-both

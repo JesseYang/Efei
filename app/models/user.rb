@@ -43,5 +43,42 @@ class User
   field :note, :type => Array, :default => []
 
   has_many :homeworks
-  has_many :prints
+  has_many :papers
+
+  def has_question_in_note?(q_or_qid)
+    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
+    (self.note.map { |e| e["id"] }).include?(qid)
+  end
+
+  def add_question_to_note(q_or_qid)
+    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
+    self.note << { id: qid, top: false } if !self.has_question_in_note?(qid)
+    self.save
+  end
+
+  def rm_question_from_note(q_or_qid)
+    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
+    self.note.delete_if { |e| e["id"] == qid }
+    self.save
+  end
+
+  def has_question_in_paper?(q_or_qid)
+    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
+    paper = self.papers.cur.first || self.papers.create
+    paper.question_ids.include?(qid)
+  end
+
+  def add_question_to_paper(q_or_qid)
+    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
+    paper = self.papers.cur.first || self.papers.create
+    paper.question_ids << qid if !self.has_question_in_paper?(qid)
+    paper.save
+  end
+
+  def rm_question_from_paper(q_or_qid)
+    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
+    paper = self.papers.cur.first || self.papers.create
+    paper.question_ids.delete(qid)
+    paper.save
+  end
 end

@@ -1,5 +1,6 @@
 class User::QuestionsController < User::ApplicationController
-  before_filter :require_sign_in, only: [:append_note]
+  before_filter :require_sign_in, only: [:append_note, :append_print]
+
   def show
     @question = Question.find(params[:id])
   end
@@ -13,6 +14,17 @@ class User::QuestionsController < User::ApplicationController
   end
 
   def append_note
+    current_user.add_question_to_note(params[:id])
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: { success: true }
+      end
+    end
+  end
+
+  def append_paper
+    current_user.add_question_to_paper(params[:id])
     respond_to do |format|
       format.html
       format.json do

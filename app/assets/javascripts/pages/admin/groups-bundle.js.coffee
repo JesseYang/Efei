@@ -1,4 +1,5 @@
-//= require 'utility/ajax'
+#= require 'utility/ajax'
+#= require jquery.qtip
 $ ->
 
   ################ operations about groups ###################
@@ -117,21 +118,29 @@ $ ->
       label.find("input").prop('checked', !label.find("input").prop('checked'))
 
   ################ operations about questions ###################
-  # $(".question-div").hover (->
-  #   if $(this).find(".question-editor-div").hasClass("hide") && $(this).closest(".group-div").find(".editor-div").hasClass("hide")
-  #     $(this).find(".question-operation-div").removeClass('hide')
-  # ), ->
-  #   $(this).find(".question-operation-div").addClass('hide')
-
-  $(".question-with-select-div").hover (->
-    if $(this).find(".question-editor-div").hasClass("hide") && $(this).closest(".group-div").find(".editor-div").hasClass("hide")
-      $(this).find(".notification-div").fadeIn()
-  ), ->
-    $(this).find(".notification-div").hide()
+  $('.question-content-div').qtip({
+      content: {
+        text: '双击编辑'
+      }
+      position: {
+          my: 'top left',
+          target: 'mouse',
+          viewport: $(window), # Keep it on-screen at all times if possible
+          adjust: {
+              x: 10,  y: 10
+          }
+      },
+      show: {
+        delay: 500
+      },
+      hide: {
+          fixed: false
+      },
+      style: 'qtip-dark qtip-bootstrap'
+  })
 
   $(".question-with-select-div").dblclick ->
     return if !$(this).closest(".group-div").find(".editor-div").hasClass("hide")
-    $(this).find(".notification-div").hide()
     q_div = $(this).find(".question-div")
     enter_question_editor(q_div)
     content = q_div.find(".question-content p").html()
@@ -142,19 +151,6 @@ $ ->
     index = 0
     q_div.find(".question-editor-div input").each ->
       $(this).val(items[index++])
-
-  # $(".question-operation-div a").click ->
-  #   q_div = $(this).closest(".question-div")
-  #   enter_question_editor(q_div)
-  #   content = q_div.find(".question-content p").html()
-  #   q_div.find("textarea").height(1).val(content).autogrow()
-  #   items = []
-  #   q_div.find(".question-items span").each ->
-  #     items.push $(this).html()
-  #   index = 0
-  #   q_div.find(".question-editor-div input").each ->
-  #     $(this).val(items[index++])
-  #   false
 
   $(".question-cancel").click ->
     leave_question_editor($(this).closest(".question-div"))
@@ -185,12 +181,10 @@ $ ->
     q_div.closest(".group-div").find(".operation-div").addClass("hide")
     q_div.find(".question-editor-div").removeClass("hide")
     q_div.find(".question-editor-confirm-div").removeClass("hide")
-    # q_div.find(".question-operation-div").addClass("hide")
     q_div.find(".question-content-div").addClass("hide")
 
   leave_question_editor = (q_div) ->
     q_div.closest(".group-div").find(".operation-div").removeClass("hide")
     q_div.find(".question-editor-div").addClass("hide")
     q_div.find(".question-editor-confirm-div").addClass("hide")
-    # q_div.find(".question-operation-div").removeClass("hide")
     q_div.find(".question-content-div").removeClass("hide")

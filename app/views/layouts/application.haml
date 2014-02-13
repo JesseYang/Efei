@@ -8,7 +8,10 @@
     = csrf_meta_tags
   %body
     #app-notification.jesse-notification
-      %span= (flash.map { |name, msg| msg }).join(', ')
+      - if @flash.present?
+        %span= @flash
+      - else
+        %span= (flash.map { |name, msg| msg }).join(', ')
     #wrap
       = yield :app_nav
       = yield :app_content

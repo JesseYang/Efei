@@ -7,7 +7,7 @@
       this.find("span").html(opts.content)
 
     width = this.width()
-    if width == 0
+    if width <= 0
       that.css "visibility", "hidden"
     else
       that.css "visibility", "visible"

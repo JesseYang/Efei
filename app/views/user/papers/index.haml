@@ -1,0 +1,24 @@
+- content_for :head do
+  = javascript_include_tag "pages/user/papers-bundle"
+  = stylesheet_link_tag "pages/user/papers-bundle", :media => "all"
+
+.container
+  .lib-content
+    - if @papers.blank?
+      %span 没有归档试卷
+    - else
+      .table-responsive
+        %table.table.table-striped
+          %tr
+            %th 名称
+            %th 归档时间
+            %th 操作
+            %th
+          - @papers.each do |p|
+            %tr
+              %td
+                = link_to p.name, user_paper_path(p)
+              %td= p.created_at.strftime("%Y年%m月%d日")
+              %td
+                = link_to "删除", user_paper_path(p), :method => "delete", confirm: "确定删除？", :class => 'btn btn-danger btn-xs'
+                = link_to "导出", print_user_paper_path(p), :class => 'btn btn-default btn-xs'

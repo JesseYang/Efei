@@ -49,6 +49,17 @@ body {
     font-family: "Microsoft YaHei";
     margin-left: 50px;
   }
+  .title-edit {
+    display: inline-block;
+    width: 450px;
+    font-family: "Microsoft YaHei";
+    margin-left: 50px;
+    margin-top: 15px;
+    input {
+      width: 300px;
+      display: inline-block;
+    }
+  }
   ul {
     padding-right: 60px;
     float: right;
@@ -70,6 +81,12 @@ body {
 
 .btn-bottom {
   margin: 10px;
+}
+
+#sign {
+  .nav-tabs {
+    margin-bottom: 15px;
+  }
 }
 
 .clear-both {

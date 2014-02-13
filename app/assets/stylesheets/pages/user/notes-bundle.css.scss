@@ -24,28 +24,18 @@
   ul {
     width: 100%;
     li {
+      width: 50%;
+      float: left;
       list-style-type: none;
       a {
         display: block;
         text-align: center;
       }
+      em {
+        line-height: 66px;
+        font-size: 2.0em;
+      }
     }
-  }
-}
-
-#similar-questions-div {
-  display: none;
-}
-
-.page-operation-div {
-  margin-left: auto;
-  margin-right: auto;
-  width: 300px;
-  #check_questions {
-    float: left;
-  }
-  #append_note {
-    float: right;
   }
 }
 

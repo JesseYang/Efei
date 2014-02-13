@@ -1,23 +1,26 @@
-/- content_for :head do
-/  = stylesheet_link_tag "pages/admin/questions-bundle", :media => "all"
+- content_for :head do
+  = javascript_include_tag "pages/user/notes-bundle"
+  = stylesheet_link_tag "pages/user/notes-bundle", :media => "all"
 
 .container
-  .span9.offset1
-    - if @notes.blank?
-      %span 还没有创建错题本
+  .lib-content
+    - if @questions.blank?
+      %span 没有找到错题
     - else
-      %table{class: "table"}
-        %tr
-          %th 名称
-          %th 创建时间
-          %th 题目数量
-          %th 操作
-          %th
-        - @notes.each do |n|
-          %tr
-            %td= n.name
-            %td= n.created_at
-            %td= n.questions.length
-            %td
-              = link_to "删除", { controller: "user/notes", action: "destroy", id: n._id.to_s }, :method => "delete", :class => 'btn btn-mini btn-danger' 
-              = link_to "查看", { controller: "user/notes", action: "show", device_id: n._id.to_s }, :class => 'btn btn-mini'
+      - @questions.each do |q|
+        - next if q.nil?
+        .question-div
+          .question-content-div
+            .question-content
+              %p= q.content
+            .question-items
+              - q.items.each_with_index do |item, index|
+                %p
+                  %label= d2c(index) + ". "
+                  %span= item
+          .question-operation-div
+            %ul
+              %li
+                = link_to user_note_path(q), method: "delete", confirm: "确定删除？" do
+                  %em.glyphicon.glyphicon-trash
+          .clear-both
