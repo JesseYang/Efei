@@ -16,6 +16,7 @@ $ ->
     $(this).find(".operation-div").addClass('hide')
 
   $(".operation-div a").click ->
+    $(this).closest(".group-div").find('.question-content-div').qtip('disable');
     $(this).closest(".group-div").find(".editor-div").removeClass("hide")
     $(this).closest(".group-div").find(".operation-div").addClass("hide")
     if !$(this).closest(".group-div").find(".select-style").data("random")
@@ -32,6 +33,7 @@ $ ->
     $(this).closest(".group-div").find(".select-div label").removeClass("hide")
 
   $(".cancel").click ->
+    $(this).closest(".group-div").find('.question-content-div').qtip('enable');
     $(this).closest(".editor-div").addClass("hide")
     $(this).closest(".group-div").find(".operation-div").removeClass("hide")
     $this = $(this)
@@ -39,6 +41,7 @@ $ ->
     false
 
   $(".ok").click ->
+    $(this).closest(".group-div").find('.question-content-div').qtip('enable');
     random_select = $(this).closest(".editor-div").find(".random").hasClass("active")
     random_number = $(this).closest(".editor-div").find(".random-number").val()
     manual_select = []
@@ -119,23 +122,15 @@ $ ->
 
   ################ operations about questions ###################
   $('.question-content-div').qtip({
-      content: {
-        text: '双击编辑'
-      }
+      content: { text: '双击编辑' }
       position: {
           my: 'top left',
           target: 'mouse',
           viewport: $(window), # Keep it on-screen at all times if possible
-          adjust: {
-              x: 10,  y: 10
-          }
+          adjust: { x: 10,  y: 10 }
       },
-      show: {
-        delay: 500
-      },
-      hide: {
-          fixed: false
-      },
+      show: { delay: 100 },
+      hide: { fixed: false },
       style: 'qtip-dark qtip-bootstrap'
   })
 
