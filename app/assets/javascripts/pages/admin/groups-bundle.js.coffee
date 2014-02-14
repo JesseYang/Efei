@@ -1,7 +1,6 @@
 #= require 'utility/ajax'
 #= require jquery.qtip
 $ ->
-
   ################ operations about groups ###################
   $(".select-tooltip").hover ->
     $(this).tooltip('show')
@@ -136,6 +135,8 @@ $ ->
 
   $(".question-with-select-div").dblclick ->
     return if !$(this).closest(".group-div").find(".editor-div").hasClass("hide")
+    qid = $(this).find(".select-div").data("question-id")
+    answer = $(this).find(".question-items").data("question-answer")
     q_div = $(this).find(".question-div")
     enter_question_editor(q_div)
     content = q_div.find(".question-content p").html()
@@ -144,24 +145,29 @@ $ ->
     q_div.find(".question-items span").each ->
       items.push $(this).html()
     index = 0
-    q_div.find(".question-editor-div input").each ->
+    q_div.find(".question-editor-div .item-text-input").each ->
       $(this).val(items[index++])
+    q_div.find(".question-editor-div #" + qid + "-" + answer).prop("checked", true)
+
 
   $(".question-cancel").click ->
     leave_question_editor($(this).closest(".question-div"))
     false
 
   $(".question-ok").click ->
+    qid = $(this).closest(".question-with-select-div").find(".select-div").data("question-id")
+    answer = $("input[name=" + qid + "-item-select]:checked", "." + qid + "-items-edit-div").val()
     q_div = $(this).closest(".question-div")
     content = q_div.find(".question-editor-div textarea").val()
     items = []
-    q_div.find(".question-editor-div input").each ->
+    q_div.find(".question-editor-div .item-text-input").each ->
       items.push $(this).val()
     $.putJSON(
       '/admin/questions/' + $(this).data("question-id"),
       {
         content: content,
-        items: items
+        items: items,
+        answer: answer
       },
       (retval) ->
         leave_question_editor(q_div)
@@ -169,6 +175,9 @@ $ ->
         index = 0
         q_div.find(".question-items span").each ->
           $(this).html(retval.items[index++])
+        q_div.find(".question-items p").addClass("item-is-not-answer")
+        q_div.find("#" + qid + "-item-" + retval.answer).removeClass("item-is-not-answer")
+        q_div.find(".question-items").data("question-answer", retval.answer)
     )
     false
 

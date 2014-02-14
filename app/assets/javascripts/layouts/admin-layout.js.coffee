@@ -1,5 +1,3 @@
 $ ->
-  $("#app-admin-navbar .nav li").removeClass("active")
-  console.log(window.location.href)
-  console.log(window.location)
-  console.log(location.href)
+  if window.controller == "admin/homeworks"
+    $("#app-user-navbar .nav .homeworks").addClass("active")

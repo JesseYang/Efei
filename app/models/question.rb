@@ -5,6 +5,7 @@ class Question
   field :content, type: String
   field :items, type: Array, default: []
   field :preview, type: Boolean, default: true
+  field :answer, type: Integer
   belongs_to :group
 
   def self.create_english_question(content, items)

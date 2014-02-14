@@ -80,8 +80,21 @@ $msg_border: #F0C36D;
   .question-content p {
     white-space: pre;
   }
-  .question-items span {
-    white-space: pre;
+  .question-items {
+    span {
+      white-space: pre;
+    }
+    p {
+      margin-left: 10px;
+    }
+  }
+  .item-is-not-answer {
+    em {
+      display: none;
+    }
+    label {
+      margin-left: 18px;
+    }
   }
 }
 

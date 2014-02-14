@@ -4,7 +4,8 @@ class Admin::QuestionsController < Admin::ApplicationController
     question = Question.find(params[:id])
     question.update_attributes({
       content: params[:content],
-      items: params[:items]
+      items: params[:items],
+      answer: params[:answer].to_i
     })
     respond_to do |format|
       format.html
@@ -12,7 +13,8 @@ class Admin::QuestionsController < Admin::ApplicationController
         render json: {
           success: true,
           content: question.content,
-          items: question.items
+          items: question.items,
+          answer: question.answer
         }
       end
     end

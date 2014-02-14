@@ -1,5 +1,5 @@
 $ ->
-  $("#app-user-navbar .nav li").removeClass("active")
-  console.log(window.location.href)
-  console.log(window.location)
-  console.log(location.href)
+  if window.controller == "user/notes"
+    $("#app-user-navbar .nav .notes").addClass("active")
+  if window.controller == "user/papers"
+    $("#app-user-navbar .nav .papers").addClass("active")

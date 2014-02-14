@@ -1,6 +1,9 @@
 - content_for :app_head do
   = javascript_include_tag "layouts/user-layout"
   = yield :head
+  :javascript
+    window.controller = "#{params[:controller]}"
+    window.action = "#{params[:action]}"
 - content_for :app_nav do
   #app-user-navbar.navbar.navbar-default{role: "navigation"}
     .navbar-header
@@ -13,10 +16,10 @@
     .collapse.navbar-collapse#navbar-collapse
       %ul.nav.navbar-nav
         %li.divider-vertical
-        %li.active
+        %li.notes
           %a{href: "/user/notes/"} 错题本
         %li.divider-vertical
-        %li
+        %li.papers
           %a{href: "/user/papers/current"} 试卷
         %li.divider-vertical
         %li
