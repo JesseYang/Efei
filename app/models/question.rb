@@ -8,7 +8,7 @@ class Question
   field :answer, type: Integer
   belongs_to :group
 
-  def self.create_english_question(content, items)
-    self.create(content: content, items: items)
+  def self.create_english_question(content, items, answer)
+    self.create(content: content, items: items, answer:answer)
   end
 end
