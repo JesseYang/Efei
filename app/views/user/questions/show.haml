@@ -14,22 +14,11 @@
               %p
                 %label= d2c(index) + ". "
                 %span= item
-        .question-operation-div.hide
-          %ul
-            %li
-              - if current_user && current_user.has_question_in_paper?(@question)
-                %a.paper-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => @question.id.to_s}} 已加入试卷
-              - else
-                %a.paper-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入试卷
-            %li
-              - if current_user && current_user.has_question_in_note?(@question)
-                %a.note-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => @question.id.to_s}} 已加入错题本
-              - else
-                %a.note-link.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本
         .clear-both
     #similar-questions-div
     .page-operation-div
-      %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 查看同组题
+      - if @similar_questions_length > 0
+        %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 练习同组题
       - if current_user && current_user.has_question_in_note?(@question)
         %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => @question.id.to_s}} 已加入错题本 
       -else

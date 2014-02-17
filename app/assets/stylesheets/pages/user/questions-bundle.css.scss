@@ -13,8 +13,23 @@
   .question-content p {
     white-space: pre;
   }
+  .question-items label {
+    white-space: pre;
+  }
   .question-items span {
     white-space: pre;
+  }
+  .thick {
+    font-weight: bold;
+  }
+  .selected-p {
+    background-color: #F1F3F6;
+    span {
+      font-weight: bold;
+    }
+  }
+  p {
+    border-radius: 5px;
   }
 }
 
@@ -41,12 +56,12 @@
 .page-operation-div {
   margin-left: auto;
   margin-right: auto;
-  width: 300px;
+  width: auto;
   #check_questions {
     float: left;
+    margin-right: 50px;
   }
   #append_note {
-    float: right;
+    float: left;
   }
 }
-

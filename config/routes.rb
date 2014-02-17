@@ -41,7 +41,10 @@ MathLib::Application.routes.draw do
       member do
         get :similar
         post :append_note
-        post :append_paper
+      end
+      collection do
+        get :exercise
+        post :answer
       end
     end
   end

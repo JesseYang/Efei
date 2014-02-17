@@ -1,0 +1,26 @@
+- content_for :head do
+  = javascript_include_tag "pages/user/questions-bundle"
+  = javascript_include_tag "pages/user/questions/exercise-bundle"
+  = stylesheet_link_tag "pages/user/questions-bundle", :media => "all"
+
+.container
+  .lib-content
+    #notification-div
+      %p 有3道题未回答，请回答完毕后再提交
+    - if @questions.blank?
+      %span 没有找到练习题
+    - else
+      - @questions.each do |q|
+        - next if q.nil?
+        .question-div{data: {"question-id" => q.id.to_s}}
+          .question-content-div
+            .question-content
+              %p= q.content
+            .question-items
+              - q.items.each_with_index do |item, index|
+                %p
+                  %input{id: "#{q.id.to_s}-#{index}", name: "#{q.id.to_s}-item-select", type: "radio", value: "#{index}"}/
+                  %label{for: "#{q.id.to_s}-#{index}"}= d2c(index) + ". "
+                  %span= item
+          .clear-both
+      %a#submit_answer.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true"} 提交
