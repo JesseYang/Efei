@@ -39,12 +39,12 @@ MathLib::Application.routes.draw do
     end
     resources :questions do
       member do
-        get :similar
         post :append_note
       end
       collection do
         get :exercise
         post :answer
+        get :check_note
       end
     end
   end

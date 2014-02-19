@@ -65,3 +65,30 @@
     float: left;
   }
 }
+
+.question-answer-div {
+  font-size: 16px;
+  font-weight: bold;
+  .correct {
+    color: #3C763D;
+  }
+  .incorrect {
+    color: #A94442;
+  }
+  .warning {
+    color: #8A6D3B;
+  }
+}
+
+#notification-div {
+  font-size: 16px;
+  .correct-stats {
+    color: #3C763D;
+  }
+  .incorrect-stats {
+    color: #A94442;
+  }
+  .warning {
+    color: #8A6D3B;
+  }
+}

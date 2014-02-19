@@ -23,31 +23,40 @@ class User::QuestionsController < User::ApplicationController
       q = Question.find(params[:question_id])
       @questions = q.group.questions
     elsif params[:type] = "note"
-      q = Question.find(params[:question_id])
-      @questions = current_user.note.map { |e| Question.find(e) }
+      @questions = current_user.note.map { |e| Question.find(e["id"]) }
     else
       @questions = []
     end
   end
 
   def answer
-    logger.info "AAAAAAAAAAAAAAAAAAA"
-    logger.info params[:qid_ary]
-    logger.info params[:answer_ary]
-    logger.info "AAAAAAAAAAAAAAAAAAA"
     questions = params[:qid_ary].map { |e| Question.find(e) }
     result = { detail: [], stats: {right: 0, wrong: 0} }
     questions.each_with_index do |q, index|
       result[:detail] << {
         qid: q.id.to_s,
         answer: q.answer.to_i,
-        user_answer: params[:answer_ary][index].to_i
+        user_answer: params[:answer_ary][index].to_i,
+        note: current_user && current_user.note.map { |e| e["id"] } .include?(q.id.to_s)
       }
       if q.answer.to_i == params[:answer_ary][index].to_i
         result[:stats][:right] += 1
       else
         result[:stats][:wrong] += 1
       end
+    end
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: { result: result }
+      end
+    end
+  end
+
+  def check_note
+    qids = params[:qids].split(',')
+    result = qids.map do |e|
+      current_user && current_user.note.map { |ee| ee["id"] } .include?(e)
     end
     respond_to do |format|
       format.html
