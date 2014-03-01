@@ -42,19 +42,23 @@
               .question-div
                 .question-content-div
                   .question-content
-                    %p= q.content
+                    - q.content.each do |para|
+                      %p= para.render_question.html_safe
+                    .for-edit.hide= q.content.join("\n").render_question_for_edit.html_safe
                   .question-items{data: {"question-answer" => q.answer}}
                     - q.items.each_with_index do |item, index|
                       - if q.answer == index
                         %p{id: "#{q.id.to_s}-item-#{index}"}
                           %em.glyphicon.glyphicon-ok
                           %label= d2c(index) + ". "
-                          %span= item
+                          %span.item-content= item.render_question.html_safe
+                          .for-edit.hide= item.render_question_for_edit.html_safe
                       - else
                         %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
                           %em.glyphicon.glyphicon-ok
                           %label= d2c(index) + ". "
-                          %span= item
+                          %span.item-content= item.render_question.html_safe
+                          .for-edit.hide= item.render_question_for_edit.html_safe
                 .question-operation-div.hide
                   %a{href: "#"}
                     %em.glyphicon.glyphicon-pencil

@@ -9,15 +9,21 @@
 
 .question-content-div {
   float: left;
-  width: 85%;
+  font-size: 1.3em;
+  width: 100%;
   .question-content p {
-    white-space: pre;
+    white-space: pre-wrap;
   }
   .question-items label {
     white-space: pre;
   }
   .question-items span {
     white-space: pre;
+  }
+  .question-items p {
+    margin-bottom: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
   }
   .thick {
     font-weight: bold;

@@ -76,13 +76,16 @@ $msg_border: #F0C36D;
 
 .question-content-div {
   float: left;
+  font-size: 1.3em;
   width: 95%;
   .question-content p {
-    white-space: pre;
+    span {
+      white-space: pre-wrap;
+    }
   }
   .question-items {
     span {
-      white-space: pre;
+      white-space: pre-wrap;
     }
     p {
       margin-left: 10px;

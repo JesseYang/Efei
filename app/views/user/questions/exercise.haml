@@ -16,6 +16,17 @@
       - @questions.each do |q|
         - next if q.nil?
         .question-div{id: "#{q.id.to_s}-div", data: {"question-id" => q.id.to_s}}
+          .question-answer-div
+            .correct.hide
+              %span 正确
+            .incorrect.hide
+              %span 错误，
+              %span 正确答案：
+              %span.correct-answer-span A
+            .warning.hide
+              %span 未作答
+            .append-note.hide{data: {"question-id" => q.id.to_s}}
+              = link_to "加入错题本", "#", :method => "get"
           .question-content-div
             .question-content
               %p= q.content
@@ -25,18 +36,6 @@
                   %input{id: "#{q.id.to_s}-#{index}", name: "#{q.id.to_s}-item-select", type: "radio", value: "#{index}"}/
                   %label{for: "#{q.id.to_s}-#{index}"}= d2c(index) + ". "
                   %span= item
-          .question-answer-div
-            .correct.hide
-              %span 正确
-            .incorrect.hide
-              %span 错误
-              %br
-              %span 正确答案：
-              %span.correct-answer-span A
-            .warning.hide
-              %span 未作答
-            .append-note.hide{data: {"question-id" => q.id.to_s}}
-              = link_to "加入错题本", "#", :method => "get"
           .clear-both
       %a#submit_answer.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true"} 提交
 

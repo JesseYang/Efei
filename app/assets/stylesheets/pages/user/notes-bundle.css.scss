@@ -9,9 +9,10 @@
 
 .question-content-div {
   float: left;
+  font-size: 1.3em;
   width: 85%;
   .question-content p {
-    white-space: pre;
+    white-space: pre-wrap;
   }
   .question-items span {
     white-space: pre;

@@ -6,6 +6,7 @@
     = javascript_include_tag "application"
     = yield :app_head
     = csrf_meta_tags
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
   %body
     #app-notification.jesse-notification
       - if @flash.present?

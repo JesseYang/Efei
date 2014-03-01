@@ -1,6 +1,7 @@
 #= require 'utility/ajax'
 #= require jquery.qtip
-$ ->
+$(document).ready ->
+
   ################ operations about groups ###################
   $(".select-tooltip").hover ->
     $(this).tooltip('show')
@@ -139,10 +140,10 @@ $ ->
     answer = $(this).find(".question-items").data("question-answer")
     q_div = $(this).find(".question-div")
     enter_question_editor(q_div)
-    content = q_div.find(".question-content p").html()
+    content = q_div.find(".question-content .for-edit").html()
     q_div.find("textarea").height(1).val(content).autogrow()
     items = []
-    q_div.find(".question-items span").each ->
+    q_div.find(".question-items .for-edit").each ->
       items.push $(this).html()
     index = 0
     q_div.find(".question-editor-div .item-text-input").each ->
@@ -170,11 +171,16 @@ $ ->
         answer: answer
       },
       (retval) ->
+        console.log retval
         leave_question_editor(q_div)
-        q_div.find(".question-content p").html(retval.content)
+        q_div.find(".question-content p").html(retval.content_for_show)
+        q_div.find(".question-content .for-edit").html(retval.content_for_edit)
         index = 0
-        q_div.find(".question-items span").each ->
-          $(this).html(retval.items[index++])
+        q_div.find(".question-items .item-content").each ->
+          $(this).html(retval.items_for_show[index++])
+        index = 0
+        q_div.find(".question-items .for-edit").each ->
+          $(this).html(retval.items_for_edit[index++])
         q_div.find(".question-items p").addClass("item-is-not-answer")
         q_div.find("#" + qid + "-item-" + retval.answer).removeClass("item-is-not-answer")
         q_div.find(".question-items").data("question-answer", retval.answer)

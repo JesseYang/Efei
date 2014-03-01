@@ -1,7 +1,7 @@
 #= require jquery
 #= require jquery.autogrow-textarea
 #= require jquery_ujs
-#= require bootstrap
+#= require bootstrap.min
 #= require jquery.jesse.notification
 
 $ ->
