@@ -40,6 +40,9 @@ $msg_border: #F0C36D;
 .question-div {
   float: right;
   width: $question_width;
+  table, th, td {
+    border: 1px solid black;
+  }
 }
 
 .content-div {
@@ -79,6 +82,11 @@ $msg_border: #F0C36D;
   font-size: 1.3em;
   width: 95%;
   .question-content p {
+    span {
+      white-space: pre-wrap;
+    }
+  }
+  .question-answer p {
     span {
       white-space: pre-wrap;
     }

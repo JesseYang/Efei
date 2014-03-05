@@ -1,7 +1,4 @@
 # encoding: utf-8
-require 'fileutils'
-require 'zip'
-require 'RMagick'
 require 'httparty'
 require 'string'
 class Document
@@ -9,7 +6,7 @@ class Document
   mount_uploader :document, DocumentUploader
 
   include HTTParty
-  base_uri 'http://localhost:9292'
+  base_uri Rails.application.config.word_host
   format  :json
 
   attr_accessor :name
@@ -25,7 +22,7 @@ class Document
   BMP = 6
 
   def parse(homework = nil)
-    content = Document.get("/extract?filename=#{self.name}")
+    content = Document.get("/extract?filename=#{URI.encode(self.name)}")
     groups = []
     questions = []
     cache = []
@@ -35,21 +32,33 @@ class Document
       next if ele.class == String && ele.start_with?("Evaluation Only")
       # group separation
       if ele.class == String && ele.is_separate? && questions.present?
-        questions << parse_one_question(cache) if cache.length > 1
+        questions << parse_one_question(cache) if cache.length >= 1
         cache = []
         groups << Group.create_by_questions(questions) if questions.present?
         questions = []
+        images = []
         next
       end
       # question separation
       if ele.class == String && ele.blank?
-        questions << parse_one_question(cache, images) if cache.length > 1
+        questions << parse_one_question(cache, images) if cache.length >= 1
         cache = []
+        ####################################################################
+        # take question separation as group separation
+        #   this hide the group function
+        groups << Group.create_by_questions(questions) if questions.present?
+        questions = []
+        ####################################################################
         images = []
         next
       end
       # parse para/talbe/image
       if ele.class == String
+        if cache.blank?
+          # this is the first line of this question, should remove the Number
+          match = ele.strip.scan(/^例?[0-9]{0,2}\.?\s+(.*)$/)
+          ele = match[0][0] if match[0].present?
+        end
         images += ele.convert_img_type
         cache << ele
       elsif ele.class == Hash || ele["type"] == "table"
@@ -75,7 +84,7 @@ class Document
   def parse_one_question(cache, images)
     # 1. separate answer and question if there is answer
     answer_index = cache.index do |e|
-      e.class == String && e.strip.match(/^(解|答案)(\:|：| ).+/)
+      e.class == String && e.strip.match(/^[解|答|案|析]{1,2}[\:|：|\.| ].+/)
     end
     q_part = answer_index.nil? ? cache : cache[0..answer_index - 1]
     a_part = answer_index.nil? ? nil : cache[answer_index..- 1]
@@ -116,12 +125,19 @@ class Document
     # 3. parse the answer
     if a_part.present?
       if q_type == "choice" && a_part[0].class == String
-        answer = 0 if a_part[0].match(/^(解|答案)(\:|：| )\s*A.?/)
-        answer = 1 if a_part[0].match(/^(解|答案)(\:|：| )\s*B.?/)
-        answer = 2 if a_part[0].match(/^(解|答案)(\:|：| )\s*C.?/)
-        answer = 3 if a_part[0].match(/^(解|答案)(\:|：| )\s*D.?/)
+        answer = 0 if a_part[0].match(/^(解|答|案|析){1,2}[\:|：|\.| ]\s*A.?/)
+        answer = 1 if a_part[0].match(/^(解|答|案|析){1,2}[\:|：|\.| ]\s*B.?/)
+        answer = 2 if a_part[0].match(/^(解|答|案|析){1,2}[\:|：|\.| ]\s*C.?/)
+        answer = 3 if a_part[0].match(/^(解|答|案|析){1,2}[\:|：|\.| ]\s*D.?/)
       end
-      answer_content = a_part
+      # remove the answer alt
+      match = a_part[0].scan(/^[解|答|案|析]{1,2}[\:|：|\.| ]\s*(.*)/)
+      a_part[0] = match[0][0] if match[0].prsent?
+      if q_type == "choice" && %w{A B C D}.include?(a_part[0].strip)
+        answer_content = a_part[1..-1]
+      else
+        answer_content = a_part
+      end
     end
     # create the question object
     if q_type == "choice"

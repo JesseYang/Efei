@@ -1,5 +1,4 @@
 # encoding: utf-8
-
 class DocumentUploader < CarrierWave::Uploader::Base
   permissions 0777
 

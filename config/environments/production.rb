@@ -63,5 +63,17 @@ MathLib::Application.configure do
   config.active_support.deprecation = :notify
 
   # host name
-  config.server_host = "http://117.121.10.67:9000"
+  config.server_host = "http://localhost:9000"
+
+  # word processing host name
+  config.word_host = "http://localhost:9292"
+
+  # image convertion url
+  config.convert_image_url = "http://192.168.0.104/ConvertImage"
+
+  # converted image download url
+  config.image_download_url = "http://192.168.0.104/download"
+
+  # directory to save image files
+  config.image_dir = "public/uploads/documents/images/"
 end

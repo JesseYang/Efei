@@ -1,4 +1,5 @@
 require 'string'
+require 'array'
 class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'layouts/user'

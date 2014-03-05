@@ -8,21 +8,22 @@ class String
 
   def convert_img_type
     images = []
-    img_dir = "public/uploads/documents/images"
+    # img_dir = "public/uploads/documents/images"
     self.scan(/\$(.*?)\$/).each do |image|
       filename = image[0]
       name = filename.split('.')[0]
       suffix = filename.split('.')[1]
       if !%w{jpeg png jpg bmp}.include?(suffix)
         # convert the image to jpg
-        i = Magick::Image.read("#{img_dir}/#{filename}").first
-        i.trim.write("#{img_dir}/#{name}.png") { self.quality = 1 }
+        # i = Magick::Image.read("#{img_dir}/#{filename}").first
+        # i.trim.write("#{img_dir}/#{name}.png") { self.quality = 1 }
         self.gsub!(filename, "#{name}.png")
-        File.delete("#{img_dir}/#{filename}")
-        images << "#{name}.png"
-      else
-        images << filename
+        # File.delete("#{img_dir}/#{filename}")
+        # images << "#{name}.png"
+      # else
+        # images << filename
       end
+      images << filename
     end
     images
   end

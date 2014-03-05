@@ -16,12 +16,12 @@ class Admin::HomeworksController < Admin::ApplicationController
 
   def export
     homework = Homework.find(params[:id])
-    redirect_to "/#{homework.export}"
+    redirect_to URI.encode "/#{homework.export}"
   end
 
   def generate
     homework = Homework.find(params[:id])
-    redirect_to "/#{homework.generate}"
+    redirect_to URI.encode "/#{homework.generate}"
   end
 
   def create

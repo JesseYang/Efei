@@ -5,7 +5,11 @@ class Homework
   include Mongoid::Timestamps
   field :name, type: String
   belongs_to :user
-  has_many :groups
+  has_many :groups, dependent: :destroy
+
+  include HTTParty
+  base_uri Rails.application.config.word_host
+  format  :json
 
   def self.create_by_name(name)
     name_ary = name.split('.')
@@ -22,11 +26,15 @@ class Homework
     self.groups.asc(:created_at).each do |g|
       questions = []
       g.questions.asc(:created_at).each do |q|
-        questions << {"content" => q.content, "items" => q.items}
+        questions << {"type" => q.type,
+          "content" => q.content,
+          "items" => q.items,
+          "answer" => q.answer,
+          "answer_content" => q.answer_content}
       end
       groups_data << questions
     end
-    response = HTTParty.post("http://localhost:9292/export",
+    response = Homework.post("/export",
       :body => { groups: groups_data, name: self.name }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
     return JSON.parse(response.body)["filename"]
@@ -38,17 +46,17 @@ class Homework
       if g.random_select
         g.questions.shuffle[0..[g.questions.length, g.random_number].min-1].each do |q|
           link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
-          questions << {"content" => q.content, "items" => q.items, "link" => link}
+          questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link}
         end
       else
         g.manual_select.each do |qid|
           q = Question.find(qid)
           link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
-          questions << {"content" => q.content, "items" => q.items, "link" => link}
+          questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link}
         end
       end
     end
-    response = HTTParty.post("http://localhost:9292/generate",
+    response = Homework.post("/generate",
       :body => { questions: questions, name: self.name }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
     return JSON.parse(response.body)["filename"]

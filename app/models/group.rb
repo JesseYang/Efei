@@ -5,7 +5,7 @@ class Group
   field :random_select, type: Boolean,  default: true
   field :random_number, type: Integer, default: 1
   field :manual_select, type: Array, default: []
-  has_many :questions
+  has_many :questions, dependent: :destroy
   belongs_to :homework
 
   def self.create_by_questions(questions)

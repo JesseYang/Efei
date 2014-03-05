@@ -33,7 +33,7 @@
       .group-div
         .content-div
           - g.questions.asc(:created_at).each do |q|
-            .question-with-select-div
+            .question-with-select-div{data: {"question-type" => q.type}}
               .select-div{data: {"question-id" => q.id.to_s, selected: (!g.random_select && g.manual_select.include?(q.id.to_s)).to_s}}
                 %label.hide
                   %input{checked: !g.random_select && g.manual_select.include?(q.id.to_s), type: "checkbox"}/
@@ -42,28 +42,37 @@
               .question-div
                 .question-content-div
                   .question-content
-                    - q.content.each do |para|
-                      %p= para.render_question.html_safe
-                    .for-edit.hide= q.content.join("\n").render_question_for_edit.html_safe
-                  .question-items{data: {"question-answer" => q.answer}}
-                    - q.items.each_with_index do |item, index|
-                      - if q.answer == index
-                        %p{id: "#{q.id.to_s}-item-#{index}"}
-                          %em.glyphicon.glyphicon-ok
-                          %label= d2c(index) + ". "
-                          %span.item-content= item.render_question.html_safe
-                          .for-edit.hide= item.render_question_for_edit.html_safe
-                      - else
-                        %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
-                          %em.glyphicon.glyphicon-ok
-                          %label= d2c(index) + ". "
-                          %span.item-content= item.render_question.html_safe
-                          .for-edit.hide= item.render_question_for_edit.html_safe
+                    = render :partial => "partials/question_content", locals: { content: q.content }
+                  .for-edit-content.hide= q.content.render_question_for_edit.html_safe
+                  - if q.type == "choice"
+                    .question-items{data: {"question-answer" => q.answer}}
+                      - q.items.each_with_index do |item, index|
+                        - if q.answer == index
+                          %p{id: "#{q.id.to_s}-item-#{index}"}
+                            %em.glyphicon.glyphicon-ok
+                            %label= d2c(index) + ". "
+                            %span.item-content= item.render_question.html_safe
+                            .for-edit.hide= item.render_question_for_edit.html_safe
+                        - else
+                          %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
+                            %em.glyphicon.glyphicon-ok
+                            %label= d2c(index) + ". "
+                            %span.item-content= item.render_question.html_safe
+                            .for-edit.hide= item.render_question_for_edit.html_safe
+                  - if q.answer_content.present?
+                    %strong.answer-label 解答
+                    .question-answer
+                      = render :partial => "partials/question_content", locals: { content: q.answer_content }
+                  - else
+                    %strong.answer-label.hide 解答
+                    .question-answer.hide
+                      = render :partial => "partials/question_content", locals: { content: q.answer_content }
+                  .for-edit-answer.hide= q.answer_content.render_question_for_edit.html_safe
                 .question-operation-div.hide
                   %a{href: "#"}
                     %em.glyphicon.glyphicon-pencil
                 .question-editor-div.hide{class: "#{q.id.to_s}-items-edit-div"}
-                  %textarea.form-control
+                  %textarea.question-content-editor.form-control
                   .input-group
                     %span.input-group-addon
                       %input{id: "#{q.id.to_s}-0", name: "#{q.id.to_s}-item-select", type: "radio", value: 0}/
@@ -84,6 +93,7 @@
                       %input{id: "#{q.id.to_s}-3", name: "#{q.id.to_s}-item-select", type: "radio", value: 3}/
                       %label{for: "#{q.id.to_s}-3"} D
                     %input.item-text-input.form-control{type: "text"}/
+                  %textarea.question-answer-editor.form-control
                 .question-editor-confirm-div.hide
                   %a.question-ok.btn.btn-primary.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => q.id.to_s}} 确定
                   %a.question-cancel.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true"} 取消
