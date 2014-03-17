@@ -15,7 +15,7 @@
     - else
       - @questions.each do |q|
         - next if q.nil?
-        .question-div{id: "#{q.id.to_s}-div", data: {"question-id" => q.id.to_s}}
+        .question-div{id: "#{q.id.to_s}-div", data: {"question-id" => q.id.to_s, "question-type" => q.type.to_s}}
           .question-answer-div
             .correct.hide
               %span 正确
@@ -27,6 +27,9 @@
               %span 未作答
             .append-note.hide{data: {"question-id" => q.id.to_s}}
               = link_to "加入错题本", "#", :method => "get"
+            - if q.type == "analysis"
+              .tips
+                %span 非选择题请于纸上作答，并和答案比对
           .question-content-div
             .question-content
               = render :partial => "partials/question_content", locals: { content: q.content }
@@ -37,7 +40,12 @@
                     %input{id: "#{q.id.to_s}-#{index}", name: "#{q.id.to_s}-item-select", type: "radio", value: "#{index}"}/
                     %label{for: "#{q.id.to_s}-#{index}"}= d2c(index) + ". "
                     %span= item.render_question.html_safe
+            .question-answer.hide
+              - if !q.answer_content.blank?
+                %strong.answer-label= "解答:"
+              .question-answer-content
+                = render :partial => "partials/question_content", locals: { content: q.answer_content }
           .clear-both
-      %a#submit_answer.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true"} 提交
+      %a#submit_answer.btn.btn-primary{href: "#", "aria-hidden" => "true"} 提交
 
 = render "partials/sign_modal"

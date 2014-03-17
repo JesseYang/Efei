@@ -22,14 +22,16 @@ $ ->
     blank_answer = 0
     $(".question-div").each ->
       qid = $(this).data("question-id")
-      answer = $("input[name=" + qid + "-item-select]:checked").val()
-      qid_ary.push qid
-      answer_ary.push answer
-      if answer == undefined
+      qtype = $(this).data("question-type")
+      if qtype == "choice"
+        answer = $("input[name=" + qid + "-item-select]:checked").val()
+        qid_ary.push qid
+        answer_ary.push answer
+      if answer == undefined && qtype == "choice"
         $(this).find(".warning").removeClass("hide")
         blank_answer += 1
     if $.inArray(undefined, answer_ary) != -1
-      $("#notification-div .warning").html("有" + blank_answer + "道题未回答，请回答完毕后再提交")
+      $("#notification-div .warning").html("有" + blank_answer + "道选择题未回答，请回答完毕后再提交")
       $("#notification-div .warning").removeClass("hide")
     else
       $.postJSON(
@@ -44,9 +46,6 @@ $ ->
           correct_num = 0
           incorrect_num = 0
           for e in retval.result.detail
-            console.log e.answer
-            console.log e.user_answer
-            console.log e.qid
             if e.answer == e.user_answer
               # correct answer
               $("#" + e.qid + "-div").find(".correct").removeClass("hide")
@@ -62,14 +61,16 @@ $ ->
               $("#" + e.qid + "-div").find(".append-note").addClass("hide")
             else
               $("#" + e.qid + "-div").find(".append-note").removeClass("hide")
+          # show the answers
+          $(".question-answer").removeClass("hide")
           # show the stats info
           if incorrect_num == 0
             # all right
-            $(".correct-stats").html(correct_num + "道题全部正确")
+            $(".correct-stats").html(correct_num + "道题正确")
             $(".incorrect-stats").html("")
           else if correct_num == 0
             # all wrong
-            $(".incorrect-stats").html(incorrect_num + "道题全部错误")
+            $(".incorrect-stats").html(incorrect_num + "道题错误")
             $(".correct-stats").html("")
           else
             # some right, some wrong
@@ -154,4 +155,3 @@ $ ->
     # show the notification
     $("#app-notification").notification({content: content})
     )
-
