@@ -29,13 +29,14 @@
               = link_to "加入错题本", "#", :method => "get"
           .question-content-div
             .question-content
-              %p= q.content
-            .question-items
-              - q.items.each_with_index do |item, index|
-                %p
-                  %input{id: "#{q.id.to_s}-#{index}", name: "#{q.id.to_s}-item-select", type: "radio", value: "#{index}"}/
-                  %label{for: "#{q.id.to_s}-#{index}"}= d2c(index) + ". "
-                  %span= item
+              = render :partial => "partials/question_content", locals: { content: q.content }
+            - if q.type == "choice"
+              .question-items
+                - q.items.each_with_index do |item, index|
+                  %p
+                    %input{id: "#{q.id.to_s}-#{index}", name: "#{q.id.to_s}-item-select", type: "radio", value: "#{index}"}/
+                    %label{for: "#{q.id.to_s}-#{index}"}= d2c(index) + ". "
+                    %span= item.render_question.html_safe
           .clear-both
       %a#submit_answer.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true"} 提交
 

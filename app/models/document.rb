@@ -93,7 +93,7 @@ class Document
     if q_part[-1].class == String && q_part[-1].scan(/A(.+)B(.+)C(.+)D(.*)/).present?
       # all items are in the last line
       q_type = "choice"
-      items = q_part[-1].scan(/A(.+)B(.+)C(.+)D(.*)/)[0].map do |e|
+      items = q_part[-1].scan(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.*)/)[0].map do |e|
         e = e.slice(1..-1) if e.start_with?(".")
         e.strip
       end
@@ -102,10 +102,10 @@ class Document
       # four items are in two lines and two items each line
       q_type = "choice"
       items = []
-      q_part[-2].scan(/A(.+)B(.+)/)[0].each do |item|
+      q_part[-2].scan(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)/)[0].each do |item|
         items << item.strip
       end
-      q_part[-1].scan(/C(.+)D(.+)/)[0].each do |item|
+      q_part[-1].scan(/C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.+)/)[0].each do |item|
         items << item.strip
       end
       content = q_part[0..-3]
@@ -113,10 +113,10 @@ class Document
       # four items are in four lines
       q_type = "choice"
       items = []
-      items << q_part[-4].scan(/A(.+)/)[0][0].strip
-      items << q_part[-3].scan(/B(.+)/)[0][0].strip
-      items << q_part[-2].scan(/C(.+)/)[0][0].strip
-      items << q_part[-1].scan(/D(.+)/)[0][0].strip
+      items << q_part[-4].scan(/A\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part[-3].scan(/B\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part[-2].scan(/C\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part[-1].scan(/D\s*[\.．:：]?(.+)/)[0][0].strip
       content = q_part[0..-5]
     else
       q_type = "analysis"
@@ -132,7 +132,7 @@ class Document
       end
       # remove the answer alt
       match = a_part[0].scan(/^[解|答|案|析]{1,2}[\:|：|\.| ]\s*(.*)/)
-      a_part[0] = match[0][0] if match[0].prsent?
+      a_part[0] = match[0][0] if match[0].present?
       if q_type == "choice" && %w{A B C D}.include?(a_part[0].strip)
         answer_content = a_part[1..-1]
       else

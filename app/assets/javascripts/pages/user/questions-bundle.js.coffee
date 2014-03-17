@@ -3,6 +3,15 @@
 $ ->
   window.qid_to_note = []
 
+  $("#toggle_answer").click ->
+    a_div = $(this).closest(".question-content-div").find(".question-answer")
+    if a_div.hasClass("hide")
+      a_div.removeClass("hide")
+      $(this).text("隐藏答案")
+    else
+      a_div.addClass("hide")
+      $(this).text("显示答案")
+
   $("#check_questions").click ->
     window.location.href = "/user/questions/exercise?type=group&question_id=" + $(this).data("question-id")
 

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class User
   include Mongoid::Document
   # Include default devise modules. Others available are:
@@ -45,6 +46,10 @@ class User
   has_many :homeworks
   has_many :papers
 
+  include HTTParty
+  base_uri Rails.application.config.word_host
+  format  :json
+
   def has_question_in_note?(q_or_qid)
     qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
     (self.note.map { |e| e["id"] }).include?(qid)
@@ -80,5 +85,25 @@ class User
     paper = self.papers.cur.first || self.papers.create
     paper.question_ids.delete(qid)
     paper.save
+  end
+
+  def export_note(has_answer, send_email, email)
+    questions = []
+    self.note.each do |note_q|
+      q = Question.find(note_q["id"])
+      link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
+      questions << {
+        "type" => q.type,
+        "content" => q.content,
+        "items" => q.items,
+        "link" => link,
+        "answer" => (has_answer ? q.answer : nil),
+        "answer_content" => (has_answer ? q.answer_content : nil)
+      }
+    end
+    response = User.post("/generate",
+      :body => { questions: questions, name: "错题本" }.to_json,
+      :headers => { 'Content-Type' => 'application/json' } )
+    JSON.parse(response.body)["filename"]
   end
 end

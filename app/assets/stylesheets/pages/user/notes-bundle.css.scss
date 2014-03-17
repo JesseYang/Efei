@@ -2,15 +2,32 @@
 
 .question-div {
   background: white;
+  position: relative;
   @include border-radius(10px);
   margin-bottom: 20px;
   padding: 10px;
+  .close-btn {
+    position: absolute;
+    right: -5px;
+    top: -5px;
+  }
+}
+
+.answer-label {
+  color: red;
+}
+
+.question-answer {
+  margin-left: 10px;
+}
+
+#operation-div {
+  margin-bottom: 10px;
 }
 
 .question-content-div {
   float: left;
   font-size: 1.3em;
-  width: 85%;
   .question-content p {
     white-space: pre-wrap;
   }

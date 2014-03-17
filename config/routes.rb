@@ -25,6 +25,9 @@ MathLib::Application.routes.draw do
 
   namespace :user do
     resources :notes do
+      collection do
+        get :export
+      end
     end
     resources :papers do
       collection do

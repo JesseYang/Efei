@@ -4,18 +4,6 @@
 
 .container
   .lib-content
-    #current-question-div
-      .question-div
-        .question-content-div
-          .question-content
-            %p= @question.content
-          .question-items
-            - @question.items.each_with_index do |item, index|
-              %p
-                %label= d2c(index) + ". "
-                %span= item
-        .clear-both
-    #similar-questions-div
     .page-operation-div
       - if @similar_questions_length > 0
         %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 练习同组题
@@ -24,5 +12,28 @@
       -else
         %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本
       .clear-both
+    #current-question-div
+      .question-div
+        .question-content-div
+          .question-content
+            = render :partial => "partials/question_content", locals: { content: @question.content }
+          - if @question.type == "choice"
+            .question-items
+              - @question.items.each_with_index do |item, index|
+                %p.item-is-not-answer
+                  %label= d2c(index) + ". "
+                  %span.item-content= item.render_question.html_safe
+                  .for-edit.hide= item.render_question_for_edit.html_safe
+          .question-answer.hide
+            - if @question.type == "choice" && @question.answer.present?
+              %strong.answer-label= "解答: #{d2c(@question.answer)}"
+            - else
+              %strong.answer-label= "解答:"
+            .question-answer-content
+              = render :partial => "partials/question_content", locals: { content: @question.answer_content }
+          %a#toggle_answer{href: "javascript:void(0)", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 显示答案
+        .clear-both
+    #similar-questions-div
+
 
 = render "partials/sign_modal"

@@ -4,6 +4,11 @@
 
 .container
   .lib-content
+    #operation-div
+      .btn-group
+        = link_to "练习错题", { controller: "user/questions", action: "exercise", type: "button" }, :method => "get", :class => 'btn btn-primary' 
+        = link_to "显示答案", "javascript:void(0)", :method => "get", :class => 'btn btn-primary show-answer-btn'
+        = link_to "导出word", "javascript:void(0)", :method => "get", :class => 'btn btn-primary', data: {toggle: "modal", target: "#export"}
     - if @questions.blank?
       %span 没有找到错题
     - else
@@ -12,17 +17,56 @@
         .question-div
           .question-content-div
             .question-content
-              %p= q.content
-            .question-items
-              - q.items.each_with_index do |item, index|
-                %p
-                  %label= d2c(index) + ". "
-                  %span= item
-          .question-operation-div
-            %ul
-              %li
-                = link_to user_note_path(q), method: "delete", confirm: "确定删除？" do
-                  %em.glyphicon.glyphicon-trash
+              = render :partial => "partials/question_content", locals: { content: q.content }
+            - if q.type == "choice"
+              .question-items
+                - q.items.each_with_index do |item, index|
+                  %p
+                    %label= d2c(index) + ". "
+                    %span= item.render_question.html_safe
+            .question-answer.hide
+              - if q.type == "choice" && q.answer.present?
+                %strong.answer-label= "解答: #{d2c(q.answer)}"
+              - else
+                %strong.answer-label= "解答:"
+              .question-answer-content
+                = render :partial => "partials/question_content", locals: { content: q.answer_content }
+          = link_to user_note_path(q), method: "delete", class: "close-btn", confirm: "确定删除？" do
+            = image_tag "close_button.png", size: "20x20"
           .clear-both
 
-    = link_to "练习错题", { controller: "user/questions", action: "exercise", type: "note" }, :method => "get", :class => 'btn btn-primary btn-lg' 
+#export.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        #export-notification.jesse-notification
+          %span
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 导出word
+      .modal-body
+        .form-group
+          %label
+            %input#answer-checkbox{checked: false, type: "checkbox"}/
+            包含答案
+        .form-group
+          %label
+            %input#email-checkbox{checked: false, type: "checkbox"}/
+            发送至邮箱
+          %input#email-input.form-control{placeholder: "输入邮箱地址", type: "email", disabled: "true"}/
+      .modal-footer
+        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+        %a#export-btn.btn-primary.btn.btn-default{href: "#", "aria-hidden" => "true"} 导出
+
+#download.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 导出完成
+      .modal-body
+        %p
+          %span 导出完成，浏览器将自动下载结果，您也可以
+          %a{href: "#"} 点击此处
+          %span 手动下载
+      .modal-footer
+        %a.btn.btn-default.btn-primary{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 关闭
