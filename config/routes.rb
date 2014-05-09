@@ -4,7 +4,7 @@ MathLib::Application.routes.draw do
   get "welcome/index"
 
   devise_for :users, :controllers => {registrations: "registrations", sessions: "sessions"}
-  namespace :admin do
+  namespace :teacher do
     resources :homeworks do
       member do
         get :generate
@@ -48,6 +48,16 @@ MathLib::Application.routes.draw do
         get :exercise
         post :answer
         get :check_note
+      end
+    end
+  end
+
+  namespace :school_admin do
+    resources :teachers do
+      collection do
+        post :batch_create
+        put :update_password
+        get :csv_header
       end
     end
   end

@@ -1,0 +1,11 @@
+- content_for :head do
+  = stylesheet_link_tag "pages/teacher/questions-bundle", :media => "all"
+
+.container
+  .span9.offset1
+    - if @group.nil? || @group.questions.blank?
+      %span 还没有选择题目
+    - else
+      = form_tag('/teacher/groups', method: "post") do
+        = render partial: "group_partials/teacher/group", locals: { group: @group }
+        = submit_tag "确认", :class => 'btn btn-primary'

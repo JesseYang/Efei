@@ -4,8 +4,10 @@ class Homework
   include Mongoid::Document
   include Mongoid::Timestamps
   field :name, type: String
+  field :subject, type: Integer
   belongs_to :user
   has_many :groups, dependent: :destroy
+  has_many :shares
 
   include HTTParty
   base_uri Rails.application.config.word_host
@@ -60,5 +62,13 @@ class Homework
       :body => { questions: questions, name: self.name }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
     return JSON.parse(response.body)["filename"]
+  end
+
+  def get_share
+    
+  end
+
+  def set_share(share_info)
+    
   end
 end

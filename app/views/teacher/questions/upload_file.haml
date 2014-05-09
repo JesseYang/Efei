@@ -1,0 +1,12 @@
+- content_for :head do
+  = javascript_include_tag "pages/teacher/questions-bundle"
+  = stylesheet_link_tag "pages/teacher/questions-bundle", :media => "all"
+
+.container
+  .span9.offset1
+    = form_tag("/teacher/questions/file_uploaded", method: "post", multipart: true) do
+      %p
+        = label_tag :file, "选择文件"
+        = file_field_tag "file"
+      %p
+        = submit_tag "创建"

@@ -1,0 +1,134 @@
+- content_for :head do
+  = javascript_include_tag "pages/teacher/homeworks-bundle"
+  = javascript_include_tag "pages/teacher/groups-bundle"
+  = stylesheet_link_tag "pages/teacher/homeworks-bundle", :media => "all"
+  = stylesheet_link_tag "pages/teacher/groups-bundle", :media => "all"
+
+.container
+  .sub-banner
+    .wrap
+      %h2= truncate_u(@homework.name, 10)
+      .title-edit.hide
+        %input.form-control{type: "text", value: @homework.name}/
+        %button.btn.btn-default.btn-sm.title-ok{data: {"homework-id" => @homework.id.to_s}} 确 定
+        %button.btn.btn-default.btn-sm.title-cancel 取 消
+      %ul
+        %li.tooltips{title: "返回", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to teacher_homeworks_path do
+            %em.glyphicon.glyphicon-log-out
+        %li.tooltips{title: "生成", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to generate_teacher_homework_path(@homework) do
+            %em.glyphicon.glyphicon-cloud-download
+        %li.tooltips{title: "导出", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to export_teacher_homework_path(@homework) do
+            %em.glyphicon.glyphicon-save
+        %li.tooltips{title: "更换", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to "#", data: {toggle: "modal", target: "#replaceModal"} do
+            %em.glyphicon.glyphicon-transfer
+        %li.tooltips{title: "删除", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to teacher_homework_path(@homework), method: "delete", confirm: "确定删除？" do
+            %em.glyphicon.glyphicon-trash
+  .lib-content
+    - @homework.groups.asc(:created_at).each do |g|
+      .group-div
+        .content-div
+          - g.questions.asc(:created_at).each do |q|
+            .question-with-select-div{data: {"question-type" => q.type}}
+              .select-div{data: {"question-id" => q.id.to_s, selected: (!g.random_select && g.manual_select.include?(q.id.to_s)).to_s}}
+                %label.hide
+                  %input{checked: !g.random_select && g.manual_select.include?(q.id.to_s), type: "checkbox"}/
+                %span.select-indicator{class: g.random_select || !g.manual_select.include?(q.id.to_s) ? "hide" : ""}
+                  %em.glyphicon.glyphicon-asterisk
+              .question-div
+                .question-content-div
+                  .question-content
+                    = render :partial => "partials/question_content", locals: { content: q.content }
+                  .for-edit-content.hide= q.content.render_question_for_edit.html_safe
+                  - if q.type == "choice"
+                    .question-items{data: {"question-answer" => q.answer}}
+                      - q.items.each_with_index do |item, index|
+                        - if q.answer == index
+                          %p{id: "#{q.id.to_s}-item-#{index}"}
+                            %em.glyphicon.glyphicon-ok
+                            %label= d2c(index) + ". "
+                            %span.item-content= item.render_question.html_safe
+                            .for-edit.hide= item.render_question_for_edit.html_safe
+                        - else
+                          %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
+                            %em.glyphicon.glyphicon-ok
+                            %label= d2c(index) + ". "
+                            %span.item-content= item.render_question.html_safe
+                            .for-edit.hide= item.render_question_for_edit.html_safe
+                  - if q.answer_content.present?
+                    %strong.answer-label 解答
+                    .question-answer
+                      = render :partial => "partials/question_content", locals: { content: q.answer_content }
+                  - else
+                    %strong.answer-label.hide 解答
+                    .question-answer.hide
+                      = render :partial => "partials/question_content", locals: { content: q.answer_content }
+                  .for-edit-answer.hide= q.answer_content.render_question_for_edit.html_safe
+                .question-operation-div.hide
+                  %a{href: "#"}
+                    %em.glyphicon.glyphicon-pencil
+                .question-editor-div.hide{class: "#{q.id.to_s}-items-edit-div"}
+                  %textarea.question-content-editor.form-control
+                  .input-group
+                    %span.input-group-addon
+                      %input{id: "#{q.id.to_s}-0", name: "#{q.id.to_s}-item-select", type: "radio", value: 0}/
+                      %label{for: "#{q.id.to_s}-0"} A
+                    %input.item-text-input.form-control{type: "text"}/
+                  .input-group
+                    %span.input-group-addon
+                      %input{id: "#{q.id.to_s}-1", name: "#{q.id.to_s}-item-select", type: "radio", value: 1}/
+                      %label{for: "#{q.id.to_s}-1"} B
+                    %input.item-text-input.form-control{type: "text"}/
+                  .input-group
+                    %span.input-group-addon
+                      %input{id: "#{q.id.to_s}-2", name: "#{q.id.to_s}-item-select", type: "radio", value: 2}/
+                      %label{for: "#{q.id.to_s}-2"} C
+                    %input.item-text-input.form-control{type: "text"}/
+                  .input-group
+                    %span.input-group-addon
+                      %input{id: "#{q.id.to_s}-3", name: "#{q.id.to_s}-item-select", type: "radio", value: 3}/
+                      %label{for: "#{q.id.to_s}-3"} D
+                    %input.item-text-input.form-control{type: "text"}/
+                  %textarea.question-answer-editor.form-control
+                .question-editor-confirm-div.hide
+                  %a.question-ok.btn.btn-primary.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => q.id.to_s}} 确定
+                  %a.question-cancel.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true"} 取消
+              .clear-both
+        .operation-div.hide
+          %a.select-tooltip.tooltips{href: "#", title: g.select_style, data: {toggle: "tooltip", placement: "bottom"}}
+            %em.glyphicon.glyphicon-random{class: !g.random_select ? "hide" : ""}
+            %em.glyphicon.glyphicon-hand-up{class: g.random_select ? "hide" : ""}
+        .editor-div.hide
+          .select-style.btn-group{data: {toggle: "buttons", random: g.random_select.to_s}}
+            %label.random.btn.btn-default.btn-sm{class: g.random_select ? "active" : ""}
+              %input{name: "selectStyle", type: "radio"}>/
+              随机
+            %label.fixed.btn.btn-default.btn-sm{class: !g.random_select ? "active" : ""}
+              %input{name: "selectStyle", type: "radio"}>/
+              指定
+          .input-group.input-group-sm
+            %span.input-group-addon 选择
+            %input.random-number.form-control{placeholder: "数量", type: "text", disabled: !g.random_select, value: g.random_number, data: {"random-number" => g.random_number}}/
+            %span.input-group-addon 道题
+          %a.ok.btn.btn-primary.btn-sm{href: "#", "aria-hidden" => "true", data: {"group-id" => g.id.to_s}} 确定
+          %a.cancel.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true"} 取消
+        .clear-both
+
+#replaceModal.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(replace_teacher_homework_path(@homework), method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 替换当前作业
+        .modal-body
+          .form-group
+            = label_tag :name, "选择文件"
+            = file_field_tag "file"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "创建", :class => 'btn-primary btn'

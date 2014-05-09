@@ -2,6 +2,8 @@
 class DocumentUploader < CarrierWave::Uploader::Base
   permissions 0777
 
+  CarrierWave::SanitizedFile.sanitize_regexp = /[^[:word:]\.\-\+]/
+
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -50,6 +52,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   # Override the filename of the uploaded files:
   # Avoid using model.id or version_name here, see uploader/store.rb for details.
   def filename
+    SecureRandom.uuid
     # model.uuid.to_s
   end
 

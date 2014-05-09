@@ -5,6 +5,7 @@ class Question
   include Mongoid::Document
   include Mongoid::Timestamps
   field :type, type: String
+  field :subject, type: Integer
   field :content, type: Array, default: []
   field :items, type: Array, default: []
   field :preview, type: Boolean, default: true
@@ -29,6 +30,7 @@ class Question
 
 
   def self.create_choice_question(content, items, answer, answer_content, images_to_convert)
+=begin
     # convert by windows server
     converted_images = []
     images_to_convert.each_slice(10).to_a.each do |sub_images_to_convert|
@@ -43,8 +45,8 @@ class Question
       end
       converted_images += sub_converted_images
     end
+=end
 
-=begin
     # convert by local rmagick
     converted_images = images_to_convert.map do |filename|
       converted_filename = filename
@@ -58,7 +60,6 @@ class Question
       end
       converted_filename
     end
-=end
 
     question = self.create(type: "choice",
       content: content,
@@ -69,6 +70,7 @@ class Question
   end
 
   def self.create_analysis_question(content, answer_content, images_to_convert)
+=begin
     # converted by windows server
     converted_images = []
     images_to_convert.each_slice(10).to_a.each do |sub_images_to_convert|
@@ -83,8 +85,8 @@ class Question
       end
       converted_images += sub_converted_images
     end
+=end
 
-=begin
     # converted by local rmagick
     converted_images = images_to_convert.map do |filename|
       converted_filename = filename
@@ -98,7 +100,6 @@ class Question
       end
       converted_filename
     end
-=end
 
     question = self.create(type: "analysis",
       content: content,

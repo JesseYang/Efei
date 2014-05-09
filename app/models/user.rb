@@ -39,12 +39,20 @@ class User
   ## Token authenticatable
   # field :authentication_token, :type => String
 
+  # 1 for normal, 2 for deleted
   field :admin, :type => Boolean, :default => false
+  field :name, :type => String, :default => ""
+  field :school_admin, :type => Boolean, :default => false
+  field :teacher, :type => Boolean, :default => false
+  field :subject, :type => Integer
+  field :grade, :type => Integer
 
   field :note, :type => Array, :default => []
 
   has_many :homeworks
   has_many :papers
+  has_many :shares
+  belongs_to :school, class_name: "School", inverse_of: :teachers
 
   include HTTParty
   base_uri Rails.application.config.word_host
@@ -105,5 +113,22 @@ class User
       :body => { questions: questions, name: "错题本" }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
     JSON.parse(response.body)["filename"]
+  end
+
+
+  def self.batch_create_teacher(user, csv)
+    error_msg = []
+    CSV.parse(csv_str, :headers => true) do |row|
+      if User.where(email: row[2]).present?
+        error_msg = row + ["邮箱已存在"]
+      end
+      if Subject::CODE[row[0]].nil?
+        error_msg = row + ["不存在#{row[0]}学科（支持学科包括：语文，数学，英语，物理，化学，生物，历史，政治，其他 ）"]
+      end
+      t = User.new(name: row[1], email: row[2], subject: Subject::CODE[row[0]], password: "111111")
+      t.school = user.school
+      t.save(validate: false)
+    end
+    result = {error_msg: error_msg}
   end
 end

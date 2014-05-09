@@ -1,0 +1,8 @@
+- content_for :head do
+  = javascript_include_tag "pages/teacher/questions-bundle"
+  = stylesheet_link_tag "pages/teacher/questions-bundle", :media => "all"
+
+.container
+  .span9.offset1
+    - @questions.each do |q|
+      = render partial: "question_partials/teacher/question", locals: { type: "teacher",  q: q }

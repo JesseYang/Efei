@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'string'
 require 'array'
 class ApplicationController < ActionController::Base
@@ -35,13 +36,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def require_admin
-    redirect_to new_user_session_path if current_user.try(:admin) != true
+  def require_teacher
+    if current_user.try(:teacher) != true
+      sign_out(current_user)
+      flash[:notice] = "请以教师身份登录"
+      redirect_to new_user_session_path
+    end
+  end
+
+  def require_school_admin
+    redirect_to new_user_session_path if current_user.try(:school_admin) != true
   end
 
   def after_sign_in_path_for(resource)
-    if current_user.try(:admin)
-      session[:previous_url] || admin_homeworks_path
+    if current_user.try(:teacher)
+      session[:previous_url] || teacher_homeworks_path
     else
       session[:previous_url] || user_questions_path
     end
@@ -51,8 +60,8 @@ class ApplicationController < ActionController::Base
     current_user.present?
   end
 
-  def user_admin?
-    current_user.try(:admin)
+  def user_teacher?
+    current_user.try(:teacher)
   end
 
   def render_404

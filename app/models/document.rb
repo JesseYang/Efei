@@ -9,7 +9,7 @@ class Document
   base_uri Rails.application.config.word_host
   format  :json
 
-  attr_accessor :name
+  attr_accessor :name, :temp_name
 
   # http://www.aspose.com/docs/display/wordsjava/ImageType
   NO_IMAGE = 0
@@ -19,10 +19,10 @@ class Document
   PICT = 4
   JPEG = 5
   PNG = 6
-  BMP = 6
+  BMP = 7
 
   def parse(homework = nil)
-    content = Document.get("/extract?filename=#{URI.encode(self.name)}")
+    content = Document.get("/extract?filename=#{URI.encode(self.document.to_s.split('/')[-1])}")
     groups = []
     questions = []
     cache = []
