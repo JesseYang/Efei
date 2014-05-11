@@ -5,9 +5,9 @@ class Homework
   include Mongoid::Timestamps
   field :name, type: String
   field :subject, type: Integer
-  belongs_to :user
   has_many :groups, dependent: :destroy
-  has_many :shares
+  belongs_to :user, class_name: "User", inverse_of: :homework
+  has_and_belongs_to_many :visitors, class_name: "User", inverse_of: :shared_homeworks
 
   include HTTParty
   base_uri Rails.application.config.word_host
@@ -64,11 +64,9 @@ class Homework
     return JSON.parse(response.body)["filename"]
   end
 
-  def get_share
-    
-  end
-
-  def set_share(share_info)
-    
+  def privilege_of(user)
+    return "拥有" if self.user == user
+    return "共享" if self.visitors.include?(user)
+    return ""
   end
 end

@@ -32,6 +32,8 @@ gem 'carrierwave', '~> 0.8.0'
 gem 'rmagick', '2.13.2'
 gem 'rqrcode_png', '~> 0.1.2'
 gem 'mongoid_shortener', :path => "../mongoid_shortener"
+gem 'string_utf8', "~> 0.0.1"
+gem 'kaminari', '~> 0.14.1'
 
 group :development do
   gem 'pry-rails', "~> 0.2.2"

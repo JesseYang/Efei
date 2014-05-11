@@ -1,6 +1,8 @@
 - content_for :head do
   = javascript_include_tag "pages/school_admin/teachers-bundle"
   = stylesheet_link_tag "pages/school_admin/teachers-bundle", :media => "all"
+  :javascript
+    window.batch = '#{@batch}'
 
 .container
   / .col-sm-10.col-sm-offset-1.col-xs-10.col-xs-offset-1
@@ -9,15 +11,25 @@
       %h4
         没有教师
     - else
+      .col-lg-12.search-bar
+        .col-lg-2
+          = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control input-sm", id: "subject-select"
+        .col-lg-4
+          .input-group
+            %input#input-search.input-sm.form-control{type: "text", placeholder: "教师姓名", value: params[:keyword]}/
+            %span.input-group-btn
+              %button#btn-search.btn.btn-default.btn-sm{type: "button"} 搜索
+        .col-lg-6
+          .pull-right
+            = paginator_mini @teachers
       .table-responsive
         %table.table.table-striped
           %tr
-            %th 学科
-            %th 姓名
-            %th 邮箱
-            %th 操作
-            %th
-          - @teachers.each do |t|
+            %th.col-lg-3= table_sort_header "学科", "subject"
+            %th.col-lg-3= table_sort_header "姓名", "name"
+            %th.col-lg-3= table_sort_header "邮箱", "email"
+            %th.col-lg-3 操作
+          - @teachers["data"].each do |t|
             %tr
               %td= Subject::NAME[t.subject]
               %td
@@ -33,18 +45,25 @@
         %li
           = link_to "批量创建", "javascript:void();", data: {toggle: "modal", target: "#batchNewTeacher"}
 
-
 #batchNewTeacher.modal.fade
   .modal-dialog
     .modal-content
-      .modal-header
-        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-        %h3 批量创建教师
-      .modal-body
-      .modal-footer
-        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-        %a#update-btn.btn.btn-primary{href: "#", "aria-hidden" => "true"} 创建
-
+      = form_tag(batch_create_school_admin_teachers_path, method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 批量创建教师
+        .modal-body
+          .form-group
+            %span 点击
+            = link_to "这里", { controller: "school_admin/teachers", action: "csv_header" }
+            %span 下载表头
+          .form-group
+            .form-group
+              = label_tag :name, "选择文件"
+              = file_field_tag "file"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "创建", :class => 'btn-primary btn', :id => 'batch-create-btn'
 
 #newTeacher.modal.fade
   .modal-dialog

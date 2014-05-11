@@ -36,4 +36,6 @@ class Subject
     "政治" => 256,
     "其他" => 512
   }
+
+  CODE_WITH_ALL = CODE.merge({"全部" => 0})
 end

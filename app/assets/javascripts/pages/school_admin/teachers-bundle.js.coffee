@@ -1,6 +1,20 @@
 #= require 'utility/ajax'
 $(document).ready ->
 
+  $("#subject-select").change ->
+    subject = $(this).val()
+    window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject
+
+  $("#btn-search").click ->
+    search()
+  $("#input-search").keydown (e) ->
+    search() if e.which == 13
+
+  search = ->
+    subject = $("#subject-select").val()
+    keyword = $("#input-search").val()
+    window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject + "&keyword=" + keyword
+
   $(".edit-teacher").click ->
     $("#editTeacher #teacher_id").val($(this).data("id"))
     $("#editTeacher #teacher_name").val($(this).data("name"))
@@ -23,8 +37,12 @@ $(document).ready ->
         $this.attr("disabled", false)
         $this.text("更新")
         if retval.success
-          $("#editTeacher #teacher_password").val("")
-          $("#editTeacher .jesse-notification").notification({content: "更新成功"})
+          $('#editTeacher').modal('hide')
+          $("#app-notification").notification({content: "更新成功，请刷新页面查看结果", delay: 5000})
         else
           $("#editTeacher .jesse-notification").notification({content: "更新失败，" + retval.error_msg})
     )
+
+  $("#batch-create-btn").click ->
+    $('#batchNewTeacher').modal('hide')
+    $("#app-notification").notification({content: "批量处理结果会自动下载，请刷新页面查看结果", delay: 5000})

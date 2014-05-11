@@ -11,6 +11,8 @@ MathLib::Application.routes.draw do
         get :export
         post :replace
         post :rename
+        put :share
+        put :share_all
       end
     end
 

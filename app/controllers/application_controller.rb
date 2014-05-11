@@ -18,8 +18,11 @@ class ApplicationController < ActionController::Base
         request.fullpath != "/users/sign_up" &&
         request.fullpath != "/users/password" &&
         request.fullpath != "/users/sign_out" &&
+        request.fullpath != "/" &&
         !request.xhr?) # don't store ajax calls
       session[:previous_url] = request.fullpath 
+    else
+      session[:previous_url] = nil
     end
   end
 
@@ -49,7 +52,9 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if current_user.try(:teacher)
+    if current_user.try(:school_admin)
+      session[:previous_url] || school_admin_teachers_path
+    elsif current_user.try(:teacher)
       session[:previous_url] || teacher_homeworks_path
     else
       session[:previous_url] || user_questions_path
@@ -70,5 +75,45 @@ class ApplicationController < ActionController::Base
 
   def render_500
     raise '500 exception'
+  end
+
+  def page
+    params[:page].to_i == 0 ? 1 : params[:page].to_i
+  end
+
+  def per_page
+    params[:per_page].to_i == 0 ? 10 : params[:per_page].to_i
+  end
+
+  def auto_paginate(value, count = nil)
+    retval = {}
+    retval["current_page"] = page
+    retval["per_page"] = per_page
+    retval["previous_page"] = (page - 1 > 0 ? page - 1 : 1)
+    # retval["previous_page"] = [page - 1, 1].max
+
+    # 当没有block或者传入的是一个mongoid集合对象时就自动分页
+    # TODO : 更优的判断是否mongoid对象?
+    # instance_of?(Mongoid::Criteria) .by lcm
+    # if block_given? 
+    # if value.methods.include? :page
+    if value.instance_of?(Mongoid::Criteria)
+      count ||= value.count
+      value = value.page(retval["current_page"]).per(retval["per_page"])
+    elsif value.is_a?(Array) && value.count > per_page
+      count ||= value.count
+      value = value.slice((page - 1) * per_page, per_page)
+    end
+      
+    if block_given?
+      retval["data"] = yield(value) 
+    else
+      retval["data"] = value
+    end
+    retval["total_page"] = ( (count || value.count )/ per_page.to_f ).ceil
+    retval["total_page"] = retval["total_page"] == 0 ? 1 : retval["total_page"]
+    retval["total_number"] = count || value.count
+    retval["next_page"] = (page+1 <= retval["total_page"] ? page+1: retval["total_page"])
+    retval
   end
 end

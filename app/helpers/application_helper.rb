@@ -1,3 +1,4 @@
+#encoding: utf-8
 module ApplicationHelper
   def resource_name
     :user
@@ -24,6 +25,25 @@ module ApplicationHelper
     else
       return "E"
     end
+  end
+
+  def paginator_mini(paginator)
+    render :partial => "application/paginator_mini",  :locals => {
+      :paginator => paginator
+    }
+  end
+
+  def table_sort_header(text, name)
+    render :partial => "application/table_sort_header",  :locals => {
+      :text => text,
+      :name => name
+    }
+  end
+
+  def sort_caret(sort, dir)
+    return "" if !sort
+    return " ▲" if dir == "true"
+    return " ▼"
   end
 
   def truncate_u(text, length = 30, truncate_string = "...")  

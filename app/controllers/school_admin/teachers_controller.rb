@@ -1,19 +1,27 @@
 #encoding: utf-8
 require 'csv'
+require "string/utf8"
 class SchoolAdmin::TeachersController < SchoolAdmin::ApplicationController
 
   def index
+    @batch = params[:batch]
     @school = current_user.school
-    @teachers = @school.teachers.where(school_admin: false)
-    if params[:subject].present?
+    # @teachers = @school.teachers.where(school_admin: false)
+    @teachers = @school.teachers
+    if params[:subject].to_i != 0
       @teachers = @teachers.where(subject: params[:subject].to_i)
     end
-    if params[:search].present?
-      @teachers = @teachers.where(name: /#{params[:search]}/)
+    if params[:keyword].present?
+      @teachers = @teachers.where(name: /#{params[:keyword]}/)
     end
-    @subjects = Subject::NAME.map do |key, value|
-      {id: key, name: value}
+    if params[:sort].present?
+      @teachers = params[:dir] == "true" ? @teachers.desc(params[:sort].to_sym) : @teachers.asc(params[:sort].to_sym)
+    else
+      params[:sort] = "name"
+      params[:dir] = "true"
+      @teachers = @teachers.desc(:name)
     end
+    @teachers = auto_paginate @teachers
   end
 
   def create
@@ -28,7 +36,10 @@ class SchoolAdmin::TeachersController < SchoolAdmin::ApplicationController
   end
 
   def csv_header
-    send_data(["学科", "姓名", "邮箱"].to_csv, :filename => "批量创建-#{current_user.school.name}.csv", :type => 'text/csv')
+    csv = CSV.generate do |rows|
+      rows << ["学科", "姓名", "邮箱", "密码"]
+    end
+    send_data(csv.encode("gb2312"), :filename => "批量创建-#{current_user.school.name}.csv", :type => 'text/csv')
   end
 
   def batch_create
@@ -38,26 +49,28 @@ class SchoolAdmin::TeachersController < SchoolAdmin::ApplicationController
     unless(File.exist?("public/uploads/csv"))
       Dir.mkdir("public/uploads/csv")
     end
-    csv_origin = params["import_file"]
+    csv_origin = params[:file]
     filename = Time.now.strftime("%s")+'_'+(csv_origin.original_filename)
     File.open("public/uploads/csv/#{filename}", "wb") do |f|
       f.write(csv_origin.read)
     end
     csv = File.read("public/uploads/csv/#{filename}").utf8!
     result = User.batch_create_teacher(current_user, csv)
-    if result[:error_msg].present?
-      csv_file = CSV.open("public/uploads/csv/error_#{filename}", "wb") do |csv|
-        result.each {|a| csv << a}
-      end
-      result[:error] = "uploads/csv/error_#{filename}"
-    end
-    render_json_auto result and return
+
+    send_data(result.encode("gb2312"),
+      :filename => "批量创建处理结果-#{Time.now.strftime("%M-%d_%T")}.csv",
+      :type => "text/csv")
   end
 
   def destroy
     @teacher = User.find(params[:id])
-    @teacher.destroy
-    redirect_to action: :index
+    if @teacher.school_admin
+      flash[:notice] = "无法删除学校管理员"
+    else
+      @teacher.destroy
+      flash[:notice] = "成功删除教师"
+    end
+    redirect_to action: :index and return
   end
 
   def show
