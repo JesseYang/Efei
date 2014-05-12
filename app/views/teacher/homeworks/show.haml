@@ -27,9 +27,10 @@
         %li.tooltips{title: "更换", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to "#", data: {toggle: "modal", target: "#replaceModal"} do
             %em.glyphicon.glyphicon-transfer
-        %li.tooltips{title: "共享", data: {toggle: "tooltip", placement: "bottom"}}
-          = link_to "#", data: {toggle: "modal", target: "#shareModal"} do
-            %em.glyphicon.glyphicon-share
+        - if @homework.user == current_user
+          %li.tooltips{title: "共享", data: {toggle: "tooltip", placement: "bottom"}}
+            = link_to "#", data: {toggle: "modal", target: "#shareModal"} do
+              %em.glyphicon.glyphicon-share
         %li.tooltips{title: "删除", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to teacher_homework_path(@homework), method: "delete", confirm: "确定删除？" do
             %em.glyphicon.glyphicon-trash
