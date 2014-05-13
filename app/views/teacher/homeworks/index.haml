@@ -27,16 +27,14 @@
           %tr
             %th.col-lg-1
             %th.col-lg-4= table_sort_header "名称", "name"
-            %th.col-lg-3= table_sort_header "创建日期", "created_at"
-            %th.col-lg-2 分组数/题目数
-            %th.col-lg-2 操作
+            %th.col-lg-4= table_sort_header "创建日期", "created_at"
+            %th.col-lg-3 操作
           - @homeworks["data"].each do |hw|
             %tr
               %td= Subject::NAME[hw.subject] + " " + hw.privilege_of(current_user)
               %td
                 = link_to hw.name, { controller: :homeworks, action: :show, id: hw.id.to_s}
               %td= hw.created_at.strftime("%Y-%m-%d")
-              %td= "#{hw.groups.length}/#{hw.questions.length}"
               %td
                 = link_to "删除", { controller: "homeworks", action: "destroy", id: hw._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
                 = link_to "生成", { controller: "homeworks", action: "generate", id: hw._id.to_s }, :class => 'btn btn-default btn-xs'
@@ -51,6 +49,9 @@
           %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
           %h3 创建新作业
         .modal-body
+          .form-group
+            = label_tag :subject, "学科"
+            = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
           .form-group
             = label_tag :name, "选择文件"
             = file_field_tag "file"

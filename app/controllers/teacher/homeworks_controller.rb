@@ -53,7 +53,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     document.document = params[:file]
     document.store_document!
     document.name = params[:file].original_filename
-    homework = document.parse
+    homework = document.parse(params[:subject].to_i)
     current_user.homeworks << homework
     redirect_to action: :show, id: homework.id.to_s
   end
@@ -64,7 +64,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     document.document = params[:file]
     document.store_document!
     document.name = params[:file].original_filename
-    document.parse(homework)
+    document.parse(homework.subject, homework)
     redirect_to action: :show, id: homework.id.to_s
   end
 

@@ -9,7 +9,7 @@ class Document
   base_uri Rails.application.config.word_host
   format  :json
 
-  attr_accessor :name, :temp_name
+  attr_accessor :name, :temp_name, :subject
 
   # http://www.aspose.com/docs/display/wordsjava/ImageType
   NO_IMAGE = 0
@@ -21,34 +21,18 @@ class Document
   PNG = 6
   BMP = 7
 
-  def parse(homework = nil)
+  def parse(subject, homework = nil)
     content = Document.get("/extract?filename=#{URI.encode(self.document.to_s.split('/')[-1])}")
-    groups = []
     questions = []
     cache = []
     images = []
     content["content"].each do |ele|
       # ad added by aspose
       next if ele.class == String && ele.start_with?("Evaluation Only")
-      # group separation
-      if ele.class == String && ele.is_separate? && questions.present?
-        questions << parse_one_question(cache) if cache.length >= 1
-        cache = []
-        groups << Group.create_by_questions(questions) if questions.present?
-        questions = []
-        images = []
-        next
-      end
       # question separation
       if ele.class == String && ele.blank?
-        questions << parse_one_question(cache, images) if cache.length >= 1
+        questions << parse_one_question(subject, cache, images) if cache.length >= 1
         cache = []
-        ####################################################################
-        # take question separation as group separation
-        #   this hide the group function
-        groups << Group.create_by_questions(questions) if questions.present?
-        questions = []
-        ####################################################################
         images = []
         next
       end
@@ -73,15 +57,14 @@ class Document
       elsif ele.class == Hash || ele["type"] == "image"
       end
     end
-    questions << parse_one_question(cache, images) if cache.length > 1
-    groups << Group.create_by_questions(questions) if questions.present?
-    homework ||= Homework.create_by_name(self.name)
-    homework.groups = groups
+    questions << parse_one_question(subject, cache, images) if cache.length > 1
+    homework ||= Homework.create_by_name(self.name, subject)
+    homework.questions = questions
     homework.save
     homework
   end
 
-  def parse_one_question(cache, images)
+  def parse_one_question(subject, cache, images)
     # 1. separate answer and question if there is answer
     answer_index = cache.index do |e|
       e.class == String && e.strip.match(/^[解|答|案|析]{1,2}[\:|：|\.| ].+/)
@@ -97,7 +80,12 @@ class Document
         e = e.slice(1..-1) if e.start_with?(".")
         e.strip
       end
-      content = q_part[0..-2]
+      if q_part.length == 1
+        # the content and the items are in one line
+        content = [q_part[0][0..q_part[0].index(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.*)/) - 1]]
+      else
+        content = q_part[0..-2]
+      end
     elsif q_part[-2].class == String && q_part[-1].class == String && q_part[-2].scan(/A(.+)B(.+)/).present? && q_part[-1].scan(/C(.+)D(.+)/).present?
       # four items are in two lines and two items each line
       q_type = "choice"
@@ -123,6 +111,17 @@ class Document
       content = q_part
     end
     # 3. parse the answer
+    answer, answer_content = *parse_answer(a_part, q_type)
+    # create the question object
+    if q_type == "choice"
+      q = Question.create_choice_question(content, items, answer, answer_content, images)
+    else
+      q = Question.create_analysis_question(content, answer_content, images)
+    end
+    q
+  end
+
+  def parse_answer(a_part, q_type)
     if a_part.present?
       if q_type == "choice" && a_part[0].class == String
         answer = 0 if a_part[0].match(/^(解|答|案|析){1,2}[\:|：|\.| ]\s*A.?/)
@@ -139,12 +138,6 @@ class Document
         answer_content = a_part
       end
     end
-    # create the question object
-    if q_type == "choice"
-      q = Question.create_choice_question(content, items, answer, answer_content, images)
-    else
-      q = Question.create_analysis_question(content, answer_content, images)
-    end
-    q
+    [answer, answer_content]
   end
 end

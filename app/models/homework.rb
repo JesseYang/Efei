@@ -5,7 +5,7 @@ class Homework
   include Mongoid::Timestamps
   field :name, type: String
   field :subject, type: Integer
-  has_many :groups, dependent: :destroy
+  has_many :questions, dependent: :destroy
   belongs_to :user, class_name: "User", inverse_of: :homework
   has_and_belongs_to_many :visitors, class_name: "User", inverse_of: :shared_homeworks
 
@@ -13,14 +13,10 @@ class Homework
   base_uri Rails.application.config.word_host
   format  :json
 
-  def self.create_by_name(name)
+  def self.create_by_name(name, subject)
     name_ary = name.split('.')
     name = name_ary[0..-2].join('.') if %w{doc docx}.include?(name_ary[-1])
-    Homework.create(name: name)
-  end
-
-  def questions
-    (self.groups.map { |e| e.questions }).flatten
+    Homework.create(name: name, subject: subject)
   end
 
   def export

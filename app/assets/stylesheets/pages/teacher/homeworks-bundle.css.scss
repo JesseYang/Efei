@@ -1,6 +1,7 @@
 /*
  *= require jquery.qtip
 */
+@import 'utility';
 
 .question-content-div {
   font-size: 1.3em;
@@ -8,4 +9,73 @@
 
 #shareModal .scroll {
   height: 350px;
+}
+
+.content-div {
+  background: white;
+  @include border-radius(10px);
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.question-div {
+  table, th, td {
+    border: 1px solid black;
+  }
+}
+
+
+.question-content-div {
+  float: left;
+  font-size: 1.3em;
+  width: 95%;
+  .question-content p {
+    span {
+      white-space: pre-wrap;
+    }
+  }
+  .question-answer p {
+    span {
+      white-space: pre-wrap;
+    }
+  }
+  .question-items {
+    span {
+      white-space: pre-wrap;
+    }
+    p {
+      margin-left: 10px;
+    }
+  }
+  .item-is-not-answer {
+    em {
+      display: none;
+    }
+    label {
+      margin-left: 18px;
+    }
+  }
+}
+
+.question-operation-div {
+  float: right;
+  width: 5%;
+}
+
+.question-editor-confirm-div {
+  float: right;    
+}
+
+.question-editor-div {
+  width: 88%;
+  float: left;
+  textarea {
+    width: 90%;
+  }
+}
+
+.question-editor-div .input-group {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 90%;
 }

@@ -12,7 +12,7 @@ class Question
   field :answer, type: Integer
   field :answer_content, type: Array, default: []
   field :inline_images, type: Array, default: []
-  belongs_to :group
+  belongs_to :homework
 
   IMAGE_TYPE = %w{jpeg png jpg bmp}
   IMAGE_DIR = Rails.application.config.image_dir
