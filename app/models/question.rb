@@ -172,4 +172,14 @@ class Question
     end
     self.save
   end
+
+  def generate_qr_code
+    if !File.exist?("public/qr_code/#{self.id.to_s}.png")
+      link = MongoidShortener.generate(Rails.application.config.server_host + "/student/questions/#{self.id.to_s}")
+      qr = RQRCode::QRCode.new(link, :size => 4, :level => :h )
+      png = qr.to_img
+      png.resize(90, 90).save("public/qr_code/#{self.id.to_s}.png")
+    end
+    "public/qr_code/#{self.id.to_s}.png"
+  end
 end

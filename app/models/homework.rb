@@ -40,19 +40,9 @@ class Homework
 
   def generate
     questions = []
-    self.groups.each do |g|
-      if g.random_select
-        g.questions.shuffle[0..[g.questions.length, g.random_number].min-1].each do |q|
-          link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
-          questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link}
-        end
-      else
-        g.manual_select.each do |qid|
-          q = Question.find(qid)
-          link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
-          questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link}
-        end
-      end
+    self.questions.each do |q|
+      link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
+      questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link}
     end
     response = Homework.post("/generate",
       :body => { questions: questions, name: self.name }.to_json,
