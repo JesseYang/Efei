@@ -49,7 +49,7 @@ class RegistrationsController < Devise::RegistrationsController
     elsif current_user.try(:teacher)
       session[:previous_url] || teacher_homeworks_path
     else
-      session[:previous_url] || student_questions_path
+      session[:previous_url] || student_notes_path
     end
   end
 end

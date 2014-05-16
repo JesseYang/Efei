@@ -10,8 +10,5 @@
             = f.email_field :email, :autofocus => true, class: "form-control"
           .form-group
             = f.label :password, "密码"
-            = f.password_field :password, class: "form-control"
-          .form-group
-            = f.label :password_confirmation, "确认密码"
-            = f.password_field :password_confirmation, class: "form-control"
+            = f.text_field :password, class: "form-control"
           = f.submit "注册", class: "btn btn-default"
