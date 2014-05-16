@@ -93,6 +93,9 @@
           .question-editor-confirm-div.hide
             %a.question-ok.btn.btn-primary.btn-sm{href: "#", "aria-hidden" => "true", data: {"question-id" => q.id.to_s}} 确定
             %a.question-cancel.btn.btn-default.btn-sm{href: "#", "aria-hidden" => "true"} 取消
+            %br
+            %br
+            = image_tag "", class: "hide qr-code"
         .clear-both
 
 #replaceModal.modal.fade

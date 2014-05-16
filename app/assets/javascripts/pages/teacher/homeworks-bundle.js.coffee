@@ -137,6 +137,14 @@ $(document).ready ->
       # set answer for choice question
       q_div.find(".question-editor-div #" + qid + "-" + answer).prop("checked", true)
 
+    $.getJSON(
+      '/teacher/questions/' + qid + '/ensure_qr_code',
+      { },
+      (retval) ->
+        q_div.find(".qr-code").attr("src", retval.qr_code)
+        q_div.find(".qr-code").removeClass("hide")
+    )
+
   enter_question_editor = (q_div, qtype) ->
     q_div.find(".question-editor-div").removeClass("hide")
     q_div.find(".question-editor-confirm-div").removeClass("hide")

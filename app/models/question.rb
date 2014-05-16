@@ -180,6 +180,6 @@ class Question
       png = qr.to_img
       png.resize(90, 90).save("public/qr_code/#{self.id.to_s}.png")
     end
-    "public/qr_code/#{self.id.to_s}.png"
+    "/qr_code/#{self.id.to_s}.png"
   end
 end

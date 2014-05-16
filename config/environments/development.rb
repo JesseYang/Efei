@@ -29,7 +29,7 @@ MathLib::Application.configure do
   config.assets.debug = true
 
   # host name
-  config.server_host = "http://localhost:9000"
+  config.server_host = "http://117.121.10.67:9000"
 
   # word processing host name
   config.word_host = "http://localhost:9292"

@@ -22,7 +22,11 @@ MathLib::Application.routes.draw do
       end
     end
 
-    resources :questions
+    resources :questions do
+      member do
+        get :ensure_qr_code
+      end
+    end
   end
 
   namespace :student do

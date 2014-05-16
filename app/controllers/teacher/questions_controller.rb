@@ -23,4 +23,13 @@ class Teacher::QuestionsController < Teacher::ApplicationController
       end
     end
   end
+
+  def ensure_qr_code
+    q = Question.find(params[:id])
+    respond_to do |format|
+      format.json do
+        render json: { qr_code: q.generate_qr_code }
+      end
+    end
+  end
 end
