@@ -25,7 +25,7 @@ MathLib::Application.routes.draw do
     resources :questions
   end
 
-  namespace :user do
+  namespace :student do
     resources :notes do
       collection do
         get :export

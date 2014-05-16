@@ -1,5 +1,5 @@
 # encoding: utf-8
-class User::PapersController < User::ApplicationController
+class Student::PapersController < Student::ApplicationController
   before_filter :require_sign_in
 
   def index

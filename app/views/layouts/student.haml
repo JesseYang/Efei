@@ -1,5 +1,5 @@
 - content_for :app_head do
-  = javascript_include_tag "layouts/user-layout"
+  = javascript_include_tag "layouts/student-layout"
   = yield :head
   :javascript
     window.controller = "#{params[:controller]}"
@@ -17,7 +17,7 @@
       %ul.nav.navbar-nav
         %li.divider-vertical
         %li.notes
-          %a{href: "/user/notes/"} 错题本
+          %a{href: "/student/notes/"} 错题本
         %li.divider-vertical
         %li
           %a{href: "#"} 关于我们

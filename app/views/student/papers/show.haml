@@ -1,6 +1,6 @@
 - content_for :head do
-  = javascript_include_tag "pages/user/papers-bundle"
-  = stylesheet_link_tag "pages/user/papers-bundle", :media => "all"
+  = javascript_include_tag "pages/student/papers-bundle"
+  = stylesheet_link_tag "pages/student/papers-bundle", :media => "all"
 
 .container
   .sub-banner
@@ -14,17 +14,14 @@
         %li.tooltips{title: "存档试卷列表", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to user_papers_path do
             %em.glyphicon.glyphicon-list
-        %li.tooltips{title: "存档", data: {toggle: "tooltip", placement: "bottom"}}
-          = link_to archive_user_paper_path(@paper) do
-            %em.glyphicon.glyphicon-cloud-download
         %li.tooltips{title: "导出", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to print_user_paper_path(@paper) do
             %em.glyphicon.glyphicon-save
         %li.tooltips{title: "导出并发送到邮箱", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to email_user_paper_path(@paper) do
             %em.glyphicon.glyphicon-paperclip
-        %li.tooltips{title: "清空", data: {toggle: "tooltip", placement: "bottom"}}
-          = link_to user_paper_path(@paper), method: "delete", confirm: "确定清空？" do
+        %li.tooltips{title: "删除", data: {toggle: "tooltip", placement: "bottom"}}
+          = link_to user_paper_path(@paper), method: "delete", confirm: "确定删除？" do
             %em.glyphicon.glyphicon-trash
   .lib-content
     - if @questions.blank?
@@ -41,9 +38,4 @@
                 %p
                   %label= d2c(index) + ". "
                   %span= item
-          .question-operation-div
-            %ul
-              %li
-                = link_to user_note_path(q), method: "delete", confirm: "确定删除？" do
-                  %em.glyphicon.glyphicon-trash
           .clear-both

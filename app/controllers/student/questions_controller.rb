@@ -1,4 +1,4 @@
-class User::QuestionsController < User::ApplicationController
+class Student::QuestionsController < Student::ApplicationController
   before_filter :require_sign_in, only: [:append_note, :append_print]
 
   def show

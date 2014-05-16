@@ -3,7 +3,7 @@ require 'string'
 require 'array'
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  layout 'layouts/user'
+  layout 'layouts/student'
 
   before_filter :set_flash
   before_filter :store_location
@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
         request.fullpath != "/users/sign_up" &&
         request.fullpath != "/users/password" &&
         request.fullpath != "/users/sign_out" &&
+        request.fullpath != "/users" &&
         request.fullpath != "/" &&
         !request.xhr?) # don't store ajax calls
       session[:previous_url] = request.fullpath 
@@ -57,7 +58,7 @@ class ApplicationController < ActionController::Base
     elsif current_user.try(:teacher)
       session[:previous_url] || teacher_homeworks_path
     else
-      session[:previous_url] || user_questions_path
+      session[:previous_url] || student_notes_path
     end
   end
 

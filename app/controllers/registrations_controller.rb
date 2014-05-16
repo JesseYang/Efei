@@ -21,7 +21,6 @@ class RegistrationsController < Devise::RegistrationsController
       end
     else
       if resource.save
-        logger.info "BBBBBBBBBBBBBBBBBBB"
         if resource.active_for_authentication?
           set_flash_message :notice, :signed_up if is_navigational_format?
           sign_up(resource_name, resource)
@@ -32,7 +31,6 @@ class RegistrationsController < Devise::RegistrationsController
           return render :json => {:success => true}
         end
       else
-        logger.info "CCCCCCCCCCCCCCCCCCCC"
         clean_up_passwords resource
         return render :json => {:success => false}
       end
@@ -43,5 +41,15 @@ class RegistrationsController < Devise::RegistrationsController
   # RegistrationsController.
   def sign_up(resource_name, resource)
     sign_in(resource_name, resource)
+  end
+
+  def after_sign_up_path_for(resource)
+    if current_user.try(:school_admin)
+      session[:previous_url] || school_admin_teachers_path
+    elsif current_user.try(:teacher)
+      session[:previous_url] || teacher_homeworks_path
+    else
+      session[:previous_url] || student_questions_path
+    end
   end
 end

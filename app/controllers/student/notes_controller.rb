@@ -1,4 +1,4 @@
-class User::NotesController < User::ApplicationController
+class Student::NotesController < Student::ApplicationController
   before_filter :require_sign_in
 
   def index

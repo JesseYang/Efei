@@ -1,12 +1,12 @@
 - content_for :head do
-  = javascript_include_tag "pages/user/notes-bundle"
-  = stylesheet_link_tag "pages/user/notes-bundle", :media => "all"
+  = javascript_include_tag "pages/student/notes-bundle"
+  = stylesheet_link_tag "pages/student/notes-bundle", :media => "all"
 
 .container
   .lib-content
     #operation-div
       .btn-group
-        = link_to "练习错题", { controller: "user/questions", action: "exercise", type: "button" }, :method => "get", :class => 'btn btn-primary' 
+        = link_to "练习错题", { controller: "student/questions", action: "exercise", type: "button" }, :method => "get", :class => 'btn btn-primary' 
         = link_to "显示答案", "javascript:void(0)", :method => "get", :class => 'btn btn-primary show-answer-btn'
         = link_to "导出word", "javascript:void(0)", :method => "get", :class => 'btn btn-primary', data: {toggle: "modal", target: "#export"}
     - if @questions.blank?
@@ -31,12 +31,12 @@
                 %strong.answer-label= "解答:"
               .question-answer-content
                 = render :partial => "partials/question_content", locals: { content: q.answer_content }
-          = link_to user_note_path(q), method: "delete", class: "close-btn", confirm: "确定删除？" do
+          = link_to student_note_path(q), method: "delete", class: "close-btn", confirm: "确定删除？" do
             = image_tag "close_button.png", size: "20x20"
           .clear-both
     #operation-div
       .btn-group
-        = link_to "练习错题", { controller: "user/questions", action: "exercise", type: "button" }, :method => "get", :class => 'btn btn-primary' 
+        = link_to "练习错题", { controller: "student/questions", action: "exercise", type: "button" }, :method => "get", :class => 'btn btn-primary' 
         = link_to "显示答案", "javascript:void(0)", :method => "get", :class => 'btn btn-primary show-answer-btn'
         = link_to "导出word", "javascript:void(0)", :method => "get", :class => 'btn btn-primary', data: {toggle: "modal", target: "#export"}
 
