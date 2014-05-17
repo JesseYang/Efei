@@ -43,10 +43,7 @@
                   = f.email_field :email, class: "form-control"
                 .form-group
                   = f.label :password, "密码"
-                  = f.password_field :password, class: "form-control"
-                .form-group
-                  = f.label :password, "确认密码"
-                  = f.password_field :password_confirmation, class: "form-control"
+                  = f.text_field :password, class: "form-control"
               .modal-footer
                 %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
                 = f.submit "注册", class: 'btn btn-primary'
