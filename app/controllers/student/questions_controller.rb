@@ -3,9 +3,7 @@ class Student::QuestionsController < Student::ApplicationController
 
   def show
     @question = Question.find(params[:id])
-    q_ids = @question.group.questions.map { |e| e.id.to_s }
-    q_ids.delete(@question.id.to_s)
-    @similar_questions_length = q_ids.length
+    @similar_questions_length = 0
   end
 
   def append_note

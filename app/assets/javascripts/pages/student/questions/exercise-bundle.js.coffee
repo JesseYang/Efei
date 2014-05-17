@@ -35,7 +35,7 @@ $ ->
       $("#notification-div .warning").removeClass("hide")
     else
       $.postJSON(
-        '/user/questions/answer',
+        '/student/questions/answer',
         {
           qid_ary: qid_ary,
           answer_ary: answer_ary
@@ -92,7 +92,7 @@ $ ->
     qid = $(this).closest(".append-note").data("question-id")
     $this = $(this)
     $.postJSON(
-      "/user/questions/#{qid}/append_note",
+      "/student/questions/#{qid}/append_note",
       { },
       (retval) ->
         console.log retval
@@ -134,7 +134,7 @@ $ ->
     $(".append-note").each ->
       qid_ary.push($(this).data("question-id"))
     $.getJSON(
-      "/user/questions/check_note?qids=" + qid_ary.join(','),
+      "/student/questions/check_note?qids=" + qid_ary.join(','),
       { },
       (retval) ->
         index = 0
@@ -146,7 +146,7 @@ $ ->
           index += 1
     # append the question
     $.postJSON(
-      "/user/questions/#{qid}/append_note",
+      "/student/questions/#{qid}/append_note",
       { },
       (retval) ->
         $.refresh_navbar($("#sign_in_user #user_email").val())

@@ -26,7 +26,7 @@ $ ->
     $("#export-btn").attr("disabled", true)
     $this = $(this)
     $.getJSON(
-      '/user/notes/export',
+      '/student/notes/export',
       {
         has_answer: $("#answer-checkbox").is(":checked"),
         send_email: $("#email-checkbox").is(":checked"),
@@ -49,7 +49,7 @@ $ ->
 
   $("#check_questions").click ->
     $.get(
-      '/user/questions/' + $(this).data("question-id") + '/similar',
+      '/student/questions/' + $(this).data("question-id") + '/similar',
       { },
       (retval) ->
         $(".page-operation-div").addClass("hide")
@@ -62,7 +62,7 @@ $ ->
   $("#append_note").click ->
     $this = $(this)
     $.postJSON(
-      '/user/questions/' + $(this).data("question-id") + '/append_note',
+      '/student/questions/' + $(this).data("question-id") + '/append_note',
       { },
       (retval) ->
         console.log retval
@@ -82,7 +82,7 @@ $ ->
       $('#sign').modal('hide')
       # append the question to the note
       $.postJSON(
-        '/user/questions/' + $("#append_note").data("question-id") + '/append_note',
+        '/student/questions/' + $("#append_note").data("question-id") + '/append_note',
         { },
         (retval) ->
           $("#append_note").attr("disabled", true)
@@ -99,7 +99,7 @@ $ ->
       $('#sign').modal('hide')
       # append the question to the note
       $.postJSON(
-        '/user/questions/' + $("#append_note").data("question-id") + '/append_note',
+        '/student/questions/' + $("#append_note").data("question-id") + '/append_note',
         { },
         (retval) ->
           $("#append_note").attr("disabled", true)

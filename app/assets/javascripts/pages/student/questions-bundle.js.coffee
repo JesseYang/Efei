@@ -13,13 +13,13 @@ $ ->
       $(this).text("显示答案")
 
   $("#check_questions").click ->
-    window.location.href = "/user/questions/exercise?type=group&question_id=" + $(this).data("question-id")
+    window.location.href = "/student/questions/exercise?type=group&question_id=" + $(this).data("question-id")
 
   $("#append_note").click ->
     qid = $(this).data("question-id")
     $this = $(this)
     $.postJSON(
-      "/user/questions/#{qid}/append_note",
+      "/student/questions/#{qid}/append_note",
       { },
       (retval) ->
         console.log retval
@@ -62,7 +62,7 @@ $ ->
       return
     # append the question
     $.postJSON(
-      "/user/questions/#{qid}/#{action}",
+      "/student/questions/#{qid}/#{action}",
       { },
       (retval) ->
         for ele in window.ele_to_disable
