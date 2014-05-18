@@ -1,9 +1,9 @@
 class ExportNoteEmailWorker
   include Sidekiq::Worker
-  sidekiq_options :retry => 10, :queue => "efei_#{Rails.env}".to_sym
+  sidekiq_options :retry => false, :queue => "efei_#{Rails.env}".to_sym
 
-  def perform(attachment)
-    MailgunApi.export_note(attachment)
+  def perform(email, attachment)
+    MailgunApi.export_note(email, attachment)
     return true
   end
 end

@@ -113,7 +113,7 @@ class User
       :body => { questions: questions, name: "错题本" }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
     filename = JSON.parse(response.body)["filename"]
-    ExportNoteEmailWorker.perform_async(filename)
+    ExportNoteEmailWorker.perform_async(email, "public/" + filename)
     filename
   end
 

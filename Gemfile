@@ -34,6 +34,8 @@ gem 'rqrcode_png', '~> 0.1.2'
 gem 'mongoid_shortener', :path => "../mongoid_shortener"
 gem 'string_utf8', "~> 0.0.1"
 gem 'kaminari', '~> 0.14.1'
+gem 'premailer-rails', '~> 1.4.0'
+gem 'rest-client', '~> 1.6.7'
 
 group :development do
   gem 'pry-rails', "~> 0.2.2"
