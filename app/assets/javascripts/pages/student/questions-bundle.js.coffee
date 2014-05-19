@@ -40,17 +40,17 @@ $ ->
 
   $("form#sign_in_user").bind "ajax:success", (e, data, status, xhr) ->
     if data.success
-      append_question()
+      append_question("sign_in")
     else
       $("#sign-notification").notification({content: "邮箱或密码错误"})
       
   $("form#sign_up_user").bind "ajax:success", (e, data, status, xhr) ->
     if data.success
-      append_question()
+      append_question("sign_up")
     else
       $("#sign-notification").notification({content: "注册失败"})
 
-  append_question = ->
+  append_question = (type) ->
     # hide the sign modal
     $('#sign').modal('hide')
     # get the question to handle
@@ -68,7 +68,7 @@ $ ->
         for ele in window.ele_to_disable
           ele.attr("disabled", true)
           ele.html(window.text_to_set)
-        $.refresh_navbar($("#sign_in_user #user_email").val())
+        $.refresh_navbar($("#" + type + "_user #user_email").val())
     )
     # show the notification
     $("#app-notification").notification({content: content})

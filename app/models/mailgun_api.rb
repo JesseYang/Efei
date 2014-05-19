@@ -27,16 +27,17 @@ class MailgunApi
   end
 
   def self.send_message(data)
-    Rails.logger.info "AAAAAAAAAAAAAAA"
     # domain = data.delete(:domain)
     domain = data[:domain]
+    begin
       Rails.logger.info data.inspect
-      Rails.logger.info "BBBBBBBBBBBBBBBB"
       retval = RestClient.post("https://api:#{Rails.application.config.mailgun_api_key}"\
         "@api.mailgun.net/v2/#{domain}/messages", data)
       Rails.logger.info retval.inspect
       retval = JSON.parse(retval)
       return retval["id"]
-      Rails.logger.info "CCCCCCCCCCCCCCCC"
+    rescue
+      return -1
+    end
   end
 end

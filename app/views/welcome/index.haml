@@ -1,2 +1,70 @@
-%h1 Welcome#index
-%p Find me in app/views/welcome/index.html.erb
+- content_for :app_head do
+  = javascript_include_tag "pages/welcome-bundle"
+  = stylesheet_link_tag "pages/welcome-bundle", :media => "all"
+
+#myCarousel.carousel.slide{"data-ride" => "carousel"}
+  %ol.carousel-indicators
+    %li{"data-slide-to" => "0", "data-target" => "#myCarousel"}
+    %li.active{"data-slide-to" => "1", "data-target" => "#myCarousel"}
+    %li{"data-slide-to" => "2", "data-target" => "#myCarousel"}
+  .carousel-inner
+    .item
+      %img{alt: "First slide", "data-src" => "", src: "/assets/carousel.png"}/
+      .container
+        .carousel-caption
+          %h1 Example headline.
+          %p
+            Note: some description
+          %p
+            %a.btn.btn-lg.btn-primary{href: "#", role: "button"} Sign up today
+    .item.active
+      %img{alt: "Second slide", "data-src" => "", src: "/assets/carousel.png"}/
+      .container
+        .carousel-caption
+          %h1 Another example headline.
+          %p 
+            some description
+          %p
+            %a.btn.btn-lg.btn-primary{href: "#", role: "button"} Learn more
+    .item
+      %img{alt: "Third slide", "data-src" => "", src: "/assets/carousel.png"}/
+      .container
+        .carousel-caption
+          %h1 One more for good measure.
+          %p some description
+          %p
+            %a.btn.btn-lg.btn-primary{href: "#", role: "button"} Browse gallery
+  %a.left.carousel-control{"data-slide" => "prev", href: "#myCarousel"}
+    %span.glyphicon.glyphicon-chevron-left
+  %a.right.carousel-control{"data-slide" => "next", href: "#myCarousel"}
+    %span.glyphicon.glyphicon-chevron-right
+
+.container.marketing
+  %hr.featurette-divider/
+  .row.featurette
+    .col-md-7
+      %h2.featurette-heading
+        First featurette heading.
+        %span.text-muted It'll blow your mind.
+      %p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+    .col-md-5
+      %img.featurette-image.img-responsive{alt: "500x500", "data-src" => "holder.js/500x500/auto", src: "/assets/carousel.png"}/
+  %hr.featurette-divider/
+  .row.featurette
+    .col-md-5
+      %img.featurette-image.img-responsive{alt: "500x500", "data-src" => "holder.js/500x500/auto", src: "/assets/carousel.png"}/
+    .col-md-7
+      %h2.featurette-heading
+        Oh yeah, it's that good.
+        %span.text-muted See for yourself.
+      %p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+  %hr.featurette-divider/
+  .row.featurette
+    .col-md-7
+      %h2.featurette-heading
+        And lastly, this one.
+        %span.text-muted Checkmate.
+      %p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+    .col-md-5
+      %img.featurette-image.img-responsive{alt: "500x500", "data-src" => "holder.js/500x500/auto", src: "/assets/carousel.png"}/
+  %hr.featurette-divider/
