@@ -99,17 +99,15 @@ class User
     questions = []
     self.note.each do |note_q|
       q = Question.find(note_q["id"])
-      link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
       questions << {
         "type" => q.type,
         "content" => q.content,
         "items" => q.items,
-        "link" => link,
         "answer" => (has_answer ? q.answer : nil),
         "answer_content" => (has_answer ? q.answer_content : nil)
       }
     end
-    response = User.post("/generate",
+    response = User.post("/export_note",
       :body => { questions: questions, name: "错题本" }.to_json,
       :headers => { 'Content-Type' => 'application/json' } )
     filename = JSON.parse(response.body)["filename"]

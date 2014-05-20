@@ -51,13 +51,16 @@
       .modal-body
         .form-group
           %label
-            %input#answer-checkbox{checked: false, type: "checkbox"}/
-            包含答案
+            %input#download-radio{name: "export-type", checked: false, type: "radio", value: "download"}/
+            直接下载
+          %label
+            %input#email-radio{name: "export-type", checked: true, type: "radio", value: "email"}/
+            发送至邮箱
+          %input#email-input.form-control{placeholder: "输入邮箱地址", type: "email", value: "#{current_user.email}"}/
         .form-group
           %label
-            %input#email-checkbox{checked: false, type: "checkbox"}/
-            发送至邮箱
-          %input#email-input.form-control{placeholder: "输入邮箱地址", type: "email", disabled: "true"}/
+            %input#answer-checkbox{checked: false, type: "checkbox"}/
+            包含答案
       .modal-footer
         %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
         %a#export-btn.btn-primary.btn.btn-default{href: "#", "aria-hidden" => "true"} 导出

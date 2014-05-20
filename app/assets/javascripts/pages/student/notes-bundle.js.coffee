@@ -11,15 +11,15 @@ $ ->
       $(".question-answer").addClass("hide")
       $(this).text("显示答案")
 
-  $("#email-checkbox").change ->
-    if $(this).is(":checked")
+  $('input:radio[name=export-type]').change ->
+    if this.value == "email"
       $("#email-input").attr("disabled", false)
     else
       $("#email-input").attr("disabled", true)
 
   $("#export-btn").click ->
     # check the illegal of email
-    if $("#email-checkbox").is(":checked") && !$.validateEmail($("#email-input").val())
+    if $("#email-radio").is(":checked") && !$.validateEmail($("#email-input").val())
       $("#export-notification").notification({content: "请输入正确格式的邮箱"})
       return
     $("#export-btn").text("正在导出...")
@@ -29,7 +29,7 @@ $ ->
       '/student/notes/export',
       {
         has_answer: $("#answer-checkbox").is(":checked"),
-        send_email: $("#email-checkbox").is(":checked"),
+        send_email: $("#email-radio").is(":checked"),
         email: $("#email-input").val()
       },
       (retval) ->
@@ -37,7 +37,7 @@ $ ->
         $this.attr("disabled", false)
         $this.text("导出")
         console.log retval.file_path
-        if $("#email-checkbox").is(":checked")
+        if $("#email-radio").is(":checked")
           $("#app-notification").notification({content: "已导出并发送至" + $("#email-input").val()})
         else
           window.open "/" + retval.file_path
