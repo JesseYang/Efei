@@ -34,12 +34,10 @@
               %li
                 %a{href: "/users/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
           - else
-            %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
-              %span Account
-              %b.caret
-            %ul.dropdown-menu
+            %ul.nav.navbar-nav
               %li
                 %a{href: "/users/sign_in"} 登录
+              %li.divider-vertical.hidden-xs
               %li
                 %a{href: "/users/sign_up"} 注册
 - content_for :app_content do
