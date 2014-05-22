@@ -49,22 +49,22 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def create
-    document = Document.new
+    document = Document.new(params[:subject])
     document.document = params[:file]
     document.store_document!
     document.name = params[:file].original_filename
-    homework = document.parse(params[:subject].to_i)
+    homework = document.parse
     current_user.homeworks << homework
     redirect_to action: :show, id: homework.id.to_s
   end
 
   def replace
     homework = Homework.find(params[:id])
-    document = Document.new
+    document = Document.new(homework.subject)
     document.document = params[:file]
     document.store_document!
     document.name = params[:file].original_filename
-    document.parse(homework.subject, homework)
+    document.parse(homework)
     redirect_to action: :show, id: homework.id.to_s
   end
 
