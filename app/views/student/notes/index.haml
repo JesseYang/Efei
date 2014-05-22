@@ -4,17 +4,25 @@
 
 .container
   .lib-content
-    #operation-div
-      .btn-group
-        = link_to "练习错题", { controller: "student/questions", action: "exercise", type: "button" }, :method => "get", :class => 'btn btn-primary' 
-        = link_to "显示答案", "javascript:void(0)", :method => "get", :class => 'btn btn-primary show-answer-btn'
-        = link_to "导出word", "javascript:void(0)", :method => "get", :class => 'btn btn-primary', data: {toggle: "modal", target: "#export"}
+    #operation-div.col-lg-12.form-inline
+      .col-lg-2
+        %span 科目：
+        = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control", id: "subject-select"
+      .col-lg-3
+        %span 时间：
+        = select_tag "search_period", options_for_select(time_period, params[:period].to_i), class: "form-control", id: "period-select"
+      - if @questions.present?
+        .col-lg-7
+          .btn-group.right
+            = link_to "练习", { controller: "student/questions", action: "exercise", type: "button" }, :method => "get", :class => 'btn btn-primary' 
+            = link_to "答案", "javascript:void(0)", :method => "get", :class => 'btn btn-primary show-answer-btn'
+            = link_to "导出", "javascript:void(0)", :method => "get", :class => 'btn btn-primary', data: {toggle: "modal", target: "#export"}
     - if @questions.blank?
-      %span 没有找到错题
+      %span 没有找到符合条件的错题
     - else
       - @questions.each do |q|
         - next if q.nil?
-        .question-div
+        .question-div.col-lg-12
           .question-content-div
             .question-content
               = render :partial => "partials/question_content", locals: { content: q.content }
@@ -34,11 +42,6 @@
           = link_to student_note_path(q), method: "delete", class: "close-btn", confirm: "确定删除？" do
             = image_tag "close_button.png", size: "20x20"
           .clear-both
-    #operation-div
-      .btn-group
-        = link_to "练习错题", { controller: "student/questions", action: "exercise", type: "button" }, :method => "get", :class => 'btn btn-primary' 
-        = link_to "显示答案", "javascript:void(0)", :method => "get", :class => 'btn btn-primary show-answer-btn'
-        = link_to "导出word", "javascript:void(0)", :method => "get", :class => 'btn btn-primary', data: {toggle: "modal", target: "#export"}
 
 #export.modal.fade
   .modal-dialog
