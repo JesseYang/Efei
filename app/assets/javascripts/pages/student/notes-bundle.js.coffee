@@ -2,14 +2,21 @@
 #= require 'utility/refresh_navbar'
 #= require 'utility/tools'
 $ ->
+  $("#subject-select").change ->
+    search()
+  $("#period-select").change ->
+    search()
+
+  search = ->
+    subject = $("#subject-select").val()
+    period = $("#period-select").val()
+    window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject + "&period=" + period
 
   $(".show-answer-btn").click ->
     if $(".question-answer").hasClass("hide")
       $(".question-answer").removeClass("hide")
-      $(this).text("隐藏答案")
     else
       $(".question-answer").addClass("hide")
-      $(this).text("显示答案")
 
   $('input:radio[name=export-type]').change ->
     if this.value == "email"
