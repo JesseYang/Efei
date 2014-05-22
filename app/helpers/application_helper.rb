@@ -56,5 +56,16 @@ module ApplicationHelper
       end  
     end  
     return text  
-  end  
+  end
+
+  def time_period
+    {
+      "全部" => 0,
+      "最近一天" => 1, 
+      "最近三天" => 2,
+      "最近一周" => 4,
+      "最近两周" => 8,
+      "最近一个月" => 16
+    }
+  end
 end
