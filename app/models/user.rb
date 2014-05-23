@@ -47,9 +47,8 @@ class User
   field :subject, :type => Integer
   field :grade, :type => Integer
 
-  field :note, :type => Array, :default => []
-
   has_many :homeworks, class_name: "Homework", inverse_of: :user
+  has_many :notes
   has_many :papers
   has_and_belongs_to_many :shared_homeworks, class_name: "Homework", inverse_of: :visitors
   belongs_to :school, class_name: "School", inverse_of: :teachers
@@ -58,20 +57,25 @@ class User
   base_uri Rails.application.config.word_host
   format  :json
 
-  def has_question_in_note?(q_or_qid)
-    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
-    (self.note.map { |e| e["id"] }).include?(qid)
+  def list_question_in_note(subject, created_at)
+    questions = self.notes.where(:created_at.gt => Time.at(created_at)).map { |e| e.question }
+    questions = questions.select { |e| e.subject == subject } if subject != 0
   end
 
-  def add_question_to_note(q_or_qid)
+  def has_question_in_note?(q_or_qid)
     qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
-    self.note << { id: qid, top: false } if !self.has_question_in_note?(qid)
-    self.save
+    (self.notes.map { |e| e.question_id.to_s }).include?(qid)
+  end
+
+  def add_question_to_note(q_or_qid, comment = "")
+    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
+    self.notes << Note.create_new(qid, comment) if !self.has_question_in_note?(qid)
   end
 
   def rm_question_from_note(q_or_qid)
     qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
-    self.note.delete_if { |e| e["id"] == qid }
+    n = self.notes.where(question_id: qid)
+    n.destroy
     self.save
   end
 

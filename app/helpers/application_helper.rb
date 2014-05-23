@@ -60,12 +60,12 @@ module ApplicationHelper
 
   def time_period
     {
-      "全部" => 0,
-      "最近一天" => 1, 
-      "最近三天" => 2,
-      "最近一周" => 4,
-      "最近两周" => 8,
-      "最近一个月" => 16
+      "全部" => Time.now.to_i,
+      "最近一天" => 1.days.to_i, 
+      "最近三天" => 3.days.to_i,
+      "最近一周" => 7.days.to_i,
+      "最近两周" => 2.weeks.to_i,
+      "最近一个月" => 1.months.to_i
     }
   end
 end

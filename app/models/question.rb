@@ -13,6 +13,7 @@ class Question
   field :answer_content, type: Array, default: []
   field :inline_images, type: Array, default: []
   belongs_to :homework
+  has_many :notes
 
   IMAGE_TYPE = %w{jpeg png jpg bmp}
   IMAGE_DIR = Rails.application.config.image_dir

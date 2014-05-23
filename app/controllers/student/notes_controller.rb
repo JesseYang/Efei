@@ -2,7 +2,7 @@ class Student::NotesController < Student::ApplicationController
   before_filter :require_sign_in
 
   def index
-    @questions = current_user.note.map { |e| Question.find(e["id"]) }
+    @questions = current_user.list_question_in_note(params[:subject].to_i, Time.now.to_i - params[:period].to_i)
   end
 
   def destroy
