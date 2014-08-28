@@ -36,7 +36,7 @@ class Document
         images = []
         next
       end
-      # parse para/talbe/image
+      # parse para/table/image
       if ele.class == String
         if cache.blank?
           # this is the first line of this question, should remove the Number
