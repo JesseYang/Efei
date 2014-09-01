@@ -1,11 +1,4 @@
-- content.each do |node|
-  - if node.class == String
-    %p= node.render_question.html_safe
-  - elsif node.class == Hash && node["type"] == "table"
-    %table
-      - node["content"].each do |row|
-        %tr
-          - row.each do |cell|
-            %td
-              - cell.each do |para|
-                %p= para.render_question.html_safe
+- if (question_type == "analysis" && figures.length > 0) || (question_type == "choice" && figures.length > 4)
+  .question-figures
+    - (question_type == "analysis" ? figures : figures[0..-5]).each do |e|
+      = e.render_figure.html_safe

@@ -35,7 +35,7 @@ MathLib::Application.configure do
   config.word_host = "http://localhost:9292"
 
   # image convertion url
-  config.convert_image_url = "http://117.121.25.169/ConvertImage"
+  config.convert_image_url = "http://117.121.25.169"
 
   # converted image download url
   config.image_download_url = "http://117.121.25.169/download"
