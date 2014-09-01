@@ -70,7 +70,31 @@ class Document
       e.class == String && e.strip.match(/^[解|答|案|析]{1,2}[\:|：|\.| ].+/)
     end
     q_part = answer_index.nil? ? cache : cache[0..answer_index - 1]
-    a_part = answer_index.nil? ? nil : cache[answer_index..- 1]
+    a_part = answer_index.nil? ? [] : cache[answer_index..- 1]
+
+    q_part_figures = []
+    q_part_text = []
+    a_part_figures = []
+    a_part_text = []
+
+    q_part.each do |e|
+      next if e.blank?
+      if e.class == String && e.start_with("figure*")
+        q_part_figures << e
+      else
+        q_part_text << e
+      end
+    end
+
+    a_part.each do |e|
+      next if e.blank?
+      if e.class == String && e.start_with("figure*")
+        a_part_figures << e
+      else
+        a_part_text << e
+      end
+    end
+
     # 2. judge the type of the question and parse the question
     q_part = q_part.select { |e| e.present? }
     if q_part[-1].class == String && q_part[-1].scan(/A(.+)B(.+)C(.+)D(.*)/).present?
@@ -114,9 +138,9 @@ class Document
     answer, answer_content = *parse_answer(a_part, q_type)
     # create the question object
     if q_type == "choice"
-      q = Question.create_choice_question(content, items, answer, answer_content, images)
+      q = Question.create_choice_question(content, items, answer, answer_content, q_part_figures, a_part_figures, images)
     else
-      q = Question.create_analysis_question(content, answer_content, images)
+      q = Question.create_analysis_question(content, answer_content, q_part_figures, a_part_figures, images)
     end
     q
   end

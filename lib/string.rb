@@ -29,7 +29,6 @@ class String
   end
 
   def render_question
-    img_dir = "public/uploads/documents/images"
     result = ""
     self.split('$').each do |f|
       if f.match(/[a-z 0-9]{8}-[a-z 0-9]{4}-[a-z 0-9]{4}-[a-z 0-9]{4}-[a-z 0-9]{12}/)
@@ -41,6 +40,10 @@ class String
       end
     end
     result
+  end
+
+  def render_figure
+    "<img src='/uploads/documents/images/#{f}'></img>"
   end
 
   def render_question_for_edit

@@ -39,6 +39,7 @@
           .question-content-div
             .question-content
               = render :partial => "partials/question_content", locals: { content: q.content }
+            = render :partial => "partials/question_figures", locals: { figures: q.q_figures, question_type: q.type }
             .for-edit-content.hide= q.content.render_question_for_edit.html_safe
             - if q.type == "choice"
               .question-items{data: {"question-answer" => q.answer}}

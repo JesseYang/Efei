@@ -1,0 +1,11 @@
+- content.each do |node|
+  - if node.class == String
+    %p= node.render_question.html_safe
+  - elsif node.class == Hash && node["type"] == "table"
+    %table
+      - node["content"].each do |row|
+        %tr
+          - row.each do |cell|
+            %td
+              - cell.each do |para|
+                %p= para.render_question.html_safe
