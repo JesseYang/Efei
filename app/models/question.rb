@@ -35,7 +35,7 @@ class Question
   def self.create_choice_question(content, items, answer, answer_content, q_figures, a_figures, images_to_convert)
     # convert by windows server
     converted_images = []
-    images_to_convert.map! { |e| e.gsub("equation*").gsub("figure*") }
+    images_to_convert = images_to_convert.map { |e| e.gsub("equation*", "").gsub("figure*", "") }
     images_to_convert.each_slice(10).to_a.each do |sub_images_to_convert|
       sub_converted_images = Question.get("/ConvertImage.aspx?filename=#{sub_images_to_convert.join(',')}&host=#{Rails.application.config.server_host}").split(',')
       sub_converted_images.each_with_index do |filename, i|
@@ -67,18 +67,18 @@ class Question
 
     question = self.create(type: "choice",
       content: content.map { |e| e.gsub("equation*", "") },
-      items: items.map { |e| e.gsub("equation", "") },
+      items: items.map { |e| e.gsub("equation*", "") },
       answer: answer,
       answer_content: (answer_content || []).map { |e| e.gsub("equation*", "") },
-      q_figures: q_figures.map { |e| e.gsub("figures*", "") },
-      a_figures: a_figures.map { |e| e.gsub("figures*", "") },
+      q_figures: q_figures.map { |e| e.gsub("figure*", "") },
+      a_figures: a_figures.map { |e| e.gsub("figure*", "") },
       inline_images: converted_images)
   end
 
   def self.create_analysis_question(content, answer_content, q_figures, a_figures, images_to_convert)
     # converted by windows server
     converted_images = []
-    images_to_convert.map! { |e| e.gsub("equation*").gsub("figure*") }
+    images_to_convert = images_to_convert.map { |e| e.gsub("equation*", "").gsub("figure*", "") }
     images_to_convert.each_slice(10).to_a.each do |sub_images_to_convert|
       sub_converted_images = Question.get("/ConvertImage.aspx?filename=#{sub_images_to_convert.join(',')}&host=#{Rails.application.config.server_host}").split(',')
       sub_converted_images.each_with_index do |filename, i|
