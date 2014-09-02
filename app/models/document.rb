@@ -79,7 +79,7 @@ class Document
 
     q_part.each do |e|
       next if e.blank?
-      if e.class == String && e.start_with("figure*")
+      if e.class == String && e.start_with?("$figure*")
         q_part_figures << e
       else
         q_part_text << e
@@ -88,7 +88,7 @@ class Document
 
     a_part.each do |e|
       next if e.blank?
-      if e.class == String && e.start_with("figure*")
+      if e.class == String && e.start_with?("$figure*")
         a_part_figures << e
       else
         a_part_text << e
@@ -96,46 +96,46 @@ class Document
     end
 
     # 2. judge the type of the question and parse the question
-    q_part = q_part.select { |e| e.present? }
-    if q_part[-1].class == String && q_part[-1].scan(/A(.+)B(.+)C(.+)D(.*)/).present?
+    q_part_text = q_part_text.select { |e| e.present? }
+    if q_part_text[-1].class == String && q_part_text[-1].scan(/A(.+)B(.+)C(.+)D(.*)/).present?
       # all items are in the last line
       q_type = "choice"
-      items = q_part[-1].scan(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.*)/)[0].map do |e|
+      items = q_part_text[-1].scan(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.*)/)[0].map do |e|
         e = e.slice(1..-1) if e.start_with?(".")
         e.strip
       end
-      if q_part.length == 1
+      if q_part_text.length == 1
         # the content and the items are in one line
-        content = [q_part[0][0..q_part[0].index(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.*)/) - 1]]
+        content = [q_part_text[0][0..q_part_text[0].index(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.*)/) - 1]]
       else
-        content = q_part[0..-2]
+        content = q_part_text[0..-2]
       end
-    elsif q_part[-2].class == String && q_part[-1].class == String && q_part[-2].scan(/A(.+)B(.+)/).present? && q_part[-1].scan(/C(.+)D(.+)/).present?
+    elsif q_part_text[-2].class == String && q_part_text[-1].class == String && q_part_text[-2].scan(/A(.+)B(.+)/).present? && q_part_text[-1].scan(/C(.+)D(.+)/).present?
       # four items are in two lines and two items each line
       q_type = "choice"
       items = []
-      q_part[-2].scan(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)/)[0].each do |item|
+      q_part_text[-2].scan(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)/)[0].each do |item|
         items << item.strip
       end
-      q_part[-1].scan(/C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.+)/)[0].each do |item|
+      q_part_text[-1].scan(/C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.+)/)[0].each do |item|
         items << item.strip
       end
-      content = q_part[0..-3]
-    elsif q_part[-4].class == String && q_part[-3].class == String && q_part[-2].class == String && q_part[-1].class == String && q_part[-4].scan(/A(.+)/).present? && q_part[-3].scan(/B(.+)/).present? && q_part[-2].scan(/C(.+)/).present? && q_part[-1].scan(/D(.+)/).present?
+      content = q_part_text[0..-3]
+    elsif q_part_text[-4].class == String && q_part_text[-3].class == String && q_part_text[-2].class == String && q_part_text[-1].class == String && q_part_text[-4].scan(/A(.+)/).present? && q_part_text[-3].scan(/B(.+)/).present? && q_part_text[-2].scan(/C(.+)/).present? && q_part_text[-1].scan(/D(.+)/).present?
       # four items are in four lines
       q_type = "choice"
       items = []
-      items << q_part[-4].scan(/A\s*[\.．:：]?(.+)/)[0][0].strip
-      items << q_part[-3].scan(/B\s*[\.．:：]?(.+)/)[0][0].strip
-      items << q_part[-2].scan(/C\s*[\.．:：]?(.+)/)[0][0].strip
-      items << q_part[-1].scan(/D\s*[\.．:：]?(.+)/)[0][0].strip
-      content = q_part[0..-5]
+      items << q_part_text[-4].scan(/A\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part_text[-3].scan(/B\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part_text[-2].scan(/C\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part_text[-1].scan(/D\s*[\.．:：]?(.+)/)[0][0].strip
+      content = q_part_text[0..-5]
     else
       q_type = "analysis"
-      content = q_part
+      content = q_part_text
     end
     # 3. parse the answer
-    answer, answer_content = *parse_answer(a_part, q_type)
+    answer, answer_content = *parse_answer(a_part_text, q_type)
     # create the question object
     if q_type == "choice"
       q = Question.create_choice_question(content, items, answer, answer_content, q_part_figures, a_part_figures, images)
