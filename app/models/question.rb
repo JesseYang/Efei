@@ -49,22 +49,6 @@ class Question
       converted_images += sub_converted_images
     end
 
-=begin
-    # convert by local rmagick
-    converted_images = images_to_convert.map do |filename|
-      converted_filename = filename
-      name = filename.split('.')[0]
-      suffix = filename.split('.')[1]
-      if !%w{jpeg png jpg bmp}.include?(suffix)
-        i = Magick::Image.read("#{IMAGE_DIR}/#{filename}").first
-        i.trim.write("#{IMAGE_DIR}/#{name}.png") { self.quality = 1 }
-        converted_filename = "#{name}.png"
-        File.delete("#{IMAGE_DIR}/#{filename}")
-      end
-      converted_filename
-    end
-=end
-
     question = self.create(type: "choice",
       content: content.map { |e| e.gsub("equation*", "") },
       items: items.map { |e| e.gsub("equation*", "") },
@@ -91,22 +75,6 @@ class Question
       end
       converted_images += sub_converted_images
     end
-
-=begin
-    # converted by local rmagick
-    converted_images = images_to_convert.map do |filename|
-      converted_filename = filename
-      name = filename.split('.')[0]
-      suffix = filename.split('.')[1]
-      if !%w{jpeg png jpg bmp}.include?(suffix)
-        i = Magick::Image.read("#{IMAGE_DIR}/#{filename}").first
-        i.trim.write("#{IMAGE_DIR}/#{name}.png") { self.quality = 1 }
-        converted_filename = "#{name}.png"
-        File.delete("#{IMAGE_DIR}/#{filename}")
-      end
-      converted_filename
-    end
-=end
 
     question = self.create(type: "analysis",
       content: content,
@@ -180,6 +148,18 @@ class Question
       self.items << tidyup_item
     end
     self.save
+  end
+
+  def figures
+    if self.type == "choice"
+      if self.q_figures.length >= 4
+        return self.q_figures[0..-5]
+      else
+        return self.q_figures
+      end
+    else
+      return self.q_figures
+    end
   end
 
   def generate_qr_code

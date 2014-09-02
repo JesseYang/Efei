@@ -43,7 +43,7 @@ class String
   end
 
   def render_figure
-    "<img src='/uploads/documents/images/#{f}'></img>"
+    "<img src='/uploads/documents/images/#{self[1..-2]}'></img>"
   end
 
   def render_question_for_edit

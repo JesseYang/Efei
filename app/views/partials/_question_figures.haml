@@ -1,4 +1,2 @@
-- if (question_type == "analysis" && figures.length > 0) || (question_type == "choice" && figures.length > 4)
-  .question-figures
-    - (question_type == "analysis" ? figures : figures[0..-5]).each do |e|
-      = e.render_figure.html_safe
+- figures.each do |f|
+  %p= f.render_figure.html_safe
