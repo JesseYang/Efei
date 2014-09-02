@@ -27,7 +27,7 @@ class Question
   before_destroy do |doc|
     # delete all images files
     doc.inline_images.each do |e|
-      File.delete("#{IMAGE_DIR}/#{e}")
+      File.delete("#{IMAGE_DIR}/#{e}") if File.exist?("#{IMAGE_DIR}/#{e}")
     end
   end
 

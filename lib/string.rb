@@ -2,6 +2,7 @@
 require 'RMagick'
 
 class String
+  CF = 1.3
   def is_separate?
     self.length > 1 && self.match(/-+/).present? && self.match(/-+/)[0] == self
   end
@@ -10,7 +11,8 @@ class String
     images = []
     # img_dir = "public/uploads/documents/images"
     self.scan(/\$(.*?)\$/).each do |image|
-      filename = image[0]
+      image_info = image[0]
+      type, filename, width, height = *image_info.split('*')
       name = filename.split('.')[0]
       suffix = filename.split('.')[1]
       if !%w{jpeg png jpg bmp}.include?(suffix)
@@ -33,7 +35,8 @@ class String
     self.split('$').each do |f|
       if f.match(/[a-z 0-9]{8}-[a-z 0-9]{4}-[a-z 0-9]{4}-[a-z 0-9]{4}-[a-z 0-9]{12}/)
         # equation
-        result += "<img src='/uploads/documents/images/#{f}'></img>"
+        filename, width, height = f.split('*')
+        result += "<img src='/uploads/documents/images/#{filename}' width='#{width.to_f * CF}' height='#{height.to_f * CF}'></img>"
       else
         # text
         result += "<span>#{f}</span>"
@@ -43,7 +46,8 @@ class String
   end
 
   def render_figure
-    "<img src='/uploads/documents/images/#{self[1..-2]}'></img>"
+    filename, width, height = self[1..-2].split('*')
+    "<img src='/uploads/documents/images/#{filename}' width='#{width.to_f * CF}', height='#{height.to_f * CF}'></img>"
   end
 
   def render_question_for_edit
