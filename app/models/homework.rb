@@ -42,7 +42,7 @@ class Homework
     questions = []
     self.questions.each do |q|
       link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
-      questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link}
+      questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link, "figures" => q.q_figures}
     end
     response = Homework.post("/generate",
       :body => { questions: questions, name: self.name }.to_json,
