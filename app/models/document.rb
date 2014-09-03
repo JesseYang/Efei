@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'httparty'
+require 'nkf'
 require 'string'
 class Document
   extend CarrierWave::Mount
@@ -27,6 +28,7 @@ class Document
     cache = []
     images = []
     content["content"].each do |ele|
+      ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z')
       # ad added by aspose
       next if ele.class == String && ele.start_with?("Evaluation Only")
       # question separation
