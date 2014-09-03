@@ -35,7 +35,7 @@ class String
     self.split('$').each do |f|
       if f.match(/[a-z 0-9]{8}-[a-z 0-9]{4}-[a-z 0-9]{4}-[a-z 0-9]{4}-[a-z 0-9]{12}/)
         # equation
-        filename, width, height = f.split('*')
+        image_type, filename, width, height = f.split('*')
         result += "<img src='/uploads/documents/images/#{filename}' width='#{width.to_f * CF}' height='#{height.to_f * CF}'></img>"
       else
         # text
@@ -46,7 +46,7 @@ class String
   end
 
   def render_figure
-    filename, width, height = self[1..-2].split('*')
+    image_type, filename, width, height = self[1..-2].split('*')
     "<img src='/uploads/documents/images/#{filename}' width='#{width.to_f * CF}', height='#{height.to_f * CF}'></img>"
   end
 

@@ -28,9 +28,10 @@ class Document
     cache = []
     images = []
     content["content"].each do |ele|
-      ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z')
       # ad added by aspose
       next if ele.class == String && ele.start_with?("Evaluation Only")
+      # convert full width char to half width char
+      ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z') if ele.class == String
       # question separation
       if ele.class == String && ele.blank?
         questions << parse_one_question(subject, cache, images) if cache.length >= 1
@@ -59,7 +60,7 @@ class Document
       elsif ele.class == Hash || ele["type"] == "image"
       end
     end
-    questions << parse_one_question(subject, cache, images) if cache.length > 1
+    questions << parse_one_question(subject, cache, images) if cache.length >= 1
     homework ||= Homework.create_by_name(self.name, subject)
     homework.questions = questions
     homework.save

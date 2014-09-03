@@ -50,16 +50,19 @@ class Question
     end
 
     question = self.create(type: "choice",
-      content: content.map { |e| e.gsub("equation*", "") },
-      items: items.map { |e| e.gsub("equation*", "") },
+      content: content,
+      items: items,
       answer: answer,
-      answer_content: (answer_content || []).map { |e| e.gsub("equation*", "") },
-      q_figures: q_figures.map { |e| e.gsub("figure*", "") },
-      a_figures: a_figures.map { |e| e.gsub("figure*", "") },
+      answer_content: answer_content || [],
+      q_figures: q_figures,
+      a_figures: a_figures,
       inline_images: converted_images)
   end
 
   def self.create_analysis_question(content, answer_content, q_figures, a_figures, images_to_convert)
+    Rails.logger.info "AAAAAAAAAAAAAAAAA"
+    Rails.logger.info content.inspect
+    Rails.logger.info "AAAAAAAAAAAAAAAAA"
     # converted by windows server
     converted_images = []
     images_to_convert = images_to_convert.map { |e| e.gsub("equation*", "").gsub("figure*", "") }
