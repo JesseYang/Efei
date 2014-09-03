@@ -3,9 +3,9 @@ class Note
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  # note 
-  field :type, type: String
+  # note should be a snapshoot of the original question
   field :subject, type: Integer
+  field :question_type, type: String
   field :content, type: Array, default: []
   field :items, type: Array, default: []
   field :preview, type: Boolean, default: true
@@ -16,7 +16,7 @@ class Note
   field :a_figures, type: Array, default: []
 
   field :comment, type: String
-  field :type, type: Integer
+  field :note_type, type: Integer
   belongs_to :user
   belongs_to :question
   has_and_belongs_to_many :topics
