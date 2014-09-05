@@ -6,6 +6,8 @@ gem 'mongoid', '~> 3.0.0'
 gem 'haml', '~> 4.0.3'
 gem 'devise'
 gem 'httparty', '~> 0.10.2'
+gem 'httparty', '~> 0.10.2'
+gem 'httmultiparty'
 gem 'sidekiq', '~> 3.0'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

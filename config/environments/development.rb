@@ -32,7 +32,7 @@ MathLib::Application.configure do
   config.server_host = "http://www.b-fox.cn"
 
   # word processing host name
-  config.word_host = "http://localhost:9292"
+  config.word_host = "http://117.121.25.169"
 
   # image convertion url
   config.convert_image_url = "http://117.121.25.169"

@@ -95,7 +95,7 @@ $(document).ready ->
       },
       (retval) ->
     )
-
+  ###
   # about question edit
   $('.question-content-div').qtip({
       content: { text: '双击编辑' }
@@ -144,6 +144,7 @@ $(document).ready ->
         q_div.find(".qr-code").attr("src", retval.qr_code)
         q_div.find(".qr-code").removeClass("hide")
     )
+  ###
 
   enter_question_editor = (q_div, qtype) ->
     q_div.find(".question-editor-div").removeClass("hide")

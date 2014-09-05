@@ -32,59 +32,22 @@ class Question
   end
 
 
-  def self.create_choice_question(content, items, answer, answer_content, q_figures, a_figures, images_to_convert)
-    # convert by windows server
-    converted_images = []
-    images_to_convert = images_to_convert.map { |e| e.gsub("equation*", "").gsub("figure*", "") }
-    images_to_convert.each_slice(10).to_a.each do |sub_images_to_convert|
-      sub_converted_images = Question.get("/ConvertImage.aspx?filename=#{sub_images_to_convert.join(',')}&host=#{Rails.application.config.server_host}").split(',')
-      sub_converted_images.each_with_index do |filename, i|
-        if filename != sub_images_to_convert[i]
-          open("#{IMAGE_DIR}/#{filename}", 'wb') do |file|
-            file << open("#{DOWNLOAD_URL}/#{filename}").read
-          end
-          File.delete("#{IMAGE_DIR}/#{sub_images_to_convert[i]}")
-        end
-      end
-      converted_images += sub_converted_images
-    end
-
+  def self.create_choice_question(content, items, answer, answer_content, q_figures, a_figures)
     question = self.create(type: "choice",
       content: content,
       items: items,
       answer: answer,
       answer_content: answer_content || [],
       q_figures: q_figures,
-      a_figures: a_figures,
-      inline_images: converted_images)
+      a_figures: a_figures)
   end
 
-  def self.create_analysis_question(content, answer_content, q_figures, a_figures, images_to_convert)
-    Rails.logger.info "AAAAAAAAAAAAAAAAA"
-    Rails.logger.info content.inspect
-    Rails.logger.info "AAAAAAAAAAAAAAAAA"
-    # converted by windows server
-    converted_images = []
-    images_to_convert = images_to_convert.map { |e| e.gsub("equation*", "").gsub("figure*", "") }
-    images_to_convert.each_slice(10).to_a.each do |sub_images_to_convert|
-      sub_converted_images = Question.get("/ConvertImage.aspx?filename=#{sub_images_to_convert.join(',')}&host=#{Rails.application.config.server_host}").split(',')
-      sub_converted_images.each_with_index do |filename, i|
-        if filename != sub_images_to_convert[i]
-          open("#{IMAGE_DIR}/#{filename}", 'wb') do |file|
-            file << open("#{DOWNLOAD_URL}/#{filename}").read
-          end
-          File.delete("#{IMAGE_DIR}/#{sub_images_to_convert[i]}")
-        end
-      end
-      converted_images += sub_converted_images
-    end
-
+  def self.create_analysis_question(content, answer_content, q_figures, a_figures)
     question = self.create(type: "analysis",
       content: content,
       answer_content: answer_content || [],
       q_figures: q_figures,
-      a_figures: a_figures,
-      inline_images: converted_images)
+      a_figures: a_figures)
   end
 
   def update_content(question_content, question_answer)

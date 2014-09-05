@@ -73,6 +73,10 @@ GEM
       tilt
     hike (1.2.3)
     htmlentities (4.3.1)
+    httmultiparty (0.3.15)
+      httparty (>= 0.7.3)
+      mimemagic
+      multipart-post
     httparty (0.10.2)
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
@@ -96,6 +100,7 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.2)
     mime-types (1.25)
+    mimemagic (0.2.1)
     mongoid (3.0.23)
       activemodel (~> 3.1)
       moped (~> 1.2)
@@ -104,6 +109,7 @@ GEM
     moped (1.5.1)
     multi_json (1.8.0)
     multi_xml (0.5.5)
+    multipart-post (2.0.0)
     nokogiri (1.5.10)
     origin (1.1.0)
     orm_adapter (0.4.0)
@@ -210,6 +216,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise
   haml (~> 4.0.3)
+  httmultiparty
   httparty (~> 0.10.2)
   jquery-rails (~> 3.0.4)
   kaminari (~> 0.14.1)

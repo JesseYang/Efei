@@ -1,12 +1,12 @@
 # encoding: utf-8
-require 'httparty'
+require 'httmultiparty'
 require 'nkf'
 require 'string'
 class Document
   extend CarrierWave::Mount
   mount_uploader :document, DocumentUploader
 
-  include HTTParty
+  include HTTMultiParty
   base_uri Rails.application.config.word_host
   format  :json
 
@@ -23,20 +23,19 @@ class Document
   BMP = 7
 
   def parse(subject, homework = nil)
-    content = Document.get("/extract?filename=#{URI.encode(self.document.to_s.split('/')[-1])}")
+    # content = Document.get("/extract?filename=#{URI.encode(self.document.to_s.split('/')[-1])}")
+    content = Document.post("/ParseWord.aspx", :query => {
+      file: File.new("public/#{self.document.to_s}")
+    })
     questions = []
     cache = []
-    images = []
-    content["content"].each do |ele|
-      # ad added by aspose
-      next if ele.class == String && ele.start_with?("Evaluation Only")
+    content.each do |ele|
       # convert full width char to half width char
       ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z') if ele.class == String
       # question separation
       if ele.class == String && ele.blank?
-        questions << parse_one_question(subject, cache, images) if cache.length >= 1
+        questions << parse_one_question(subject, cache) if cache.length >= 1
         cache = []
-        images = []
         next
       end
       # parse para/table/image
@@ -46,28 +45,20 @@ class Document
           match = ele.strip.scan(/^例?[0-9]{0,2}\.?\s+(.*)$/)
           ele = match[0][0] if match[0].present?
         end
-        images += ele.convert_img_type
         cache << ele
       elsif ele.class == Hash || ele["type"] == "table"
-        ele["content"].each do |row|
-          row.each do |cell|
-            cell.each do |para|
-              images += para.convert_img_type
-            end
-          end
-        end
         cache << ele
       elsif ele.class == Hash || ele["type"] == "image"
       end
     end
-    questions << parse_one_question(subject, cache, images) if cache.length >= 1
+    questions << parse_one_question(subject, cache) if cache.length >= 1
     homework ||= Homework.create_by_name(self.name, subject)
     homework.questions = questions
     homework.save
     homework
   end
 
-  def parse_one_question(subject, cache, images)
+  def parse_one_question(subject, cache)
     # 1. separate answer and question if there is answer
     answer_index = cache.index do |e|
       e.class == String && e.strip.match(/^[解|答|案|析]{1,2}[\:|：|\.| ].+/)
@@ -82,7 +73,7 @@ class Document
 
     q_part.each do |e|
       next if e.blank?
-      if e.class == String && e.start_with?("$figure*")
+      if e.class == String && e.start_with?("$$fig_")
         q_part_figures << e
       else
         q_part_text << e
@@ -91,7 +82,7 @@ class Document
 
     a_part.each do |e|
       next if e.blank?
-      if e.class == String && e.start_with?("$figure*")
+      if e.class == String && e.start_with?("$$fig_")
         a_part_figures << e
       else
         a_part_text << e
@@ -141,9 +132,9 @@ class Document
     answer, answer_content = *parse_answer(a_part_text, q_type)
     # create the question object
     if q_type == "choice"
-      q = Question.create_choice_question(content, items, answer, answer_content, q_part_figures, a_part_figures, images)
+      q = Question.create_choice_question(content, items, answer, answer_content, q_part_figures, a_part_figures)
     else
-      q = Question.create_analysis_question(content, answer_content, q_part_figures, a_part_figures, images)
+      q = Question.create_analysis_question(content, answer_content, q_part_figures, a_part_figures)
     end
     q
   end
