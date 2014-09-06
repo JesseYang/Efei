@@ -45,7 +45,8 @@ class Teacher::HomeworksController < Teacher::ApplicationController
 
   def generate
     homework = Homework.find(params[:id])
-    redirect_to URI.encode "/#{homework.generate}"
+    download_url = "#{Rails.application.config.word_host}/#{homework.generate}"
+    redirect_to URI.encode download_url
   end
 
   def create
