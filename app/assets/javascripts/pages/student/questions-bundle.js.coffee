@@ -2,8 +2,15 @@
 #= require 'utility/refresh_navbar'
 $ ->
   $('#tags').tagsInput({
-    'autocomplete_url': "http://b-fox.cn/topics"
+    'autocomplete_url': "http://b-fox.cn/topics?subject=" + window.subject,
+    'defaultText': "",
+    'width': '100%',
+    'height': '20px'
   })
+  $("#tags_tag").attr("placeholder", "添加知识点")
+
+  $(".summary").height(1).val(window.summary).autogrow()
+
   window.qid_to_note = []
 
   $("#toggle_answer").click ->
@@ -20,24 +27,24 @@ $ ->
 
   $("#append_note").click ->
     qid = $(this).data("question-id")
+    parent_div = $(this).closest("div")
+    note_type = parent_div.find("#note_type-select").val()
+    topics = parent_div.find("#tags").val()
+    summary = parent_div.find(".summary").val()
     $this = $(this)
+    info = {note_type: note_type, topics: topics, summary}
     $.postJSON(
       "/student/questions/#{qid}/append_note",
-      { },
+      info,
       (retval) ->
         console.log retval
         if !retval.success && retval.reason == "require sign in"
-          window.qid_to_note.push(qid)
-          window.ele_to_disable = [$this, $("#current-question-div .note-link")]
-          window.text_to_set = "已加入错题本"
+          window.qid_to_note.push([qid, info])
           $('#sign').modal({
             show: 'false'
           });
         else
-          $("#app-notification").notification({content: "已加入错题本"})
-          for ele in [$this, $("#current-question-div .note-link")]
-            ele.attr("disabled", true)
-            ele.html("已加入错题本")
+          window.location.href = "/notes/#{retval.note_id}"
     )
     false
 
@@ -58,20 +65,14 @@ $ ->
     $('#sign').modal('hide')
     # get the question to handle
     if window.qid_to_note.length == 1
-      qid = window.qid_to_note.pop()
+      [qid, info] = window.qid_to_note.pop()
       action = "append_note"
-      content = "登录成功，已加入错题本"
     else
       return
     # append the question
     $.postJSON(
       "/student/questions/#{qid}/#{action}",
-      { },
+      info,
       (retval) ->
-        for ele in window.ele_to_disable
-          ele.attr("disabled", true)
-          ele.html(window.text_to_set)
-        $.refresh_navbar($("#" + type + "_user #user_email").val())
+        window.location.href = "/notes/#{retval.note_id}"
     )
-    # show the notification
-    $("#app-notification").notification({content: content})

@@ -67,9 +67,16 @@ class User
     (self.notes.map { |e| e.question_id.to_s }).include?(qid)
   end
 
-  def add_question_to_note(q_or_qid, comment, note_type, topic_id_ary)
+  def add_question_to_note(q_or_qid, summary, note_type, topics)
     qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
-    self.notes << Note.create_new(qid, comment, note_type, topic_id_ary) if !self.has_question_in_note?(qid)
+    note = self.notes.where(question_id: qid).first
+    if note.present?
+      return note.id.to_s
+    else
+      note = Note.create_new(qid, summary, note_type, topics)
+      self.notes << note
+      return note.id.to_s
+    end
   end
 
   def rm_question_from_note(q_or_qid)

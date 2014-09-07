@@ -15,13 +15,13 @@ class Note
   field :q_figures, type: Array, default: []
   field :a_figures, type: Array, default: []
 
-  field :comment, type: String
+  field :summary, type: String
   field :note_type, type: Integer
   belongs_to :user
   belongs_to :question
   has_and_belongs_to_many :topics
 
-  def self.create_new(qid, comment, note_type, topic_id_ary)
+  def self.create_new(qid, summary, note_type, topics)
     q = Question.find(qid)
     n = Note.create(subject: q.subject,
       question_type: q.type,
@@ -34,11 +34,12 @@ class Note
       inline_images: q.inline_images,
       q_figures: q.q_figures,
       a_figures: q.a_figures,
-      comment: comment,
+      summary: summary,
       note_type: note_type)
     q.notes << n
-    topic_id_ary.each do |e|
-      t = Topic,where(id: e).first
+    topics.split(',').each do |e|
+      next if e.blank?
+      t = Topic.find_or_create(e, q.homework.subject)
       t.notes << n if t.present?
     end
     n

@@ -9,11 +9,11 @@ class Student::QuestionsController < Student::ApplicationController
   end
 
   def append_note
-    current_user.add_question_to_note(params[:id], params[:comment], params[:note_type].to_i, params[:topic_id_ary] || [])
+    note_id = current_user.add_question_to_note(params[:id], params[:summary], params[:note_type].to_i, params[:topics])
     respond_to do |format|
       format.html
       format.json do
-        render json: { success: true }
+        render json: { success: true, note_id: note_id }
       end
     end
   end

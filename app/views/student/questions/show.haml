@@ -7,10 +7,13 @@
   = stylesheet_link_tag "jquery-ui.css", :media => "all"
   = stylesheet_link_tag "jquery-ui.structure.css", :media => "all"
   = stylesheet_link_tag "jquery-ui.theme.css", :media => "all"
+  :javascript
+    window.subject = "#{@question.homework.subject.to_s}"
+    window.summary = ""
 
 .container
   .lib-content
-    #current-question-div
+    #current-question-div.col-lg-9
       .question-div
         .question-content-div
           .question-content
@@ -31,15 +34,20 @@
               = render :partial => "partials/question_content", locals: { content: @question.answer_content }
           %a#toggle_answer{href: "javascript:void(0)", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 显示答案
         .clear-both
-    .page-operation-div
-      = select_tag "note_type", options_for_select(@note_type, params[:note_type] || 0), class: "form-control input-sm", id: "note_type-select"
-      %input.form-control#tags{type: "text", value: "foo,bar,baz"}/
+    .col-lg-3
+      .note-type-box
+        %span 错误类型：
+        = select_tag "note_type", options_for_select(@note_type, params[:note_type] || 0), class: "form-control input-md", id: "note_type-select"
+      .topic-box
+        %input.form-control#tags{type: "text", value: ""}/
+      .summary-box
+        %textarea.summary.form-control{placeholder: "错误总结"}
       - if @similar_questions_length > 0
         %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 练习同组题
       - if current_user && current_user.has_question_in_note?(@question)
         %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => @question.id.to_s}} 已加入错题本 
       -else
-        %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本
+        %a#append_note.btn.btn-primary.btn-md{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 保存错题
       .clear-both
     #similar-questions-div
 
