@@ -1,6 +1,9 @@
 #= require 'utility/ajax'
 #= require 'utility/refresh_navbar'
 $ ->
+  $('#tags').tagsInput({
+    'autocomplete_url': "http://b-fox.cn/topics"
+  })
   window.qid_to_note = []
 
   $("#toggle_answer").click ->

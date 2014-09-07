@@ -1,17 +1,15 @@
 - content_for :head do
   = javascript_include_tag "pages/student/questions-bundle"
+  = javascript_include_tag "jquery.tagsinput.js"
+  = javascript_include_tag "jquery-ui.js"
   = stylesheet_link_tag "pages/student/questions-bundle", :media => "all"
+  = stylesheet_link_tag "jquery.tagsinput.css", :media => "all"
+  = stylesheet_link_tag "jquery-ui.css", :media => "all"
+  = stylesheet_link_tag "jquery-ui.structure.css", :media => "all"
+  = stylesheet_link_tag "jquery-ui.theme.css", :media => "all"
 
 .container
   .lib-content
-    .page-operation-div
-      - if @similar_questions_length > 0
-        %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 练习同组题
-      - if current_user && current_user.has_question_in_note?(@question)
-        %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => @question.id.to_s}} 已加入错题本 
-      -else
-        %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本
-      .clear-both
     #current-question-div
       .question-div
         .question-content-div
@@ -33,6 +31,16 @@
               = render :partial => "partials/question_content", locals: { content: @question.answer_content }
           %a#toggle_answer{href: "javascript:void(0)", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 显示答案
         .clear-both
+    .page-operation-div
+      = select_tag "note_type", options_for_select(@note_type, params[:note_type] || 0), class: "form-control input-sm", id: "note_type-select"
+      %input.form-control#tags{type: "text", value: "foo,bar,baz"}/
+      - if @similar_questions_length > 0
+        %a#check_questions.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 练习同组题
+      - if current_user && current_user.has_question_in_note?(@question)
+        %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", disabled: true, data: {"question-id" => @question.id.to_s}} 已加入错题本 
+      -else
+        %a#append_note.btn.btn-primary.btn-lg{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 加入错题本
+      .clear-both
     #similar-questions-div
 
 

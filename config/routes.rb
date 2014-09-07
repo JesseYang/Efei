@@ -70,6 +70,8 @@ MathLib::Application.routes.draw do
 
   resources :qrcodes do
   end
+  resources :topics do
+  end
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

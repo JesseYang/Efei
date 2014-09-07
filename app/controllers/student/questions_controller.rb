@@ -1,9 +1,11 @@
+# encoding: utf-8
 class Student::QuestionsController < Student::ApplicationController
   before_filter :require_sign_in, only: [:append_note, :append_print]
 
   def show
     @question = Question.find(params[:id])
     @similar_questions_length = 0
+    @note_type = { "请选择" => 0, "不懂" => 1, "不会" => 2, "不对" => 3 }
   end
 
   def append_note
