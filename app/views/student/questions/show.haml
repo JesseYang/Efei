@@ -1,12 +1,6 @@
 - content_for :head do
   = javascript_include_tag "pages/student/questions-bundle"
-  = javascript_include_tag "jquery.tagsinput.js"
-  = javascript_include_tag "jquery-ui.js"
   = stylesheet_link_tag "pages/student/questions-bundle", :media => "all"
-  = stylesheet_link_tag "jquery.tagsinput.css", :media => "all"
-  = stylesheet_link_tag "jquery-ui.css", :media => "all"
-  = stylesheet_link_tag "jquery-ui.structure.css", :media => "all"
-  = stylesheet_link_tag "jquery-ui.theme.css", :media => "all"
   :javascript
     window.subject = "#{@question.homework.subject.to_s}"
     window.summary = ""

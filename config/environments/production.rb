@@ -63,17 +63,19 @@ MathLib::Application.configure do
   config.active_support.deprecation = :notify
 
   # host name
-  config.server_host = "http://localhost:9000"
+  config.server_host = "http://www.b-fox.cn"
 
   # word processing host name
-  config.word_host = "http://localhost:9292"
+  config.word_host = "http://117.121.25.169"
 
   # image convertion url
-  config.convert_image_url = "http://192.168.0.104/ConvertImage"
+  config.convert_image_url = "http://117.121.25.169"
 
   # converted image download url
-  config.image_download_url = "http://192.168.0.104/download"
+  config.image_download_url = "http://117.121.25.169/download"
 
   # directory to save image files
   config.image_dir = "public/uploads/documents/images/"
+
+  config.mailgun_api_key = "key-6o1gu03r0rslxbtbhczzt3912lrgdvk4"
 end

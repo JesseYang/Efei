@@ -1,5 +1,7 @@
 #= require 'utility/ajax'
 #= require 'utility/refresh_navbar'
+#= require jquery-ui.js
+#= require jquery.tagsinput.js
 $ ->
   $('#tags').tagsInput({
     'autocomplete_url': "http://b-fox.cn/topics?subject=" + window.subject,
