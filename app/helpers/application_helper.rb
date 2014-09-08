@@ -27,6 +27,10 @@ module ApplicationHelper
     end
   end
 
+  def note_type
+    { "请选择" => 0, "不懂" => 1, "不会" => 2, "不对" => 3 }
+  end
+
   def paginator_mini(paginator)
     render :partial => "application/paginator_mini",  :locals => {
       :paginator => paginator

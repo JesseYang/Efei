@@ -3,6 +3,10 @@ class Student::QuestionsController < Student::ApplicationController
   before_filter :require_sign_in, only: [:append_note, :append_print]
 
   def show
+    if current_user.present?
+      note = current_user.notes.where(question_id: params[:id]).first
+      redirect_to controller: "student/notes", action: :show, id: note.id.to_s and return if note.present?
+    end
     @question = Question.find(params[:id])
     @similar_questions_length = 0
     @note_type = { "请选择" => 0, "不懂" => 1, "不会" => 2, "不对" => 3 }
@@ -10,6 +14,7 @@ class Student::QuestionsController < Student::ApplicationController
 
   def append_note
     note_id = current_user.add_question_to_note(params[:id], params[:summary], params[:note_type].to_i, params[:topics])
+    flash[:notice] = "保存成功"
     respond_to do |format|
       format.html
       format.json do

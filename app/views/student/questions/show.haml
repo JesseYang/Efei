@@ -31,7 +31,7 @@
     .col-lg-3
       .note-type-box
         %span 错误类型：
-        = select_tag "note_type", options_for_select(@note_type, params[:note_type] || 0), class: "form-control input-md", id: "note_type-select"
+        = select_tag "note_type", options_for_select(note_type, params[:note_type] || 0), class: "form-control input-md", id: "note_type-select"
       .topic-box
         %input.form-control#tags{type: "text", value: ""}/
       .summary-box

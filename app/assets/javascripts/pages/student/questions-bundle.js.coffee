@@ -34,7 +34,7 @@ $ ->
     topics = parent_div.find("#tags").val()
     summary = parent_div.find(".summary").val()
     $this = $(this)
-    info = {note_type: note_type, topics: topics, summary}
+    info = {note_type: note_type, topics: topics, summary: summary}
     $.postJSON(
       "/student/questions/#{qid}/append_note",
       info,
@@ -46,7 +46,7 @@ $ ->
             show: 'false'
           });
         else
-          window.location.href = "/notes/#{retval.note_id}"
+          window.location.href = "/student/notes/#{retval.note_id}"
     )
     false
 
@@ -76,5 +76,5 @@ $ ->
       "/student/questions/#{qid}/#{action}",
       info,
       (retval) ->
-        window.location.href = "/notes/#{retval.note_id}"
+        window.location.href = "/student/notes/#{retval.note_id}"
     )

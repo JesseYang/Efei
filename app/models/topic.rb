@@ -3,6 +3,7 @@ class Topic
   include Mongoid::Document
   include Mongoid::Timestamps
   field :name, type: String
+  field :pinyin, type: String
   field :subject, type: Integer
   field :user_create, type: Boolean, default: true
 

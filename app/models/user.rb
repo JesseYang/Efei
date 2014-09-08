@@ -71,6 +71,7 @@ class User
     qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
     note = self.notes.where(question_id: qid).first
     if note.present?
+      note.update_note(summary, note_type, topics)
       return note.id.to_s
     else
       note = Note.create_new(qid, summary, note_type, topics)
