@@ -7,6 +7,7 @@ class Student::NotesController < Student::ApplicationController
     start_time = params[:period].present? ? Time.now.to_i - params[:period].to_i : 0
     @notes = current_user.list_notes(params[:note_type].to_i, params[:subject].to_i, start_time, params[:keyword])
     @note_id_str = @notes.map { |e| e.id.to_s } .join(',')
+    @subject = params[:subject].to_i
     @notes = auto_paginate @notes
   end
 

@@ -6,8 +6,9 @@
 $ ->
   console.log $('.tags').length
   $('.tags').each ->
+    subject = $(this).data("subject")
     $(this).tagsInput({
-      'autocomplete_url': "http://b-fox.cn/topics?subject=" + window.subject,
+      'autocomplete_url': "http://b-fox.cn/topics?subject=" + subject,
       'defaultText': "",
       'width': '100%',
       'height': '20px'
@@ -96,6 +97,7 @@ $ ->
         if $("#email-radio").is(":checked")
           $("#app-notification").notification({content: "已导出并发送至" + $("#email-input").val()})
         else
+          console.log retval.file_path
           window.open "/" + retval.file_path
           $('#download a').attr("href", "/" + retval.file_path)
           $('#download').modal('toggle')

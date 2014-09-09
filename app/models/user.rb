@@ -61,7 +61,7 @@ class User
   def list_notes(note_type, subject, created_at, keyword)
     notes = self.notes.where(:created_at.gt => Time.at(created_at))
     if keyword.present?
-      notes = notes.any_of({content: keyword}, {summary: keyword}) 
+      notes = notes.any_of({question_str: /#{keyword}/}, {topic_str: /#{keyword}/}, {summary: /#{keyword}/}) 
     end
     notes = notes.select { |e| e.question.homework.subject == subject } if subject != 0
     notes = notes.select { |e| e.note_type == note_type } if note_type != 0
@@ -137,22 +137,17 @@ class User
       end
       notes << note
     end
-    Rails.logger.info "AAAAAAAAAAAAAAAAAAAA"
-    Rails.logger.info notes.inspect
-    Rails.logger.info "AAAAAAAAAAAAAAAAAAAA"
     response = User.post("/ExportNote.aspx",
       :body => {notes: notes.to_json} )
     filepath = response.body
 
-    filename = filepath.split('\\')[-1]
-    open("public/#{filename}", 'wb') do |file|
-      file << open("#{Rails.application.config.word_host}#{filepath}").read
+    open(filepath, 'wb') do |file|
+      file << open("#{Rails.application.config.word_host}/#{URI.encode filepath}").read
     end
     if send_email
-      ExportNoteEmailWorker.perform_async(email, "public/" + filename)
-    else
-      render json: {success: true, file_path: filename} and return
+      ExportNoteEmailWorker.perform_async(email, URI.encode(filepath))
     end
+    URI.encode(filepath[filepath.index('/')+1..-1])
   end
 
   def self.batch_create_teacher(user, csv_str)

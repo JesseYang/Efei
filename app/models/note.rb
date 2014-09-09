@@ -15,6 +15,9 @@ class Note
   field :q_figures, type: Array, default: []
   field :a_figures, type: Array, default: []
 
+  field :question_str, type: String, default: ""
+  field :topic_str, type: String, default: ""
+
   field :summary, type: String
   field :note_type, type: Integer
   belongs_to :user
@@ -42,6 +45,8 @@ class Note
       t = Topic.find_or_create(e, q.homework.subject)
       t.notes << self if t.present?
     end
+    self.update_attributes({question_str: self.content.join + items.join,
+      topic_str: self.topics.map { |e| e.name } .join(',') })
   end
 
   def self.create_new(qid, summary, note_type, topics)
@@ -65,10 +70,8 @@ class Note
       t = Topic.find_or_create(e, q.homework.subject)
       t.notes << n if t.present?
     end
+    self.update_attributes({question_str: self.content.join + items.join,
+      topic_str: self.topics.map { |e| e.name } .join(',') })
     n
-  end
-
-  def topic_str
-    self.topics.map { |e| e.name } .join(',')
   end
 end

@@ -57,7 +57,7 @@
               %span 错误类型：
               = select_tag "note_type", options_for_select(note_type, n.note_type), class: "form-control input-md note_type-select"
             .topic-box
-              %input.form-control.tags{type: "text", value: ""}/
+              %input.form-control.tags{type: "text", value: "", data: {"subject" => n.question.homework.subject}}/
             .summary-box
               %textarea.summary.form-control{placeholder: "错误总结"}
             %a.update_note.btn.btn-primary.btn-md{href: "#", "aria-hidden" => "true", data: {"note-id" => n.id.to_s}} 更新
