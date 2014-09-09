@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'open-uri'
 class User
   include Mongoid::Document
   # Include default devise modules. Others available are:
@@ -57,6 +58,16 @@ class User
   base_uri Rails.application.config.word_host
   format  :json
 
+  def list_notes(note_type, subject, created_at, keyword)
+    notes = self.notes.where(:created_at.gt => Time.at(created_at))
+    if keyword.present?
+      notes = notes.any_of({content: keyword}, {summary: keyword}) 
+    end
+    notes = notes.select { |e| e.question.homework.subject == subject } if subject != 0
+    notes = notes.select { |e| e.note_type == note_type } if note_type != 0
+    notes
+  end
+
   def list_question_in_note(subject, created_at)
     questions = self.notes.where(:created_at.gt => Time.at(created_at)).map { |e| e.question }
     questions = questions.select { |e| e.subject == subject } if subject != 0
@@ -107,26 +118,42 @@ class User
     paper.save
   end
 
-  def export_note(has_answer, send_email, email)
-    questions = []
-    self.note.each do |note_q|
-      q = Question.find(note_q["id"])
-      questions << {
-        "type" => q.type,
-        "content" => q.content,
-        "items" => q.items,
-        "answer" => (has_answer ? q.answer : nil),
-        "answer_content" => (has_answer ? q.answer_content : nil)
+  def export_note(note_id_str, has_answer, has_note, send_email, email)
+    notes = []
+    note_id_str.split(',').each do |note_id|
+      n = Note.where(id: note_id).first
+      next if n.blank?
+      note = {
+        "type" => n.type,
+        "content" => n.content,
+        "items" => n.items,
+        "figures" => n.q_figures
       }
+      if has_answer.to_s == "true"
+        note.merge!({ "answer" => n.answer || -1, "answer_content" => n.answer_content })
+      end
+      if has_note.to_s == "true"
+        note.merge!({ "note_type" => n.note_type, "topics" => n.topics.map { |e| e.name }, "summary" => n.summary })
+      end
+      notes << note
     end
-    response = User.post("/export_note",
-      :body => { questions: questions, name: "错题本" }.to_json,
-      :headers => { 'Content-Type' => 'application/json' } )
-    filename = JSON.parse(response.body)["filename"]
-    ExportNoteEmailWorker.perform_async(email, "public/" + filename)
-    filename
-  end
+    Rails.logger.info "AAAAAAAAAAAAAAAAAAAA"
+    Rails.logger.info notes.inspect
+    Rails.logger.info "AAAAAAAAAAAAAAAAAAAA"
+    response = User.post("/ExportNote.aspx",
+      :body => {notes: notes.to_json} )
+    filepath = response.body
 
+    filename = filepath.split('\\')[-1]
+    open("public/#{filename}", 'wb') do |file|
+      file << open("#{Rails.application.config.word_host}#{filepath}").read
+    end
+    if send_email
+      ExportNoteEmailWorker.perform_async(email, "public/" + filename)
+    else
+      render json: {success: true, file_path: filename} and return
+    end
+  end
 
   def self.batch_create_teacher(user, csv_str)
     CSV.generate do |re_csv|

@@ -1,16 +1,63 @@
 #= require 'utility/ajax'
 #= require 'utility/refresh_navbar'
 #= require 'utility/tools'
+#= require jquery-ui.js
+#= require jquery.tagsinput.js
 $ ->
+  console.log $('.tags').length
+  $('.tags').each ->
+    $(this).tagsInput({
+      'autocomplete_url': "http://b-fox.cn/topics?subject=" + window.subject,
+      'defaultText': "",
+      'width': '100%',
+      'height': '20px'
+    })
+  $(".ui-autocomplete-input").attr("placeholder", "添加知识点")
+  $('.tags').each ->
+    topics = $(this).closest('.note-div').data("topics")
+    $(this).importTags(topics)
+  $('.summary').each ->
+    summary = $(this).closest('.note-div').data("summary")
+    $(this).height(1).val(summary).autogrow()
+
   $("#subject-select").change ->
     search()
   $("#period-select").change ->
     search()
+  $("#note_type-select").change ->
+    search()
+  $("#btn-search").click ->
+    search()
+  $("#input-search").keydown (e) ->
+    search() if e.which == 13
+
+
+  $(".update_note").click ->
+    nid = $(this).data("note-id")
+    parent_div = $(this).closest("div")
+    note_type = parent_div.find(".note_type-select").val()
+    topics = parent_div.find(".tags").val()
+    summary = parent_div.find(".summary").val()
+    $this = $(this)
+    info = {note_type: note_type, topics: topics, summary: summary}
+    $.putJSON(
+      "/student/notes/#{nid}",
+      info,
+      (retval) ->
+        console.log retval
+        if !retval.success && retval.reason == "require sign in"
+          window.location.href = "/users/sign_in"
+        else
+          $("#app-notification").notification({content: "更新成功"})
+    )
+    false
 
   search = ->
     subject = $("#subject-select").val()
     period = $("#period-select").val()
-    window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject + "&period=" + period
+    note_type = $("#note_type-select").val()
+    keyword = $("#input-search").val()
+    window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject + "&period=" + period + "&note_type=" + note_type + "&keyword=" + keyword
 
   $(".show-answer-btn").click ->
     if $(".question-answer").hasClass("hide")
@@ -36,8 +83,10 @@ $ ->
       '/student/notes/export',
       {
         has_answer: $("#answer-checkbox").is(":checked"),
+        has_note: $("#note-checkbox").is(":checked"),
         send_email: $("#email-radio").is(":checked"),
-        email: $("#email-input").val()
+        email: $("#email-input").val(),
+        note_id_str: window.note_id_str
       },
       (retval) ->
         $('#export').modal('toggle')
@@ -51,8 +100,6 @@ $ ->
           $('#download a').attr("href", "/" + retval.file_path)
           $('#download').modal('toggle')
     )
-
-
 
   $("#check_questions").click ->
     $.get(

@@ -42,6 +42,6 @@ $ ->
         if !retval.success && retval.reason == "require sign in"
           window.location.href = "/users/sign_in"
         else
-          window.location.href = "/student/notes/#{retval.note_id}"
+          window.location.href = "/student/notes/#{retval.note_id}?flash=更新成功"
     )
     false

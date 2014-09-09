@@ -1,4 +1,23 @@
+/*
+ *= require jquery.tagsinput
+ *= require jquery-ui
+ *= require jquery-ui.structure
+ *= require jquery-ui.theme
+*/
 @import 'utility';
+
+.record-div {
+  margin-bottom: 20px;
+}
+
+.ui-autocomplete-input {
+  width: 78px !important;
+}
+
+.note_type-select {
+  display: inline;
+  width: 50%;
+}
 
 .question-div {
   background: white;
@@ -11,6 +30,18 @@
     right: -5px;
     top: -5px;
   }
+}
+
+.note-type-box {
+  margin-bottom: 10px;
+}
+
+.topic-box {
+  margin-bottom: 10px;
+}
+
+.summary-box {
+  margin-bottom: 10px;
 }
 
 .answer-label {

@@ -9,7 +9,7 @@ class Note
   field :content, type: Array, default: []
   field :items, type: Array, default: []
   field :preview, type: Boolean, default: true
-  field :answer, type: Integer
+  field :answer, type: Integer, default: -1
   field :answer_content, type: Array, default: []
   field :inline_images, type: Array, default: []
   field :q_figures, type: Array, default: []
@@ -66,5 +66,9 @@ class Note
       t.notes << n if t.present?
     end
     n
+  end
+
+  def topic_str
+    self.topics.map { |e| e.name } .join(',')
   end
 end

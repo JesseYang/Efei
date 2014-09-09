@@ -1,46 +1,69 @@
 - content_for :head do
   = javascript_include_tag "pages/student/notes/index-bundle"
   = stylesheet_link_tag "pages/student/notes/index-bundle", :media => "all"
+  :javascript
+    window.note_id_str = "#{@note_id_str}"
 
 .container
   .lib-content
     #operation-div.col-lg-12.form-inline
       .col-lg-2
         %span 科目：
-        = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control", id: "subject-select"
-      .col-lg-3
+        = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control input-sm", id: "subject-select"
+      .col-lg-2
         %span 时间：
-        = select_tag "search_period", options_for_select(time_period, params[:period].to_i), class: "form-control", id: "period-select"
-      - if @questions.present?
-        .col-lg-7
-          .btn-group.right
-            = link_to "练习", { controller: "student/questions", action: "exercise", type: "button" }, :method => "get", :class => 'btn btn-primary' 
-            = link_to "答案", "javascript:void(0)", :method => "get", :class => 'btn btn-primary show-answer-btn'
-            = link_to "导出", "javascript:void(0)", :method => "get", :class => 'btn btn-primary', data: {toggle: "modal", target: "#export"}
-    - if @questions.blank?
+        = select_tag "search_period", options_for_select(time_period, params[:period].to_i), class: "form-control input-sm", id: "period-select"
+      .col-lg-2
+        %span 错误类型：
+        = select_tag "search_note_type", options_for_select(note_type_search, params[:note_type].to_i), class: "form-control input-sm", id: "note_type-select"
+      .col-lg-3
+        .input-group
+          %input#input-search.input-sm.form-control{type: "text", placeholder: "搜索", value: params[:keyword]}/
+          %span.input-group-btn
+            %button#btn-search.btn.btn-default.btn-sm{type: "button"} GO!
+      .col-lg-3
+        .pull-right
+          = paginator_mini @notes
+      .clear-both
+    - if @notes["data"].present?
+      = link_to "导出", "javascript:void(0)", :method => "get", :class => 'btn btn-primary', data: {toggle: "modal", target: "#export"}
+      .clear-both
+    - if @notes["data"].blank?
       %span 没有找到符合条件的错题
     - else
-      - @questions.each do |q|
-        - next if q.nil?
-        .question-div.col-lg-12
-          .question-content-div
-            .question-content
-              = render :partial => "partials/question_content", locals: { content: q.content }
-            - if q.type == "choice"
-              .question-items
-                - q.items.each_with_index do |item, index|
-                  %p
-                    %label= d2c(index) + ". "
-                    %span= item.render_question.html_safe
-            .question-answer.hide
-              - if q.type == "choice" && q.answer.present?
-                %strong.answer-label= "解答: #{d2c(q.answer)}"
-              - else
-                %strong.answer-label= "解答:"
-              .question-answer-content
-                = render :partial => "partials/question_content", locals: { content: q.answer_content }
-          = link_to student_note_path(q), method: "delete", class: "close-btn", confirm: "确定删除？" do
-            = image_tag "close_button.png", size: "20x20"
+      - @notes["data"].each do |n|
+        - next if n.nil?
+        .record-div
+          .question-div.col-lg-9
+            .question-content-div
+              .question-content
+                = render :partial => "partials/question_content", locals: { content: n.content }
+              - if n.type == "choice"
+                .question-items
+                  - n.items.each_with_index do |item, index|
+                    %p
+                      %label= d2c(index) + ". "
+                      %span= item.render_question.html_safe
+              .question-answer.hide
+                - if n.type == "choice" && n.answer.present?
+                  %strong.answer-label= "解答: #{d2c(n.answer)}"
+                - else
+                  %strong.answer-label= "解答:"
+                .question-answer-content
+                  = render :partial => "partials/question_content", locals: { content: n.answer_content }
+            .clear-both
+          .note-div.col-lg-3{data: {summary: n.summary, topics: n.topic_str}}
+            .note-type-box
+              %span 错误类型：
+              = select_tag "note_type", options_for_select(note_type, n.note_type), class: "form-control input-md note_type-select"
+            .topic-box
+              %input.form-control.tags{type: "text", value: ""}/
+            .summary-box
+              %textarea.summary.form-control{placeholder: "错误总结"}
+            %a.update_note.btn.btn-primary.btn-md{href: "#", "aria-hidden" => "true", data: {"note-id" => n.id.to_s}} 更新
+            = link_to student_note_path(n), method: "delete", class: "btn btn-danger btn-md", confirm: "确定删除？" do
+              = "删除"
+            .clear-both
           .clear-both
 
 #export.modal.fade
@@ -64,6 +87,9 @@
           %label
             %input#answer-checkbox{checked: false, type: "checkbox"}/
             包含答案
+          %label
+            %input#note-checkbox{checked: false, type: "checkbox"}/
+            包含笔记
       .modal-footer
         %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
         %a#export-btn.btn-primary.btn.btn-default{href: "#", "aria-hidden" => "true"} 导出
