@@ -1,2 +1,2 @@
 $ ->
-  $(".navbar-default").addClass("navbar-inverse")
+  $("input").placeholder()

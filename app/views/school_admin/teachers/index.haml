@@ -11,17 +11,18 @@
       %h4
         没有教师
     - else
-      .col-lg-12.search-bar
-        .col-lg-2
-          = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control input-sm", id: "subject-select"
-        .col-lg-4
-          .input-group
-            %input#input-search.input-sm.form-control{type: "text", placeholder: "教师姓名", value: params[:keyword]}/
-            %span.input-group-btn
-              %button#btn-search.btn.btn-default.btn-sm{type: "button"} 搜索
-        .col-lg-6
-          .pull-right
-            = paginator_mini @teachers
+      .container
+        .row.search-bar
+          .col-lg-2
+            = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control input-sm", id: "subject-select"
+          .col-lg-4
+            .input-group
+              %input#input-search.input-sm.form-control{type: "text", placeholder: "教师姓名", value: params[:keyword]}/
+              %span.input-group-btn
+                %button#btn-search.btn.btn-default.btn-sm{type: "button"} 搜索
+          .col-lg-6
+            .pull-right
+              = paginator_mini @teachers
       .table-responsive
         %table.table.table-striped
           %tr

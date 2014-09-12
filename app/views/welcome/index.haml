@@ -2,69 +2,31 @@
   = javascript_include_tag "pages/welcome-bundle"
   = stylesheet_link_tag "pages/welcome-bundle", :media => "all"
 
-#myCarousel.carousel.slide{"data-ride" => "carousel"}
-  %ol.carousel-indicators
-    %li{"data-slide-to" => "0", "data-target" => "#myCarousel"}
-    %li.active{"data-slide-to" => "1", "data-target" => "#myCarousel"}
-    %li{"data-slide-to" => "2", "data-target" => "#myCarousel"}
-  .carousel-inner
-    .item
-      %img{alt: "First slide", "data-src" => "", src: "/assets/carousel.png"}/
-      .container
-        .carousel-caption
-          %h1 Example headline.
-          %p
-            Note: some description
-          %p
-            %a.btn.btn-lg.btn-primary{href: "#", role: "button"} Sign up today
-    .item.active
-      %img{alt: "Second slide", "data-src" => "", src: "/assets/carousel.png"}/
-      .container
-        .carousel-caption
-          %h1 Another example headline.
-          %p 
-            some description
-          %p
-            %a.btn.btn-lg.btn-primary{href: "#", role: "button"} Learn more
-    .item
-      %img{alt: "Third slide", "data-src" => "", src: "/assets/carousel.png"}/
-      .container
-        .carousel-caption
-          %h1 One more for good measure.
-          %p some description
-          %p
-            %a.btn.btn-lg.btn-primary{href: "#", role: "button"} Browse gallery
-  %a.left.carousel-control{"data-slide" => "prev", href: "#myCarousel"}
-    %span.glyphicon.glyphicon-chevron-left
-  %a.right.carousel-control{"data-slide" => "next", href: "#myCarousel"}
-    %span.glyphicon.glyphicon-chevron-right
+.jumbotron
+  .container
+    %h1 Hello, world!
+    %p This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.
+    %p
+      %a.btn.btn-primary.btn-lg{:role => "button"} 更多 »
 
-.container.marketing
-  %hr.featurette-divider/
-  .row.featurette
-    .col-md-7
-      %h2.featurette-heading
-        First featurette heading.
-        %span.text-muted It'll blow your mind.
-      %p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-    .col-md-5
-      %img.featurette-image.img-responsive{alt: "500x500", "data-src" => "holder.js/500x500/auto", src: "/assets/carousel.png"}/
-  %hr.featurette-divider/
-  .row.featurette
-    .col-md-5
-      %img.featurette-image.img-responsive{alt: "500x500", "data-src" => "holder.js/500x500/auto", src: "/assets/carousel.png"}/
-    .col-md-7
-      %h2.featurette-heading
-        Oh yeah, it's that good.
-        %span.text-muted See for yourself.
-      %p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-  %hr.featurette-divider/
-  .row.featurette
-    .col-md-7
-      %h2.featurette-heading
-        And lastly, this one.
-        %span.text-muted Checkmate.
-      %p.lead Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-    .col-md-5
-      %img.featurette-image.img-responsive{alt: "500x500", "data-src" => "holder.js/500x500/auto", src: "/assets/carousel.png"}/
-  %hr.featurette-divider/
+.container
+  / Example row of columns
+  .row
+    .col-md-4
+      %h2 Heading
+      %p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+      %p
+        %a.btn.btn-default{:href => "#", :role => "button"} View details »
+    .col-md-4
+      %h2 Heading
+      %p Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+      %p
+        %a.btn.btn-default{:href => "#", :role => "button"} View details »
+    .col-md-4
+      %h2 Heading
+      %p Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+      %p
+        %a.btn.btn-default{:href => "#", :role => "button"} View details »
+  %hr/
+  %footer
+    %p © Company 2014

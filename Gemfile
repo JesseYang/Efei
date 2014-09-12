@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.14'
+gem 'respond-rails', '~> 1.0'
 
 gem 'mongoid', '~> 3.0.0'
 gem 'haml', '~> 4.0.3'

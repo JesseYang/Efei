@@ -2,11 +2,14 @@
 %html
   %head
     %title MathLib
+    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
+    %meta{"http-qeuiv" => "X-UA-Compatible", content: "IE=edge"}/
     = stylesheet_link_tag "application", :media => "all"
     = javascript_include_tag "application"
     = yield :app_head
+    = javascript_include_tag "respond.src"
+    = javascript_include_tag "html5shiv"
     = csrf_meta_tags
-    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
   %body
     #app-notification.jesse-notification
       - if @flash.present?
