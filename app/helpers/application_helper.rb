@@ -28,11 +28,11 @@ module ApplicationHelper
   end
 
   def note_type_search
-    { "全部" => 0, "不懂" => 1, "不会" => 2, "不对" => 3 }
+    { "全部类型" => 0, "不懂" => 1, "不会" => 2, "不对" => 3, "典型题" => 4 }
   end
 
   def note_type
-    { "请选择" => 0, "不懂" => 1, "不会" => 2, "不对" => 3 }
+    { "请选择" => 0, "不懂" => 1, "不会" => 2, "不对" => 3, "典型题" => 4 }
   end
 
   def paginator_mini(paginator)
@@ -68,7 +68,7 @@ module ApplicationHelper
 
   def time_period
     {
-      "全部" => Time.now.to_i,
+      "全部时间" => Time.now.to_i,
       "最近一天" => 1.days.to_i, 
       "最近三天" => 3.days.to_i,
       "最近一周" => 7.days.to_i,

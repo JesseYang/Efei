@@ -137,4 +137,8 @@ class Question
     end
     "/qr_code/#{self.id.to_s}.png"
   end
+
+  def item_len
+    item_max_len = items.map { |e| e.length } .max
+  end
 end

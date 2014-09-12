@@ -14,9 +14,7 @@
       - else
         %span= (flash.map { |name, msg| msg }).join(', ')
     #wrap
-      .navbar-wrapper
-        .navbar-container
-          = yield :app_nav
+      = yield :app_nav
       = yield :app_content
       #push
     #footer

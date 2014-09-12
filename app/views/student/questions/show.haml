@@ -6,7 +6,7 @@
     window.summary = ""
 
 .container
-  .lib-content
+  .lib-content.row
     #current-question-div.col-lg-9
       .question-div
         .question-content-div
@@ -43,7 +43,7 @@
       -else
         %a#append_note.btn.btn-primary.btn-md{href: "#", "aria-hidden" => "true", data: {"question-id" => @question.id.to_s}} 保存错题
       .clear-both
-    #similar-questions-div
+    .clear-both
 
 
 = render "partials/sign_modal"

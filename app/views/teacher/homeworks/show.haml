@@ -19,12 +19,6 @@
         %li.tooltips{title: "生成", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to generate_teacher_homework_path(@homework) do
             %em.glyphicon.glyphicon-cloud-download
-        %li.tooltips{title: "导出", data: {toggle: "tooltip", placement: "bottom"}}
-          = link_to export_teacher_homework_path(@homework) do
-            %em.glyphicon.glyphicon-save
-        %li.tooltips{title: "更换", data: {toggle: "tooltip", placement: "bottom"}}
-          = link_to "#", data: {toggle: "modal", target: "#replaceModal"} do
-            %em.glyphicon.glyphicon-transfer
         - if @homework.user == current_user
           %li.tooltips{title: "共享", data: {toggle: "tooltip", placement: "bottom"}}
             = link_to "#", data: {toggle: "modal", target: "#shareModal"} do
@@ -100,21 +94,6 @@
             %br
             = image_tag "", class: "hide qr-code"
         .clear-both
-
-#replaceModal.modal.fade
-  .modal-dialog
-    .modal-content
-      = form_tag(replace_teacher_homework_path(@homework), method: "post", multipart: true) do
-        .modal-header
-          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-          %h3 替换当前作业
-        .modal-body
-          .form-group
-            = label_tag :name, "选择文件"
-            = file_field_tag "file"
-        .modal-footer
-          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-          = submit_tag "创建", :class => 'btn-primary btn'
 
 #shareModal.modal.fade
   .modal-dialog

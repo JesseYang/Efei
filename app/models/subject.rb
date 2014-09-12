@@ -37,5 +37,5 @@ class Subject
     "其他" => 512
   }
 
-  CODE_WITH_ALL = CODE.merge({"全部" => 0})
+  CODE_WITH_ALL = CODE.merge({"全部科目" => 0})
 end

@@ -6,27 +6,26 @@
 
 .container
   .lib-content
-    #operation-div.col-lg-12.form-inline
-      .col-lg-2
-        %span 科目：
+    #operation-div.row.form-inline
+      .col-lg-2.col-xs-4
         = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control input-sm", id: "subject-select"
-      .col-lg-2
-        %span 时间：
+      .col-lg-2.col-xs-4
         = select_tag "search_period", options_for_select(time_period, params[:period].to_i), class: "form-control input-sm", id: "period-select"
-      .col-lg-2
-        %span 错误类型：
+      .col-lg-2.col-xs-4
         = select_tag "search_note_type", options_for_select(note_type_search, params[:note_type].to_i), class: "form-control input-sm", id: "note_type-select"
-      .col-lg-3
+      .col-lg-3.col-xs-6
         .input-group
           %input#input-search.input-sm.form-control{type: "text", placeholder: "搜索", value: params[:keyword]}/
           %span.input-group-btn
             %button#btn-search.btn.btn-default.btn-sm{type: "button"} GO!
-      .col-lg-3
+      .col-lg-2.col-xs-6.pull-right
         .pull-right
           = paginator_mini @notes
-      .clear-both
-    - if @notes["data"].present?
-      = link_to "导出", "javascript:void(0)", :method => "get", :class => 'btn btn-primary', data: {toggle: "modal", target: "#export"}
+    .row.search-stats
+      - if @notes["data"].present?
+        %span= "共查询到#{@notes["data"].length}道题目，"
+        = link_to "点击此处", "javascript:void(0)", :method => "get", data: {toggle: "modal", target: "#export"}
+        %span 导出
       .clear-both
     - if @notes["data"].blank?
       %span 没有找到符合条件的错题
@@ -39,11 +38,7 @@
               .question-content
                 = render :partial => "partials/question_content", locals: { content: n.content }
               - if n.type == "choice"
-                .question-items
-                  - n.items.each_with_index do |item, index|
-                    %p
-                      %label= d2c(index) + ". "
-                      %span= item.render_question.html_safe
+                = render :partial => "partials/question_items", locals: { q: n }
               .question-answer.hide
                 - if n.type == "choice" && n.answer.present?
                   %strong.answer-label= "解答: #{d2c(n.answer)}"

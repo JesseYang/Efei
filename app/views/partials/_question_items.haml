@@ -1,0 +1,22 @@
+.question-items
+  - q.items.each_with_index do |item, index|
+    - if q.item_len < 5
+      %p.col-xs-3
+        %label= d2c(index) + ". "
+        %span= item.render_question.html_safe
+    - elsif q.item_len < 15
+      %p.col-sm-3
+        %label= d2c(index) + ". "
+        %span= item.render_question.html_safe
+    - elsif q.item_len < 20
+      %p.col-md-3
+        %label= d2c(index) + ". "
+        %span= item.render_question.html_safe
+    - elsif q.item_len < 30
+      %p.col-lg-3
+        %label= d2c(index) + ". "
+        %span= item.render_question.html_safe
+    - else
+      %p.col-lg-12
+        %label= d2c(index) + ". "
+        %span= item.render_question.html_safe

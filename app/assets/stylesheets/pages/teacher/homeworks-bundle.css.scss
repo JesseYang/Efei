@@ -2,6 +2,7 @@
  *= require jquery.qtip
 */
 @import 'utility';
+@import 'question_variables';
 
 .question-content-div {
   font-size: 1.3em;
@@ -12,10 +13,13 @@
 }
 
 .content-div {
-  background: white;
+  background: $q-bg-color;
   @include border-radius(10px);
   margin-bottom: 20px;
   padding: 10px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: $q-bd-color;
 }
 
 .question-div {

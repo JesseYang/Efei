@@ -70,8 +70,12 @@ class Note
       t = Topic.find_or_create(e, q.homework.subject)
       t.notes << n if t.present?
     end
-    self.update_attributes({question_str: self.content.join + items.join,
-      topic_str: self.topics.map { |e| e.name } .join(',') })
+    n.update_attributes({question_str: n.content.join + n.items.join,
+      topic_str: n.topics.map { |e| e.name } .join(',') })
     n
+  end
+
+  def item_len
+    item_max_len = items.map { |e| e.length } .max
   end
 end

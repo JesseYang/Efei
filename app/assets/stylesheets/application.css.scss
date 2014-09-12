@@ -27,7 +27,7 @@
 }
 
 body {
-  background: #EDEDF2;
+  background: white;
 }
 
 .lib-content {
@@ -128,3 +128,16 @@ body {
   background-color: #f5f5f5;
 }
 
+
+/* Custom navbar ---------------------------------- */
+.navbar-primary .navbar { border-bottom:none; }
+.navbar-primary .navbar { border-radius:0px; }
+.navbar-primary .navbar .nav > li.dropdown.open.active > a:hover {}
+.navbar-primary .navbar .nav > li.dropdown.open.active > a:hover .caret, .tnav .navbar .nav > li.dropdown.open > a .caret {border-top-color: #fff;}
+.navbar-primary .navbar .nav.pull-right {margin-left: 10px; margin-right: 0;}
+.navbar-xs .navbar-primary .navbar { min-height:30px; height: 30px; }
+.navbar-xs .navbar-primary .navbar .navbar-brand{ padding: 0px 12px;font-size: 16px;line-height: 28px; }
+.navbar-xs .navbar-primary .navbar .navbar-nav > li > a {  padding-top: 0px; padding-bottom: 0px; line-height: 28px; }
+.navbar-sm .navbar-primary .navbar { min-height:40px; height: 40px; }
+.navbar-sm .navbar-primary .navbar .navbar-brand{ padding: 0px 12px;font-size: 16px;line-height: 40px; }
+.navbar-sm .navbar-primary .navbar .navbar-nav > li > a {  padding-top: 0px; padding-bottom: 0px; line-height: 40px; }
