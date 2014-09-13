@@ -4,6 +4,7 @@
 #= require bootstrap.min
 #= require sugar.min
 #= require utility/querilayer
+#= require utility/console
 #= require jquery.jesse.notification
 #= require jquery.placeholder
 
