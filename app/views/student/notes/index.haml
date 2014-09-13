@@ -7,18 +7,18 @@
 .container
   .lib-content
     #operation-div.row.form-inline
-      .col-lg-2.col-xs-4
+      .col-md-2.col-xs-4
         = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control input-sm", id: "subject-select"
-      .col-lg-2.col-xs-4
+      .col-md-2.col-xs-4
         = select_tag "search_period", options_for_select(time_period, params[:period].to_i), class: "form-control input-sm", id: "period-select"
-      .col-lg-2.col-xs-4
+      .col-md-2.col-xs-4
         = select_tag "search_note_type", options_for_select(note_type_search, params[:note_type].to_i), class: "form-control input-sm", id: "note_type-select"
-      .col-lg-3.col-xs-6
+      .col-md-3.col-xs-6
         .input-group
           %input#input-search.input-sm.form-control{type: "text", placeholder: "搜索", value: params[:keyword]}/
           %span.input-group-btn
             %button#btn-search.btn.btn-default.btn-sm{type: "button"} GO!
-      .col-lg-2.col-xs-6.pull-right
+      .col-md-2.col-xs-6.pull-right
         .pull-right
           = paginator_mini @notes
     .row.search-stats
@@ -33,7 +33,7 @@
       - @notes["data"].each do |n|
         - next if n.nil?
         .record-div
-          .question-div.col-lg-9
+          .question-div.col-md-9
             .question-content-div
               .question-content
                 = render :partial => "partials/question_content", locals: { content: n.content }
@@ -47,7 +47,7 @@
                 .question-answer-content
                   = render :partial => "partials/question_content", locals: { content: n.answer_content }
             .clear-both
-          .note-div.col-lg-3{data: {summary: n.summary, topics: n.topic_str}}
+          .note-div.col-md-3{data: {summary: n.summary, topics: n.topic_str}}
             .note-type-box
               %span 错误类型：
               = select_tag "note_type", options_for_select(note_type, n.note_type), class: "form-control input-md note_type-select"

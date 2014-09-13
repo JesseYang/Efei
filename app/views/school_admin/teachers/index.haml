@@ -13,23 +13,23 @@
     - else
       .container
         .row.search-bar
-          .col-lg-2
+          .col-md-2
             = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control input-sm", id: "subject-select"
-          .col-lg-4
+          .col-md-4
             .input-group
               %input#input-search.input-sm.form-control{type: "text", placeholder: "教师姓名", value: params[:keyword]}/
               %span.input-group-btn
                 %button#btn-search.btn.btn-default.btn-sm{type: "button"} 搜索
-          .col-lg-6
+          .col-md-6
             .pull-right
               = paginator_mini @teachers
       .table-responsive
         %table.table.table-striped
           %tr
-            %th.col-lg-3= table_sort_header "学科", "subject"
-            %th.col-lg-3= table_sort_header "姓名", "name"
-            %th.col-lg-3= table_sort_header "邮箱", "email"
-            %th.col-lg-3 操作
+            %th.col-md-3= table_sort_header "学科", "subject"
+            %th.col-md-3= table_sort_header "姓名", "name"
+            %th.col-md-3= table_sort_header "邮箱", "email"
+            %th.col-md-3 操作
           - @teachers["data"].each do |t|
             %tr
               %td= Subject::NAME[t.subject]

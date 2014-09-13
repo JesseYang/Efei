@@ -16,6 +16,7 @@
 
 /public/uploads
 /public/documents
+/public/downloads
 /public/temp_images
 /public/qr_code
 /public/assets

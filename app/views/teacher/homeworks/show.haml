@@ -107,9 +107,9 @@
           %table.table.table-striped
             - @colleagues.each do |c|
               %tr{data: {id: c.id}}
-                %td.col-lg-3= c.name
-                %td.col-lg-5= c.email
-                %td.col-lg-2
+                %td.col-md-3= c.name
+                %td.col-md-5= c.email
+                %td.col-md-2
                   %label
                     %input.share-one{type: "checkbox", checked: @visitor_ids.include?(c.id.to_s)}/
                     分享

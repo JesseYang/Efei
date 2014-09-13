@@ -7,8 +7,8 @@
     window.topics = "#{@note.topics.map { |e| e.name } .join(',')}"
 
 .container
-  .lib-content.col-lg-12
-    #current-question-div.col-lg-9
+  .lib-content.col-md-12
+    #current-question-div.col-md-9
       .question-div
         .question-content-div
           .question-content
@@ -29,7 +29,7 @@
               = render :partial => "partials/question_content", locals: { content: @note.answer_content }
           %a#toggle_answer{href: "javascript:void(0)", "aria-hidden" => "true", data: {"question-id" => @note.id.to_s}} 显示答案
         .clear-both
-    .col-lg-3
+    .col-md-3
       .note-type-box
         %span 错误类型：
         = select_tag "note_type", options_for_select(note_type, @note.note_type), class: "form-control input-md", id: "note_type-select"
