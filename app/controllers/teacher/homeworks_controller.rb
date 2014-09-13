@@ -2,6 +2,7 @@
 class Teacher::HomeworksController < Teacher::ApplicationController
   def index
     @privilege = { "拥有" => 1, "共享" => 2, "全部" => 3 }
+    @subject = params[:subject] || current_user.subject
     if params[:privilege].to_i == 1
       @homeworks = current_user.homeworks
     elsif params[:privilege].to_i == 2

@@ -19,10 +19,6 @@
         %li.tooltips{title: "生成", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to generate_teacher_homework_path(@homework) do
             %em.glyphicon.glyphicon-cloud-download
-        - if @homework.user == current_user
-          %li.tooltips{title: "共享", data: {toggle: "tooltip", placement: "bottom"}}
-            = link_to "#", data: {toggle: "modal", target: "#shareModal"} do
-              %em.glyphicon.glyphicon-share
         %li.tooltips{title: "删除", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to teacher_homework_path(@homework), method: "delete", confirm: "确定删除？" do
             %em.glyphicon.glyphicon-trash
