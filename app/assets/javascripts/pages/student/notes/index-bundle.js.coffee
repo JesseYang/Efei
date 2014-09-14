@@ -14,6 +14,7 @@ $ ->
       'height': '20px'
     })
   $(".ui-autocomplete-input").attr("placeholder", "添加知识点")
+  $("input").placeholder()
   $('.tags').each ->
     topics = $(this).closest('.note-div').data("topics")
     $(this).importTags(topics)

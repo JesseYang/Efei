@@ -1,0 +1,23 @@
+- content_for :head do
+  / = javascript_include_tag "pages/admin/prints-bundle"
+  / = stylesheet_link_tag "pages/admin/prints-bundle", :media => "all"
+
+%form.form-horizontal{:role => "form"}
+  .form-group
+    %label.col-sm-2.control-label{:for => "inputEmail3"} Email
+    .col-sm-10
+      %input#inputEmail3.form-control{:placeholder => "Email", :type => "email"}/
+  .form-group
+    %label.col-sm-2.control-label{:for => "inputPassword3"} Password
+    .col-sm-10
+      %input#inputPassword3.form-control{:placeholder => "Password", :type => "password"}/
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      .checkbox
+        %label
+          %input{:type => "checkbox"}/
+          Remember me
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      %button.btn.btn-default{:type => "submit"} Sign in
+

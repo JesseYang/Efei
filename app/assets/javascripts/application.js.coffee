@@ -10,3 +10,5 @@
 
 $ ->
   $("#app-notification").notification()
+  $("input").placeholder()
+  $("textarea").placeholder()

@@ -16,6 +16,9 @@ MathLib::Application.routes.draw do
       end
     end
 
+    resources :settings do
+    end
+
     resources :groups do
       member do
         post :update_select

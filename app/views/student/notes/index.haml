@@ -5,7 +5,7 @@
     window.note_id_str = "#{@note_id_str}"
 
 .container
-  .lib-content
+  .lib-content.col-xs-12
     #operation-div.row.form-inline
       .col-md-2.col-xs-4
         = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, params[:subject].to_i), class: "form-control input-sm", id: "subject-select"
@@ -13,12 +13,12 @@
         = select_tag "search_period", options_for_select(time_period, params[:period].to_i), class: "form-control input-sm", id: "period-select"
       .col-md-2.col-xs-4
         = select_tag "search_note_type", options_for_select(note_type_search, params[:note_type].to_i), class: "form-control input-sm", id: "note_type-select"
-      .col-md-3.col-xs-6
+      .col-md-3.col-xs-5
         .input-group
           %input#input-search.input-sm.form-control{type: "text", placeholder: "搜索", value: params[:keyword]}/
           %span.input-group-btn
             %button#btn-search.btn.btn-default.btn-sm{type: "button"} GO!
-      .col-md-2.col-xs-6.pull-right
+      .col-md-3.col-xs-7.pull-right
         .pull-right
           = paginator_mini @notes
     .row.search-stats

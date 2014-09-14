@@ -27,6 +27,8 @@
                 %li
                   %a{href: "/school_admin/teachers", data: {method: "get"}} 学校管理员
               %li
+                %a{href: "/teacher/settings/#{current_user.id.to_s}"} 个人设置
+              %li
                 %a{href: "/users/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
           - else
             %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
