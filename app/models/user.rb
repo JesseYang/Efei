@@ -58,6 +58,14 @@ class User
   base_uri Rails.application.config.word_host
   format  :json
 
+  def email_for_short
+    if self.email.length < 20
+      self.email
+    else
+      self.email[0..19] + "..."
+    end
+  end
+
   def list_notes(note_type, subject, created_at, keyword)
     notes = self.notes.where(:created_at.gt => Time.at(created_at))
     if keyword.present?

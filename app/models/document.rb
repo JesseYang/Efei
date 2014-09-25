@@ -31,7 +31,7 @@ class Document
     cache = []
     content.each do |ele|
       # convert full width char to half width char
-      ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z') if ele.class == String
+      # ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z') if ele.class == String
       # question separation
       if ele.class == String && ele.blank?
         questions << parse_one_question(subject, cache) if cache.length >= 1
@@ -94,8 +94,11 @@ class Document
     if q_part_text[-1].class == String && q_part_text[-1].scan(/A(.+)B(.+)C(.+)D(.*)/).present?
       # all items are in the last line
       q_type = "choice"
-      items = q_part_text[-1].scan(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.*)/)[0].map do |e|
-        e = e.slice(1..-1) if e.start_with?(".")
+      Rails.logger.info "BBBBBBBBBBBBBBBBBB"
+      Rails.logger.info q_part_text[-1].inspect
+      Rails.logger.info "BBBBBBBBBBBBBBBBBB"
+      items = q_part_text[-1].scan(/[(（]?A[)）]?\s*[\.．:：]?(.+)[^(（][(（]?B[)）]?\s*[\.．:：]?(.+)[^(（][(（]?C[)）]?\s*[\.．:：]?(.+)[^(（][(（]?D[)）]?\s*[\.．:：]?(.*)/)[0].map do |e|
+        e = e.slice(0..-2) if e.start_with?(".")
         e.strip
       end
       if q_part_text.length == 1
@@ -104,25 +107,25 @@ class Document
       else
         content = q_part_text[0..-2]
       end
-    elsif q_part_text[-2].class == String && q_part_text[-1].class == String && q_part_text[-2].scan(/A(.+)B(.+)/).present? && q_part_text[-1].scan(/C(.+)D(.+)/).present?
+    elsif q_part_text[-2].class == String && q_part_text[-1].class == String && q_part_text[-2].scan(/^\s*[(（]?A[)）]?(.+)B(.+)/).present? && q_part_text[-1].scan(/^\s*[(（]?C[)）]?(.+)D(.+)/).present?
       # four items are in two lines and two items each line
       q_type = "choice"
       items = []
-      q_part_text[-2].scan(/A\s*[\.．:：]?(.+)B\s*[\.．:：]?(.+)/)[0].each do |item|
+      q_part_text[-2].scan(/^\s*[(（]?A[)）]?\s*[\.．:：]?(.+)\s+[(（]?B[)）]?\s*[\.．:：]?(.+)/)[0].each do |item|
         items << item.strip
       end
-      q_part_text[-1].scan(/C\s*[\.．:：]?(.+)D\s*[\.．:：]?(.+)/)[0].each do |item|
+      q_part_text[-1].scan(/^\s*[(（]?C[)）]?\s*[\.．:：]?(.+)\s+[(（]?D[)）]?\s*[\.．:：]?(.+)/)[0].each do |item|
         items << item.strip
       end
       content = q_part_text[0..-3]
-    elsif q_part_text[-4].class == String && q_part_text[-3].class == String && q_part_text[-2].class == String && q_part_text[-1].class == String && q_part_text[-4].scan(/A(.+)/).present? && q_part_text[-3].scan(/B(.+)/).present? && q_part_text[-2].scan(/C(.+)/).present? && q_part_text[-1].scan(/D(.+)/).present?
+    elsif q_part_text[-4].class == String && q_part_text[-3].class == String && q_part_text[-2].class == String && q_part_text[-1].class == String && q_part_text[-4].scan(/^\s*[(（]?A[)）]?(.+)/).present? && q_part_text[-3].scan(/^\s*[(（]?B[)）]?(.+)/).present? && q_part_text[-2].scan(/^\s*[(（]?C[)）]?(.+)/).present? && q_part_text[-1].scan(/^\s*[(（]?D[)）]?(.+)/).present?
       # four items are in four lines
       q_type = "choice"
       items = []
-      items << q_part_text[-4].scan(/A\s*[\.．:：]?(.+)/)[0][0].strip
-      items << q_part_text[-3].scan(/B\s*[\.．:：]?(.+)/)[0][0].strip
-      items << q_part_text[-2].scan(/C\s*[\.．:：]?(.+)/)[0][0].strip
-      items << q_part_text[-1].scan(/D\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part_text[-4].scan(/^\s*[(（]?A[)）]?\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part_text[-3].scan(/^\s*[(（]?B[)）]?\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part_text[-2].scan(/^\s*[(（]?C[)）]?\s*[\.．:：]?(.+)/)[0][0].strip
+      items << q_part_text[-1].scan(/^\s*[(（]?D[)）]?\s*[\.．:：]?(.+)/)[0][0].strip
       content = q_part_text[0..-5]
     else
       q_type = "analysis"

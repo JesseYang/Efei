@@ -1,12 +1,12 @@
 # encoding: utf-8
-class Teacher::SettingsController < Teacher::ApplicationController
+class Student::SettingsController < Student::ApplicationController
 
   def show
     @type = params[:type].present? ? params[:type] : "update"
   end
 
   def update
-    current_user.update_attributes({name: params[:teacher]["name"], subject: params[:teacher]["subject"].to_i})
+    current_user.update_attributes({name: params[:student]["name"]})
     flash[:notice] = "更新成功"
     redirect_to action: :show, type: "update" and return
   end

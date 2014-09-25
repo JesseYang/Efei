@@ -36,6 +36,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   def destroy
     @homework = Homework.find(params[:id])
     @homework.destroy
+    flash[:notice] = "作业已删除"
     redirect_to action: :index
   end
 

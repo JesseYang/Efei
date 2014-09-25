@@ -40,7 +40,7 @@ class Homework
 
   def generate
     questions = []
-    self.questions.each do |q|
+    self.questions.asc(:created_at).each do |q|
       link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
       questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link, "figures" => q.q_figures}
     end

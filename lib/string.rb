@@ -14,15 +14,15 @@ class String
         image_type, filename, width, height = f.split(/\*|_/)
         result += "<img src='#{Rails.application.config.word_host}/public/download/#{filename}.png' width='#{width.to_f * CF}' height='#{height.to_f * CF}'></img>"
       elsif f.start_with?("sub_")
-        result += "<sub>#{f[4..-1]}</sub>"
+        result += "<sub>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</sub>"
       elsif f.start_with?("sup_")
-        result += "<sup>#{f[4..-1]}</sup>"
+        result += "<sup>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</sup>"
       elsif f.start_with?("und_")
-        result += "<u>#{f[4..-1]}</u>"
+        result += "<u>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</u>"
       elsif f.start_with?("ita_")
-        result += "<i>#{f[4..-1]}</i>"
+        result += "<i>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</i>"
       else
-        result += "<span>#{f}</span>"
+        result += "<span>#{f.gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</span>"
       end
     end
     result

@@ -1,4 +1,5 @@
 - content_for :app_head do
+  = stylesheet_link_tag "layouts/student-layout", :media => "all"
   = javascript_include_tag "layouts/student-layout"
   = yield :head
   :javascript
@@ -8,20 +9,22 @@
   .navbar-xs
     .navbar-primary
       #app-user-navbar.navbar.navbar-inverse{role: "navigation"}
-        .navbar-header
+        .navbar-header#my-navbar-header
           %a.navbar-brand{href: "/"} 易飞
         .container
-          %ul.nav.navbar-nav
+          %ul#my-left-navbar-nav.nav.navbar-nav
             %li.divider-vertical
             %li.notes
               %a{href: "/student/notes/"} 笔记本
-          %ul.nav.navbar-nav.navbar-right
+          %ul#my-right-navbar-nav.nav.navbar-nav.navbar-right
             %li.dropdown
               - if user_signed_in?
                 %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
-                  %span= current_user.email
+                  %span= current_user.email_for_short
                   %b.caret
-                %ul.dropdown-menu
+                %ul#my-dropdown-menu.dropdown-menu
+                  %li
+                    %a{href: "/student/settings/#{current_user.id.to_s}"} 个人设置
                   %li
                     %a{href: "/users/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
               - else
