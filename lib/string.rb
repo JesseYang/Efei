@@ -10,7 +10,7 @@ class String
   def render_question
     result = ""
     self.split('$$').each do |f|
-      if f.start_with?("equ_")
+      if f.start_with?("equ_") || f.start_with?("math_")
         image_type, filename, width, height = f.split(/\*|_/)
         result += "<img src='#{Rails.application.config.word_host}/public/download/#{filename}.png' width='#{width.to_f * CF}' height='#{height.to_f * CF}'></img>"
       elsif f.start_with?("sub_")
