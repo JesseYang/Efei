@@ -3,14 +3,14 @@
 #= require jquery-ui.js
 #= require jquery.tagsinput.js
 $ ->
-  $('#tags').tagsInput({
+  $('.tags').tagsInput({
     'autocomplete_url': "http://b-fox.cn/topics?subject=" + window.subject,
     'defaultText': "",
     'width': '100%',
     'height': '20px'
   })
-  $('#tags').importTags(window.topics);
-  $("#tags_tag").attr("placeholder", "添加知识点")
+  $('.tags').importTags(window.topics);
+  $(".ui-autocomplete-input").attr("placeholder", "添加知识点")
 
   $(".summary").height(1).val(window.summary).autogrow()
   $(".summary").attr('val', window.summary)
@@ -26,7 +26,7 @@ $ ->
       a_div.addClass("hide")
       $(this).text("显示答案")
 
-  $("#update_note").click ->
+  $(".update_note").click ->
     nid = $(this).data("note-id")
     parent_div = $(this).closest("div")
     note_type = parent_div.find("#note_type-select").val()

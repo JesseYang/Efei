@@ -24,6 +24,13 @@ class Teacher::QuestionsController < Teacher::ApplicationController
     end
   end
 
+  def destroy
+    question = Question.where(id: params[:id]).first
+    question.homework.delete_question_by_id(params[:id])
+    flash[:notice] = "删除题目成功"
+    redirect_to teacher_homework_path(question.homework)
+  end
+
   def ensure_qr_code
     q = Question.find(params[:id])
     respond_to do |format|
@@ -31,5 +38,49 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         render json: { qr_code: q.generate_qr_code }
       end
     end
+  end
+
+  def show
+    question = Question.where(id: params[:id]).first
+    download_url = "#{Rails.application.config.word_host}/#{question.generate}"
+    redirect_to URI.encode download_url
+  end
+
+  def replace
+    q = Question.where(id: params[:id]).first
+    h = q.homework
+    index =  h.q_ids.index(q.id.to_s)
+    if index != -1
+      document = Document.new
+      document.document = params[:file]
+      document.store_document!
+      document.name = params[:file].original_filename
+      new_q = document.parse_one_question(params[:subject].to_i)
+      h.q_ids[index] = new_q.id.to_s
+      h.questions << new_q
+      h.save
+      flash[:notice] = "替换题目成功"
+    end
+    redirect_to teacher_homework_path(h) and return
+  end
+
+  def insert
+    q = Question.where(id: params[:id]).first
+    h = q.homework
+    index =  h.q_ids.index(q.id.to_s)
+    if index != -1
+      document = Document.new
+      document.document = params[:file]
+      document.store_document!
+      document.name = params[:file].original_filename
+      new_qs = document.parse_multiple_questions(params[:subject].to_i)
+      new_qs.reverse.each do |new_q|
+        h.questions << new_q
+        h.q_ids.insert(index + 1, new_q.id.to_s)
+      end
+      h.save
+      flash[:notice] = "插入#{new_qs.length}道题目"
+    end
+    redirect_to teacher_homework_path(q.homework) and return
   end
 end

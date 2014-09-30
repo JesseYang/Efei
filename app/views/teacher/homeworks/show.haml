@@ -19,11 +19,11 @@
           = link_to "生成", generate_teacher_homework_path(@homework)
         %li.tooltips{title: "删除", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to "删除", teacher_homework_path(@homework), {method: "delete", confirm: "确定删除？"}
-  .lib-content
-    - @homework.questions.asc(:created_at).each do |q|
-      .content-div
+  .lib-content.container
+    - @homework.questions_in_order.each do |q|
+      .content-div.row
         .question-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
-          .question-content-div
+          .question-content-div.col-lg-9
             .question-content
               = render :partial => "partials/question_content", locals: { content: q.content }
             - if q.figures.present?
@@ -50,32 +50,45 @@
               %strong.answer-label.hide 解答
               .question-answer.hide
                 = render :partial => "partials/question_content", locals: { content: q.answer_content }
-          .question-operation-div.hide
-            %a{href: "#"}
-              %em.glyphicon.glyphicon-pencil
+          .question-operation-div.col-lg-3
+            .btn-group.right{data: { qid: q.id.to_s }}
+              = link_to "替换", "", :method => "get", :class => 'btn btn-default replace-btn', data: {toggle: "modal", target: "#replaceModal", qid: q.id.to_s}
+              = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {toggle: "modal", target: "#insertModal", qid: q.id.to_s}
+              = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s }, :method => "delete", :class => 'btn btn-danger'
         .clear-both
 
-#shareModal.modal.fade
+#replaceModal.modal.fade
   .modal-dialog
     .modal-content
-      .modal-header
-        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-        %h3 分享作业
-      .modal-body
-        .right
-          %label
-            %input.share-all{type: "checkbox", checked: (@colleague_ids - @visitor_ids).blank?}/
-            全选
-        .clear-both
-        .scroll
-          %table.table.table-striped
-            - @colleagues.each do |c|
-              %tr{data: {id: c.id}}
-                %td.col-md-3= c.name
-                %td.col-md-5= c.email
-                %td.col-md-2
-                  %label
-                    %input.share-one{type: "checkbox", checked: @visitor_ids.include?(c.id.to_s)}/
-                    分享
-      .modal-footer
-        %a.btn.btn-primary{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 完成
+      = form_tag("", method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 替换题目
+        .modal-body
+          %p
+            %span 1、请
+            = link_to "点击这里", "javascript:void(0)", :class => 'question-download-url', :method => "get"
+            %span 下载本题目
+          %p
+            %span 2、上传修改后的题目
+            = file_field_tag "file"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "完成", :class => 'btn-primary btn'
+
+#insertModal.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag("", method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 插入题目
+        .modal-body
+          %p
+            %span 新题目将出现在本题之后
+          %p
+            %span 上传要插入的题目
+            = file_field_tag "file"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "完成", :class => 'btn-primary btn'

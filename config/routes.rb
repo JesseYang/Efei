@@ -9,7 +9,6 @@ MathLib::Application.routes.draw do
       member do
         get :generate
         get :export
-        post :replace
         post :rename
         put :share
         put :share_all
@@ -31,6 +30,8 @@ MathLib::Application.routes.draw do
     resources :questions do
       member do
         get :ensure_qr_code
+        post :replace
+        post :insert
       end
     end
   end

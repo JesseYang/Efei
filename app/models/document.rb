@@ -22,7 +22,7 @@ class Document
   PNG = 6
   BMP = 7
 
-  def parse(subject, homework = nil)
+  def parse_homework(subject, homework = nil)
     # content = Document.get("/extract?filename=#{URI.encode(self.document.to_s.split('/')[-1])}")
     content = Document.post("/ParseWord.aspx", :query => {
       file: File.new("public/#{self.document.to_s}")
@@ -34,7 +34,7 @@ class Document
       # ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z') if ele.class == String
       # question separation
       if ele.class == String && ele.blank?
-        questions << parse_one_question(subject, cache) if cache.length >= 1
+        questions << extract_one_question(subject, cache) if cache.length >= 1
         cache = []
         next
       end
@@ -48,17 +48,48 @@ class Document
         cache << ele
       elsif ele.class == Hash || ele["type"] == "table"
         cache << ele
-      elsif ele.class == Hash || ele["type"] == "image"
       end
     end
-    questions << parse_one_question(subject, cache) if cache.length >= 1
+    questions << extract_one_question(subject, cache) if cache.length >= 1
     homework ||= Homework.create_by_name(self.name, subject)
-    homework.questions = questions
-    homework.save
+    homework.add_questions(questions)
     homework
   end
 
-  def parse_one_question(subject, cache)
+  def parse_one_question(subject)
+    content = Document.post("/ParseWord.aspx", :query => {
+      file: File.new("public/#{self.document.to_s}")
+    })
+
+    cache = []
+    content.each do |ele|
+      next if ele.class == String && ele.blank?
+      cache << ele
+    end
+    question = extract_one_question(subject, cache)
+    return question
+  end
+
+  def parse_multiple_questions(subject)
+    content = Document.post("/ParseWord.aspx", :query => {
+      file: File.new("public/#{self.document.to_s}")
+    })
+
+    questions = []
+    cache = []
+    content.each do |ele|
+      if ele.class == String && ele.blank?
+        questions << extract_one_question(subject, cache) if cache.length >= 1
+        cache = []
+        next
+      end
+      cache << ele
+    end
+    questions << extract_one_question(subject, cache) if cache.length >= 1
+    return questions
+  end
+
+  def extract_one_question(subject, cache)
     # 1. separate answer and question if there is answer
     answer_index = cache.index do |e|
       e.class == String && e.strip.match(/^[解|答|案|析]{1,2}[\:|：|\.| ].+/)
@@ -94,9 +125,6 @@ class Document
     if q_part_text[-1].class == String && q_part_text[-1].scan(/A(.+)B(.+)C(.+)D(.*)/).present?
       # all items are in the last line
       q_type = "choice"
-      Rails.logger.info "BBBBBBBBBBBBBBBBBB"
-      Rails.logger.info q_part_text[-1].inspect
-      Rails.logger.info "BBBBBBBBBBBBBBBBBB"
       items = q_part_text[-1].scan(/[(（]?A[)）]?\s*[\.．:：]?(.+)[^(（][(（]?B[)）]?\s*[\.．:：]?(.+)[^(（][(（]?C[)）]?\s*[\.．:：]?(.+)[^(（][(（]?D[)）]?\s*[\.．:：]?(.*)/)[0].map do |e|
         e = e.slice(0..-2) if e.start_with?(".")
         e.strip
@@ -132,7 +160,7 @@ class Document
       content = q_part_text
     end
     # 3. parse the answer
-    answer, answer_content = *parse_answer(a_part_text, q_type)
+    answer, answer_content = *extract_answer(a_part_text, q_type)
     # create the question object
     if q_type == "choice"
       q = Question.create_choice_question(content, items, answer, answer_content, q_part_figures, a_part_figures)
@@ -142,7 +170,7 @@ class Document
     q
   end
 
-  def parse_answer(a_part, q_type)
+  def extract_answer(a_part, q_type)
     if a_part.present?
       if q_type == "choice" && a_part[0].class == String
         answer = 0 if a_part[0].match(/^(解|答|案|析){1,2}[\:|：|\.| ]\s*A.?/)

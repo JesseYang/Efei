@@ -1,3 +1,5 @@
+# encoding: utf-8
+require 'httparty'
 require 'rqrcode_png'
 require 'open-uri'
 require 'RMagick'
@@ -16,6 +18,10 @@ class Question
   field :a_figures, type: Array, default: []
   belongs_to :homework
   has_many :notes
+
+  include HTTParty
+  base_uri Rails.application.config.word_host
+  format  :json
 
   IMAGE_TYPE = %w{jpeg png jpg bmp}
   IMAGE_DIR = Rails.application.config.image_dir
@@ -140,5 +146,14 @@ class Question
 
   def item_len
     item_max_len = items.map { |e| e.length } .max
+  end
+
+  def generate
+    questions = []
+    questions << {"type" => self.type, "content" => self.content, "items" => self.items, "figures" => self.q_figures}
+    data = {"questions" => questions, "name" => "题目" }
+    response = Homework.post("/Generate.aspx",
+      :body => {data: data.to_json} )
+    return response.body
   end
 end

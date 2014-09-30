@@ -1,0 +1,28 @@
+.record-div
+  .question-div.col-md-9
+    .question-content-div
+      .question-content
+        = render :partial => "partials/question_content", locals: { content: n.content }
+      - if n.type == "choice"
+        = render :partial => "partials/question_items", locals: { q: n }
+      .question-answer.hide
+        - if n.type == "choice" && n.answer.present?
+          %strong.answer-label= "解答: #{d2c(n.answer)}"
+        - else
+          %strong.answer-label= "解答:"
+        .question-answer-content
+          = render :partial => "partials/question_content", locals: { content: n.answer_content }
+    .clear-both
+  .note-div.col-md-3{data: {summary: n.summary, topics: n.topic_str}}
+    .note-type-box
+      %span 错误类型：
+      = select_tag "note_type", options_for_select(note_type, n.note_type), class: "form-control input-md note_type-select"
+    .topic-box
+      %input.form-control.tags{type: "text", value: "", data: {"subject" => n.question.homework.subject}}/
+    .summary-box
+      %textarea.summary.form-control{placeholder: "错误总结"}
+    %a.update_note.btn.btn-primary.btn-md{href: "#", "aria-hidden" => "true", data: {"note-id" => n.id.to_s}} 更新
+    = link_to student_note_path(n), method: "delete", class: "btn btn-danger btn-md", confirm: "确定删除？" do
+      = "删除"
+    .clear-both
+  .clear-both

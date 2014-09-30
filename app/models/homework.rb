@@ -5,6 +5,7 @@ class Homework
   include Mongoid::Timestamps
   field :name, type: String
   field :subject, type: Integer
+  field :q_ids, type: Array, default: []
   has_many :questions, dependent: :destroy
   belongs_to :user, class_name: "User", inverse_of: :homework
   has_and_belongs_to_many :visitors, class_name: "User", inverse_of: :shared_homeworks
@@ -19,29 +20,41 @@ class Homework
     Homework.create(name: name, subject: subject)
   end
 
-  def export
-    groups_data = []
-    self.groups.asc(:created_at).each do |g|
-      questions = []
-      g.questions.asc(:created_at).each do |q|
-        questions << {"type" => q.type,
-          "content" => q.content,
-          "items" => q.items,
-          "answer" => q.answer,
-          "answer_content" => q.answer_content}
-      end
-      groups_data << questions
+  def questions_in_order
+    self.q_ids.map { |e| Question.find(e) }
+  end
+
+  def add_questions(questions)
+    questions.each do |q|
+      self.q_ids << q.id.to_s
+      self.questions << q
     end
-    response = Homework.post("/export",
-      :body => { groups: groups_data, name: self.name }.to_json,
-      :headers => { 'Content-Type' => 'application/json' } )
-    return JSON.parse(response.body)["filename"]
+    self.save
+  end
+
+  def delete_question_by_index(index)
+    self.q_ids.delete_at(index)
+    self.save
+  end
+
+  def delete_question_by_id(qid)
+    self.q_ids.delete(qid)
+    self.save
+  end
+
+  def insert_question(index, q)
+    if index != -1
+      self.q_ids.insert(index.to_i, q.id.to_s)
+    else
+      self.q_ids = [q.id.to_s] + self.q_ids
+    end
+    self.questions << q if !self.questions.include?(q)
   end
 
   def generate
     questions = []
-    self.questions.asc(:created_at).each do |q|
-      link = "#{MongoidShortener.generate(Rails.application.config.server_host)}"
+    self.questions_in_order.each do |q|
+      link = MongoidShortener.generate(Rails.application.config.server_host + "/student/questions/#{q.id.to_s}")
       questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link, "figures" => q.q_figures}
     end
     data = {"questions" => questions, "name" => self.name }

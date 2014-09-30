@@ -5,103 +5,18 @@
  *= require jquery-ui.theme
 */
 @import 'utility';
-@import 'question_variables';
+@import 'partials/note';
 
+#operation-div {
+  margin-bottom: 10px;
+  .note_type-select {
+    display: inline;
+    width: 50%;
+  }
+}
 
 .search-stats {
   margin-bottom: 10px;
   padding-left: 20px;
   padding-right: 20px;
 }
-
-.record-div {
-  margin-bottom: 20px;
-  background: $q-bg-color;
-  border-style: solid;
-  border-width: 1px;
-  border-color: $q-bd-color;
-}
-
-.ui-autocomplete-input {
-  width: 78px !important;
-}
-
-.note_type-select {
-  display: inline;
-  width: 50%;
-}
-
-.question-div {
-  position: relative;
-  margin-bottom: 20px;
-  padding: 10px;
-  .close-btn {
-    position: absolute;
-    right: -5px;
-    top: -5px;
-  }
-}
-
-.note-div {
-  background: $n-bg-color;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  height: 100%;
-}
-
-.note-type-box {
-  margin-bottom: 10px;
-}
-
-.topic-box {
-  margin-bottom: 10px;
-}
-
-.summary-box {
-  margin-bottom: 10px;
-}
-
-.answer-label {
-  color: red;
-}
-
-.question-answer {
-  margin-left: 10px;
-}
-
-#operation-div {
-  margin-bottom: 10px;
-}
-
-.question-content-div {
-  float: left;
-  font-size: 1.0em;
-  .question-content p {
-    white-space: pre-wrap;
-  }
-  .question-items span {
-    white-space: pre;
-  }
-}
-
-.question-operation-div {
-  float: right;
-  width: 15%;
-  ul {
-    width: 100%;
-    li {
-      width: 50%;
-      float: left;
-      list-style-type: none;
-      a {
-        display: block;
-        text-align: center;
-      }
-      em {
-        line-height: 66px;
-        font-size: 2.0em;
-      }
-    }
-  }
-}
-
