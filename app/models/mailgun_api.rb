@@ -19,7 +19,7 @@ class MailgunApi
     data[:text] = text_template.result(binding)
 
     data[:attachment] = File.new(attachment)
-    data[:subject] = "错题本导出<易飞网>"
+    data[:subject] = "题目导出<易飞网>"
     # data[:subject] += " --- to #{user.email}" if Rails.env != "production" 
     # data[:to] = Rails.env == "production" ? email : @@test_email
     data[:to] = email

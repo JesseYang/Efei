@@ -32,7 +32,7 @@
     - else
       - @notes["data"].each do |n|
         - next if n.nil?
-        = render :partial => "partials/note", locals: { n: n }
+        = render :partial => "partials/note", locals: { n: n, type: "note" }
 
 #export.modal.fade
   .modal-dialog
@@ -52,9 +52,9 @@
             发送至邮箱
           %input#email-input.form-control{placeholder: "输入邮箱地址", type: "email", value: "#{current_user.email}"}/
         .form-group
-          %label
-            %input#answer-checkbox{checked: false, type: "checkbox"}/
-            包含答案
+          / %label
+          /  %input#answer-checkbox{checked: false, type: "checkbox"}/
+          /  包含答案
           %label
             %input#note-checkbox{checked: false, type: "checkbox"}/
             包含笔记

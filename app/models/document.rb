@@ -122,7 +122,7 @@ class Document
 
     # 2. judge the type of the question and parse the question
     q_part_text = q_part_text.select { |e| e.present? }
-    if q_part_text[-1].class == String && q_part_text[-1].scan(/A(.+)B(.+)C(.+)D(.*)/).present?
+    if q_part_text[-1].class == String && q_part_text[-1].scan(/A(.+)[(（\s]B(.+)[(（\s]C(.+)[(（\s]D(.*)/).present?
       # all items are in the last line
       q_type = "choice"
       items = q_part_text[-1].scan(/[(（]?A[)）]?\s*[\.．:：]?(.+)[^(（][(（]?B[)）]?\s*[\.．:：]?(.+)[^(（][(（]?C[)）]?\s*[\.．:：]?(.+)[^(（][(（]?D[)）]?\s*[\.．:：]?(.*)/)[0].map do |e|

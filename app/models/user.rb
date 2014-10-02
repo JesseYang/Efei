@@ -148,14 +148,15 @@ class User
     response = User.post("/ExportNote.aspx",
       :body => {notes: notes.to_json} )
     filepath = response.body
+    download_path = "public/documents/导出-#{SecureRandom.uuid}.docx"
 
-    open(filepath, 'wb') do |file|
+    open(download_path, 'wb') do |file|
       file << open("#{Rails.application.config.word_host}/#{URI.encode filepath}").read
     end
     if send_email
-      ExportNoteEmailWorker.perform_async(email, URI.encode(filepath))
+      ExportNoteEmailWorker.perform_async(email, download_path)
     end
-    URI.encode(filepath[filepath.index('/')+1..-1])
+    URI.encode(download_path[download_path.index('/')+1..-1])
   end
 
   def self.batch_create_teacher(user, csv_str)

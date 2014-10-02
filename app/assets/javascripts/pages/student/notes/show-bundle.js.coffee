@@ -17,20 +17,11 @@ $ ->
 
   window.qid_to_note = []
 
-  $("#toggle_answer").click ->
-    a_div = $(this).closest(".question-content-div").find(".question-answer")
-    if a_div.hasClass("hide")
-      a_div.removeClass("hide")
-      $(this).text("隐藏答案")
-    else
-      a_div.addClass("hide")
-      $(this).text("显示答案")
-
   $(".update_note").click ->
     nid = $(this).data("note-id")
     parent_div = $(this).closest("div")
-    note_type = parent_div.find("#note_type-select").val()
-    topics = parent_div.find("#tags").val()
+    note_type = parent_div.find(".note_type-select").val()
+    topics = parent_div.find(".tags").val()
     summary = parent_div.find(".summary").val()
     $this = $(this)
     info = {note_type: note_type, topics: topics, summary: summary}

@@ -13,16 +13,19 @@
         .question-answer-content
           = render :partial => "partials/question_content", locals: { content: n.answer_content }
     .clear-both
-  .note-div.col-md-3{data: {summary: n.summary, topics: n.topic_str}}
+  .note-div.col-md-3{data: {summary: type == "note" ? n.summary : "", topics: type == "note" ? n.topic_str : "" }}
     .note-type-box
       %span 错误类型：
-      = select_tag "note_type", options_for_select(note_type, n.note_type), class: "form-control input-md note_type-select"
+      = select_tag "note_type", options_for_select(note_type, type == "note" ? n.note_type : params[:note_type] || 0), class: "form-control input-md note_type-select"
     .topic-box
-      %input.form-control.tags{type: "text", value: "", data: {"subject" => n.question.homework.subject}}/
+      %input.form-control.tags{type: "text", value: "", data: {subject: type == "note" ? n.question.homework.subject : "" }}/
     .summary-box
       %textarea.summary.form-control{placeholder: "错误总结"}
-    %a.update_note.btn.btn-primary.btn-md{href: "#", "aria-hidden" => "true", data: {"note-id" => n.id.to_s}} 更新
-    = link_to student_note_path(n), method: "delete", class: "btn btn-danger btn-md", confirm: "确定删除？" do
-      = "删除"
+    - if type == "note"
+      %a.update_note.btn.btn-primary.btn-md{href: "#", "aria-hidden" => "true", data: {"note-id" => n.id.to_s}} 更新
+      = link_to student_note_path(n), method: "delete", class: "btn btn-danger btn-md", confirm: "确定删除？" do
+        = "删除"
+    - else
+      %a#append_note.btn.btn-primary.btn-md{href: "#", "aria-hidden" => "true", data: {"question-id" => n.id.to_s}} 保存错题
     .clear-both
   .clear-both
