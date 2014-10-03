@@ -3,6 +3,25 @@
 #= require jquery-ui.js
 #= require jquery.tagsinput.js
 $ ->
+
+  # ask for adding new teacher
+  if window.new_note == "true" && window.new_teacher == "true"
+    $("#add-teacher").modal('show')
+
+  $('#teacher-confirm-btn').click ->
+    teacher_id = $(this).data('teacher-id')
+    console.log teacher_id
+    $.postJSON(
+      '/student/teachers/',
+      {
+        id: teacher_id
+      },
+      (retval) ->
+        $('#add-teacher').modal('hide')
+        $("#app-notification").notification({content: "添加教师成功"})
+    )
+
+
   $('.tags').tagsInput({
     'autocomplete_url': "http://b-fox.cn/topics?subject=" + window.subject,
     'defaultText': "",

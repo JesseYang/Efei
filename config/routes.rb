@@ -42,6 +42,8 @@ MathLib::Application.routes.draw do
         put :update_password
       end
     end
+    resources :teachers do
+    end
     resources :notes do
       collection do
         get :export

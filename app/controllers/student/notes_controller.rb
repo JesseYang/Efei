@@ -13,6 +13,9 @@ class Student::NotesController < Student::ApplicationController
 
   def show
     @note = current_user.notes.find(params[:id])
+    @new_note = params["new_note"] == "true"
+    @teacher = @note.question.homework.user
+    @new_teacher = !current_user.has_teacher?(@teacher)
   end
 
   def update

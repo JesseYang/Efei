@@ -54,6 +54,7 @@
             .btn-group.right{data: { qid: q.id.to_s }}
               = link_to "替换", "", :method => "get", :class => 'btn btn-default replace-btn', data: {toggle: "modal", target: "#replaceModal", qid: q.id.to_s}
               = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {toggle: "modal", target: "#insertModal", qid: q.id.to_s}
+              = link_to "统计", "javascript:void(0)", :method => "get", :class => 'btn btn-default stat-btn', data: {toggle: "modal", target: "#statModal", qid: q.id.to_s}
               = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s }, :method => "delete", :class => 'btn btn-danger'
         .clear-both
 
@@ -92,3 +93,17 @@
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "完成", :class => 'btn-primary btn'
+
+#statModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 统计信息
+      .modal-body
+        %p
+          %span 新题目将出现在本题之后
+        %p
+          %span 上传要插入的题目
+      .modal-footer
+        %a.btn.btn-primary{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 确定

@@ -54,6 +54,9 @@ class User
   has_and_belongs_to_many :shared_homeworks, class_name: "Homework", inverse_of: :visitors
   belongs_to :school, class_name: "School", inverse_of: :teachers
 
+  has_many :classes, class_name: "Klass", inverse_of: :teacher
+  has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
+
   include HTTParty
   base_uri Rails.application.config.word_host
   format  :json
@@ -181,5 +184,46 @@ class User
   def colleagues
     return [] if !self.teacher
     return User.where(school_id: self.school_id, subject: self.subject).where(:id.ne => self.id).desc(:name)
+  end
+
+
+  def teacher_info(subject = false)
+    return "" if !self.teacher
+    subject ? "#{self.school.name} #{Subject::NAME[self.subject]} #{self.name}" : "#{self.school.name} #{self.name}"
+  end
+
+  def self.teacher_info(subject)
+    teachers = User.where(teacher: true, subject: subject)
+    retval = { "请选择" => "" }
+    teachers.each do |t|
+      retval[t.teacher_info] = t.id.to_s
+    end
+    retval
+  end
+
+  def add_to_default_class(student)
+    return if self.has_student?(student)
+    default_class = self.classes.where(default: true).first || self.classes.create(default: true, name: "默认班级")
+    default_class.students << student
+  end
+
+  def remove_student(student)
+    self.classes.each do |c|
+      c.students.delete(student)
+    end
+  end
+
+  def has_student?(student)
+    all_students_id = self.classes.map { |e| e.students.map { |stu| stu.id.to_s } } .flatten
+    all_students_id.include?(student.id.to_s)
+  end
+
+  def has_teacher?(teacher)
+    teacher.has_student?(self)
+  end
+
+  def teachers(subject)
+    teachers = self.klasses.map { |e| e.teacher } .uniq
+    teachers = teachers.select { |e| e.subject == subject }
   end
 end

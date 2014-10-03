@@ -67,5 +67,5 @@ $ ->
       "/student/questions/#{qid}/#{action}",
       info,
       (retval) ->
-        window.location.href = "/student/notes/#{retval.note_id}"
+        window.location.href = "/student/notes/#{retval.note_id}?new_note=true"
     )
