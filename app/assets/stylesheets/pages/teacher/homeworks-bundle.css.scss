@@ -22,10 +22,26 @@
   border-color: $q-bd-color;
 }
 
+.current-stat {
+  background: $q-stat-bg-color;
+}
+
 .question-div {
   table, th, td {
     border: 1px solid black;
   }
+}
+
+#note-summary textarea {
+  resize: none;
+  margin: 10px;
+  width: 100%;
+  height: 200px;
+  border: none;
+}
+
+.highcharts-container {
+  width: 100% !important;
 }
 
 
@@ -58,26 +74,4 @@
       margin-left: 18px;
     }
   }
-}
-
-.question-operation-div {
-  float: right;
-}
-
-.question-editor-confirm-div {
-  float: right;    
-}
-
-.question-editor-div {
-  width: 88%;
-  float: left;
-  textarea {
-    width: 90%;
-  }
-}
-
-.question-editor-div .input-group {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  width: 90%;
 }

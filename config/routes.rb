@@ -30,6 +30,7 @@ MathLib::Application.routes.draw do
     resources :questions do
       member do
         get :ensure_qr_code
+        get :stat
         post :replace
         post :insert
       end

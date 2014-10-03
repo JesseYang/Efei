@@ -83,4 +83,38 @@ class Teacher::QuestionsController < Teacher::ApplicationController
     end
     redirect_to teacher_homework_path(q.homework) and return
   end
+
+  def stat
+    q = Question.find(params[:id])
+    students = {}
+    note_type = [[], [], [], []]
+    note_topic = { }
+    summary = []
+    q.notes.each do |e|
+      stu = e.user
+      next if !current_user.has_student?(stu)
+      students[stu.id.to_s] = stu.name
+      note_type[e.note_type-1] << stu
+      e.topics.each do |t|
+        note_topic[t.name] ||= []
+        note_topic[t.name] << stu
+      end
+      summary << stu.name + ": " + e.summary
+    end
+    respond_to do |format|
+      format.html
+      format.json do
+        render json: {
+          students: students,
+          note_type: note_type.map { |students| students.map { |e| e.name } .join(',') },
+          note_type_data: note_type.map { |e| e.length },
+          note_type_ary: ["不懂", "不会", "不对", "典型题"],
+          note_topic: note_topic.values.map { |students| students.map { |e| e.name } .join(',') },
+          note_topic_data: note_topic.values.map { |e| e.length },
+          note_topic_ary: note_topic.keys,
+          summary: summary.join("\n")
+        }
+      end
+    end
+  end
 end

@@ -1,5 +1,6 @@
 #= require 'utility/ajax'
 #= require jquery.qtip
+#= require highcharts
 $(document).ready ->
 
   $(".tooltips").hover ->
@@ -69,7 +70,6 @@ $(document).ready ->
     window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject + "&privilege=" + privilege + "&keyword=" + keyword
 
   # about change question
-
   $(".replace-btn").click ->
     qid =  $(this).data("qid")
     console.log qid
@@ -78,9 +78,92 @@ $(document).ready ->
     $("#replaceModal").modal "show"
     false
 
+  # about insert question
   $(".insert-btn").click ->
     qid =  $(this).data("qid")
     console.log qid
     $('#insertModal form').attr('action', "/teacher/questions/" + qid + "/insert")
     $("#insertModal").modal "show"
     false
+
+  # about stat modal
+  $(".stat-btn").click ->
+    qid = $(this).data("qid")
+    $("#statModal").modal("show")
+    window.current_stat = $(this).closest(".content-div")
+    window.current_stat.addClass("current-stat")
+    $("#statModal #note-type-text p").text("")
+    $("#note-type-fig div").remove()
+    $("#statModal #note-topic-text p").text("")
+    $("#note-topic-fig div").remove()
+    $("#note-summary textarea").text("")
+    $.getJSON "/teacher/questions/" + qid + "/stat", (retval) ->
+      console.log retval
+      $("#note-type-fig").highcharts
+        chart:
+          type: "column"
+          height: 250
+        title:
+          text: null
+        xAxis:
+          categories: retval.note_type_ary
+        yAxis:
+          min: 0
+          title:
+            text: null
+        credits:
+          enabled: false
+        tooltip:
+          headerFormat: "<span style=\"font-size:10px\">{point.key}</span><table>"
+          pointFormat: "<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td>" + "<td style=\"padding:0\"><b>{point.y:0f}</b></td></tr>"
+          footerFormat: "</table>"
+          shared: true
+          useHTML: true
+        series: [
+          {
+            name: "选择人数"
+            data: retval.note_type_data
+          }
+        ]
+        plotOptions:
+          series:
+            point:
+              events:
+                click: ->
+                  $("#note-type-text p").text("选择\"" + retval.note_type_ary[@x] + "\"的同学：" + retval.note_type[@x])
+      $("#note-topic-fig").highcharts
+        chart:
+          type: "column"
+          height: 250
+        title:
+          text: null
+        xAxis:
+          categories: retval.note_topic_ary
+        yAxis:
+          min: 0
+          title:
+            text: null
+        credits:
+          enabled: false
+        tooltip:
+          headerFormat: "<span style=\"font-size:10px\">{point.key}</span><table>"
+          pointFormat: "<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td>" + "<td style=\"padding:0\"><b>{point.y:0f}</b></td></tr>"
+          footerFormat: "</table>"
+          shared: true
+          useHTML: true
+        series: [
+          {
+            name: "选择人数"
+            data: retval.note_topic_data
+          }
+        ]
+        plotOptions:
+          series:
+            point:
+              events:
+                click: ->
+                  $("#note-topic-text p").text("选择\"" + retval.note_topic_ary[@x] + "\"的同学：" + retval.note_topic[@x])
+      $("#note-summary textarea").text(retval.summary)
+
+  $("#statModal").on "hide.bs.modal", ->
+    window.current_stat.removeClass("current-stat")

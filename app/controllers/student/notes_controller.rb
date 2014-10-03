@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Student::NotesController < Student::ApplicationController
-  before_filter :require_sign_in
+  before_filter :require_student
 
   def index
     params[:per_page] = 5
