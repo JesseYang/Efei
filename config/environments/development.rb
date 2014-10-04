@@ -29,7 +29,7 @@ MathLib::Application.configure do
   config.assets.debug = true
 
   # host name
-  config.server_host = "http://www.b-fox.cn"
+  config.server_host = "http://dev.b-fox.cn"
 
   # word processing host name
   config.word_host = "http://117.121.25.169"
