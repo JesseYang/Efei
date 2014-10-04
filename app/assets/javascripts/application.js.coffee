@@ -7,6 +7,8 @@
 #= require utility/console
 #= require jquery.jesse.notification
 #= require jquery.placeholder
+#= require respond
+#= require html5shiv
 
 $ ->
   $("#app-notification").notification()
