@@ -23,6 +23,8 @@
     #footer
       .container
         %p.muted.credit
+          - if Rails.env != "production"
+            %span= Rails.env
           = link_to "ChangeLog", { controller: "/teacher/homeworks", action: "index" }, :method => "get"
           %span= "|"
           = link_to "Feedback", { controller: "/teacher/homeworks", action: "index" }, :method => "get"
