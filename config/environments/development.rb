@@ -14,7 +14,7 @@ MathLib::Application.configure do
   config.action_controller.perform_caching = false
 
   # Don't care if the mailer can't send
-  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -44,4 +44,19 @@ MathLib::Application.configure do
   config.image_dir = "public/uploads/documents/images/"
 
   config.mailgun_api_key = "key-6o1gu03r0rslxbtbhczzt3912lrgdvk4"
+
+  # mailer settings
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_url_options = { :host => "b-fox.cn" }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :authentication => "plain",
+    :address        => "smtp.mailgun.com",
+    :port           => 25,
+    :domain         => "b-fox.cn",
+    :user_name      => "postmaster@b-fox.cn",
+    :password       => "60tvvdxripw0",
+    :enable_starttls_auto => true,
+    :openssl_verify_mode  => 'none'
+  }
 end

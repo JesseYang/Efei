@@ -11,8 +11,11 @@
             = f.label :password, "密码"
             = f.password_field :password, class: "form-control"
           - if devise_mapping.rememberable?
-            .checkbox
+            .checkbox.left
               = f.label :remember_me do
                 = f.check_box :remember_me
                 保持登录状态
+              - if devise_mapping.recoverable?
+                .forget-password.right
+                  = link_to "忘记密码？", new_password_path(resource_name)
           = f.submit "登录", class: "btn btn-default"
