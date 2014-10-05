@@ -151,7 +151,7 @@ class Question
   def generate
     questions = []
     questions << {"type" => self.type, "content" => self.content, "items" => self.items, "figures" => self.q_figures}
-    data = {"questions" => questions, "name" => "题目" }
+    data = {"questions" => questions, "name" => "题目", "qrcode_host" => Rails.application.config.server_host}
     response = Homework.post("/Generate.aspx",
       :body => {data: data.to_json} )
     return response.body
