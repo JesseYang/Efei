@@ -8,7 +8,7 @@ $ ->
   $('.tags').each ->
     subject = $(this).data("subject")
     $(this).tagsInput({
-      'autocomplete_url': "http://b-fox.cn/topics?subject=" + subject,
+      'autocomplete_url': "/topics?subject=" + subject,
       'defaultText': "",
       'width': '100%',
       'height': '20px'
