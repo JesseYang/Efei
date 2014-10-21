@@ -23,7 +23,7 @@ class Student::NotesController < Student::ApplicationController
     if current_user.note_ids.map { |e| e.to_s } .include?(params[:id])
       @note.update_note(params[:summary], params[:note_type], params[:topics])
     else
-      @note = Note.create_new(@note.question_id.to_s, params[:summary], params[:note_type], params[:topics])
+      @note = Note.create_new(@note.question_id.to_s, params[:summary].to_s, params[:note_type], params[:topics].to_s)
       current_user.notes << @note
     end
     respond_to do |format|

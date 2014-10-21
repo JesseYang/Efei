@@ -52,8 +52,10 @@
                 = render :partial => "partials/question_content", locals: { content: q.answer_content }
           .question-operation-div.col-lg-3
             .btn-group.right{data: { qid: q.id.to_s }}
-              = link_to "替换", "", :method => "get", :class => 'btn btn-default replace-btn', data: {toggle: "modal", target: "#replaceModal", qid: q.id.to_s}
-              = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {toggle: "modal", target: "#insertModal", qid: q.id.to_s}
+              / = link_to "替换", "", :method => "get", :class => 'btn btn-default replace-btn', data: {toggle: "modal", target: "#replaceModal", qid: q.id.to_s}
+              = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default replace-btn', data: {qid: q.id.to_s}
+              / = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {toggle: "modal", target: "#insertModal", qid: q.id.to_s}
+              = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {qid: q.id.to_s}
               = link_to "统计", "javascript:void(0)", :method => "get", :class => 'btn btn-default stat-btn', data: {qid: q.id.to_s}
               = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s }, :method => "delete", :class => 'btn btn-danger'
         .clear-both
@@ -105,8 +107,8 @@
           %ul#myTab.nav.nav-tabs{:role => "tablist"}
             %li.active
               %a{"data-toggle" => "tab", :href => "#note-type", :role => "tab"} 类型分布
-            %li
-              %a{"data-toggle" => "tab", :href => "#note-topic", :role => "tab"} 知识点分布
+            / %li
+            /   %a{"data-toggle" => "tab", :href => "#note-topic", :role => "tab"} 知识点分布
             %li
               %a{"data-toggle" => "tab", :href => "#note-summary", :role => "tab"} 总结
           .tab-content
@@ -114,10 +116,10 @@
               #note-type-fig
               #note-type-text
                 %p
-            #note-topic.tab-pane.fade
-              #note-topic-fig
-              #note-topic-text
-                %p
+            / #note-topic.tab-pane.fade
+            /   #note-topic-fig
+            /   #note-topic-text
+            /     %p
             #note-summary.tab-pane.fade
               %textarea{readonly: true}
       .modal-footer
