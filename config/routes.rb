@@ -3,7 +3,15 @@ MathLib::Application.routes.draw do
 
   get "welcome/index"
 
-  devise_for :users, :controllers => {registrations: "registrations", sessions: "sessions"}
+  namespace :account do
+    resources :registrations
+    resources :sessions do
+      collection do
+        delete :sign_out
+      end
+    end
+  end
+
   namespace :teacher do
     resources :homeworks do
       member do

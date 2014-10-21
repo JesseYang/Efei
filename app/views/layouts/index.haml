@@ -12,12 +12,12 @@
           %span.icon-bar
         %a.navbar-brand{href: "#"} 易飞
       .navbar-collapse.collapse
-        = form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "navbar-form navbar-right"}) do |f|
+        = form_tag(account_sessions_path, method: "post", multipart: true, :class => "navbar-form navbar-right") do |f|
           .form-group
-            = f.email_field :email, :autofocus => true, class: "form-control", placeholder: "邮箱", size: 20
+            = text_field_tag :email_mobile, "", :autofocus => true, class: "form-control", placeholder: "邮箱", size: 20
           .form-group
-            = f.password_field :password, class: "form-control", placeholder: "密码", size: 20
-          = f.submit "登录", class: "btn btn-success"
+            = password_field_tag :password, "", class: "form-control", placeholder: "密码", size: 20
+          = submit_tag "登录", class: "btn btn-success"
 - content_for :app_content do
   = yield
 

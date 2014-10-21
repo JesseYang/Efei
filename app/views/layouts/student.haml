@@ -26,14 +26,14 @@
                   %li
                     %a{href: "/student/settings/#{current_user.id.to_s}"} 个人设置
                   %li
-                    %a{href: "/users/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
+                    %a{href: "/account/sessions/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
               - else
                 %ul#stu-dropdown-ul.nav.navbar-nav
                   %li#stu-dropdown-signin
-                    %a{href: "/users/sign_in"} 登录
+                    = link_to "登录", new_account_session_path
                   %li.divider-vertical.hidden-xs
                   %li#stu-dropdown-signup
-                    %a{href: "/users/sign_up"} 注册
+                    = link_to "注册", new_account_registration_path
 - content_for :app_content do
   = yield
 
