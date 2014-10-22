@@ -5,7 +5,7 @@ class Account::SessionsController < ApplicationController
     respond_to do |format|
       format.html do
         if retval[:success]
-          redirect_to root_path and return
+          redirect_to redirect_to_root and return
         else
           redirect_to new_account_session_path and return
         end
@@ -18,6 +18,6 @@ class Account::SessionsController < ApplicationController
 
   def sign_out
     refresh_session(nil)
-    redirect_to root_path
+    redirect_to redirect_to_root and return
   end
 end

@@ -50,6 +50,15 @@ class User
     return { success: true, auth_key: Encryption.encrypt_auth_key(u.id.to_s) }
   end
 
+  def self.reset_password(key, password)
+    password_info = Encryption.decrypt_activate_key(CGI::unescape(key))
+    email = password_info.split(',')[0]
+    u = User.where(email: email).first
+    u.password = Encryption.encrypt_password(password)
+    u.save
+    return { success: true, auth_key: Encryption.encrypt_auth_key(u.id.to_s) }
+  end
+
   def email_for_short
     if self.email.length < 20
       self.email

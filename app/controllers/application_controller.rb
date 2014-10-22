@@ -90,22 +90,24 @@ class ApplicationController < ActionController::Base
     redirect_to new_user_session_path if current_user.try(:school_admin) != true
   end
 
-  def after_sign_in_path_for(resource)
-    if current_user.try(:school_admin)
-      session[:previous_url] || school_admin_teachers_path
-    elsif current_user.try(:teacher)
-      session[:previous_url] || teacher_homeworks_path
-    else
-      session[:previous_url] || student_notes_path
-    end
-  end
-
   def user_sign_in?
     current_user.present?
   end
 
   def user_teacher?
     current_user.try(:teacher)
+  end
+
+  def redirect_to_root
+    if current_user.blank?
+      root_path
+    elsif current_user.try(:school_admin)
+      school_admin_teachers_path
+    elsif current_user.try(:teacher)
+      teacher_homeworks_path
+    else
+      student_notes_path
+    end
   end
 
   def render_404

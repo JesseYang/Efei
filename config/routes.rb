@@ -10,6 +10,12 @@ MathLib::Application.routes.draw do
         delete :sign_out
       end
     end
+    resources :passwords do
+      collection do
+        get :edit
+        put :update
+      end
+    end
   end
 
   namespace :teacher do
