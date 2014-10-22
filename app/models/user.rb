@@ -1,46 +1,15 @@
 # encoding: utf-8
 require 'open-uri'
+require 'err_code'
 class User
   include Mongoid::Document
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  include Mongoid::Timestamps
 
-  ## Database authenticatable
-  field :email,              :type => String, :default => ""
-  field :encrypted_password, :type => String, :default => ""
-  
-  ## Recoverable
-  field :reset_password_token,   :type => String
-  field :reset_password_sent_at, :type => Time
+  field :email, type: String, default: ""
+  field :mobile, type: String, default: ""
+  field :password, type: String, default: ""
 
-  ## Rememberable
-  field :remember_created_at, :type => Time
 
-  ## Trackable
-  field :sign_in_count,      :type => Integer, :default => 0
-  field :current_sign_in_at, :type => Time
-  field :last_sign_in_at,    :type => Time
-  field :current_sign_in_ip, :type => String
-  field :last_sign_in_ip,    :type => String
-
-  ## Confirmable
-  # field :confirmation_token,   :type => String
-  # field :confirmed_at,         :type => Time
-  # field :confirmation_sent_at, :type => Time
-  # field :unconfirmed_email,    :type => String # Only if using reconfirmable
-
-  ## Lockable
-  # field :failed_attempts, :type => Integer, :default => 0 # Only if lock strategy is :failed_attempts
-  # field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
-  # field :locked_at,       :type => Time
-
-  ## Token authenticatable
-  # field :authentication_token, :type => String
-
-  # 1 for normal, 2 for deleted
   field :admin, :type => Boolean, :default => false
   field :name, :type => String, :default => ""
   field :school_admin, :type => Boolean, :default => false
@@ -60,6 +29,35 @@ class User
   include HTTParty
   base_uri Rails.application.config.word_host
   format  :json
+
+
+  def self.find_by_auth_key(auth_key)
+    user_id = Encryption.decrypt_auth_key(auth_key)
+    User.where(id: user_id).first
+  end
+
+  def self.create_new_user(email_mobile, password)
+    u = User.where(email: email_mobile).first || User.where(mobile: email_mobile).first
+    return ErrCode.ret_false(ErrCode::USER_EXIST) if u.present?
+    u = User.create(email: email_mobile, password: Encryption.encrypt_password(password))
+    return { success: true, auth_key: Encryption.encrypt_auth_key(u.id.to_s) }
+  end
+
+  def self.login(email_mobile, password)
+    u = User.where(email: email_mobile).first || User.where(mobile: email_mobile).first
+    return ErrCode.ret_false(ErrCode::USER_NOT_EXIST) if u.blank?
+    return ErrCode.ret_false(ErrCode::WRONG_PASSWORD) if u.password != Encryption.encrypt_password(password)
+    return { success: true, auth_key: Encryption.encrypt_auth_key(u.id.to_s) }
+  end
+
+  def self.reset_password(key, password)
+    password_info = Encryption.decrypt_activate_key(CGI::unescape(key))
+    email = password_info.split(',')[0]
+    u = User.where(email: email).first
+    u.password = Encryption.encrypt_password(password)
+    u.save
+    return { success: true, auth_key: Encryption.encrypt_auth_key(u.id.to_s) }
+  end
 
   def email_for_short
     if self.email.length < 20

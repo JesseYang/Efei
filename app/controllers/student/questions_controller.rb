@@ -13,7 +13,7 @@ class Student::QuestionsController < Student::ApplicationController
   end
 
   def append_note
-    note_id = current_user.add_question_to_note(params[:id], params[:summary], params[:note_type].to_i, params[:topics])
+    note_id = current_user.add_question_to_note(params[:id], params[:summary].to_s, params[:note_type].to_i, params[:topics].to_s)
     flash[:notice] = "保存成功"
     respond_to do |format|
       format.html

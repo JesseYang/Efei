@@ -32,31 +32,16 @@ MathLib::Application.configure do
   config.server_host = "http://dev.b-fox.cn"
 
   # word processing host name
-  config.word_host = "http://117.121.25.169"
+  config.word_host = "http://dev.image.b-fox.cn"
 
   # image convertion url
-  config.convert_image_url = "http://117.121.25.169"
+  config.convert_image_url = "http://dev.image.b-fox.cn"
 
   # converted image download url
-  config.image_download_url = "http://117.121.25.169/download"
+  config.image_download_url = "http://dev.image.b-fox.cn/download"
 
   # directory to save image files
   config.image_dir = "public/uploads/documents/images/"
 
   config.mailgun_api_key = "key-6o1gu03r0rslxbtbhczzt3912lrgdvk4"
-
-  # mailer settings
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = { :host => "b-fox.cn" }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :authentication => "plain",
-    :address        => "smtp.mailgun.com",
-    :port           => 25,
-    :domain         => "b-fox.cn",
-    :user_name      => "postmaster@b-fox.cn",
-    :password       => "60tvvdxripw0",
-    :enable_starttls_auto => true,
-    :openssl_verify_mode  => 'none'
-  }
 end

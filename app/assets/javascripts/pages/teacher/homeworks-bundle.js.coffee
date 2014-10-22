@@ -72,6 +72,9 @@ $(document).ready ->
   # about change question
   $(".replace-btn").click ->
     qid =  $(this).data("qid")
+    $("#replaceModal").modal("show")
+    window.current_stat = $(this).closest(".content-div")
+    window.current_stat.addClass("current-stat")
     console.log qid
     $('#replaceModal form').attr('action', "/teacher/questions/" + qid + "/replace")
     $('#replaceModal .question-download-url').attr('href', "/teacher/questions/" + qid)
@@ -81,6 +84,9 @@ $(document).ready ->
   # about insert question
   $(".insert-btn").click ->
     qid =  $(this).data("qid")
+    $("#insertModal").modal("show")
+    window.current_stat = $(this).closest(".content-div")
+    window.current_stat.addClass("current-stat")
     console.log qid
     $('#insertModal form').attr('action', "/teacher/questions/" + qid + "/insert")
     $("#insertModal").modal "show"
@@ -94,8 +100,8 @@ $(document).ready ->
     window.current_stat.addClass("current-stat")
     $("#statModal #note-type-text p").text("")
     $("#note-type-fig div").remove()
-    $("#statModal #note-topic-text p").text("")
-    $("#note-topic-fig div").remove()
+    # $("#statModal #note-topic-text p").text("")
+    # $("#note-topic-fig div").remove()
     $("#note-summary textarea").text("")
     $.getJSON "/teacher/questions/" + qid + "/stat", (retval) ->
       console.log retval
@@ -131,6 +137,7 @@ $(document).ready ->
               events:
                 click: ->
                   $("#note-type-text p").text("选择\"" + retval.note_type_ary[@x] + "\"的同学：" + retval.note_type[@x])
+      ###
       $("#note-topic-fig").highcharts
         chart:
           type: "column"
@@ -163,7 +170,14 @@ $(document).ready ->
               events:
                 click: ->
                   $("#note-topic-text p").text("选择\"" + retval.note_topic_ary[@x] + "\"的同学：" + retval.note_topic[@x])
+      ###
       $("#note-summary textarea").text(retval.summary)
+
+  $("#replaceModal").on "hide.bs.modal", ->
+    window.current_stat.removeClass("current-stat")
+
+  $("#insertModal").on "hide.bs.modal", ->
+    window.current_stat.removeClass("current-stat")
 
   $("#statModal").on "hide.bs.modal", ->
     window.current_stat.removeClass("current-stat")

@@ -66,13 +66,13 @@ MathLib::Application.configure do
   config.server_host = "http://www.b-fox.cn"
 
   # word processing host name
-  config.word_host = "http://117.121.25.169"
+  config.word_host = "http://image.b-fox.cn"
 
   # image convertion url
-  config.convert_image_url = "http://117.121.25.169"
+  config.convert_image_url = "http://image.b-fox.cn"
 
   # converted image download url
-  config.image_download_url = "http://117.121.25.169/download"
+  config.image_download_url = "http://image.b-fox.cn/download"
 
   # directory to save image files
   config.image_dir = "public/uploads/documents/images/"

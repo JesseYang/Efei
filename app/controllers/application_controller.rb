@@ -5,8 +5,38 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   layout 'layouts/student'
 
+  attr_reader :current_user
+
   before_filter :set_flash
   before_filter :store_location
+  before_filter :init
+
+  helper_method :user_signed_in?, :current_user
+
+  def init
+    refresh_session(params[:auth_key] || cookies[:auth_key])
+  end
+
+  def user_signed_in?
+    current_user.present?
+  end
+
+  def refresh_session(auth_key)
+    @current_user = auth_key.blank? ? nil : User.find_by_auth_key(auth_key)
+    if !current_user.nil?
+      # If current user is not empty, set cookie
+      cookies[:auth_key] = {
+        :value => auth_key,
+        :expires => 24.months.from_now,
+        :domain => :all
+      }
+      return true
+    else
+      # If current user is empty, delete cookie
+      cookies.delete(:auth_key, :domain => :all)
+      return false
+    end
+  end
 
   def set_flash
     @flash = params[:flash]
@@ -41,7 +71,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_student
-    if current_user.try(:school_admin) == true || current_user.try(:teacher) == true
+    if current_user.blank? || current_user.try(:school_admin) == true || current_user.try(:teacher) == true
       sign_out(current_user)
       flash[:notice] = "请以学生身份登录"
       redirect_to new_user_session_path
@@ -60,22 +90,24 @@ class ApplicationController < ActionController::Base
     redirect_to new_user_session_path if current_user.try(:school_admin) != true
   end
 
-  def after_sign_in_path_for(resource)
-    if current_user.try(:school_admin)
-      session[:previous_url] || school_admin_teachers_path
-    elsif current_user.try(:teacher)
-      session[:previous_url] || teacher_homeworks_path
-    else
-      session[:previous_url] || student_notes_path
-    end
-  end
-
   def user_sign_in?
     current_user.present?
   end
 
   def user_teacher?
     current_user.try(:teacher)
+  end
+
+  def redirect_to_root
+    if current_user.blank?
+      root_path
+    elsif current_user.try(:school_admin)
+      school_admin_teachers_path
+    elsif current_user.try(:teacher)
+      teacher_homeworks_path
+    else
+      student_notes_path
+    end
   end
 
   def render_404

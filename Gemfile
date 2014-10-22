@@ -26,6 +26,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'ezcrypto', '~> 0.7.2'
 gem 'jquery-rails', '~> 3.0.4'
 gem 'wkhtmltopdf-binary', '~> 0.9.9.1'
 gem 'wicked_pdf', '~> 0.9.7'

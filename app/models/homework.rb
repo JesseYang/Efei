@@ -57,7 +57,7 @@ class Homework
       link = MongoidShortener.generate(Rails.application.config.server_host + "/student/questions/#{q.id.to_s}")
       questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link, "figures" => q.q_figures}
     end
-    data = {"questions" => questions, "name" => self.name }
+    data = {"questions" => questions, "name" => self.name, "qrcode_host" => Rails.application.config.server_host}
     puts data.inspect
     logger.info data
     response = Homework.post("/Generate.aspx",

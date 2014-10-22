@@ -12,6 +12,15 @@
 #my-right-navbar-nav {
   margin: 0;
   float: right;
+  #stu-dropdown-ul {
+    margin: 0px;
+    #stu-dropdown-signin {
+      float: left;
+    }
+    #stu-dropdown-signup {
+      float: left;
+    }
+  }
 }
 
 #my-dropdown-menu {
