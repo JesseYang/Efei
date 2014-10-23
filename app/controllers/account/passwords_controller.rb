@@ -9,13 +9,12 @@ class Account::PasswordsController < ApplicationController
       redirect_to action: :new and return
     end
     # send an email to the user
-    MailgunApi.forget_password(u)
+    PasswordEmailWorker.perform_async(u)
     flash[:notice] = "重置密码邮件已发送，请查收"
     redirect_to new_account_session_path and return
   end
 
   def new
-    # page
   end
 
   def edit
