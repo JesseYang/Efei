@@ -11,42 +11,33 @@
             %a{href: "#sign-up-body", data: {toggle: "tab"}} 注册
         .tab-content
           #sign-in-body.tab-pane.fade.active.in
-            = form_for(resource, :as => resource_name,
-                                :url => session_path(resource_name),
-                                :html => {:id => "sign_in_user"},
-                                :format => :json,
-                                :remote => true ) do |f|
+            #signin_user
               %fieldset
                 .form-group
-                  = f.label :email, "邮箱"
-                  = f.email_field :email, class: "form-control"
+                  = label_tag :email_mobile, "邮箱"
+                  = text_field_tag :email_mobile, "", class: "form-control"
                 .form-group
-                  = f.label :password, "密码"
-                  = f.password_field :password, class: "form-control"
-                - if devise_mapping.rememberable?
-                  .checkbox
-                    = f.label :remember_me do
-                      = f.check_box :remember_me
-                      保持登录状态
+                  = label_tag :password, "密码"
+                  = password_field_tag :password, "", class: "form-control"
+                .checkbox
+                  = label_tag :remember_me do
+                    = check_box_tag :remember_me
+                    保持登录状态
               .modal-footer
                 %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-                = f.submit "登录", class: 'btn btn-primary'
+                %a#signin-btn.btn.btn-primary{href: "#", "aria-hidden" => "true"} 登录
           #sign-up-body.tab-pane.fade
-            = form_for(resource, :as => resource_name,
-                       :url => registration_path(resource_name),
-                       :html => {:id => "sign_up_user"},
-                       :format => :json,
-                       :remote => true ) do |f|
+            #signup_user
               %fieldset
                 .form-group
-                  = f.label :email, "邮箱"
-                  = f.email_field :email, class: "form-control"
+                  = label_tag :email_mobile, "邮箱"
+                  = text_field_tag :email_mobile, "", class: "form-control"
                 .form-group
-                  = f.label :password, "密码"
-                  = f.text_field :password, class: "form-control"
+                  = label_tag :password, "密码"
+                  = text_field_tag :password, "", class: "form-control"
                 .form-group
-                  = f.label :name, "姓名"
-                  = f.text_field :name, class: "form-control"
+                  = label_tag :name, "姓名"
+                  = text_field_tag :name, "", class: "form-control"
               .modal-footer
                 %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-                = f.submit "注册", class: 'btn btn-primary'
+                %a#signup-btn.btn.btn-primary{href: "#", "aria-hidden" => "true"} 注册

@@ -36,10 +36,16 @@ class User
     User.where(id: user_id).first
   end
 
-  def self.create_new_user(email_mobile, password)
+  def self.create_new_user(email_mobile, password, name)
+    logger.info "AAAAAAAAAAAAAAAAAA"
+    logger.info email_mobile.inspect
+    logger.info "AAAAAAAAAAAAAAAAAA"
     u = User.where(email: email_mobile).first || User.where(mobile: email_mobile).first
+    logger.info "AAAAAAAAAAAAAAAAAA"
+    logger.info u.inspect
+    logger.info "AAAAAAAAAAAAAAAAAA"
     return ErrCode.ret_false(ErrCode::USER_EXIST) if u.present?
-    u = User.create(email: email_mobile, password: Encryption.encrypt_password(password))
+    u = User.create(email: email_mobile, password: Encryption.encrypt_password(password), name: name)
     return { success: true, auth_key: Encryption.encrypt_auth_key(u.id.to_s) }
   end
 

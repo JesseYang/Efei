@@ -29,7 +29,7 @@
               %li
                 %a{href: "/teacher/settings/#{current_user.id.to_s}"} 个人设置
               %li
-                %a{href: "/users/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
+                %a{href: "/account/sessions/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
           - else
             %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
               Account

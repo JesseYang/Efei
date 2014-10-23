@@ -21,7 +21,7 @@ class Student::NotesController < Student::ApplicationController
   def update
     @note = Note.where(id: params[:id]).first
     if current_user.note_ids.map { |e| e.to_s } .include?(params[:id])
-      @note.update_note(params[:summary], params[:note_type], params[:topics])
+      @note.update_note(params[:summary], params[:note_type], params[:topics].to_s)
     else
       @note = Note.create_new(@note.question_id.to_s, params[:summary].to_s, params[:note_type], params[:topics].to_s)
       current_user.notes << @note

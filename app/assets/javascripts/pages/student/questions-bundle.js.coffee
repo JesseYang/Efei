@@ -41,17 +41,42 @@ $ ->
     )
     false
 
-  $("form#sign_in_user").bind "ajax:success", (e, data, status, xhr) ->
-    if data.success
-      append_question("sign_in")
-    else
-      $("#sign-notification").notification({content: "邮箱或密码错误"})
-      
-  $("form#sign_up_user").bind "ajax:success", (e, data, status, xhr) ->
-    if data.success
-      append_question("sign_up")
-    else
-      $("#sign-notification").notification({content: "注册失败"})
+  $("#signin-btn").click ->
+    email_mobile = $("#signin_user #email_mobile").val()
+    password = $("#signin_user #password").val()
+    $.postJSON(
+      '/account/sessions/',
+      {
+        email_mobile: email_mobile,
+        password: password
+      },
+      (retval) ->
+        if retval.success
+          append_question("sign_in")
+        else
+          $("#sign-notification").notification({content: retval.message})
+    )
+
+
+  $("#signup-btn").click ->
+    email_mobile = $("#signup_user #email_mobile").val()
+    password = $("#signup_user #password").val()
+    name = $("#name").val()
+    $.postJSON(
+      '/account/registrations/',
+      {
+        email_mobile: email_mobile,
+        password: password,
+        name: name
+      },
+      (retval) ->
+        console.log retval
+        if retval.success
+          append_question("sign_up")
+        else
+          $("#sign-notification").notification({content: retval.message})
+    )
+    return false
 
   append_question = (type) ->
     # hide the sign modal

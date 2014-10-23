@@ -4,11 +4,13 @@ $(document).ready ->
   $("form").submit ->
     email_mobile = $("#email_mobile").val()
     password = $("#password").val()
+    name = $("#name").val()
     $.postJSON(
       '/account/registrations/',
       {
         email_mobile: email_mobile,
-        password: password
+        password: password,
+        name: name
       },
       (retval) ->
         console.log retval
