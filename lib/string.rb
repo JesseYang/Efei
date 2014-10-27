@@ -3,6 +3,11 @@ require 'RMagick'
 
 class String
   CF = 1.3
+
+  def is_mobile?
+    !self.match(/1\d{10}/).nil?
+  end
+
   def is_separate?
     self.length > 1 && self.match(/-+/).present? && self.match(/-+/)[0] == self
   end

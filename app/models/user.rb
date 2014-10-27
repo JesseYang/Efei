@@ -1,6 +1,7 @@
 # encoding: utf-8
 require 'open-uri'
 require 'err_code'
+require 'string'
 class User
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -8,6 +9,9 @@ class User
   field :email, type: String, default: ""
   field :mobile, type: String, default: ""
   field :password, type: String, default: ""
+
+  field :reset_password_verify_code, type: String, default: ""
+  field :reset_password_token, type: String, default: ""
 
 
   field :admin, :type => Boolean, :default => false
@@ -30,30 +34,52 @@ class User
   base_uri Rails.application.config.word_host
   format  :json
 
-
   def self.find_by_auth_key(auth_key)
-    user_id = Encryption.decrypt_auth_key(auth_key)
+    info = Encryption.decrypt_auth_key(auth_key)
+    user_id = info.split(',')[0]
     User.where(id: user_id).first
   end
 
+  def self.find_by_email_mobile(email_mobile)
+    return nil if email_mobile.blank?
+    if email_mobile.is_mobile?
+      u = User.where(mobile: email_mobile).first
+    else
+      u = User.where(email: email_mobile).first
+    end
+    u
+  end
+
+  def generate_auth_key
+    info = "#{self.id.to_s},#{Time.now.to_i}"
+    Encryption.encrypt_auth_key(info)
+  end
+
   def self.create_new_user(email_mobile, password, name)
-    logger.info "AAAAAAAAAAAAAAAAAA"
-    logger.info email_mobile.inspect
-    logger.info "AAAAAAAAAAAAAAAAAA"
+    return ErrCode.ret_false(ErrCode::BLANK_EMAIL_MOBILE) if email_mobile.blank?
     u = User.where(email: email_mobile).first || User.where(mobile: email_mobile).first
-    logger.info "AAAAAAAAAAAAAAAAAA"
-    logger.info u.inspect
-    logger.info "AAAAAAAAAAAAAAAAAA"
     return ErrCode.ret_false(ErrCode::USER_EXIST) if u.present?
-    u = User.create(email: email_mobile, password: Encryption.encrypt_password(password), name: name)
-    return { success: true, auth_key: Encryption.encrypt_auth_key(u.id.to_s) }
+    if email_mobile.is_mobile?
+      u = User.create(mobile: email_mobile, password: Encryption.encrypt_password(password), name: name)
+    else
+      u = User.create(email: email_mobile, password: Encryption.encrypt_password(password), name: name)
+    end
+    return { success: true, auth_key: u.generate_auth_key }
   end
 
   def self.login(email_mobile, password)
+    return ErrCode.ret_false(ErrCode::BLANK_EMAIL_MOBILE) if email_mobile.blank?
     u = User.where(email: email_mobile).first || User.where(mobile: email_mobile).first
     return ErrCode.ret_false(ErrCode::USER_NOT_EXIST) if u.blank?
     return ErrCode.ret_false(ErrCode::WRONG_PASSWORD) if u.password != Encryption.encrypt_password(password)
-    return { success: true, auth_key: Encryption.encrypt_auth_key(u.id.to_s) }
+    return { success: true, auth_key: u.generate_auth_key }
+  end
+
+  def send_reset_password_code
+    u.reset_password_verify_code = "111111"
+    u.reset_password_token = u.generate_auth_key
+    u.save
+    # send the sms
   end
 
   def self.reset_password(key, password)
@@ -62,7 +88,7 @@ class User
     u = User.where(email: email).first
     u.password = Encryption.encrypt_password(password)
     u.save
-    return { success: true, auth_key: Encryption.encrypt_auth_key(u.id.to_s) }
+    return { success: true, auth_key: u.generate_auth_key }
   end
 
   def email_for_short

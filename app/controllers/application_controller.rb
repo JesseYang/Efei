@@ -14,6 +14,13 @@ class ApplicationController < ActionController::Base
   helper_method :user_signed_in?, :current_user
 
   def init
+    if params[:client].to_s.start_with?("android")
+      @client = "android"
+    elsif params[:client].to_s.start_with?("ios")
+      @client = "ios"
+    else
+      @client = "browser"
+    end
     refresh_session(params[:auth_key] || cookies[:auth_key])
   end
 

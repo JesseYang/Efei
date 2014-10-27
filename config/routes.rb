@@ -14,6 +14,7 @@ MathLib::Application.routes.draw do
       collection do
         get :edit
         put :update
+        post :verify_code
       end
     end
   end
