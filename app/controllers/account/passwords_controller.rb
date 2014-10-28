@@ -17,7 +17,7 @@ class Account::PasswordsController < ApplicationController
     end
     if params[:email_mobile].is_mobile?
       # TODO: send verify code sms to the user
-      u.send_reset_password_verify_code
+      u.send_reset_password_code
       respond_to do |format|
         format.html do
         end
@@ -58,14 +58,8 @@ class Account::PasswordsController < ApplicationController
 
   def update
     if ["android", "ios"].include?(@client)
-      info = Encryption.decrypt_auth_key(params[:reset_password_token])
-      uid, time = *info.split(',')
-      u = User.where(id: uid).first
-      render json: ErrCode.ret_false(ErrCode::WRONG_TOKEN) and return if u.nil?
-      render json: ErrCode.ret_false(ErrCode::EXPIRED) and return if Time.now.to_i - time.to_i > 3600
-      u.password = params[:password]
-      u.save
-      render json: { success: true } and return
+      retval = User.app_reset_password(params[:reset_password_token], params[:password])
+      render json: retval and return
     else
       if params[:password] != params[:password_confirmation]
         flash[:notice] = "密码与确认不一致"

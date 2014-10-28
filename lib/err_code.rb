@@ -8,6 +8,7 @@ module ErrCode
   WRONG_VERIFY_CODE = -5
   WRONG_TOKEN = -6
   EXPIRED = -7
+  REQUIRE_SIGNIN = -8
 
 
   def self.ret_false(code)
@@ -31,6 +32,8 @@ module ErrCode
       "token错误"
     when EXPIRED
       "token过期"
+    when REQUIRE_SIGNIN
+      "未登录"
     end
   end
 end

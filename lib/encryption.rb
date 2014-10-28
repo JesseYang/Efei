@@ -24,6 +24,20 @@ module Encryption
     end
   end
 
+  def self.encrypt_reset_email_key(string)
+    key = EzCrypto::Key.with_password("reset_email", "efei")
+    return Base64.urlsafe_encode64(key.encrypt(string.to_s).to_s)
+  end
+
+  def self.decrypt_reset_email_key(string)
+    key = EzCrypto::Key.with_password("reset_email", "efei")
+    begin
+      return key.decrypt(Base64.urlsafe_decode64(string.to_s).to_s)
+    rescue
+      return ""
+    end
+  end
+
   def self.encrypt_activate_key(string)
     key = EzCrypto::Key.with_password("activate_key", "efei")
     return Base64.urlsafe_encode64(key.encrypt(string.to_s).to_s)

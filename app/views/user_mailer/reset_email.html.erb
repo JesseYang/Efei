@@ -1,0 +1,7 @@
+<%# encoding: utf-8%>
+<span><%= @user.email %>，请点击下面链接将您的邮箱修改为<%= @email %>：</span>
+<br />
+
+<a href="<%= @reset_email_link %>"><%= @reset_email_link %></a>
+
+<span>如果以上的链接无法点击，请将上面的地址复制到浏览器地址栏进入易飞网</span>

@@ -10,16 +10,20 @@ class User
   field :mobile, type: String, default: ""
   field :password, type: String, default: ""
 
+  field :new_email, type: String, default: ""
   field :reset_password_verify_code, type: String, default: ""
   field :reset_password_token, type: String, default: ""
 
+  field :new_mobile, type: String, default: ""
+  field :reset_mobile_verify_code, type: String, default: ""
+  field :reset_mobile_expire_time, type: Integer
 
   field :admin, :type => Boolean, :default => false
   field :name, :type => String, :default => ""
   field :school_admin, :type => Boolean, :default => false
   field :teacher, :type => Boolean, :default => false
   field :subject, :type => Integer
-  field :grade, :type => Integer
+  field :teacher_desc, :type => String
 
   has_many :homeworks, class_name: "Homework", inverse_of: :user
   has_many :notes
@@ -76,10 +80,20 @@ class User
   end
 
   def send_reset_password_code
-    u.reset_password_verify_code = "111111"
-    u.reset_password_token = u.generate_auth_key
-    u.save
-    # send the sms
+    self.reset_password_verify_code = "111111"
+    self.reset_password_token = self.generate_auth_key
+    self.save
+    # TODO: send the sms
+  end
+
+  def self.app_reset_password(reset_password_token, password)
+    info = Encryption.decrypt_auth_key(reset_password_token)
+    uid, time = *info.split(",")
+    u = User.where(id: uid).first
+    return ErrorCode.ret_false(ErrCode::WRONG_TOKEN) if u.nil?
+    return ErrorCode.ret_false(ErrCode::EXPIRED) if Time.now.to_i - time.to_i > Rails.application.config.expire_time
+    u.update_attributes(password: Encryption.encrypt_password(password))
+    return { success: true }
   end
 
   def self.reset_password(key, password)
@@ -97,6 +111,88 @@ class User
     else
       self.email[0..19] + "..."
     end
+  end
+
+  def rename(name)
+    self.update_attributes(name: name)
+    return { success: true }
+  end
+
+  def change_password(password, new_password)
+    if self.password != Encryption.encrypt_password(password)
+      return ErrCode.ret_false(ErrCode::WRONG_PASSWORD)
+    end
+    self.update_attributes(password: Encryption.encrypt_password(new_password))
+    return { success: true }
+  end
+
+  def change_email(email)
+    if User.where(email: email).first.present?
+      return ErrCode.ret_false(ErrCode::USER_EXIST)
+    end
+    self.update_attributes(new_email: email)
+    # TODO: send an email to the email address, with a link and a key as the link parameter. The key should contains the email address, the user id, and the time information
+    ResetEamilWorker.perform_async(self, email)
+    return { success: ture }
+  end
+
+  def verify_email(key)
+    info = Encryption.decrypt_reset_email_key(key)
+    uid, email, time = *info.split(",")
+    u = User.where(uid: uid).first
+    return ErrCode.ret_false(ErrCode::WRONG_TOKEN) if u.blank?
+    return ErrCode.ret_false(ErrCode::WRONG_TOKEN) if u.new_email != email
+    return ErrCode.ret_false(ErrCode::EXPIRED) if Time.now.to_i - time.to_i > Rails.application.config.email_expire_time
+    u.email = email
+    u.new_email = nil
+    u.save
+    return { success: ture }
+  end
+
+  def change_mobile(mobile)
+    if User.where(mobile: mobile).first.present?
+      return ErrCode.ret_false(ErrCode::USER_EXIST)
+    end
+    self.reset_mobile_verify_code = "111111"
+    self.new_mobile = mobile
+    self.reset_mobile_expire_time = Time.now.to_i + Rails.application.config.expire_time
+    self.save
+    # TODO: send the sms
+    return { success: true }
+  end
+
+  def verify_mobile(code)
+    if self.reset_mobile_verify_code != code
+      return ErrCode.ret_false(ErrCode::WRONG_VERIFY_CODE)
+    end
+    self.mobile = new_mobile
+    self.reset_mobile_verify_code = ""
+    self.new_mobile = ""
+    self.reset_mobile_expire_time = nil
+    self.save
+    return { success: true }
+  end
+
+  def list_my_teachers
+    teachers_info = self.klasses.map { |e| e.teacher } .uniq.map { |t| t.teacher_info_for_student }
+    { success: true, teachers: teachers_info }
+  end
+
+  def self.search_teachers(subject, name)
+    teachers = User.where(teacher: true, subject: subject, name: /#{name}/)
+    teachers_info = teachers.map { |t| t.teacher_info_for_student }
+    { success: true, teachers: teachers_info }
+  end
+
+  def teacher_info_for_student
+    {
+      id: self.id.to_s,
+      name: self.name.to_s,
+      subject: self.subject,
+      school: self.school.name,
+      desc: self.teacher_desc,
+      avatar: ""
+    }
   end
 
   def list_notes(note_type, subject, created_at, keyword)
@@ -231,10 +327,11 @@ class User
     retval
   end
 
-  def add_to_default_class(student)
+  def add_to_class(class_id, student)
     return if self.has_student?(student)
-    default_class = self.classes.where(default: true).first || self.classes.create(default: true, name: "默认班级")
-    default_class.students << student
+    klass = self.classes.where(id: class_id).first || self.classes.where(default: true).first || self.classes.create(default: true, name: "默认班级")
+    klass.students << student
+    return { success: true }
   end
 
   def remove_student(student)

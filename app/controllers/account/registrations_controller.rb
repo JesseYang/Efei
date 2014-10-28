@@ -9,4 +9,9 @@ class Account::RegistrationsController < ApplicationController
       end
     end
   end
+
+  def reset_email
+    retval = User.verify_email(params[:key])
+    render text: retval and return
+  end
 end

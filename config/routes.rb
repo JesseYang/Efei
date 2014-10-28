@@ -4,7 +4,11 @@ MathLib::Application.routes.draw do
   get "welcome/index"
 
   namespace :account do
-    resources :registrations
+    resources :registrations do
+      collection do
+        get :reset_email
+      end
+    end
     resources :sessions do
       collection do
         delete :sign_out
@@ -56,6 +60,16 @@ MathLib::Application.routes.draw do
     resources :settings do
       member do
         put :update_password
+      end
+    end
+    resources :students do
+      collection do
+        get :info
+        put :rename
+        put :change_password
+        put :change_email
+        put :change_mobile
+        post :verify_mobile
       end
     end
     resources :teachers do
