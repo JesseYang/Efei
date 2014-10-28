@@ -4,26 +4,26 @@ class Student::StudentsController < Student::ApplicationController
   before_filter :require_student
 
   def info
-    render json: { success: true, name: current_user.name, mobile: current_user.mobile, email: current_user.email} and return
+    render_with_auth_key({success: true, name: current_user.name, mobile: current_user.mobile, email: current_user.email})
   end
 
   def rename
-    render json: current_user.rename(params[:name]) and return
+    render_with_auth_key current_user.rename(params[:name])
   end
 
   def change_password
-    render json: current_user.change_password(params[:password], params[:new_password]) and return
+    render_with_auth_key current_user.change_password(params[:password], params[:new_password])
   end
 
   def change_email
-    render json: current_user.change_email(params[:email]) and return
+    render_with_auth_key current_user.change_email(params[:email])
   end
 
   def change_mobile
-    render json: current_user.change_mobile(params[:mobile]) and return
+    render_with_auth_key current_user.change_mobile(params[:mobile])
   end
 
   def verify_mobile
-    render json: current_user.verify_mobile(params[:verify_code]) and return
+    render_with_auth_key current_user.verify_mobile(params[:verify_code])
   end
 end
