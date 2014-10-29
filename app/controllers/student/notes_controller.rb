@@ -11,6 +11,16 @@ class Student::NotesController < Student::ApplicationController
     @notes = auto_paginate @notes
   end
 
+  def create
+=begin
+    note_id = current_user.add_question_to_note(params[:id], params[:summary].to_s, params[:note_type].to_i, params[:topics].to_s)
+    render_with_auth_key({ success: true, note: note, teacher: teacher })
+=end
+  end
+
+  def batch
+  end
+
   def show
     @note = current_user.notes.find(params[:id])
     @new_note = params["new_note"] == "true"

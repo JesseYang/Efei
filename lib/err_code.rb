@@ -9,6 +9,9 @@ module ErrCode
   WRONG_TOKEN = -6
   EXPIRED = -7
   REQUIRE_SIGNIN = -8
+  TEACHER_NOT_EXIST = -9
+  QUESTION_NOT_EXIST = -10
+  NOTE_NOT_EXIST = -11
 
 
   def self.ret_false(code)
@@ -34,6 +37,12 @@ module ErrCode
       "token过期"
     when REQUIRE_SIGNIN
       "未登录"
+    when TEACHER_NOT_EXIST
+      "教师不存在"
+    when QUESTION_NOT_EXIST
+      "题目不存在"
+    when NOTE_NOT_EXIST
+      "题目不存在"
     end
   end
 end

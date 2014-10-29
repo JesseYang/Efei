@@ -56,70 +56,17 @@ class Question
       a_figures: a_figures)
   end
 
-  def update_content(question_content, question_answer)
-    tables = (self.content + self.answer_content ).select do |e|
-      e.class == Hash && e["type"] == "table"
-    end
-
-    new_content = question_content.split(/\n|\r/).map do |line|
-      if line.match(/table[0-9]+/)
-        # table
-        table_index = line.scan(/table([0-9]+)/)[0][0].to_i
-        tables[table_index]
-      else line.class == String
-        # normal line
-        tidyup_line = line
-        line.scan(/\$([a-z 0-9]{8})\$/).each do |e|
-          inline_images.each do |image|
-            if image.start_with?(e[0])
-              tidyup_line.gsub!(e[0], image)
-              break
-            end
-          end
-        end
-        tidyup_line
-      end
-    end
-    self.content = new_content
-
-    new_answer_content = question_answer.split(/\n|\r/).map do |line|
-      if line.match(/table[0-9]+/)
-        # table
-        table_index = line.scan(/table([0-9]+)/)[0][0].to_i
-        tables[table_index]
-      else line.class == String
-        # normal line
-        tidyup_line = line
-        line.scan(/\$([a-z 0-9]{8})\$/).each do |e|
-          inline_images.each do |image|
-            if image.start_with?(e[0])
-              tidyup_line.gsub!(e[0], image)
-              break
-            end
-          end
-        end
-        tidyup_line
-      end
-    end
-    self.answer_content = new_answer_content
-    self.save
-  end
-
-  def update_items(items)
-    self.items = []
-    items.each do |item|
-      tidyup_item = item
-      item.scan(/\$([a-z 0-9]{8})\$/).each do |e|
-        inline_images.each do |image|
-          if image.start_with?(e[0])
-            tidyup_item.gsub!(e[0], image)
-            break
-          end
-        end
-      end
-      self.items << tidyup_item
-    end
-    self.save
+  def info_for_student
+    {
+      id: self.id.to_s,
+      subject: self.homework.subject,
+      type: self.type,
+      content: self.content,
+      items: self.items,
+      answer: self.answer,
+      answer_content: self.answer_content,
+      tags: self.homework.tags
+    }
   end
 
   def figures

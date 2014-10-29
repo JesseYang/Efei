@@ -28,6 +28,7 @@ class User
   has_many :homeworks, class_name: "Homework", inverse_of: :user
   has_many :notes
   has_many :papers
+  has_many :feedbacks
   has_and_belongs_to_many :shared_homeworks, class_name: "Homework", inverse_of: :visitors
   belongs_to :school, class_name: "School", inverse_of: :teachers
 
@@ -173,6 +174,10 @@ class User
     return { success: true }
   end
 
+  def create_feedback(content)
+    f = Feedback.create(content: content, user_id: self.id.to_s)
+  end
+
   def list_my_teachers
     teachers_info = self.klasses.map { |e| e.teacher } .uniq.map { |t| t.teacher_info_for_student }
     { success: true, teachers: teachers_info }
@@ -194,6 +199,10 @@ class User
       avatar: ""
     }
   end
+
+
+
+
 
   def list_notes(note_type, subject, created_at, keyword)
     notes = self.notes.where(:created_at.gt => Time.at(created_at))

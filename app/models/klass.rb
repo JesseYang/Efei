@@ -3,7 +3,6 @@ class Klass
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  # note should be a snapshoot of the original question
   field :default, type: Boolean, default: false
   field :name, type: String
 

@@ -57,11 +57,7 @@ MathLib::Application.routes.draw do
   end
 
   namespace :student do
-    resources :settings do
-      member do
-        put :update_password
-      end
-    end
+    resources :feedbacks
     resources :students do
       collection do
         get :info
@@ -77,6 +73,7 @@ MathLib::Application.routes.draw do
     resources :notes do
       collection do
         get :export
+        post :batch
       end
     end
     resources :papers do

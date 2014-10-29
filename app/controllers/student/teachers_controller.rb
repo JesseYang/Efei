@@ -15,7 +15,10 @@ class Student::TeachersController < Student::ApplicationController
 
   def create
     t = User.where(id: params[:teacher_id]).first
-    render_with_auth_key ErrCode.ret_false(ErrCode::TEACHER_NOT_EXIST) if t.blank?
+    logger.info "AAAAAAAA"
+    logger.info t.inspect
+    logger.info "AAAAAAAA"
+    render_with_auth_key ErrCode.ret_false(ErrCode::TEACHER_NOT_EXIST) and return if t.blank?
     retval = t.add_to_class(params[:class_id], current_user)
     render_with_auth_key retval
   end
@@ -23,6 +26,6 @@ class Student::TeachersController < Student::ApplicationController
   def destroy
     t = User.find(params[:id])
     t.remove_student(current_user)
-    render_with_auth_key { success: true }
+    render_with_auth_key
   end
 end
