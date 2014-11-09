@@ -29,16 +29,16 @@ MathLib::Application.configure do
   config.assets.debug = true
 
   # host name
-  config.server_host = "http://dev.b-fox.cn"
+  config.server_host = "http://dev.efei.org"
 
   # word processing host name
-  config.word_host = "http://dev.image.b-fox.cn"
+  config.word_host = "http://dev.image.efei.org"
 
   # image convertion url
-  config.convert_image_url = "http://dev.image.b-fox.cn"
+  config.convert_image_url = "http://dev.image.efei.org"
 
   # converted image download url
-  config.image_download_url = "http://dev.image.b-fox.cn/download"
+  config.image_download_url = "http://dev.image.efei.org/download"
 
   # directory to save image files
   config.image_dir = "public/uploads/documents/images/"

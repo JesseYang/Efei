@@ -27,11 +27,8 @@ class User
 
   has_many :homeworks, class_name: "Homework", inverse_of: :user
   has_many :notes
-  has_many :papers
   has_many :feedbacks
-  has_and_belongs_to_many :shared_homeworks, class_name: "Homework", inverse_of: :visitors
   belongs_to :school, class_name: "School", inverse_of: :teachers
-
   has_many :classes, class_name: "Klass", inverse_of: :teacher
   has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
 
@@ -242,26 +239,6 @@ class User
     n = self.notes.where(question_id: qid)
     n.destroy
     self.save
-  end
-
-  def has_question_in_paper?(q_or_qid)
-    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
-    paper = self.papers.cur.first || self.papers.create
-    paper.question_ids.include?(qid)
-  end
-
-  def add_question_to_paper(q_or_qid)
-    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
-    paper = self.papers.cur.first || self.papers.create
-    paper.question_ids << qid if !self.has_question_in_paper?(qid)
-    paper.save
-  end
-
-  def rm_question_from_paper(q_or_qid)
-    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
-    paper = self.papers.cur.first || self.papers.create
-    paper.question_ids.delete(qid)
-    paper.save
   end
 
   def export_note(note_id_str, has_answer, has_note, send_email, email)

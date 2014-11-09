@@ -1,9 +1,9 @@
 #encoding: utf-8
 class MailgunApi
 
-  @@test_email = "test@b-fox.cn"
-  @@email_from = "\"易飞网\" <postmaster@b-fox.cn>"
-  @@email_domain = "b-fox.cn"
+  @@test_email = "test@efei.org"
+  @@email_from = "\"易飞网\" <postmaster@efei.org>"
+  @@email_domain = "efei.org"
 
   def self.reset_email(user, email)
     @user = user

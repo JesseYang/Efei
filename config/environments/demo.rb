@@ -63,16 +63,16 @@ MathLib::Application.configure do
   config.active_support.deprecation = :notify
 
   # host name
-  config.server_host = "http://demo.b-fox.cn"
+  config.server_host = "http://demo.efei.org"
 
   # word processing host name
-  config.word_host = "http://demo.image.b-fox.cn"
+  config.word_host = "http://demo.image.efei.org"
 
   # image convertion url
-  config.convert_image_url = "http://demo.image.b-fox.cn"
+  config.convert_image_url = "http://demo.image.efei.org"
 
   # converted image download url
-  config.image_download_url = "http://demo.image.b-fox.cn/download"
+  config.image_download_url = "http://demo.image.efei.org/download"
 
   # directory to save image files
   config.image_dir = "public/uploads/documents/images/"

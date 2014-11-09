@@ -9,7 +9,6 @@ class Homework
   field :tags, type: String, default: "不懂,不会,不对,典型题"
   has_many :questions, dependent: :destroy
   belongs_to :user, class_name: "User", inverse_of: :homework
-  has_and_belongs_to_many :visitors, class_name: "User", inverse_of: :shared_homeworks
 
   include HTTParty
   base_uri Rails.application.config.word_host

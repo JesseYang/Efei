@@ -63,34 +63,19 @@ MathLib::Application.configure do
   config.active_support.deprecation = :notify
 
   # host name
-  config.server_host = "http://www.b-fox.cn"
+  config.server_host = "http://www.efei.org"
 
   # word processing host name
-  config.word_host = "http://image.b-fox.cn"
+  config.word_host = "http://image.efei.org"
 
   # image convertion url
-  config.convert_image_url = "http://image.b-fox.cn"
+  config.convert_image_url = "http://image.efei.org"
 
   # converted image download url
-  config.image_download_url = "http://image.b-fox.cn/download"
+  config.image_download_url = "http://image.efei.org/download"
 
   # directory to save image files
   config.image_dir = "public/uploads/documents/images/"
 
   config.mailgun_api_key = "key-6o1gu03r0rslxbtbhczzt3912lrgdvk4"
-
-  # mailer settings
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_url_options = { :host => "b-fox.cn" }
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :authentication => "plain",
-    :address        => "smtp.mailgun.com",
-    :port           => 25,
-    :domain         => "b-fox.cn",
-    :user_name      => "postmaster@b-fox.cn",
-    :password       => "60tvvdxripw0",
-    :enable_starttls_auto => true,
-    :openssl_verify_mode  => 'none'
-  }
 end

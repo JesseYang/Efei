@@ -15,9 +15,6 @@ class Student::TeachersController < Student::ApplicationController
 
   def create
     t = User.where(id: params[:teacher_id]).first
-    logger.info "AAAAAAAA"
-    logger.info t.inspect
-    logger.info "AAAAAAAA"
     render_with_auth_key ErrCode.ret_false(ErrCode::TEACHER_NOT_EXIST) and return if t.blank?
     retval = t.add_to_class(params[:class_id], current_user)
     render_with_auth_key retval

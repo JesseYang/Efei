@@ -76,17 +76,6 @@ MathLib::Application.routes.draw do
         post :batch
       end
     end
-    resources :papers do
-      collection do
-        get :current
-      end
-      member do
-        get :print
-        get :archive
-        get :email
-        post :rename
-      end
-    end
     resources :questions do
       member do
         post :append_note
