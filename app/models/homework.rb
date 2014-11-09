@@ -6,7 +6,7 @@ class Homework
   field :name, type: String
   field :subject, type: Integer
   field :q_ids, type: Array, default: []
-  field :tags, type: String, default: "不懂,不会,不对,典型题"
+  field :tag_set, type: String, default: "不懂,不会,不对,典型题"
   has_many :questions, dependent: :destroy
   belongs_to :user, class_name: "User", inverse_of: :homework
 

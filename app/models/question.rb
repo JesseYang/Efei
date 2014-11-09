@@ -65,7 +65,7 @@ class Question
       items: self.items,
       answer: self.answer,
       answer_content: self.answer_content,
-      tags: self.homework.tags
+      tag_set: self.homework.tag_set
     }
   end
 

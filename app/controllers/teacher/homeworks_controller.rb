@@ -1,5 +1,11 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
+  before_filter :ensure_homework, only: [:show, :settings, :set_tag, :destroy, :export, :generate, :rename]
+
+  def ensure_homework
+    @homework = Homework.find(params[:id])
+  end
+
   def index
     @privilege = { "拥有" => 1, "共享" => 2, "全部" => 3 }
     @subject = params[:subject] || current_user.subject
@@ -27,30 +33,30 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def show
-    @homework = Homework.find(params[:id])
   end
 
   def settings
-    @homework = Homework.find(params[:id])
     @tags = current_user.tags
     @default_tags = DefaultTag::TAG[@homework.subject]
   end
 
+  def set_tag_set
+    @homework.update_attributes({tag_set: params[:tag_set]})
+    render json: { success: true }
+  end
+
   def destroy
-    @homework = Homework.find(params[:id])
     @homework.destroy
     flash[:notice] = "作业已删除"
     redirect_to action: :index
   end
 
   def export
-    homework = Homework.find(params[:id])
-    redirect_to URI.encode "/#{homework.export}"
+    redirect_to URI.encode "/#{@homework.export}"
   end
 
   def generate
-    homework = Homework.find(params[:id])
-    download_url = "#{Rails.application.config.word_host}/#{homework.generate}"
+    download_url = "#{Rails.application.config.word_host}/#{@homework.generate}"
     redirect_to URI.encode download_url
   end
 
@@ -65,9 +71,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def rename
-    homework = Homework.find(params[:id])
-    homework.name = params[:name]
-    homework.save
+    @homework.update_attributes({name: params[:name]})
     respond_to do |format|
       format.html
       format.json do

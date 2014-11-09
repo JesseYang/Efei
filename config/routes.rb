@@ -24,13 +24,17 @@ MathLib::Application.routes.draw do
   end
 
   namespace :teacher do
+    resources :tag_sets
+
     resources :homeworks do
       member do
         get :generate
+        get :settings
         get :export
         post :rename
         put :share
         put :share_all
+        put :set_tag_set
       end
     end
 
@@ -68,10 +72,9 @@ MathLib::Application.routes.draw do
         post :verify_mobile
       end
     end
-    resources :teachers do
-    end
     resources :notes do
       collection do
+        get :note_update_time
         get :export
         post :batch
       end
@@ -85,6 +88,8 @@ MathLib::Application.routes.draw do
         post :answer
         get :check_note
       end
+    end
+    resources :topics do
     end
   end
 

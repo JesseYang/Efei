@@ -30,7 +30,10 @@ class User
   field :teacher, type: Boolean, default: false
   field :subject, type: Integer
   field :teacher_desc, type: String
-  field :tags, type: Array, default: []
+  field :tag_sets, type: Array, default: []
+
+  # for students
+  field :note_update_time, type: Hash, default: {}
 
   has_many :homeworks, class_name: "Homework", inverse_of: :user
   has_many :notes
@@ -43,6 +46,7 @@ class User
   base_uri Rails.application.config.word_host
   format  :json
 
+  ### Begin region: account operations
   def self.find_by_auth_key(auth_key)
     info = Encryption.decrypt_auth_key(auth_key)
     user_id = info.split(',')[0]
@@ -95,8 +99,8 @@ class User
     info = Encryption.decrypt_auth_key(reset_password_token)
     uid, time = *info.split(",")
     u = User.where(id: uid).first
-    return ErrorCode.ret_false(ErrCode::WRONG_TOKEN) if u.nil?
-    return ErrorCode.ret_false(ErrCode::EXPIRED) if Time.now.to_i - time.to_i > Rails.application.config.expire_time
+    return ErrCode.ret_false(ErrCode::WRONG_TOKEN) if u.nil?
+    return ErrCode.ret_false(ErrCode::EXPIRED) if Time.now.to_i - time.to_i > Rails.application.config.expire_time
     u.update_attributes(password: Encryption.encrypt_password(password))
     return { success: true }
   end
@@ -177,11 +181,13 @@ class User
     self.save
     return { success: true }
   end
+  ### End region: account operations
 
   def create_feedback(content)
     f = Feedback.create(content: content, user_id: self.id.to_s)
   end
 
+  ### Begin region: teachers' operations
   def list_my_teachers
     teachers_info = self.klasses.map { |e| e.teacher } .uniq.map { |t| t.teacher_info_for_student }
     { success: true, teachers: teachers_info }
@@ -193,8 +199,8 @@ class User
     { success: true, teachers: teachers_info }
   end
 
-  def teacher_info_for_student
-    {
+  def teacher_info_for_student(with_classes = false)
+    info = {
       id: self.id.to_s,
       name: self.name.to_s,
       subject: self.subject,
@@ -202,53 +208,54 @@ class User
       desc: self.teacher_desc,
       avatar: ""
     }
-  end
-
-
-
-
-
-  def list_notes(note_type, subject, created_at, keyword)
-    notes = self.notes.where(:created_at.gt => Time.at(created_at))
-    if keyword.present?
-      notes = notes.any_of({question_str: /#{keyword}/}, {topic_str: /#{keyword}/}, {summary: /#{keyword}/}) 
+    return info if !with_classes
+    info[:classes] = []
+    self.classes.each do |c|
+      info[:classes] << {
+        id: c.id.to_s,
+        id: c.name,
+        id: c.desc
+      } if c.visible
     end
-    notes = notes.select { |e| e.question.homework.subject == subject } if subject != 0
-    notes = notes.select { |e| e.note_type == note_type } if note_type != 0
-    notes
+    info
   end
 
-  def list_question_in_note(subject, created_at)
-    questions = self.notes.where(:created_at.gt => Time.at(created_at)).map { |e| e.question }
-    questions = questions.select { |e| e.subject == subject } if subject != 0
+  def list_notes
+    self.notes.map { |e| [e.id.to_s, e.updated_at.to_i] }
   end
 
-  def has_question_in_note?(q_or_qid)
-    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
-    (self.notes.map { |e| e.question_id.to_s }).include?(qid)
-  end
-
-  def add_question_to_note(q_or_qid, summary, note_type, topics)
-    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
+  def add_note(qid, summary = "", tag = "", topics = "")
     note = self.notes.where(question_id: qid).first
     if note.present?
-      note.update_note(summary, note_type, topics)
-      return note.id.to_s
+      note.update_note(summary, tag, topics)
     else
-      note = Note.create_new(qid, summary, note_type, topics)
+      note = Note.create_new(qid, summary, tag, topics)
       self.notes << note
-      return note.id.to_s
     end
+    self.set_note_update_time(note.subject)
+    return note
   end
 
-  def rm_question_from_note(q_or_qid)
-    qid = (q_or_qid.is_a?(Question) ? q_or_qid.id.to_s : q_or_qid)
-    n = self.notes.where(question_id: qid)
-    n.destroy
+  def update_note(nid, summry, tag, topics)
+    note = self.notes.where(id: nid).first
+    return if note.nil?
+    note.update_note(summary, tag, topics)
+    self.set_note_update_time(note.subject)
+    return note
+  end
+
+  def rm_note(nid)
+    note = self.notes.where(id: nid).first
+    note.destroy if note.present?
+    self.set_note_update_time(note.subject)
+  end
+
+  def set_note_update_time(subject)
+    self.note_update_time[subject] = Time.now.to_i
     self.save
   end
 
-  def export_note(note_id_str, has_answer, has_note, send_email, email)
+  def export_note(note_id_str, has_answer, has_note, email)
     notes = []
     note_id_str.split(',').each do |note_id|
       n = Note.where(id: note_id).first
@@ -263,7 +270,7 @@ class User
         note.merge!({ "answer" => n.answer || -1, "answer_content" => n.answer_content })
       end
       if has_note.to_s == "true"
-        note.merge!({ "note_type" => n.note_type, "topics" => n.topics.map { |e| e.name }, "summary" => n.summary })
+        note.merge!({ "tag" => n.tag, "topics" => n.topics.map { |e| e.name }, "summary" => n.summary })
       end
       notes << note
     end
@@ -275,12 +282,12 @@ class User
     open(download_path, 'wb') do |file|
       file << open("#{Rails.application.config.word_host}/#{URI.encode filepath}").read
     end
-    if send_email
-      ExportNoteEmailWorker.perform_async(email, download_path)
-    end
+    ExportNoteEmailWorker.perform_async(email, download_path) if email.present?
     URI.encode(download_path[download_path.index('/')+1..-1])
   end
+  ### End region: account operations
 
+  ### Begin region: school admin operations
   def self.batch_create_teacher(user, csv_str)
     CSV.generate do |re_csv|
       CSV.parse(csv_str, :headers => true) do |row|
@@ -299,12 +306,7 @@ class User
       end
     end
   end
-
-  def colleagues
-    return [] if !self.teacher
-    return User.where(school_id: self.school_id, subject: self.subject).where(:id.ne => self.id).desc(:name)
-  end
-
+  ### End region: school admin operations
 
   def teacher_info(subject = false)
     return "" if !self.teacher
@@ -320,6 +322,7 @@ class User
     retval
   end
 
+  ### Begin region: teachers' operations
   def add_to_class(class_id, student)
     return if self.has_student?(student)
     klass = self.classes.where(id: class_id).first || self.classes.where(default: true).first || self.classes.create(default: true, name: "默认班级")
@@ -341,6 +344,36 @@ class User
   def has_teacher?(teacher)
     teacher.has_student?(self)
   end
+
+  def create_tag_set(tag_set_str)
+    new_tag_set = tag_set_str.split(/,|，/).map { |e| e.strip } .uniq
+    self.tag_sets.each do |tag_set|
+      if tag_set.sort == new_tag_set.sort
+        return ErrCode.ret_false(ErrCode::TAG_EXIST)
+      end
+    end
+    self.tag_sets << new_tag_set
+    self.save
+    return { success: true, tag_set: new_tag_set }
+  end
+
+  def update_tag_set(index, tag_set_str)
+    new_tag_set = tag_set_str.split(/,|，/).map { |e| e.strip } .uniq
+    self.tag_sets.each do |tag_set|
+      if tag_set.sort == new_tag_set.sort
+        return ErrCode.ret_false(ErrCode::TAG_EXIST)
+      end
+    end
+    self.tag_sets[index] = new_tag_set
+    self.save
+    return { success: true, tag_set: new_tag_set }
+  end
+
+  def remove_tag_set(index, tag_set_str)
+    self.tag_sets.delete(tag_set_str)
+    { success: true }
+  end
+  ### End region: teachers' operations
 
   def teachers(subject)
     teachers = self.klasses.map { |e| e.teacher } .uniq

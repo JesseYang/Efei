@@ -1,53 +1,48 @@
 # encoding: utf-8
 class Student::NotesController < Student::ApplicationController
-  before_filter :require_student
-
-  def index
-    params[:per_page] = 5
-    start_time = params[:period].present? ? Time.now.to_i - params[:period].to_i : 0
-    @notes = current_user.list_notes(params[:note_type].to_i, params[:subject].to_i, start_time, params[:keyword])
-    @note_id_str = @notes.map { |e| e.id.to_s } .join(',')
-    @subject = params[:subject].to_i
-    @notes = auto_paginate @notes
-  end
+  before_filter :require_student, only: [:create, :batch]
 
   def create
-=begin
-    note_id = current_user.add_question_to_note(params[:id], params[:summary].to_s, params[:note_type].to_i, params[:topics].to_s)
-    render_with_auth_key({ success: true, note: note, teacher: teacher })
-=end
+    note = current_user.add_note(params[:id], params[:summary].to_s, params[:tag].to_s, params[:topics].to_s)
+    new_teacher = note.check_teacher(current_user)
+    retval = { note: note, note_update_time: current_user.note_update_time }
+    retval[:teacher] = new_teacher.teacher_info_for_student(true) if new_teacher.present?
+    render_with_auth_key retval
   end
 
   def batch
+    notes = params[question_ids].map { |e| current_user.add_note(qid) }
+    new_teachers = notes.map { |n| n.check_teacher(current_user) }
+    new_teachers.select { |e| !e.nil? } .uniq
+    retval = { note_update_time: current_user.note_update_time }
+    if new_teachers.present?
+      retval[:teachers] = new_teachers.map { |e| e.teacher_info_for_student(true) }
+    end
+    render_with_auth_key retval
+  end
+
+  def note_update_time
+    render_with_auth_key({ note_update_time: current_user.note_update_time })
+  end
+
+  def index
+    render_with_auth_key({ notes: current_user.list_notes })
   end
 
   def show
-    @note = current_user.notes.find(params[:id])
-    @new_note = params["new_note"] == "true"
-    @teacher = @note.question.homework.user
-    @new_teacher = !current_user.has_teacher?(@teacher)
+    note = current_user.notes.where(id: params[:id]).first
+    render_with_auth_key(ErrCode.ret_false(ErrCode::NOTE_NOT_EXIST)) and return if note.nil?
+    render_with_auth_key({ note: note })
   end
 
   def update
-    @note = Note.where(id: params[:id]).first
-    if current_user.note_ids.map { |e| e.to_s } .include?(params[:id])
-      @note.update_note(params[:summary], params[:note_type], params[:topics].to_s)
-    else
-      @note = Note.create_new(@note.question_id.to_s, params[:summary].to_s, params[:note_type], params[:topics].to_s)
-      current_user.notes << @note
-    end
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: { success: true, note_id: @note.id.to_s }
-      end
-    end
+    note = current_user.update_note(params[:summary], params[:tag].to_s, params[:topics].to_s)
+    render_with_auth_key({ note: note, note_update_time: current_user.note_update_time })
   end
 
   def destroy
-    note = current_user.notes.where(id: params[:id])
-    note.destroy
-    redirect_to action: :index
+    current_user.rm_note(params[:id])
+    render_with_auth_key({ note_update_time: current_user.note_update_time })
   end
 
   def export
@@ -55,14 +50,8 @@ class Student::NotesController < Student::ApplicationController
       params[:note_id_str],
       params[:has_answer].to_s == "true",
       params[:has_note].to_s == "true",
-      params[:send_email].to_s == "true",
       params[:email]
     )
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: { file_path: file_path }
-      end
-    end
+    render_with_auth_key({ file_path: file_path })
   end
 end

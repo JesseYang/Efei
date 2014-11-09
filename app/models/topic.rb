@@ -14,4 +14,8 @@ class Topic
     return t if t.present?
     return Topic.create(name: name, subject: subject)
   end
+
+  def to_ary
+    [self.name, self.pinyin]
+  end
 end

@@ -1,6 +1,5 @@
 # encoding: utf-8
 class Student::QuestionsController < Student::ApplicationController
-  before_filter :require_student, only: [:create, :batch]
 
   def show
     q = Question.where(id: params[:id]).first

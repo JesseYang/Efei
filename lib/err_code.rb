@@ -13,6 +13,8 @@ module ErrCode
   QUESTION_NOT_EXIST = -10
   NOTE_NOT_EXIST = -11
 
+  TAG_EXIST = -21
+
 
   def self.ret_false(code)
     retval = { success: false }
@@ -43,6 +45,8 @@ module ErrCode
       "题目不存在"
     when NOTE_NOT_EXIST
       "题目不存在"
+    when TAG_NOT_EXIST
+      "标签已经存在"
     end
   end
 end
