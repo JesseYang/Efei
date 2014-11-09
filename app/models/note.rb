@@ -16,10 +16,14 @@ class Note
   field :a_figures, type: Array, default: []
 
   field :question_str, type: String, default: ""
-  field :topic_str, type: String, default: ""
 
+  # tag set is copied from homework when note is created
+  field :tag_ary, type: Array, default: []
+
+  # note part
+  field :topic_str, type: String, default: ""
   field :summary, type: String
-  field :note_type, type: Integer
+  field :tag, type: String
   belongs_to :user
   belongs_to :question
   has_and_belongs_to_many :topics

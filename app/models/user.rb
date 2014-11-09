@@ -6,24 +6,31 @@ class User
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  # user basic info
   field :email, type: String, default: ""
   field :mobile, type: String, default: ""
+  field :name, type: String, default: ""
   field :password, type: String, default: ""
 
+  # for restting email
   field :new_email, type: String, default: ""
   field :reset_password_verify_code, type: String, default: ""
   field :reset_password_token, type: String, default: ""
 
+  # for restting mobile
   field :new_mobile, type: String, default: ""
   field :reset_mobile_verify_code, type: String, default: ""
   field :reset_mobile_expire_time, type: Integer
 
-  field :admin, :type => Boolean, :default => false
-  field :name, :type => String, :default => ""
-  field :school_admin, :type => Boolean, :default => false
-  field :teacher, :type => Boolean, :default => false
-  field :subject, :type => Integer
-  field :teacher_desc, :type => String
+  # role
+  field :admin, type: Boolean, default: false
+  field :school_admin, type: Boolean, default: false
+
+  # for teachers
+  field :teacher, type: Boolean, default: false
+  field :subject, type: Integer
+  field :teacher_desc, type: String
+  field :tags, type: Array, default: []
 
   has_many :homeworks, class_name: "Homework", inverse_of: :user
   has_many :notes

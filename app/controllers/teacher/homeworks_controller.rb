@@ -28,9 +28,12 @@ class Teacher::HomeworksController < Teacher::ApplicationController
 
   def show
     @homework = Homework.find(params[:id])
-    @colleagues = current_user.colleagues
-    @colleague_ids = @colleagues.map { |e| e.id.to_s }
-    @visitor_ids = @homework.visitors.map { |e| e.id.to_s }
+  end
+
+  def settings
+    @homework = Homework.find(params[:id])
+    @tags = current_user.tags
+    @default_tags = DefaultTag::TAG[@homework.subject]
   end
 
   def destroy
@@ -65,44 +68,6 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     homework = Homework.find(params[:id])
     homework.name = params[:name]
     homework.save
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: { success: true }
-      end
-    end
-  end
-
-  def destroy
-    homework = Homework.find(params[:id])
-    homework.destroy
-    redirect_to action: :index
-  end
-
-  def share_all
-    homework = Homework.find(params[:id])
-    if params[:share]
-      homework.visitors = current_user.colleagues
-      homework.save
-    else
-      homework.visitors.clear
-    end
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: { success: true }
-      end
-    end
-  end
-
-  def share
-    homework = Homework.find(params[:id])
-    teacher = User.find(params[:teacher_id])
-    if params[:share]
-      homework.visitors << teacher
-    else
-      homework.visitors.delete(teacher)
-    end
     respond_to do |format|
       format.html
       format.json do
