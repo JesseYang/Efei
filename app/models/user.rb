@@ -31,16 +31,16 @@ class User
   field :subject, type: Integer
   field :teacher_desc, type: String
   field :tag_sets, type: Array, default: []
+  has_many :homeworks, class_name: "Homework", inverse_of: :user
+  belongs_to :school, class_name: "School", inverse_of: :teachers
+  has_many :classes, class_name: "Klass", inverse_of: :teacher
 
   # for students
   field :note_update_time, type: Hash, default: {}
-
-  has_many :homeworks, class_name: "Homework", inverse_of: :user
   has_many :notes
-  has_many :feedbacks
-  belongs_to :school, class_name: "School", inverse_of: :teachers
-  has_many :classes, class_name: "Klass", inverse_of: :teacher
   has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
+
+  has_many :feedbacks
 
   include HTTParty
   base_uri Rails.application.config.word_host
@@ -183,9 +183,11 @@ class User
   end
   ### End region: account operations
 
+  ### Begin region: common operations
   def create_feedback(content)
     f = Feedback.create(content: content, user_id: self.id.to_s)
   end
+  ### End region: common operations
 
   ### Begin region: teachers' operations
   def list_my_teachers

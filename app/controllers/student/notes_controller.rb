@@ -11,7 +11,7 @@ class Student::NotesController < Student::ApplicationController
   end
 
   def batch
-    notes = params[question_ids].map { |e| current_user.add_note(qid) }
+    notes = params[:question_ids].map { |e| current_user.add_note(qid) }
     new_teachers = notes.map { |n| n.check_teacher(current_user) }
     new_teachers.select { |e| !e.nil? } .uniq
     retval = { note_update_time: current_user.note_update_time }
