@@ -165,7 +165,6 @@ GEM
       railties (>= 3.1.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rmagick (2.13.2)
     rqrcode (0.4.2)
     rqrcode_png (0.1.2)
       chunky_png
@@ -235,7 +234,6 @@ DEPENDENCIES
   rails (= 3.2.14)
   respond-rails (~> 1.0)
   rest-client (~> 1.6.7)
-  rmagick (= 2.13.2)
   rqrcode_png (~> 0.1.2)
   rubyzip (>= 1.0.0)
   sass-rails (~> 3.2.3)

@@ -32,7 +32,7 @@ gem 'wicked_pdf', '~> 0.9.7'
 gem 'nokogiri', '~> 1.5.6'
 gem 'rubyzip', '>= 1.0.0'
 gem 'carrierwave', '~> 0.8.0'
-gem 'rmagick', '2.13.2'
+# gem 'rmagick', '2.13.2'
 gem 'rqrcode_png', '~> 0.1.2'
 gem 'mongoid_shortener', :path => "../mongoid_shortener"
 gem 'string_utf8', "~> 0.0.1"
