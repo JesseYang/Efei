@@ -239,7 +239,7 @@ class User
   end
 
   def update_note(nid, summry, tag, topics)
-    note = self.notes.where(id: nid).first
+    note = self.notes.find(nid)
     return if note.nil?
     note.update_note(summary, tag, topics)
     self.set_note_update_time(note.subject)
@@ -247,7 +247,7 @@ class User
   end
 
   def rm_note(nid)
-    note = self.notes.where(id: nid).first
+    note = self.notes.find(id: nid)
     note.destroy if note.present?
     self.set_note_update_time(note.subject)
   end

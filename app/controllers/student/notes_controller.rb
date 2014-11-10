@@ -8,21 +8,25 @@ class Student::NotesController < Student::ApplicationController
       new_teacher = note.check_teacher(current_user)
       retval = { note: note, note_update_time: current_user.note_update_time }
       retval[:teacher] = new_teacher.teacher_info_for_student(true) if new_teacher.present?
-      render_with_auth_key retval and return
+      render_with_auth_key retval
     rescue Mongoid::Errors::InvalidFind
       render_with_auth_key ErrCode.ret_false(ErrCode::QUESTION_NOT_EXIST)
     end
   end
 
   def batch
-    notes = params[:question_ids].map { |e| current_user.add_note(qid) }
-    new_teachers = notes.map { |n| n.check_teacher(current_user) }
-    new_teachers.select { |e| !e.nil? } .uniq
-    retval = { note_update_time: current_user.note_update_time }
-    if new_teachers.present?
-      retval[:teachers] = new_teachers.map { |e| e.teacher_info_for_student(true) }
+    begin
+      notes = params[:question_ids].map { |e| current_user.add_note(qid) }
+      new_teachers = notes.map { |n| n.check_teacher(current_user) }
+      new_teachers.select { |e| !e.nil? } .uniq
+      retval = { note_update_time: current_user.note_update_time }
+      if new_teachers.present?
+        retval[:teachers] = new_teachers.map { |e| e.teacher_info_for_student(true) }
+      end
+      render_with_auth_key retval
+    rescue Mongoid::Errors::InvalidFind
+      render_with_auth_key ErrCode.ret_false(ErrCode::QUESTION_NOT_EXIST)
     end
-    render_with_auth_key retval
   end
 
   def note_update_time
@@ -34,19 +38,30 @@ class Student::NotesController < Student::ApplicationController
   end
 
   def show
-    note = current_user.notes.where(id: params[:id]).first
-    render_with_auth_key(ErrCode.ret_false(ErrCode::NOTE_NOT_EXIST)) and return if note.nil?
-    render_with_auth_key({ note: note })
+    begin
+      note = current_user.notes.find(params[:id])
+      render_with_auth_key({ note: note })
+    rescue Mongoid::Errors::InvalidFind
+      render_with_auth_key ErrCode.ret_false(ErrCode::NOTE_NOT_EXIST)
+    end
   end
 
   def update
-    note = current_user.update_note(params[:summary], params[:tag].to_s, params[:topics].to_s)
-    render_with_auth_key({ note: note, note_update_time: current_user.note_update_time })
+    begin
+      note = current_user.update_note(params[:summary], params[:tag].to_s, params[:topics].to_s)
+      render_with_auth_key({ note: note, note_update_time: current_user.note_update_time })
+    rescue Mongoid::Errors::InvalidFind
+      render_with_auth_key ErrCode.ret_false(ErrCode::NOTE_NOT_EXIST)
+    end
   end
 
   def destroy
-    current_user.rm_note(params[:id])
-    render_with_auth_key({ note_update_time: current_user.note_update_time })
+    begin
+      current_user.rm_note(params[:id])
+      render_with_auth_key({ note_update_time: current_user.note_update_time })
+    rescue Mongoid::Errors::InvalidFind
+      render_with_auth_key ErrCode.ret_false(ErrCode::NOTE_NOT_EXIST)
+    end
   end
 
   def export

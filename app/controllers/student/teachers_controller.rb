@@ -14,15 +14,22 @@ class Student::TeachersController < Student::ApplicationController
   end
 
   def create
-    t = User.where(id: params[:teacher_id]).first
-    render_with_auth_key ErrCode.ret_false(ErrCode::TEACHER_NOT_EXIST) and return if t.blank?
-    retval = t.add_to_class(params[:class_id], current_user)
-    render_with_auth_key retval
+    begin
+      t = User.find(params[:teacher_id])
+      retval = t.add_to_class(params[:class_id], current_user)
+      render_with_auth_key retval
+    rescue Mongoid::Errors::InvalidFind
+      render_with_auth_key ErrCode.ret_false(ErrCode::TEACHER_NOT_EXIST)
+    end
   end
 
   def destroy
-    t = User.find(params[:id])
-    t.remove_student(current_user)
-    render_with_auth_key
+    begin
+      t = User.find(params[:id])
+      t.remove_student(current_user)
+      render_with_auth_key
+    rescue Mongoid::Errors::InvalidFind
+      render_with_auth_key ErrCode.ret_false(ErrCode::TEACHER_NOT_EXIST)
+    end
   end
 end
