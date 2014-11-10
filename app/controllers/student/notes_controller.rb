@@ -3,11 +3,15 @@ class Student::NotesController < Student::ApplicationController
   before_filter :require_student, only: [:create, :batch]
 
   def create
-    note = current_user.add_note(params[:id], params[:summary].to_s, params[:tag].to_s, params[:topics].to_s)
-    new_teacher = note.check_teacher(current_user)
-    retval = { note: note, note_update_time: current_user.note_update_time }
-    retval[:teacher] = new_teacher.teacher_info_for_student(true) if new_teacher.present?
-    render_with_auth_key retval
+    begin
+      note = current_user.add_note(params[:id], params[:summary].to_s, params[:tag].to_s, params[:topics].to_s)
+      new_teacher = note.check_teacher(current_user)
+      retval = { note: note, note_update_time: current_user.note_update_time }
+      retval[:teacher] = new_teacher.teacher_info_for_student(true) if new_teacher.present?
+      render_with_auth_key retval and return
+    rescue Mongoid::Errors::InvalidFind
+      render_with_auth_key ErrCode.ret_false(ErrCode::QUESTION_NOT_EXIST)
+    end
   end
 
   def batch
