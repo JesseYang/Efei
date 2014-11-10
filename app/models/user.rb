@@ -124,7 +124,7 @@ class User
 
   def rename(name)
     self.update_attributes(name: name)
-    return { success: true }
+    return
   end
 
   def change_password(password, new_password)
@@ -132,7 +132,7 @@ class User
       return ErrCode.ret_false(ErrCode::WRONG_PASSWORD)
     end
     self.update_attributes(password: Encryption.encrypt_password(new_password))
-    return { success: true }
+    return
   end
 
   def change_email(email)
@@ -142,7 +142,7 @@ class User
     self.update_attributes(new_email: email)
     # TODO: send an email to the email address, with a link and a key as the link parameter. The key should contains the email address, the user id, and the time information
     ResetEamilWorker.perform_async(self, email)
-    return { success: ture }
+    return
   end
 
   def verify_email(key)
@@ -167,7 +167,7 @@ class User
     self.reset_mobile_expire_time = Time.now.to_i + Rails.application.config.expire_time
     self.save
     # TODO: send the sms
-    return { success: true }
+    return
   end
 
   def verify_mobile(code)
@@ -179,7 +179,7 @@ class User
     self.new_mobile = ""
     self.reset_mobile_expire_time = nil
     self.save
-    return { success: true }
+    return
   end
   ### End region: account operations
 
