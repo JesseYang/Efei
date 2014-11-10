@@ -2,7 +2,7 @@
 require 'httparty'
 require 'rqrcode_png'
 require 'open-uri'
-require 'RMagick'
+# require 'RMagick'
 class Question
   include Mongoid::Document
   include Mongoid::Timestamps

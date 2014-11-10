@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'RMagick'
+# require 'RMagick'
 
 class String
   CF = 1.3

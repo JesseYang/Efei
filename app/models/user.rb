@@ -213,11 +213,12 @@ class User
     return info if !with_classes
     info[:classes] = []
     self.classes.each do |c|
+      next if !c.visible
       info[:classes] << {
         id: c.id.to_s,
-        id: c.name,
-        id: c.desc
-      } if c.visible
+        name: c.name,
+        desc: c.desc
+      }
     end
     info
   end
@@ -238,7 +239,7 @@ class User
     return note
   end
 
-  def update_note(nid, summry, tag, topics)
+  def update_note(nid, summary, tag, topics)
     note = self.notes.find(nid)
     return if note.nil?
     note.update_note(summary, tag, topics)
@@ -247,7 +248,7 @@ class User
   end
 
   def rm_note(nid)
-    note = self.notes.find(id: nid)
+    note = self.notes.find(nid)
     note.destroy if note.present?
     self.set_note_update_time(note.subject)
   end

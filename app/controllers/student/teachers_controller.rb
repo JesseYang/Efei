@@ -18,7 +18,7 @@ class Student::TeachersController < Student::ApplicationController
       t = User.find(params[:teacher_id])
       retval = t.add_to_class(params[:class_id], current_user)
       render_with_auth_key retval
-    rescue Mongoid::Errors::InvalidFind
+    rescue Mongoid::Errors::InvalidFind, Mongoid::Errors::DocumentNotFound
       render_with_auth_key ErrCode.ret_false(ErrCode::TEACHER_NOT_EXIST)
     end
   end
@@ -28,7 +28,7 @@ class Student::TeachersController < Student::ApplicationController
       t = User.find(params[:id])
       t.remove_student(current_user)
       render_with_auth_key
-    rescue Mongoid::Errors::InvalidFind
+    rescue Mongoid::Errors::InvalidFind, Mongoid::Errors::DocumentNotFound
       render_with_auth_key ErrCode.ret_false(ErrCode::TEACHER_NOT_EXIST)
     end
   end

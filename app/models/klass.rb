@@ -5,6 +5,7 @@ class Klass
 
   field :default, type: Boolean, default: false
   field :name, type: String
+  field :desc, type: String, default: ""
   field :visible, type: Boolean, default: true
 
   belongs_to :teacher, class_name: "User", inverse_of: :classes
