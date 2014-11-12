@@ -1,7 +1,10 @@
-module SurveyComponents::SchoolAdmin
+# encoding: utf-8
+module UserComponents::SchoolAdmin
   extend ActiveSupport::Concern
 
-  field :school_admin, type: Boolean, default: false
+  included do
+    field :school_admin, type: Boolean, default: false
+  end
 
   def self.batch_create_teacher(user, csv_str)
     CSV.generate do |re_csv|

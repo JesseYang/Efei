@@ -1,10 +1,12 @@
-module SurveyComponents::Student
+# encoding: utf-8
+module UserComponents::Student
   extend ActiveSupport::Concern
 
-  # for students
-  field :note_update_time, type: Hash, default: {}
-  has_many :notes
-  has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
+  included do
+    field :note_update_time, type: Hash, default: {}
+    has_many :notes
+    has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
+  end
 
   def list_my_teachers
     teachers_info = self.klasses.map { |e| e.teacher } .uniq.map { |t| t.teacher_info_for_student }

@@ -1,17 +1,19 @@
-module SurveyComponents::Teacher
+# encoding: utf-8
+module UserComponents::Teacher
   extend ActiveSupport::Concern
 
-  field :teacher, type: Boolean, default: false
-  field :subject, type: Integer
-  field :teacher_desc, type: String
-  field :tag_sets, type: Array, default: []
+  included do
+    field :teacher, type: Boolean, default: false
+    field :subject, type: Integer
+    field :teacher_desc, type: String
+    field :tag_sets, type: Array, default: []
+    field :admin, type: Boolean, default: false
 
-
-  field :admin, type: Boolean, default: false
-
-  has_many :homeworks, class_name: "Homework", inverse_of: :user
-  belongs_to :school, class_name: "School", inverse_of: :teachers
-  has_many :classes, class_name: "Klass", inverse_of: :teacher
+    has_many :homeworks, class_name: "Homework", inverse_of: :user
+    belongs_to :school, class_name: "School", inverse_of: :teachers
+    has_many :classes, class_name: "Klass", inverse_of: :teacher
+    has_many :folders, class_name: "Folder", inverse_of: :user
+  end
 
   def add_to_class(class_id, student)
     return if self.has_student?(student)
