@@ -47,16 +47,12 @@ $(document).ready ->
 
   # about homework list
 
-  $("#privilege-select").change ->
-    select_changed()
-
   $("#subject-select").change ->
     select_changed()
 
   select_changed = ->
-    privilege = $("#privilege-select").val()
     subject = $("#subject-select").val()
-    window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject + "&privilege=" + privilege
+    window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject
 
   $("#btn-search").click ->
     search()
@@ -64,10 +60,9 @@ $(document).ready ->
     search() if e.which == 13
 
   search = ->
-    privilege = $("#privilege-select").val()
     subject = $("#subject-select").val()
     keyword = $("#input-search").val()
-    window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject + "&privilege=" + privilege + "&keyword=" + keyword
+    window.location.href = location.protocol + '//' + location.host + location.pathname + "?subject=" + subject + "&keyword=" + keyword
 
   # about change question
   $(".replace-btn").click ->

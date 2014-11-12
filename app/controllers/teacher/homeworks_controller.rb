@@ -7,15 +7,8 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def index
-    @privilege = { "拥有" => 1, "共享" => 2, "全部" => 3 }
     @subject = params[:subject] || current_user.subject
-    if params[:privilege].to_i == 1
-      @homeworks = current_user.homeworks
-    elsif params[:privilege].to_i == 2
-      @homeworks = current_user.shared_homeworks
-    else
-      @homeworks = Homework.any_in(id: (current_user.homeworks+current_user.shared_homeworks).map { |r| r.id })
-    end
+    @homeworks = current_user.homeworks
     if params[:subject].to_i != 0
       @homeworks = @homeworks.where(subject: params[:subject].to_i)
     end

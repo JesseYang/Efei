@@ -64,10 +64,4 @@ class Homework
       :body => {data: data.to_json} )
     return response.body
   end
-
-  def privilege_of(user)
-    return "拥有" if self.user == user
-    return "共享" if self.visitors.include?(user)
-    return ""
-  end
 end

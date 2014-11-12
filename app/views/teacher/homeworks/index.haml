@@ -13,8 +13,6 @@
         .row.search-bar
           .col-md-2
             = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, @subject.to_i), class: "form-control input-sm", id: "subject-select"
-          / .col-md-2
-          /  = select_tag "search_subject", options_for_select(@privilege, params[:privilege] || 3), class: "form-control input-sm", id: "privilege-select"
           .col-md-4
             .input-group
               %input#input-search.input-sm.form-control{type: "text", placeholder: "作业名称", value: params[:keyword]}/
