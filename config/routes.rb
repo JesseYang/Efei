@@ -72,6 +72,8 @@ MathLib::Application.routes.draw do
         post :verify_mobile
       end
     end
+    resources :teachers do
+    end
     resources :notes do
       collection do
         get :note_update_time
