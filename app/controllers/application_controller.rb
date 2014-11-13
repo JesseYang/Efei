@@ -125,6 +125,12 @@ class ApplicationController < ActionController::Base
     raise '500 exception'
   end
 
+  def render_json(value = nil)
+    value = { success: true } if value.nil?
+    value[:success] = true if value[:success].nil?
+    render json: value
+  end
+
   def page
     params[:page].to_i == 0 ? 1 : params[:page].to_i
   end

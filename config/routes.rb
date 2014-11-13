@@ -24,6 +24,19 @@ MathLib::Application.routes.draw do
   end
 
   namespace :teacher do
+
+    resources :widgets do
+    end
+
+    resources :folders do
+      member do
+        put :rename
+        put :move
+        get :list
+        put :recover
+      end
+    end
+
     resources :tag_sets
 
     resources :homeworks do

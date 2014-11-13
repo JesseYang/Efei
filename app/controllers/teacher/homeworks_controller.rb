@@ -1,29 +1,56 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
-  before_filter :ensure_homework, only: [:show, :settings, :set_tag, :destroy, :export, :generate, :rename]
+  before_filter :ensure_homework, only: [:show, :settings, :set_tag, :delete, :export, :generate, :rename]
 
   def ensure_homework
-    @homework = Homework.find(params[:id])
+    begin
+      @homework = Homework.find(params[:id])
+    rescue
+    respond_to do |format|
+      format.html
+      format.json do
+        render_json ErrCode.ret_false(ErrCode::HOMEWORK_NOT_EXIST) and return
+      end
+    end
   end
 
+  ########### list folders or documents #################
+
+  # params:
+  #   parent_id
+  #   type: folder, document, or both
+  #   subject
   def index
-    @subject = params[:subject] || current_user.subject
-    @homeworks = current_user.homeworks
-    if params[:subject].to_i != 0
-      @homeworks = @homeworks.where(subject: params[:subject].to_i)
-    end
-    if params[:keyword].present?
-      @homeworks = @homeworks.where(name: /#{params[:keyword]}/)
-    end
-    if params[:sort].present?
-      @homeworks = params[:dir] == "true" ? @homeworks.desc(params[:sort].to_sym) : @homeworks.asc(params[:sort].to_sym)
+    if params[:parent_id].present?
+      # open the folder
+      @folder = current_user.folders.where(id: params[:parent_id]).first ||current_user.root_folder
+      # @folder.folder_path
+      # @folder.list
     else
-      params[:sort] = "created_at"
-      params[:dir] = "true"
-      @homeworks = @homeworks.desc(:created_at)
+      # search result
+      @subject = params[:subject] || current_user.subject
+      @homeworks = current_user.homeworks
+      if params[:subject].to_i != 0
+        @homeworks = @homeworks.where(subject: params[:subject].to_i)
+      end
+      if params[:keyword].present?
+        @homeworks = @homeworks.where(name: /#{params[:keyword]}/)
+      end
     end
-    @homeworks = auto_paginate @homeworks
   end
+
+  def trash
+    @nodes = current_user.folders.trashed + current_user.homeworks.trashed
+  end
+
+  def workbook
+  end
+
+  def recent_used
+    @nodes = current_user.homeworks.desc(:updated_at).limit(20)
+  end
+
+  ########################################################
 
   def show
   end
@@ -38,10 +65,20 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     render json: { success: true }
   end
 
-  def destroy
-    @homework.destroy
+  def delete
+    @homework.trash
     flash[:notice] = "作业已删除"
     redirect_to action: :index
+  end
+
+  def destroy
+    @homework = current_user.homeworks.trashed.find(params[:id])
+    @homework.destroy
+  end
+
+  def recover
+    @homework = current_user.homeworks.trashed.find(params[:id])
+    @homework.recover
   end
 
   def export
@@ -53,6 +90,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     redirect_to URI.encode download_url
   end
 
+  # ajax
   def create
     document = Document.new
     document.document = params[:file]
@@ -60,16 +98,15 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     document.name = params[:file].original_filename
     homework = document.parse_homework(params[:subject].to_i)
     current_user.homeworks << homework
-    redirect_to action: :show, id: homework.id.to_s
+    if current_user.folders.where(id: params[:folder_id]).first
+      homework.update_attribute :folder_id, params[:folder_id]
+    end
+    render_json { id: homework.id.to_s }
   end
 
+  # ajax
   def rename
-    @homework.update_attributes({name: params[:name]})
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: { success: true }
-      end
-    end
+    @homework.update_attribute :name, params[:name]
+    render_json
   end
 end

@@ -65,4 +65,9 @@ module UserComponents::Teacher
     self.tag_sets.delete(tag_set_str)
     { success: true }
   end
+
+  def root_folder
+    f = self.folders.where(is_root: true).first
+    f.nil? ? self.folders.create(is_root: true) : f
+  end
 end
