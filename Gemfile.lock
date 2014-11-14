@@ -72,6 +72,10 @@ GEM
     ezcrypto (0.7.2)
     haml (4.0.3)
       tilt
+    handlebars_assets (0.14.1)
+      execjs (>= 1.2.9)
+      sprockets (>= 2.0.3)
+      tilt
     hike (1.2.3)
     htmlentities (4.3.1)
     httmultiparty (0.3.15)
@@ -219,6 +223,7 @@ DEPENDENCIES
   devise
   ezcrypto (~> 0.7.2)
   haml (~> 4.0.3)
+  handlebars_assets (~> 0.14.1)
   httmultiparty
   httparty (~> 0.10.2)
   jquery-rails (~> 3.0.4)

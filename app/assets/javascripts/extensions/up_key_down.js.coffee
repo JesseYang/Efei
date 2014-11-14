@@ -5,6 +5,5 @@
       code = ((if e.keyCode then e.keyCode else e.which))
       if code is 38
         fun.call(that)
-      e.stopPropagation()
     this
 ) jQuery

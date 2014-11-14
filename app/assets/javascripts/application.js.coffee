@@ -1,6 +1,8 @@
 #= require jquery
 #= require jquery.autogrow-textarea
 #= require jquery_ujs
+#= require jquery-ui
+#= require handlebars.runtime
 #= require bootstrap.min
 #= require sugar.min
 #= require utility/querilayer
