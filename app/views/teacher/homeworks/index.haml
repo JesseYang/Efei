@@ -1,60 +1,44 @@
 - content_for :head do
-  = javascript_include_tag "pages/teacher/homeworks-bundle"
-  = stylesheet_link_tag "pages/teacher/homeworks-bundle", :media => "all"
+  = stylesheet_link_tag "pages/teacher/homeworks/index-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/homeworks/index-bundle"
+  :javascript
+    window.folder_id = "#{@folder_id}"
 
-.container
-  / .col-sm-10.col-sm-offset-1.col-xs-10.col-xs-offset-1
-  .lib-content
-    - if @homeworks.blank?
-      %h4
-        没有查到作业
-    - else
-      .container
-        .row.search-bar
-          .col-md-2
-            = select_tag "search_subject", options_for_select(Subject::CODE_WITH_ALL, @subject.to_i), class: "form-control input-sm", id: "subject-select"
-          .col-md-4
-            .input-group
-              %input#input-search.input-sm.form-control{type: "text", placeholder: "作业名称", value: params[:keyword]}/
-              %span.input-group-btn
-                %button#btn-search.btn.btn-default.btn-sm{type: "button"} 搜索
-          .col-md-6
-            .pull-right
-              = paginator_mini @homeworks
-      .table-responsive
-        %table.table.table-striped
-          %tr
-            %th.col-md-1
-            %th.col-md-4= table_sort_header "名称", "name"
-            %th.col-md-4= table_sort_header "创建日期", "created_at"
-            %th.col-md-3 操作
-          - @homeworks["data"].each do |hw|
-            %tr
-              %td= Subject::NAME[hw.subject]
-              %td
-                = link_to hw.name, { controller: :homeworks, action: :show, id: hw.id.to_s}
-              %td= hw.created_at.strftime("%Y-%m-%d")
-              %td
-                = link_to "删除", { controller: "homeworks", action: "destroy", id: hw._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
-                = link_to "生成", { controller: "homeworks", action: "generate", id: hw._id.to_s }, :class => 'btn btn-default btn-xs'
-                / = link_to "导出", { controller: "homeworks", action: "export", id: hw._id.to_s }, :class => 'btn btn-default btn-xs'
-                = link_to "查看", { controller: "homeworks", action: "show", id: hw._id.to_s }, :class => 'btn btn-default btn-xs'
-    %button.btn.btn-bottom.btn-primary{data: {toggle: "modal", target: "#newHomework"} } 创建新作业
+#homework-index
+  #search-bar
+  #main-part
+    #left-part
+      #new-button
+        %a#create-btn.btn.btn-danger 新建作业
+      #folders
+        .folder-list.root#root-folder
+          .folder-name
+            %span.icon
+            %span.name 我的文件夹
+          .children.hide
+        .recent.root
+          .folder-name
+            %span.icon
+            %span 最近使用
+        .trash.root
+          .folder-name
+            %span.icon
+            %span 回收站
+    #right-part
+      %span bbb
 
-#newHomework.modal.fade
+
+#newFolderModal.modal.fade
   .modal-dialog
     .modal-content
-      = form_tag(teacher_homeworks_path, method: "post", multipart: true) do
-        .modal-header
-          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-          %h3 创建新作业
-        .modal-body
-          .form-group
-            = label_tag :subject, "学科"
-            = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
-          .form-group
-            = label_tag :name, "选择文件"
-            = file_field_tag "file"
-        .modal-footer
-          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-          = submit_tag "创建", :class => 'btn-primary btn'
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 新建文件夹
+      .modal-body
+        %p
+          %span 请输入新文件夹的名称
+        %p
+          %input.target.form-control{type: "text", value: "新文件夹"}/
+      .modal-footer
+        %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

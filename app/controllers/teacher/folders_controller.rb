@@ -13,7 +13,7 @@ class Teacher::FoldersController < Teacher::ApplicationController
   # ajax
   def index
     tree = Folder.folder_tree(current_user)
-    render_json { tree: tree }
+    render_json({ tree: tree, root_folder_id: current_user.root_folder.id })
   end
 
   # ajax
@@ -25,7 +25,7 @@ class Teacher::FoldersController < Teacher::ApplicationController
   # ajax
   def create
     @folder = Folder.create_new(current_user, params[:name], params[:parent_id])
-    render_json { folder: @folder }
+    render_json({ folder: @folder })
   end
 
   # ajax
@@ -47,7 +47,7 @@ class Teacher::FoldersController < Teacher::ApplicationController
   # ajax
   def list
     nodes = @folder.list_nodes
-    render_json { nodes: nodes }
+    render_json({ nodes: nodes })
   end
 
   # ajax
@@ -55,7 +55,7 @@ class Teacher::FoldersController < Teacher::ApplicationController
     begin
       folder = current_user.folders.trashed.find(params[:id])
       folder.recover
-      render_json { folder: folder }
+      render_json({ folder: folder })
     rescue
       render_json ErrCode.ret_false(ErrCode::FOLDER_NOT_EXIST)
     end

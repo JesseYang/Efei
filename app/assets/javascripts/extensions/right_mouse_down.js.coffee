@@ -5,7 +5,6 @@
     that = this
     this.mousedown (e) ->
       if e.button is 2
-        fun.call(that, e.pageX, e.pageY)
-      e.preventDefault()
+        fun.call(that, e)
     this
 ) jQuery

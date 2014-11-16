@@ -1,1 +1,8 @@
-<span>{{content}}</span>
+{{#each content}}
+  {{#if hr}}
+    <hr />
+  {{else}}
+    <div class="item {{class}}" data-id="{{id}}" data-type="{{type}}"><span>{{text}}</span></div>
+  {{/if}}
+{{/each}}
+

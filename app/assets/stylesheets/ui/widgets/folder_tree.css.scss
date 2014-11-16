@@ -1,0 +1,27 @@
+.folder-list {
+  padding-left: 10px;
+}
+#root-folder {
+  padding-left: 0px;
+}
+
+.selected {
+  color: red;
+}
+
+.folder-name {
+  cursor: pointer;
+  .icon {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    float: left;
+  }
+  .name {
+  	display: block;
+  }
+}
+
+.folder-name:hover {
+  background-color: #F5F5F5;
+}

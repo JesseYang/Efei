@@ -1,0 +1,47 @@
+//= require ui/widgets/folder_tree
+//= require ui/widgets/popup_menu
+@import "compass/css3";
+
+#homework-index {
+  width: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#wrap {
+  min-width: 900px;
+}
+
+#search-bar {
+  width: auto;
+  height: 50px;
+  background: #FAFAFA;
+  @include box-shadow(gray 0px 0px 5px);
+  border-top: 1px solid #E5E5E5;
+}
+
+#main-part {
+  margin-top: 2px;
+}
+
+#left-part {
+  float: left;
+  width: 200px;
+  #new-button {
+  	margin-top: 10px;
+  	margin-left: 30px;
+  }
+  #folders {
+  	margin-top: 10px;
+  	margin-left: 10px;
+  	margin-right: 5px;
+  	.root {
+  	  margin-bottom: 10px;
+  	}
+  }
+}
+
+#right-part {
+  overflow: hidden;
+}

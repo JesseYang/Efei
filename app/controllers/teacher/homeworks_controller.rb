@@ -6,10 +6,11 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     begin
       @homework = Homework.find(params[:id])
     rescue
-    respond_to do |format|
-      format.html
-      format.json do
-        render_json ErrCode.ret_false(ErrCode::HOMEWORK_NOT_EXIST) and return
+      respond_to do |format|
+        format.html
+        format.json do
+          render_json ErrCode.ret_false(ErrCode::HOMEWORK_NOT_EXIST) and return
+        end
       end
     end
   end
@@ -21,6 +22,8 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   #   type: folder, document, or both
   #   subject
   def index
+    @root_folder = current_user.root_folder
+    @folder_id = params[:folder_id]
     if params[:parent_id].present?
       # open the folder
       @folder = current_user.folders.where(id: params[:parent_id]).first ||current_user.root_folder
@@ -101,7 +104,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     if current_user.folders.where(id: params[:folder_id]).first
       homework.update_attribute :folder_id, params[:folder_id]
     end
-    render_json { id: homework.id.to_s }
+    render_json({ id: homework.id.to_s })
   end
 
   # ajax

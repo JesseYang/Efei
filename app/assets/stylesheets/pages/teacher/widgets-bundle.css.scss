@@ -1,13 +1,32 @@
 //=require ui/widgets/popup_menu
+//=require ui/widgets/folder_tree
 @import 'utility';
 $select_width: 3%;
 $question_width: 97%;
 $msg_background: #F9EDBE;
 $msg_border: #F0C36D;
 
-.border {
-  margin: 10px;
-  border: 5px solid red;
-  height: 200px;
-  width: 200px;
+#div1 {
+  border: 1px solid red;
+  height: 100%;
+  width: 20%;
+}
+
+#div2 {
+  border: 1px solid blue;
+  height: 300px;
+  width: 80%;
+  #sub_div {
+    height: 100px;
+    width: 100%;
+    border: 1px solid green;
+  }
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
 }

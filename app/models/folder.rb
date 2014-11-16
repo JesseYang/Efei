@@ -14,13 +14,14 @@ class Folder
   def self.folder_tree(user, parent_id = nil)
   	tree = [ ]
   	parent = parent_id.nil? ? user.root_folder : user.folders.find(parent_id)
+    tree = {
+      id: parent.id.to_s,
+      name: parent.name,
+      children: []
+    }
   	collection = parent.children
   	collection.each do |n|
-  		tree << {
-  			id: n.id.to_s,
-  			name: n.name,
-  			children: self.folder_tree(user, n.id)
-  		}
+  		tree[:children] << self.folder_tree(user, n.id)
   	end
   	tree
   end
@@ -38,14 +39,14 @@ class Folder
 
   def self.create_new(user, name, parent_id = nil)
   	f = user.folders.create(name: name)
-  	parent = parent_id.nil? ? user.root_folder : user.folders.find(parent_id)
+  	parent = parent_id == "root" ? user.root_folder : user.folders.find(parent_id)
 		f.update_attribute :parent_id, parent.id
+    f
   end
 
   def move_to(user, des_folder_id)
-  	if user.folders.find(des_folder_id)
-  		self.update_attribute :parent_id, des_folder_id
-  	end
+    des_folder = des_folder_id == "root" ? user.root_folder : user.folders.find(des_folder_id)
+		self.update_attribute :parent_id, des_folder.id
   end
 
   def list
