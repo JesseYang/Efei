@@ -8,8 +8,8 @@
       click_name_fun: null
     
     _create: ->
-      children = this.element.find(".children")
-      # this.element.data("folderid", this.options.content.id)
+      children = this.element.children(".children")
+      children.empty()
       this.element.attr("data-folderid", this.options.content.id)
       this.element.addClass("root-folder")
       this.options.root_folder_id = this.options.content.id

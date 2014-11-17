@@ -19,6 +19,16 @@
   background: #FAFAFA;
   @include box-shadow(gray 0px 0px 5px);
   border-top: 1px solid #E5E5E5;
+  #folder-nav {
+    margin-left: 200px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    .link-div {
+      padding: 5px;
+      display: inline-block;
+      font-size: 1.4em;
+    }
+  }
 }
 
 #main-part {
@@ -46,10 +56,6 @@
   }
 }
 
-#right-part {
-  overflow: hidden;
-}
-
 // move folder
 #moveModal {
   .modal-body p {
@@ -66,4 +72,31 @@
   border: 2px solid #9CBEF5;
   width: 400px;
   height: 300px;
+}
+
+#right-part {
+  overflow: hidden;
+}
+
+#right-part #table-wraper {
+  margin-top: 10px;
+  margin-left: 8px;
+  margin-right: 50px;
+}
+
+#right-part table {
+  width: 100%;
+  th {
+    color: gray;
+  }
+  tr {
+    height: 40px;
+    border-bottom: 1px solid #E5E5E5;
+  }
+  .record:hover {
+    background-color: #FFFFD6;
+  }
+  .subject {
+    font-size: 0.8em;
+  }
 }

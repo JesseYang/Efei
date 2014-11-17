@@ -45,9 +45,9 @@ $ ->
   ######## Begin: rename part ########
   $("body").on "click", ".popup-menu .rename", ->
     # the rename dialog
-    type = $(event.target).closest(".data-store").data("type")
-    id = $(event.target).closest(".data-store").data("id")
-    name = $(event.target).closest(".data-store").data("name")
+    type = $(event.target).closest(".data-store").attr("data-type")
+    id = $(event.target).closest(".data-store").attr("data-id")
+    name = $(event.target).closest(".data-store").attr("data-name")
     $('.popup-menu').remove()
     $('#renameModal').modal('show')
     $("#renameModal").attr("data-type", type)
@@ -59,9 +59,9 @@ $ ->
     $('.target').select()
 
   $("#renameModal .ok").click ->
-    type = $(this).closest("#renameModal").data("type")
+    type = $(this).closest("#renameModal").attr("data-type")
     if type == "folder"
-      folder_id = $(this).closest("#renameModal").data("id")
+      folder_id = $(this).closest("#renameModal").attr("data-id")
       name = $(this).closest("#renameModal").find(".target").val()
       $.putJSON '/teacher/folders/' + folder_id + "/rename",
         {
@@ -81,7 +81,7 @@ $ ->
   ######## Begin: new folder part ########
   $("body").on "click", ".popup-menu .new-folder", ->
     # the new folder name dialog
-    folder_id = $(event.target).closest(".data-store").data("id")
+    folder_id = $(event.target).closest(".data-store").attr("data-id")
     $('.popup-menu').remove()
     $('#newFolderModal').modal('show')
     $("#newFolderModal").attr("data-folderid", folder_id)
@@ -91,7 +91,7 @@ $ ->
     $('.target').select()
 
   $("#newFolderModal .ok").click ->
-    parent_id = $(this).closest("#newFolderModal").data("folderid")
+    parent_id = $(this).closest("#newFolderModal").attr("data-folderid")
     name = $(this).closest("#newFolderModal").find(".target").val()
     console.log parent_id
     console.log name
@@ -114,19 +114,19 @@ $ ->
         $("#newFolderModal").modal("hide")
   ######## End: new folder part ########
 
-  ######## Begin: new folder part ########
+  ######## Begin: new homework part ########
   $("body").on "click", ".popup-menu .new-doc", ->
-    folder_id = $(event.target).closest(".data-store").data("id")
+    folder_id = $(event.target).closest(".data-store").attr("data-id")
     $('.popup-menu').remove()
     $('#newHomeworkModal').modal('show')
-    $("#newHomeworkModal").attr("data-folderid", folder_id)
-  ######## End: new folder part ########
+    $("#newHomeworkModal #folder_id").val(folder_id)
+  ######## End: new homework part ########
 
   ######## Begin: move folder part ########
   $("body").on "click", ".popup-menu .move", ->
-    type = $(event.target).closest(".data-store").data("type")
-    id = $(event.target).closest(".data-store").data("id")
-    name = $(event.target).closest(".data-store").data("name")
+    type = $(event.target).closest(".data-store").attr("data-type")
+    id = $(event.target).closest(".data-store").attr("data-id")
+    name = $(event.target).closest(".data-store").attr("data-name")
     $('.popup-menu').remove()
     $('#moveModal').modal('show')
     $("#moveModal").attr("data-type", type)
@@ -146,9 +146,9 @@ $ ->
         $.page_notification "服务器出错"
 
   $('#moveModal .ok').click ->
-    type = $(this).closest("#moveModal").data("type")
+    type = $(this).closest("#moveModal").attr("data-type")
     if type == "folder"
-      folder_id = $(this).closest("#moveModal").data("id")
+      folder_id = $(this).closest("#moveModal").attr("data-id")
       des_folder_id = move_tree.folder_tree("get_selected_folder_id")
       $.putJSON '/teacher/folders/' + folder_id + "/move",
         {
@@ -168,8 +168,8 @@ $ ->
 
   ######## Begin: delete part ########
   $("body").on "click", ".popup-menu .delete", ->
-    type = $(event.target).closest(".data-store").data("type")
-    id = $(event.target).closest(".data-store").data("id")
+    type = $(event.target).closest(".data-store").attr("data-type")
+    id = $(event.target).closest(".data-store").attr("data-id")
     if type == "folder"
       $.deleteJSON "/teacher/folders/" + id, {}, (data) ->
         if data.success

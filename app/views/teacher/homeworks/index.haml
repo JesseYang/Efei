@@ -6,6 +6,16 @@
 
 #homework-index
   #search-bar
+    #folder-nav
+      - if @folder_id
+        - @folder_chain[0..-2].each do |f|
+          .link-div
+            %a{href: teacher_homeworks_path + "?folder_id=#{f.id}"}= f.name
+            %span= "/"
+        .link-div
+          %a{href: teacher_homeworks_path + "?folder_id=#{@folder_chain[-1].id}"}= @folder_chain[-1].name
+      - else
+        %span 搜索结果
   #main-part
     #left-part
       #new-button
@@ -25,8 +35,30 @@
             %span.icon
             %span 回收站
     #right-part
-      %span bbb
-
+      #table-wraper
+        %table
+          %tr.header
+            %th
+            %th 标题
+            %th 所有者
+            %th 上次修改时间
+            %th 操作
+          %tr.record
+            %td
+            %td
+              %span.subject [数学]
+              %span.name 导数第一次练习
+            %td 我
+            %td 2014年10月份1日
+            %td
+          %tr.record
+            %td
+            %td
+              %span.subject [数学]
+              %span.name 导数第一次练习
+            %td 我
+            %td 2014年10月份1日
+            %td
 
 #newFolderModal.modal.fade
   .modal-dialog
@@ -87,6 +119,8 @@
           %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
           %h3 创建新作业
         .modal-body
+          .form-group.hide
+            = text_field_tag :folder_id, ""
           .form-group
             = label_tag :subject, "学科"
             = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"

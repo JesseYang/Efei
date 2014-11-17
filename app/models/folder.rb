@@ -26,6 +26,10 @@ class Folder
   	tree
   end
 
+  def ancestor_chain
+    self.is_root ? [self] : self.parent.ancestor_chain + [self]
+  end
+
   def touch_ancestor
   	self.parent.try :touch_ancestor
   	self.touch

@@ -24,11 +24,10 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   def index
     @root_folder = current_user.root_folder
     @folder_id = params[:folder_id]
-    if params[:parent_id].present?
-      # open the folder
-      @folder = current_user.folders.where(id: params[:parent_id]).first ||current_user.root_folder
-      # @folder.folder_path
-      # @folder.list
+    if params[:search].blank?
+      # folder navigation
+      @folder = current_user.folders.where(id: params[:folder_id]).first || current_user.root_folder
+      @folder_chain = @folder.ancestor_chain
     else
       # search result
       @subject = params[:subject] || current_user.subject
@@ -102,9 +101,12 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     homework = document.parse_homework(params[:subject].to_i)
     current_user.homeworks << homework
     if current_user.folders.where(id: params[:folder_id]).first
-      homework.update_attribute :folder_id, params[:folder_id]
+      folder_id = params[:folder_id]
+    else
+      folder_id = current_user.root_folder.id
     end
-    render_json({ id: homework.id.to_s })
+    homework.update_attribute :folder_id, folder_id
+    redirect_to action: :show, id: homework.id.to_s
   end
 
   # ajax
