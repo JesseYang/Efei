@@ -1,0 +1,32 @@
+.folder-list {
+  padding-left: 10px;
+}
+.root-folder {
+  padding-left: 0px;
+  div {
+    white-space: nowrap;
+  }
+}
+
+.selected {
+  color: red;
+}
+
+.folder-name {
+  cursor: pointer;
+  .icon {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    float: left;
+  }
+  .name {
+  	display: block;
+    width: 100px;
+    text-overflow: clip;
+  }
+}
+
+.folder-name:hover {
+  background-color: #F5F5F5;
+}

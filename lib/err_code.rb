@@ -15,6 +15,9 @@ module ErrCode
 
   TAG_EXIST = -21
 
+  FOLDER_NOT_EXIST = -30
+  HOMEWORK_NOT_EXIST = -31
+
 
   def self.ret_false(code)
     retval = { success: false }
@@ -47,6 +50,10 @@ module ErrCode
       "题目不存在"
     when TAG_NOT_EXIST
       "标签已经存在"
+    when FOLDER_NOT_EXIST
+      "文件夹不存在"
+    when HOMEWORK_NOT_EXIST
+      "作业不存在"
     end
   end
 end

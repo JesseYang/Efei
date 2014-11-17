@@ -1,5 +1,5 @@
 - content_for :head do
-  = javascript_include_tag "pages/teacher/homeworks-bundle"
+  = javascript_include_tag "pages/teacher/show-bundle"
   = stylesheet_link_tag "pages/teacher/homeworks-bundle", :media => "all"
   :javascript
     window.homework_id = '#{@homework.id.to_s}'
@@ -14,7 +14,7 @@
         %button.btn.btn-default.btn-sm.title-cancel 取 消
       %ul
         %li.tooltips{title: "返回", data: {toggle: "tooltip", placement: "bottom"}}
-          = link_to "返回", teacher_homeworks_path
+          = link_to "返回", teacher_homeworks_path + "?folder_id=" + @homework.folder.id.to_s
         %li.tooltips{title: "生成", data: {toggle: "tooltip", placement: "bottom"}}
           = link_to "生成", generate_teacher_homework_path(@homework)
         %li.tooltips{title: "删除", data: {toggle: "tooltip", placement: "bottom"}}

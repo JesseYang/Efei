@@ -1,0 +1,9 @@
+<div class="data-store" data-id="{{id}}" data-name="{{name}}" data-type="{{type}}" >
+  {{#each content}}
+    {{#if hr}}
+      <hr />
+    {{else}}
+      <div class="item {{class}}"><span>{{text}}</span></div>
+    {{/if}}
+  {{/each}}
+</div>

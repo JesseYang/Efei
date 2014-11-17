@@ -23,7 +23,6 @@ class Document
   BMP = 7
 
   def parse_homework(subject, homework = nil)
-    # content = Document.get("/extract?filename=#{URI.encode(self.document.to_s.split('/')[-1])}")
     content = Document.post("/ParseWord.aspx", :query => {
       file: File.new("public/#{self.document.to_s}")
     })
