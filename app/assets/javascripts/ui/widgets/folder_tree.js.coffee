@@ -11,6 +11,7 @@
       children = this.element.find(".children")
       # this.element.data("folderid", this.options.content.id)
       this.element.attr("data-folderid", this.options.content.id)
+      this.element.addClass("root-folder")
       this.options.root_folder_id = this.options.content.id
       children.append(this._generate_dom child) for child in this.options.content.children
       this.refresh_caret(this.options.root_folder_id)
@@ -49,6 +50,9 @@
       else
         name.find(".icon").text("▼")
 
+    get_selected_folder_id: ->
+      this.element.find(".selected").closest(".folder-list").data("folderid")
+
     get_folder_id_by_name_node: (name_node) ->
       $(name_node).closest(".folder-list").data("folderid")
 
@@ -57,6 +61,11 @@
       children = parent.children(".children")
       children.append(this._generate_dom new_child)
       this.refresh_caret(parent_id)
+
+    rename_folder: (folder_id, name) ->
+      folder = this._find_folder_by_id(folder_id)
+      name_node = folder.children(".folder-name").find(".name")
+      name_node.text(name)
 
     move_folder: (folder_id, parent_id) ->
       folder = this._find_folder_by_id(folder_id)

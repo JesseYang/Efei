@@ -1,8 +1,11 @@
 .folder-list {
   padding-left: 10px;
 }
-#root-folder {
+.root-folder {
   padding-left: 0px;
+  div {
+    white-space: nowrap;
+  }
 }
 
 .selected {
@@ -19,6 +22,8 @@
   }
   .name {
   	display: block;
+    width: 100px;
+    text-overflow: clip;
   }
 }
 

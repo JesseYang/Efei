@@ -42,3 +42,57 @@
       .modal-footer
         %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
         %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+
+#renameModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 重命名
+      .modal-body
+        %p
+          %span 请为其输入新名称
+        %p
+          %input.target.form-control{type: "text", value: ""}/
+      .modal-footer
+        %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+
+#moveModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 移动
+      .modal-body
+        %p
+          %span 将
+          %span.bold.target-name
+          %span 移至
+        #move-folder-parent
+          .folder-list.root#move-folder
+            .folder-name
+              %span.icon
+              %span.name 我的文件夹
+            .children.hide
+      .modal-footer
+        %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+
+#newHomeworkModal.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(teacher_homeworks_path, method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 创建新作业
+        .modal-body
+          .form-group
+            = label_tag :subject, "学科"
+            = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
+          .form-group
+            = label_tag :name, "选择文件"
+            = file_field_tag "file"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "创建", :class => 'btn-primary btn'

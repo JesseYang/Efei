@@ -18,7 +18,7 @@ class Teacher::FoldersController < Teacher::ApplicationController
 
   # ajax
   def rename
-    @folder.update_attribute(name: params[:name])
+    @folder.update_attribute(:name, params[:name])
     render_json
   end
 

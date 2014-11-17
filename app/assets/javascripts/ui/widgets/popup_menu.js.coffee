@@ -6,6 +6,9 @@
         { text: "create new" }
         { text: "delete" }
       ]
+      id: ""
+      name: ""
+      type: ""
       pos: [0, 0]
     
     _create: ->
