@@ -1,0 +1,13 @@
+{{#if folder_id}}
+  {{#each folder_chain}}
+    {{#if separate}}
+      <span>/<span>
+    {{else}}
+      <div class="link-div">
+        <a href="/teacher/homeworks?folder_id={{id}}">{{name}}</a>
+      </div>
+    {{/if}}
+  {{/each}}
+{{else}}
+  <span>搜索结果</span>
+{{/if}}

@@ -6,16 +6,8 @@
 
 #homework-index
   #search-bar
-    #folder-nav
-      - if @folder_id
-        - @folder_chain[0..-2].each do |f|
-          .link-div
-            %a{href: teacher_homeworks_path + "?folder_id=#{f.id}"}= f.name
-            %span= "/"
-        .link-div
-          %a{href: teacher_homeworks_path + "?folder_id=#{@folder_chain[-1].id}"}= @folder_chain[-1].name
-      - else
-        %span 搜索结果
+    #folder-wrapper
+    #search-box
   #main-part
     #left-part
       #new-button

@@ -69,8 +69,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
 
   def delete
     @homework.trash
-    flash[:notice] = "作业已删除"
-    redirect_to action: :index
+    render_json
   end
 
   def destroy

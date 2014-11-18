@@ -2,7 +2,7 @@
 (($) ->
   $.widget "efei.notification",
     options:
-      delay: 1000
+      delay: 2000
       content: ""
 
     _create: ->

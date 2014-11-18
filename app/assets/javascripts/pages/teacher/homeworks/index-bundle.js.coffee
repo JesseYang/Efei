@@ -3,6 +3,7 @@
 #= require 'ui/widgets/popup_menu'
 #= require "extensions/page_notification"
 #= require "./index_table"
+#= require "./folder_chain"
 $ ->
 
   # forbit the default right-click popup menu
@@ -14,10 +15,9 @@ $ ->
   homework_table = null
   nodes = [ ]
 
-  refresh_homework_table = ->
+  refresh_homework_table_and_folder_chain = ->
     notification = $.page_notification("正在加载", 0)
     $.getJSON "/teacher/folders/#{window.folder_id}/list", (data) ->
-      notification.notification("set_delay", 1000)
       if data.success
         console.log data.nodes
         nodes = data.nodes
@@ -26,8 +26,17 @@ $ ->
         $("#table-wrapper").append(homework_table)
       else
         $.page_notification "服务器出错"
-
-
+    $.getJSON "/teacher/folders/#{window.folder_id}/chain", (data) ->
+      notification.notification("set_delay", 1000)
+      if data.success
+        chain_data = 
+          folder_id: window.folder_id
+          folder_chain: data.chain
+        folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](chain_data))
+        $("#folder-wrapper").empty()
+        $("#folder-wrapper").append(folder_chain)
+      else
+        $.page_notification "服务器出错"
 
   # get the tree stucture
   $.getJSON "/teacher/folders", (data) ->
@@ -42,14 +51,7 @@ $ ->
       $.page_notification "服务器出错"
 
   # get the homework table content
-  $.getJSON "/teacher/folders/#{window.folder_id}/list", (data) ->
-    if data.success
-      console.log data.nodes
-      nodes = data.nodes
-      homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](data))
-      $("#table-wrapper").append(homework_table)
-    else
-      $.page_notification "服务器出错"
+  refresh_homework_table_and_folder_chain()
 
   $("body").on "mousedown", "#root-folder .name", (event) ->
     if event.button is 2
@@ -114,7 +116,7 @@ $ ->
         }, (data) ->
           if data.success
             tree.folder_tree("rename_folder", folder_id, name)
-            refresh_homework_table()
+            refresh_homework_table_and_folder_chain()
           else
             $.page_notification "操作失败，请刷新页面重试"
           $("#renameModal").modal("hide")
@@ -127,7 +129,7 @@ $ ->
           name: name
         }, (data) ->
           if data.success
-            refresh_homework_table()
+            refresh_homework_table_and_folder_chain()
           else
             $.page_notification "操作失败，请刷新页面重试"
           $("#renameModal").modal("hide")
@@ -180,7 +182,7 @@ $ ->
           }
           tree.folder_tree("insert_folder", parent_id, new_folder)
           tree.folder_tree("open_folder", parent_id)
-          $.page_notification "文件夹创建成功"
+          refresh_homework_table_and_folder_chain()
         else
           $.page_notification "操作失败，请刷新页面重试"
         $("#newFolderModal").modal("hide")
@@ -229,7 +231,7 @@ $ ->
           if data.success
             tree.folder_tree("move_folder", folder_id, des_folder_id)
             tree.folder_tree("open_folder", des_folder_id)
-            $.page_notification "移动成功"
+            refresh_homework_table_and_folder_chain()
           else
             $.page_notification "操作失败，请刷新页面重试"
           $("#moveModal").modal("hide")
@@ -237,23 +239,29 @@ $ ->
       # move a document
   ######## End: move folder part ########
 
-
   ######## Begin: delete part ########
   $("body").on "click", ".popup-menu .delete", (event) ->
     type = $(event.target).closest(".data-store").attr("data-type")
     id = $(event.target).closest(".data-store").attr("data-id")
     if type == "folder"
-      $.deleteJSON "/teacher/folders/" + id, {}, (data) ->
+      $.deleteJSON "/teacher/folders/" + id + "/delete", {}, (data) ->
         if data.success
+          parent_id = tree.folder_tree("get_parent_id", id)
           tree.folder_tree("remove_folder", id)
           $(".popup-menu").remove()
-          $.page_notification "文件夹删除成功"
+          if window.folder_id == id
+            window.location.href = "/teacher/homeworks?folder_id=" + parent_id
+          else
+            refresh_homework_table_and_folder_chain()
         else
           $.page_notification "操作失败，请刷新页面重试"
-    else if type == "doc"
-      $.deleteJSON "/teacher/homeworks/" + id, {}, (data) ->
+    else if type == "homework"
+      $.deleteJSON "/teacher/homeworks/" + id + "/delete", {}, (data) ->
         if data.success
           $(".popup-menu").remove()
+          refresh_homework_table_and_folder_chain()
+        else
+          $.page_notification "操作失败，请刷新页面重试"
   ######## End: delete part ########
 
   ######## Begin: redirect part ########
