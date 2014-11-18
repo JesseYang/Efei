@@ -17,7 +17,7 @@
       this.refresh_caret(this.options.root_folder_id)
       that = this
       id = this.element.attr("id")
-      $("body").on "click", "#" + id + " .icon", ->
+      $("body").on "click", "#" + id + " .icon", (event) ->
         that.toggle_folder_by_icon_node event.target
 
       $("body").on "click", "#" + id + " .name", ->

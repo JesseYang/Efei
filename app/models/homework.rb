@@ -67,4 +67,8 @@ class Homework
       :body => {data: data.to_json} )
     return response.body
   end
+
+  def last_update_time
+    self.updated_at.today? ? self.updated_at.strftime("%H点%M分") : self.updated_at.strftime("%Y年%m月%d日")
+  end
 end

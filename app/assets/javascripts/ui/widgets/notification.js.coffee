@@ -16,9 +16,10 @@
         this.element.css "visibility", "visible"
         this.element.css "margin-left", - width / 2
         this.element.show()
-        timer = window.setTimeout(->
-          that.element.fadeOut "slow"
-        , that.options.delay)
+        if this.options.delay > 0
+          timer = window.setTimeout(->
+            that.element.fadeOut "slow"
+          , that.options.delay)
 
       this.element.hover (->
         return if !that.element.is(":visible")
@@ -26,10 +27,29 @@
       ), ->
         timer = undefined
         return if !that.element.is(":visible")
+        if this.options.delay > 0
+          timer = window.setTimeout(->
+            that.element.fadeOut "slow"
+            that.element.css "visibility", "visible"
+          , that.options.delay)
+
+    set_delay: (delay) ->
+      that = this
+      if delay > 0
         timer = window.setTimeout(->
           that.element.fadeOut "slow"
-          that.element.css "visibility", "visible"
         , that.options.delay)
+        this.element.hover (->
+          return if !that.element.is(":visible")
+          window.clearTimeout timer
+        ), ->
+          timer = undefined
+          return if !that.element.is(":visible")
+          if this.options.delay > 0
+            timer = window.setTimeout(->
+              that.element.fadeOut "slow"
+              that.element.css "visibility", "visible"
+            , that.options.delay)
 
     hbs: (content) ->
       $(HandlebarsTemplates["ui/widgets/_templates/notification"](content))

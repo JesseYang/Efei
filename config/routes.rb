@@ -44,7 +44,7 @@ MathLib::Application.routes.draw do
         get :generate
         get :settings
         get :export
-        post :rename
+        put :rename
         put :share
         put :share_all
         put :set_tag_set

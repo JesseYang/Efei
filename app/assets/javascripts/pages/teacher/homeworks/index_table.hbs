@@ -1,0 +1,33 @@
+<table>
+  <tr class=header>
+    <th></th>
+    <th>标题</th>
+    <th>所有者</th>
+    <th>上次修改时间</th>
+    <th>操作</th>
+  </tr>
+  {{#each nodes}}
+    {{#if folder}}
+      <tr class="record folder" data-type="folder" data-id={{id}} data-name={{name}}>
+        <td></td>
+        <td>
+          <a href="/teacher/homeworks?folder_id={{id}}">{{name}}</a>
+        </td>
+        <td>我</td>
+        <td>{{last_update_time}}</td>
+        <td></td>
+      </tr>
+    {{else}}
+      <tr class="record homework" data-type="homework" data-id={{id}} data-name={{name}}>
+        <td></td>
+        <td>
+          <span class="subject">[{{subject}}]</span>
+          <a href="/teacher/homeworks/{{id}}">{{name}}</a>
+        </td>
+        <td>我</td>
+        <td>{{last_update_time}}</td>
+        <td></td>
+      </tr>
+    {{/if}}
+  {{/each}}
+</table>

@@ -2,15 +2,34 @@
 #= require 'ui/widgets/folder_tree'
 #= require 'ui/widgets/popup_menu'
 #= require "extensions/page_notification"
+#= require "./index_table"
 $ ->
 
   # forbit the default right-click popup menu
   $("body").bind "contextmenu", ->
     false
 
-  # get the tree stucture
   tree = null
   move_tree = null
+  homework_table = null
+  nodes = [ ]
+
+  refresh_homework_table = ->
+    notification = $.page_notification("正在加载", 0)
+    $.getJSON "/teacher/folders/#{window.folder_id}/list", (data) ->
+      notification.notification("set_delay", 1000)
+      if data.success
+        console.log data.nodes
+        nodes = data.nodes
+        homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](data))
+        $("#table-wrapper").empty()
+        $("#table-wrapper").append(homework_table)
+      else
+        $.page_notification "服务器出错"
+
+
+
+  # get the tree stucture
   $.getJSON "/teacher/folders", (data) ->
     if data.success
       tree = $("#left-part #root-folder").folder_tree(
@@ -22,7 +41,17 @@ $ ->
     else
       $.page_notification "服务器出错"
 
-  $("body").on "mousedown", "#root-folder .name", ->
+  # get the homework table content
+  $.getJSON "/teacher/folders/#{window.folder_id}/list", (data) ->
+    if data.success
+      console.log data.nodes
+      nodes = data.nodes
+      homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](data))
+      $("#table-wrapper").append(homework_table)
+    else
+      $.page_notification "服务器出错"
+
+  $("body").on "mousedown", "#root-folder .name", (event) ->
     if event.button is 2
       name = $(event.target).text()
       folder_id = tree.folder_tree("get_folder_id_by_name_node", event.target)
@@ -41,9 +70,25 @@ $ ->
         name: name
       event.stopPropagation()
 
+  $("body").on "mousedown", "#table-wrapper .record", (event) ->
+    if event.button is 2
+      type = $(event.target).closest("tr").attr("data-type")
+      id = $(event.target).closest("tr").attr("data-id")
+      name = $(event.target).closest("tr").attr("data-name")
+      popup_menu = $("<div />").appendTo("body")
+      popup_menu.popup_menu
+        pos: [
+          event.pageX
+          event.pageY
+        ]
+        content: generate_popup_menu(id, type)
+        id: id
+        type: type
+        name: name
+      event.stopPropagation()
 
   ######## Begin: rename part ########
-  $("body").on "click", ".popup-menu .rename", ->
+  $("body").on "click", ".popup-menu .rename", (event) ->
     # the rename dialog
     type = $(event.target).closest(".data-store").attr("data-type")
     id = $(event.target).closest(".data-store").attr("data-id")
@@ -69,17 +114,44 @@ $ ->
         }, (data) ->
           if data.success
             tree.folder_tree("rename_folder", folder_id, name)
-            $.page_notification "重命名成功"
+            refresh_homework_table()
           else
             $.page_notification "操作失败，请刷新页面重试"
           $("#renameModal").modal("hide")
     else
       # rename a doc
-
+      homework_id = $(this).closest("#renameModal").attr("data-id")
+      name = $(this).closest("#renameModal").find(".target").val()
+      $.putJSON '/teacher/homeworks/' + homework_id + "/rename",
+        {
+          name: name
+        }, (data) ->
+          if data.success
+            refresh_homework_table()
+          else
+            $.page_notification "操作失败，请刷新页面重试"
+          $("#renameModal").modal("hide")
   ######## End: rename part ########
 
+  ######## Begin: open part ########
+  $("body").on "click", ".popup-menu .open", (event) ->
+    type = $(event.target).closest(".data-store").attr("data-type")
+    id = $(event.target).closest(".data-store").attr("data-id")
+    if type == "folder"
+      window.location.href = "/teacher/homeworks?folder_id=" + id
+    else if type == "homework"
+      $.page_notification "正在打开作业"
+      window.location.href = "/teacher/homeworks/" + id
+  ######## End: open part ########
+
+  ######## Begin: stat part ########
+  $("body").on "click", ".popup-menu .open", (event) ->
+    id = $(event.target).closest(".data-store").attr("data-id")
+    window.location.href = "/teacher/homeworks/" + id + "/stat"
+  ######## End: stat part ########
+
   ######## Begin: new folder part ########
-  $("body").on "click", ".popup-menu .new-folder", ->
+  $("body").on "click", ".popup-menu .new-folder", (event) ->
     # the new folder name dialog
     folder_id = $(event.target).closest(".data-store").attr("data-id")
     $('.popup-menu').remove()
@@ -115,7 +187,7 @@ $ ->
   ######## End: new folder part ########
 
   ######## Begin: new homework part ########
-  $("body").on "click", ".popup-menu .new-doc", ->
+  $("body").on "click", ".popup-menu .new-doc", (event) ->
     folder_id = $(event.target).closest(".data-store").attr("data-id")
     $('.popup-menu').remove()
     $('#newHomeworkModal').modal('show')
@@ -123,7 +195,7 @@ $ ->
   ######## End: new homework part ########
 
   ######## Begin: move folder part ########
-  $("body").on "click", ".popup-menu .move", ->
+  $("body").on "click", ".popup-menu .move", (event) ->
     type = $(event.target).closest(".data-store").attr("data-type")
     id = $(event.target).closest(".data-store").attr("data-id")
     name = $(event.target).closest(".data-store").attr("data-name")
@@ -167,7 +239,7 @@ $ ->
 
 
   ######## Begin: delete part ########
-  $("body").on "click", ".popup-menu .delete", ->
+  $("body").on "click", ".popup-menu .delete", (event) ->
     type = $(event.target).closest(".data-store").attr("data-type")
     id = $(event.target).closest(".data-store").attr("data-id")
     if type == "folder"
@@ -213,6 +285,32 @@ $ ->
         {
           text: "新建文件"
           class: "new-doc"
+        }
+        {
+          hr: true
+        }
+        {
+          text: "重命名"
+          class: "rename"
+        }
+        {
+          text: "移动"
+          class: "move"
+        }
+        {
+          text: "删除"
+          class: "delete"
+        }
+      ]
+    else if type == "homework"
+      [
+        {
+          text: "打开"
+          class: "open"
+        }
+        {
+          text: "统计"
+          class: "stat"
         }
         {
           hr: true
