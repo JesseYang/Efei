@@ -53,6 +53,17 @@ class Folder
     self.update_attribute :parent_id, des_folder.id
   end
 
+  def self.list_trash
+    self.trashed.map do |f|
+      {
+        folder: true,
+        id: f.id.to_s,
+        name: f.name,
+        last_update_time: f.last_update_time
+      }
+    end
+  end
+
   def list_nodes
     nodes = [ ]
     self.children.each do |f|

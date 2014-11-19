@@ -57,6 +57,12 @@ class Teacher::FoldersController < Teacher::ApplicationController
   end
 
   # ajax
+  def trash
+    @nodes = current_user.folders.list_trash + current_user.homeworks.list_trash
+    render_json({ nodes: @nodes })
+  end
+
+  # ajax
   def chain
     chain = @folder.ancestor_chain
     new_chain = (chain.map { |e| { id: e.id, name: e.name} } .flat_map { |x| [x, { separate: true }] }) [0..-2]

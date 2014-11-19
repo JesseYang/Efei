@@ -38,7 +38,7 @@
       if delay > 0
         timer = window.setTimeout(->
           that.element.fadeOut "slow"
-        , that.options.delay)
+        , delay)
         this.element.hover (->
           return if !that.element.is(":visible")
           window.clearTimeout timer
@@ -49,7 +49,7 @@
             timer = window.setTimeout(->
               that.element.fadeOut "slow"
               that.element.css "visibility", "visible"
-            , that.options.delay)
+            , delay)
 
     hbs: (content) ->
       $(HandlebarsTemplates["ui/widgets/_templates/notification"](content))

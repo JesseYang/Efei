@@ -68,6 +68,28 @@ class Homework
     return response.body
   end
 
+  def self.list_recent(amount = 20)
+    self.desc(:updated_at).limit(amount).map do |h|
+      {
+        id: h.id.to_s,
+        name: h.name,
+        last_update_time: h.last_update_time,
+        subject: Subject::NAME[h.subject]
+      }
+    end
+  end
+
+  def self.list_trash
+    self.trashed.map do |h|
+      {
+        id: h.id.to_s,
+        name: h.name,
+        last_update_time: h.last_update_time,
+        subject: Subject::NAME[h.subject]
+      }
+    end
+  end
+
   def last_update_time
     self.updated_at.today? ? self.updated_at.strftime("%H点%M分") : self.updated_at.strftime("%Y年%m月%d日")
   end
