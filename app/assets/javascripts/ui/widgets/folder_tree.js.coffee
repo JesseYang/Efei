@@ -51,7 +51,9 @@
         name.find(".icon").text("▼")
 
     get_selected_folder_id: ->
-      this.element.find(".selected").closest(".folder-list").data("folderid")
+      selected = this.element.find(".selected")
+      return null if selected.length == 0
+      selected.closest(".folder-list").data("folderid")
 
     get_folder_id_by_name_node: (name_node) ->
       $(name_node).closest(".folder-list").data("folderid")

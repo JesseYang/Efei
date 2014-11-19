@@ -1,7 +1,7 @@
 #encoding: utf-8
 class Teacher::FoldersController < Teacher::ApplicationController
 
-  before_filter :ensure_folder, only: [:rename, :delete, :move, :list, :chain, :recover]
+  before_filter :ensure_folder, only: [:rename, :delete, :move, :list, :chain]
   def ensure_folder
     begin
       @folder = Folder.find(params[:id])
@@ -63,6 +63,12 @@ class Teacher::FoldersController < Teacher::ApplicationController
   end
 
   # ajax
+  def search
+    @nodes = current_user.folders.search(params[:keyword]) + current_user.homeworks.search(params[:keyword])
+    render_json({ nodes: @nodes })
+  end
+
+  # ajax
   def chain
     chain = @folder.ancestor_chain
     new_chain = (chain.map { |e| { id: e.id, name: e.name} } .flat_map { |x| [x, { separate: true }] }) [0..-2]
@@ -74,9 +80,12 @@ class Teacher::FoldersController < Teacher::ApplicationController
     begin
       folder = current_user.folders.trashed.find(params[:id])
       folder.recover
-      render_json({ folder: folder })
+      if folder.parent.blank?
+        folder.update_attribute :parent_id, @current_user.root_folder.id
+      end
+      render_json({ parent_id: folder.parent_id }) and return
     rescue
-      render_json ErrCode.ret_false(ErrCode::FOLDER_NOT_EXIST)
+      render_json ErrCode.ret_false(ErrCode::FOLDER_NOT_EXIST) and return
     end
   end
 end

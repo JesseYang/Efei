@@ -20,6 +20,7 @@
   @include box-shadow(gray 0px 0px 5px);
   border-top: 1px solid #E5E5E5;
   #folder-wrapper {
+    float: left;
     margin-left: 200px;
     margin-top: 7px;
     margin-bottom: 7px;
@@ -30,6 +31,7 @@
     }
   }
   #search-box {
+    padding: 10px;
     float: right;
     margin-right: 30px;
   }
@@ -86,6 +88,12 @@
   margin-top: 10px;
   margin-left: 8px;
   margin-right: 50px;
+}
+
+#right-part .tips {
+  font-size: 1.5em;
+  margin-left: 50px;
+  margin-top: 30px;
 }
 
 #right-part table {

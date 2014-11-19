@@ -1,33 +1,55 @@
-<table>
-  <tr class=header>
-    <th></th>
-    <th>标题</th>
-    <th>所有者</th>
-    <th>上次修改时间</th>
-    <th>操作</th>
-  </tr>
-  {{#each nodes}}
-    {{#if folder}}
-      <tr class="record folder" data-type="folder" data-id={{id}} data-name={{name}}>
-        <td></td>
-        <td>
-          <a href="/teacher/homeworks?folder_id={{id}}">{{name}}</a>
-        </td>
-        <td>我</td>
-        <td>{{last_update_time}}</td>
-        <td></td>
-      </tr>
-    {{else}}
-      <tr class="record homework" data-type="homework" data-id={{id}} data-name={{name}}>
-        <td></td>
-        <td>
-          <span class="subject">[{{subject}}]</span>
-          <a href="/teacher/homeworks/{{id}}">{{name}}</a>
-        </td>
-        <td>我</td>
-        <td>{{last_update_time}}</td>
-        <td></td>
-      </tr>
-    {{/if}}
-  {{/each}}
-</table>
+{{#if has_content}}
+  <table data-pagetype={{type}}>
+    <tr class=header>
+      <th></th>
+      <th>标题</th>
+      <th>所有者</th>
+      <th>上次修改时间</th>
+      <th>操作</th>
+    </tr>
+    {{#each nodes}}
+      {{#if folder}}
+        <tr class="record folder" data-type="folder" data-id={{id}} data-name={{name}}>
+          <td>加星图标</td>
+          <td>
+            <span>文件夹图标</span>
+            <a href="/teacher/homeworks?folder_id={{id}}" class="node-link">{{name}}</a>
+          </td>
+          <td>我</td>
+          <td>{{last_update_time}}</td>
+          <td>打开图标 删除图标 还原图标</td>
+        </tr>
+      {{else}}
+        <tr class="record homework" data-type="homework" data-id={{id}} data-name={{name}}>
+          <td>加星图标</td>
+          <td>
+            <span>文档图标</span>
+            <span class="subject">[{{subject}}]</span>
+            <a href="/teacher/homeworks/{{id}}" class="node-link">{{name}}</a>
+          </td>
+          <td>我</td>
+          <td>{{last_update_time}}</td>
+          <td>编辑图标 统计图标 导出图标 删除图标</td>
+        </tr>
+      {{/if}}
+    {{/each}}
+  </table>
+{{else}}
+  <div class="tips">
+    {{#ifCond type "folder"}}
+      <span>文件夹为空</span>
+    {{/ifCond}}
+    {{#ifCond type "search"}}
+      <span>找不到符合搜索条件的结果</span>
+    {{/ifCond}}
+    {{#ifCond type "trash"}}
+      <span>回收站为空</span>
+    {{/ifCond}}
+    {{#ifCond type "recent"}}
+      <span>您最近为使用过任何文档</span>
+    {{/ifCond}}
+    {{#ifCond type "recent"}}
+      <span>您没有任何文档</span>
+    {{/ifCond}}
+  </div>
+{{/if}}
