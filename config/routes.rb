@@ -39,6 +39,7 @@ MathLib::Application.routes.draw do
       end
       collection do
         get :trash
+        get :search
       end
     end
 
@@ -47,6 +48,7 @@ MathLib::Application.routes.draw do
     resources :homeworks do
       member do
         get :generate
+        get :get_folder_id
         get :settings
         get :export
         put :rename
@@ -54,10 +56,12 @@ MathLib::Application.routes.draw do
         put :share
         put :share_all
         put :set_tag_set
+        put :recover
         delete :delete
       end
       collection do
         get :recent
+        get :all
       end
     end
 

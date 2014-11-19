@@ -23,7 +23,7 @@
       this.element.addClass("popup-menu")
 
       page_width = $(window).width()
-      page_height = $(window).height()
+      page_height = $(window).height() + $(window).scrollTop()
       div_width = this.element.width()
       div_height = this.element.height()
       if this.options.pos[0] + div_width < page_width
@@ -35,7 +35,6 @@
       else
         div_loc_y = page_height - div_height - 5
       
-
       this.element.css("left", div_loc_x)
       this.element.css("top", div_loc_y)
       that = this

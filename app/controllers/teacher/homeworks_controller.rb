@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
-  before_filter :ensure_homework, only: [:show, :move, :settings, :set_tag, :delete, :export, :generate, :rename]
+  before_filter :ensure_homework, only: [:get_folder_id, :show, :move, :settings, :set_tag, :delete, :export, :generate, :rename]
 
   def ensure_homework
     begin
@@ -20,9 +20,11 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   # params:
   def index
     @type = params[:type].blank? ? "folder" : params[:type]
-    if !%w{folder recent trash search}.include?(@type)
-      redirect_to action: :index, folder_id: current_user.root_folder.id, type: "folder" and return
+    @root_folder_id = current_user.root_folder.id
+    if !%w{folder recent trash search all}.include?(@type)
+      redirect_to action: :index, folder_id: @root_folder_id, type: "folder" and return
     end
+
     case @type
     when "folder"
       @folder_id = params[:folder_id]
@@ -33,21 +35,10 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     when "recent"
     when "trash"
     when "search"
-    end
-    if params[:search].blank?
-      # folder navigation
-      @folder = current_user.folders.where(id: params[:folder_id]).first || current_user.root_folder
-      @folder_chain = @folder.ancestor_chain
-    else
-      # search result
-      @subject = params[:subject] || current_user.subject
-      @homeworks = current_user.homeworks
-      if params[:subject].to_i != 0
-        @homeworks = @homeworks.where(subject: params[:subject].to_i)
+      if params[:keyword].blank?
+        redirect_to action: index, folder_id: @root_folder_id, type: "folder" and return
       end
-      if params[:keyword].present?
-        @homeworks = @homeworks.where(name: /#{params[:keyword]}/)
-      end
+    when "all"
     end
   end
 
@@ -59,7 +50,16 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     render_json({ nodes: @nodes })
   end
 
+  def all
+    @nodes = current_user.homeworks.list_all
+    render_json({ nodes: @nodes })
+  end
+
   ########################################################
+
+  def get_folder_id
+    render_json({ folder_id: @homework.folder_id })
+  end
 
   def show
   end
@@ -92,11 +92,16 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   def destroy
     @homework = current_user.homeworks.trashed.find(params[:id])
     @homework.destroy
+    render_json
   end
 
   def recover
     @homework = current_user.homeworks.trashed.find(params[:id])
     @homework.recover
+    if @homework.folder.blank?
+      @homework.update_attribute :folder_id, @current_user.root_folder.id
+    end
+    render_json({ parent_id: @homework.folder_id }) and return
   end
 
   def export

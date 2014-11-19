@@ -3,12 +3,18 @@
   = javascript_include_tag "pages/teacher/homeworks/index-bundle"
   :javascript
     window.folder_id = "#{@folder_id}"
+    window.root_folder_id = "#{@root_folder_id}"
     window.type = "#{@type}"
+    window.keyword = "#{params[:keyword]}"
 
 #homework-index
   #search-bar
     #folder-wrapper
     #search-box
+      %input#input-search{:placeholder => "文件夹或者作业标题", :type => "text", :value => params[:keyword]}
+        %span
+          %button#btn-search.btn.btn-default.btn-sm{:type => "button"} 搜索
+  .clear-both
   #main-part
     #left-part
       #new-button
@@ -19,6 +25,10 @@
             %span.icon
             %span.name 我的文件夹
           .children.hide
+        .all.root
+          .folder-name{:class => ("selected" if @type == "all")}
+            %span.icon
+            %span 全部作业
         .recent.root
           .folder-name{:class => ("selected" if @type == "recent")}
             %span.icon
@@ -100,3 +110,15 @@
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'
+
+#recoverModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 还原
+      .modal-body
+        .p 该项目位于回收站中，必须首先还原才能查看，是否还原？
+      .modal-footer
+        %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 还原
+        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

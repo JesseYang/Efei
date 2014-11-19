@@ -68,8 +68,30 @@ class Homework
     return response.body
   end
 
+  def self.list_all
+    self.desc(:updated_at).map do |h|
+      {
+        id: h.id.to_s,
+        name: h.name,
+        last_update_time: h.last_update_time,
+        subject: Subject::NAME[h.subject]
+      }
+    end
+  end
+
   def self.list_recent(amount = 20)
     self.desc(:updated_at).limit(amount).map do |h|
+      {
+        id: h.id.to_s,
+        name: h.name,
+        last_update_time: h.last_update_time,
+        subject: Subject::NAME[h.subject]
+      }
+    end
+  end
+
+  def self.search(keyword)
+    self.where(name: /#{keyword}/).map do |h|
       {
         id: h.id.to_s,
         name: h.name,
