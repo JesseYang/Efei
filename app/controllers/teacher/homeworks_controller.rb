@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
-  before_filter :ensure_homework, only: [:show, :settings, :set_tag, :delete, :export, :generate, :rename]
+  before_filter :ensure_homework, only: [:show, :move, :settings, :set_tag, :delete, :export, :generate, :rename]
 
   def ensure_homework
     begin
@@ -18,12 +18,22 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   ########### list folders or documents #################
 
   # params:
-  #   parent_id
-  #   type: folder, document, or both
-  #   subject
   def index
-    @root_folder = current_user.root_folder
-    @folder_id = params[:folder_id]
+    @type = params[:type].blank? ? "folder" : params[:type]
+    if !%w{folder recent trash search}.include?(@type)
+      redirect_to action: :index, folder_id: current_user.root_folder.id, type: "folder" and return
+    end
+    case @type
+    when "folder"
+      @folder_id = params[:folder_id]
+      if current_user.folders.where(id: @folder_id).first.nil?
+        redirect_to action: :index, folder_id: current_user.root_folder.id, type: "folder" and return
+      end
+      @root_folder = current_user.root_folder
+    when "recent"
+    when "trash"
+    when "search"
+    end
     if params[:search].blank?
       # folder navigation
       @folder = current_user.folders.where(id: params[:folder_id]).first || current_user.root_folder
@@ -41,20 +51,27 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     end
   end
 
-  def trash
-    @nodes = current_user.folders.trashed + current_user.homeworks.trashed
-  end
-
   def workbook
   end
 
-  def recent_used
-    @nodes = current_user.homeworks.desc(:updated_at).limit(20)
+  def recent
+    @nodes = current_user.homeworks.list_recent
+    render_json({ nodes: @nodes })
   end
 
   ########################################################
 
   def show
+  end
+
+  def move
+    begin
+      folder = current_user.folders.find(params[:folder_id])
+      @homework.update_attribute :folder_id, params[:folder_id]
+      render_json
+    rescue
+      render_json ErrCode.ret_false(ErrCode::FOLDER_NOT_EXIST)
+    end
   end
 
   def settings

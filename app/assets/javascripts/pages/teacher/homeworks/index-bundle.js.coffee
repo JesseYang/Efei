@@ -5,6 +5,9 @@
 #= require "./index_table"
 #= require "./folder_chain"
 $ ->
+  Handlebars.registerHelper "ifCond", (v1, v2, options) ->
+    return options.fn(this)  if v1 is v2
+    options.inverse this
 
   # forbit the default right-click popup menu
   $("body").bind "contextmenu", ->
@@ -17,26 +20,48 @@ $ ->
 
   refresh_homework_table_and_folder_chain = ->
     notification = $.page_notification("正在加载", 0)
-    $.getJSON "/teacher/folders/#{window.folder_id}/list", (data) ->
-      if data.success
-        console.log data.nodes
-        nodes = data.nodes
-        homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](data))
-        $("#table-wrapper").empty()
-        $("#table-wrapper").append(homework_table)
-      else
-        $.page_notification "服务器出错"
-    $.getJSON "/teacher/folders/#{window.folder_id}/chain", (data) ->
-      notification.notification("set_delay", 1000)
-      if data.success
-        chain_data = 
-          folder_id: window.folder_id
-          folder_chain: data.chain
-        folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](chain_data))
-        $("#folder-wrapper").empty()
-        $("#folder-wrapper").append(folder_chain)
-      else
-        $.page_notification "服务器出错"
+    if window.type == "folder"
+      $.getJSON "/teacher/folders/#{window.folder_id}/list", (data) ->
+        if data.success
+          console.log data.nodes
+          nodes = data.nodes
+          homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](data))
+          $("#table-wrapper").empty()
+          $("#table-wrapper").append(homework_table)
+        else
+          $.page_notification "服务器出错"
+      $.getJSON "/teacher/folders/#{window.folder_id}/chain", (data) ->
+        notification.notification("set_delay", 500)
+        if data.success
+          chain_data = 
+            type: window.type
+            folder_chain: data.chain
+          folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](chain_data))
+        else
+          $.page_notification "服务器出错"
+    else if window.type == "trash"
+      $.getJSON "/teacher/folders/trash", (data) ->
+        if data.success
+          console.log data.nodes
+          homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](data))
+          $("#table-wrapper").empty()
+          $("#table-wrapper").append(homework_table)
+          notification.notification("set_delay", 500)
+        else
+          $.page_notification "服务器出错"
+      folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](type: window.type))
+    else
+      $.getJSON "/teacher/homeworks/recent", (data) ->
+        if data.success
+          homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](data))
+          $("#table-wrapper").empty()
+          $("#table-wrapper").append(homework_table)
+          notification.notification("set_delay", 500)
+        else
+          $.page_notification "服务器出错"
+      folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](type: window.type))
+    $("#folder-wrapper").empty()
+    $("#folder-wrapper").append(folder_chain)
 
   # get the tree stucture
   $.getJSON "/teacher/folders", (data) ->
@@ -147,7 +172,7 @@ $ ->
   ######## End: open part ########
 
   ######## Begin: stat part ########
-  $("body").on "click", ".popup-menu .open", (event) ->
+  $("body").on "click", ".popup-menu .stat", (event) ->
     id = $(event.target).closest(".data-store").attr("data-id")
     window.location.href = "/teacher/homeworks/" + id + "/stat"
   ######## End: stat part ########
@@ -237,6 +262,17 @@ $ ->
           $("#moveModal").modal("hide")
     else
       # move a document
+      homework_id = $(this).closest("#moveModal").attr("data-id")
+      des_folder_id = move_tree.folder_tree("get_selected_folder_id")
+      $.putJSON '/teacher/homeworks/' + homework_id + "/move",
+        {
+          folder_id: des_folder_id
+        }, (data) ->
+          if data.success
+            refresh_homework_table_and_folder_chain()
+          else
+            $.page_notification "操作失败，请刷新页面重试"
+          $("#moveModal").modal("hide")
   ######## End: move folder part ########
 
   ######## Begin: delete part ########
@@ -269,11 +305,18 @@ $ ->
     window.location = '/teacher/homeworks?folder_id=' + folder_id
   ######## End: redirect part ########
 
+  ######## Begin: other redirect part ########
+  $(".trash").click ->
+    window.location = "/teacher/homeworks?type=trash"
+  $(".recent").click ->
+    window.location = "/teacher/homeworks?type=recent"
+  ######## End: other redirect part ########
+
   $("body").on "click", ".popup_menu .new-doc", ->
     # the upload document dialog
 
-  generate_popup_menu = (id, type) ->
-    if type == "root"
+  generate_popup_menu = (id, folder_type, page_type) ->
+    if folder_type == "root"
       [
         {
           text: "新建文件夹"
@@ -284,7 +327,7 @@ $ ->
           class: "new-doc"
         }
       ]
-    else if type == "folder"
+    else if folder_type == "folder"
       [
         {
           text: "新建文件夹"
@@ -310,7 +353,7 @@ $ ->
           class: "delete"
         }
       ]
-    else if type == "homework"
+    else if folder_type == "homework"
       [
         {
           text: "打开"

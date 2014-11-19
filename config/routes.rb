@@ -37,6 +37,9 @@ MathLib::Application.routes.draw do
         put :recover
         delete :delete
       end
+      collection do
+        get :trash
+      end
     end
 
     resources :tag_sets
@@ -47,10 +50,14 @@ MathLib::Application.routes.draw do
         get :settings
         get :export
         put :rename
+        put :move
         put :share
         put :share_all
         put :set_tag_set
         delete :delete
+      end
+      collection do
+        get :recent
       end
     end
 
