@@ -48,7 +48,7 @@ module ErrCode
       "题目不存在"
     when NOTE_NOT_EXIST
       "题目不存在"
-    when TAG_NOT_EXIST
+    when TAG_EXIST
       "标签已经存在"
     when FOLDER_NOT_EXIST
       "文件夹不存在"

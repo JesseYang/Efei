@@ -33,7 +33,9 @@ MathLib::Application.routes.draw do
         put :rename
         put :move
         get :list
+        get :chain
         put :recover
+        delete :delete
       end
     end
 
@@ -44,10 +46,11 @@ MathLib::Application.routes.draw do
         get :generate
         get :settings
         get :export
-        post :rename
+        put :rename
         put :share
         put :share_all
         put :set_tag_set
+        delete :delete
       end
     end
 

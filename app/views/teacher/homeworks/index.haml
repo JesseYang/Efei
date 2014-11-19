@@ -6,16 +6,8 @@
 
 #homework-index
   #search-bar
-    #folder-nav
-      - if @folder_id
-        - @folder_chain[0..-2].each do |f|
-          .link-div
-            %a{href: teacher_homeworks_path + "?folder_id=#{f.id}"}= f.name
-            %span= "/"
-        .link-div
-          %a{href: teacher_homeworks_path + "?folder_id=#{@folder_chain[-1].id}"}= @folder_chain[-1].name
-      - else
-        %span 搜索结果
+    #folder-wrapper
+    #search-box
   #main-part
     #left-part
       #new-button
@@ -35,30 +27,7 @@
             %span.icon
             %span 回收站
     #right-part
-      #table-wraper
-        %table
-          %tr.header
-            %th
-            %th 标题
-            %th 所有者
-            %th 上次修改时间
-            %th 操作
-          %tr.record
-            %td
-            %td
-              %span.subject [数学]
-              %span.name 导数第一次练习
-            %td 我
-            %td 2014年10月份1日
-            %td
-          %tr.record
-            %td
-            %td
-              %span.subject [数学]
-              %span.name 导数第一次练习
-            %td 我
-            %td 2014年10月份1日
-            %td
+      #table-wrapper
 
 #newFolderModal.modal.fade
   .modal-dialog

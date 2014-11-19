@@ -17,7 +17,7 @@
       this.refresh_caret(this.options.root_folder_id)
       that = this
       id = this.element.attr("id")
-      $("body").on "click", "#" + id + " .icon", ->
+      $("body").on "click", "#" + id + " .icon", (event) ->
         that.toggle_folder_by_icon_node event.target
 
       $("body").on "click", "#" + id + " .name", ->
@@ -55,6 +55,10 @@
 
     get_folder_id_by_name_node: (name_node) ->
       $(name_node).closest(".folder-list").data("folderid")
+
+    get_parent_id: (folder_id) ->
+      folder = this._find_folder_by_id(folder_id)
+      folder.parent().closest(".folder-list").data("folderid")
 
     insert_folder: (parent_id, new_child) ->
       parent = this._find_folder_by_id(parent_id)

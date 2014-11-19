@@ -19,15 +19,19 @@
   background: #FAFAFA;
   @include box-shadow(gray 0px 0px 5px);
   border-top: 1px solid #E5E5E5;
-  #folder-nav {
+  #folder-wrapper {
     margin-left: 200px;
     margin-top: 7px;
     margin-bottom: 7px;
+    font-size: 1.4em;
     .link-div {
       padding: 5px;
       display: inline-block;
-      font-size: 1.4em;
     }
+  }
+  #search-box {
+    float: right;
+    margin-right: 30px;
   }
 }
 
