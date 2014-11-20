@@ -25,7 +25,7 @@
         that.options.click_name_fun folder_id
 
 
-    hbs: (content, name) ->
+    hbs: (content) ->
       $(HandlebarsTemplates["ui/widgets/_templates/folder_tree"](content))
 
     _generate_dom: (content) ->

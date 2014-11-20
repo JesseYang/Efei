@@ -108,8 +108,6 @@ $ ->
       $("#folder-wrapper").empty()
       $("#folder-wrapper").append(folder_chain)
 
-
-
   # get the tree stucture
   $.getJSON "/teacher/folders", (data) ->
     if data.success

@@ -14,18 +14,15 @@ gem 'sidekiq', '~> 3.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
-  gem 'sass-rails', '~> 3.2.3'
-  gem 'compass-rails', '~> 2.0.0'
-  gem "less-rails", '~> 2.4.2'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'handlebars_assets', '~> 0.14.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', :platforms => :ruby
-
-  gem 'uglifier', '>= 1.0.3'
-end
+gem 'sass-rails', '~> 3.2.3'
+gem 'compass-rails', '~> 2.0.0'
+gem 'bootstrap-sass', '~> 3.2.2'
+gem 'autoprefixer-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 3.2.1'
+gem 'handlebars_assets', '~> 0.14.1'
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+gem 'therubyracer', :platforms => :ruby
+gem 'uglifier', '>= 1.0.3'
 
 gem 'ezcrypto', '~> 0.7.2'
 gem 'jquery-rails', '~> 3.0.4'

@@ -3,7 +3,7 @@
 #= require jquery_ujs
 #= require jquery-ui
 #= require handlebars.runtime
-#= require bootstrap.min
+#= require bootstrap-sprockets
 #= require sugar.min
 #= require utility/querilayer
 #= require utility/console

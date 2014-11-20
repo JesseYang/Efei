@@ -49,7 +49,7 @@
         if x < left || x > right || y < top || y > bottom
           that.element.remove()
 
-    hbs: (content, name) ->
+    hbs: (content) ->
       $(HandlebarsTemplates["ui/widgets/_templates/popup_menu"](content))
 
     _destroy: ->
