@@ -2,8 +2,8 @@
 #= require 'ui/widgets/folder_tree'
 #= require 'ui/widgets/popup_menu'
 #= require "extensions/page_notification"
-#= require "./index_table"
-#= require "./folder_chain"
+#= require "./_templates/index_table"
+#= require "./_templates/folder_chain"
 $ ->
   Handlebars.registerHelper "ifCond", (v1, v2, options) ->
     return options.fn(this)  if v1 is v2
@@ -27,7 +27,7 @@ $ ->
             type: window.type
             nodes: data.nodes
             has_content: data.nodes.length > 0
-          homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](table_data))
+          homework_table = $(HandlebarsTemplates["index_table"](table_data))
           $("#table-wrapper").empty()
           $("#table-wrapper").append(homework_table)
         else
@@ -38,7 +38,7 @@ $ ->
           chain_data = 
             type: window.type
             folder_chain: data.chain
-          folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](chain_data))
+          folder_chain = $(HandlebarsTemplates["folder_chain"](chain_data))
           $("#folder-wrapper").empty()
           $("#folder-wrapper").append(folder_chain)
         else
@@ -50,13 +50,13 @@ $ ->
             type: window.type
             nodes: data.nodes
             has_content: data.nodes.length > 0
-          homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](table_data))
+          homework_table = $(HandlebarsTemplates["index_table"](table_data))
           $("#table-wrapper").empty()
           $("#table-wrapper").append(homework_table)
           notification.notification("set_delay", 500)
         else
           $.page_notification "服务器出错"
-      folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](type: window.type))
+      folder_chain = $(HandlebarsTemplates["folder_chain"](type: window.type))
       $("#folder-wrapper").empty()
       $("#folder-wrapper").append(folder_chain)
     else if window.type == "recent"
@@ -66,13 +66,13 @@ $ ->
             type: window.type
             nodes: data.nodes
             has_content: data.nodes.length > 0
-          homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](table_data))
+          homework_table = $(HandlebarsTemplates["index_table"](table_data))
           $("#table-wrapper").empty()
           $("#table-wrapper").append(homework_table)
           notification.notification("set_delay", 500)
         else
           $.page_notification "服务器出错"
-      folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](type: window.type))
+      folder_chain = $(HandlebarsTemplates["folder_chain"](type: window.type))
       $("#folder-wrapper").empty()
       $("#folder-wrapper").append(folder_chain)
     else if window.type == "search"
@@ -82,13 +82,13 @@ $ ->
             type: window.type
             nodes: data.nodes
             has_content: data.nodes.length > 0
-          homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](table_data))
+          homework_table = $(HandlebarsTemplates["index_table"](table_data))
           $("#table-wrapper").empty()
           $("#table-wrapper").append(homework_table)
           notification.notification("set_delay", 500)
         else
           $.page_notification "服务器出错"
-      folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](type: window.type))
+      folder_chain = $(HandlebarsTemplates["folder_chain"](type: window.type))
       $("#folder-wrapper").empty()
       $("#folder-wrapper").append(folder_chain)
     else if window.type == "all"
@@ -98,13 +98,13 @@ $ ->
             type: window.type
             nodes: data.nodes
             has_content: data.nodes.length > 0
-          homework_table = $(HandlebarsTemplates["pages/teacher/homeworks/index_table"](table_data))
+          homework_table = $(HandlebarsTemplates["index_table"](table_data))
           $("#table-wrapper").empty()
           $("#table-wrapper").append(homework_table)
           notification.notification("set_delay", 500)
         else
           $.page_notification "服务器出错"
-      folder_chain = $(HandlebarsTemplates["pages/teacher/homeworks/folder_chain"](type: window.type))
+      folder_chain = $(HandlebarsTemplates["folder_chain"](type: window.type))
       $("#folder-wrapper").empty()
       $("#folder-wrapper").append(folder_chain)
 

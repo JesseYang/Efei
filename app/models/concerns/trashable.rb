@@ -5,7 +5,7 @@ module Concerns::Trashable
   included do
     field :deleted_at, type: Integer
     field :in_trash, type: Boolean, default: false
-    default_scope where(deleted_at: nil).where(:in_trash.ne => true)
+    default_scope -> { where(deleted_at: nil).where(:in_trash.ne => true) }
   end
  
   module ClassMethods
