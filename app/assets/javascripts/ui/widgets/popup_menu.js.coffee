@@ -50,7 +50,7 @@
           that.element.remove()
 
     hbs: (content) ->
-      $(HandlebarsTemplates["ui/widgets/_templates/popup_menu"](content))
+      $(HandlebarsTemplates["popup_menu"](content))
 
     _destroy: ->
       $("body").off "mousedown.popup_menu"

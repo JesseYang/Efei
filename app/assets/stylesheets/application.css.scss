@@ -11,8 +11,9 @@
  */
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "common";
+@import "jquery-ui";
 
-@import 'utility';
 @import 'ui/widgets/notification';
 
 .right {

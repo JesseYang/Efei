@@ -1,46 +1,47 @@
 source 'https://rubygems.org'
 ruby '2.1.2'
 gem 'rails', '4.1.8'
-gem 'activeresource'
-gem 'respond-rails'
+gem 'activeresource', '~> 4.0.0'
+gem 'respond-rails', '~> 1.0.1'
 
-gem 'mongoid'
-gem 'haml'
-gem 'httparty'
-gem 'httmultiparty'
-gem 'sidekiq'
+gem 'mongoid', '~> 4.0.0'
+gem 'haml', '~> 4.0.5'
+gem 'httparty', '~> 0.13.3'
+gem 'httmultiparty', '~> 0.3.16'
+gem 'sidekiq', '~> 3.2.6'
 
 # Gems used only for assets and not required
 # in production environments by default.
 gem 'sass-rails', github: 'rails/sass-rails'
-gem 'compass-rails'
-gem 'bootstrap-sass'
-gem 'autoprefixer-rails'
-gem 'coffee-rails'
-gem 'handlebars_assets'
+gem 'compass-rails', '~> 2.0.1'
+gem 'bootstrap-sass', '~> 3.3.1.0'
+gem 'autoprefixer-rails', '~> 4.0.0.1'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'handlebars_assets', '~> 0.18'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', :platforms => :ruby
-gem 'uglifier'
+gem 'uglifier', '~> 2.5.3'
 
-gem 'ezcrypto'
-gem 'jquery-rails'
-gem 'wkhtmltopdf-binary'
-gem 'wicked_pdf'
-gem 'nokogiri'
-gem 'carrierwave'
-gem 'rqrcode_png'
+gem 'ezcrypto', '~> 0.7.2'
+gem 'jquery-rails', '~> 3.1.2'
+gem 'jquery-ui-rails', '~> 5.0.2'
+gem 'wkhtmltopdf-binary', '~> 0.9.9.3'
+gem 'wicked_pdf', '~> 0.11.0'
+gem 'nokogiri', '~> 1.6.4.1'
+gem 'carrierwave', '~> 0.10.0'
+gem 'rqrcode_png', '~> 0.1.5'
 gem 'mongoid_shortener', :path => "../mongoid_shortener"
-gem 'string_utf8'
-gem 'kaminari'
-gem 'premailer-rails'
-gem 'rest-client'
+gem 'string_utf8', '~> 0.1.1'
+gem 'kaminari', '~> 0.16.1'
+gem 'premailer-rails', '~> 1.8.2'
+gem 'rest-client', '~> 1.7.2'
 
 group :development do
-  gem 'pry-rails'
-  gem 'pry-remote'
-  gem 'pry-nav'
-  gem "better_errors"
-  gem 'binding_of_caller'
+  gem 'pry-rails', '~> 0.3.2'
+  gem 'pry-remote', '~> 0.1.8'
+  gem 'pry-nav', '~> 0.2.4'
+  gem "better_errors", '~> 2.0.0'
+  gem 'binding_of_caller', '~> 0.7.2'
 end
 
 # To use ActiveModel has_secure_password

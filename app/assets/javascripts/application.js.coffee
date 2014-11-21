@@ -1,7 +1,7 @@
 #= require jquery
+#= require jquery-ui
 #= require jquery.autogrow-textarea
 #= require jquery_ujs
-#= require jquery-ui
 #= require bootstrap-sprockets
 #= require sugar.min
 #= require utility/querilayer
