@@ -52,5 +52,5 @@
             , delay)
 
     hbs: (content) ->
-      $(HandlebarsTemplates["ui/widgets/_templates/notification"](content))
+      $(HandlebarsTemplates["notification"](content))
 ) jQuery
