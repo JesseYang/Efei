@@ -6,16 +6,18 @@ body{
     height: 3000px;
 }
 .bd1{
+    position: absolute;
     z-index: -100;
     width: 100%;
-    position: absolute;
+    
 }
 
 .bd2 {
+    position: absolute;
     z-index: 100;
     width: 100%;
-    top: 380px;
-    position: absolute;
+    top:330px;
+    
 }
 
 .bd3{
@@ -38,8 +40,7 @@ body{
 }
 .te3{
     width: 1000px;
-    margin-left: 210px;
-
+    margin: auto;
     display:block
 
 

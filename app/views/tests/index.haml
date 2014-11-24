@@ -8,8 +8,8 @@
     %img.te2{:src => "assets/photoTest/bd2.png"}
   #bd3.bd3
     %img#te3.te3{:src => "assets/photoTest/bd3.png"}
-/:javascript
-/  $("#bd3").hover(function() {
-/    $( "#bd3" ).effect( "bounce",1800);
-/  });
+:javascript
+   $("#bd3").ready(function() {
+   $( "#bd3" ).effect( "bounce",1800);
+   });
 
