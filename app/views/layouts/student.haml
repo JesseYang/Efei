@@ -5,35 +5,6 @@
   :javascript
     window.controller = "#{params[:controller]}"
     window.action = "#{params[:action]}"
-- content_for :app_nav do
-  .navbar-xs
-    .navbar-primary
-      #app-user-navbar.navbar.navbar-inverse{role: "navigation"}
-        .navbar-header#my-navbar-header
-          %a.navbar-brand{href: "/"} 易飞
-        .container
-          %ul#my-left-navbar-nav.nav.navbar-nav
-            %li.divider-vertical
-            %li.notes
-              %a{href: "/student/notes/"} 笔记本
-          %ul#my-right-navbar-nav.nav.navbar-nav.navbar-right
-            %li.dropdown
-              - if user_signed_in?
-                %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
-                  %span= current_user.email_for_short
-                  %b.caret
-                %ul#my-dropdown-menu.dropdown-menu
-                  %li
-                    %a{href: "/student/settings/#{current_user.id.to_s}"} 个人设置
-                  %li
-                    %a{href: "/account/sessions/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
-              - else
-                %ul#stu-dropdown-ul.nav.navbar-nav
-                  %li#stu-dropdown-signin
-                    = link_to "登录", new_account_session_path
-                  %li.divider-vertical.hidden-xs
-                  %li#stu-dropdown-signup
-                    = link_to "注册", new_account_registration_path
 - content_for :app_content do
   = yield
 
