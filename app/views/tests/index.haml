@@ -1,5 +1,15 @@
 = javascript_include_tag "pages/tests-bundle"
 = stylesheet_link_tag "pages/tests-bundle", :media => "all"
 
-%div
-  %span hello world!
+%body
+  #bd1.bd1
+    %img.te1{:src => "assets/photoTest/bd1.png"}
+  #bd2.bd2
+    %img.te2{:src => "assets/photoTest/bd2.png"}
+  #bd3.bd3
+    %img#te3.te3{:src => "assets/photoTest/bd3.png"}
+/:javascript
+/  $("#bd3").hover(function() {
+/    $( "#bd3" ).effect( "bounce",1800);
+/  });
+
