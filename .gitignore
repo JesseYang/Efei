@@ -22,3 +22,4 @@
 /public/assets
 /.htaccess
 /config/mongoid.yml
+/.idea
