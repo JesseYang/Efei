@@ -25,9 +25,6 @@ Rails.application.routes.draw do
 
   namespace :teacher do
 
-    resources :widgets do
-    end
-
     resources :folders do
       member do
         put :rename
@@ -138,6 +135,9 @@ Rails.application.routes.draw do
   end
   resources :topics do
   end
+  resources :widgets do
+  end
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
