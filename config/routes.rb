@@ -134,6 +134,8 @@ Rails.application.routes.draw do
 
   resources :qrcodes do
   end
+  resources :tests do
+  end
   resources :topics do
   end
 
