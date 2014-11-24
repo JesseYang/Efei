@@ -1,33 +1,9 @@
-//=require ui/widgets/popup_menu
-//=require ui/widgets/icon_buttons
-//=require ui/widgets/folder_tree
-@import 'utility';
-$select_width: 3%;
-$question_width: 97%;
-$msg_background: #F9EDBE;
-$msg_border: #F0C36D;
+@import "common";
+@import "ui/widgets/popup_menu";
+@import "ui/widgets/icon_buttons";
+@import "ui/widgets/folder_tree";
 
-#div1 {
-  border: 1px solid red;
-  height: 100%;
-  width: 20%;
-}
-
-#div2 {
-  border: 1px solid blue;
-  height: 300px;
-  width: 80%;
-  #sub_div {
-    height: 100px;
-    width: 100%;
-    border: 1px solid green;
-  }
-}
-
-.left {
-  float: left;
-}
-
-.right {
-  float: right;
+#widget-container {
+  border: 1px solid black;
+  @include size(400px, 200px);
 }
