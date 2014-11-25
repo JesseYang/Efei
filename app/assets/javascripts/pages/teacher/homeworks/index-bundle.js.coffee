@@ -488,3 +488,5 @@ $ ->
           class: "delete"
         }
       ] if page_type == "recent" || page_type == "search" || page_type == "all"
+
+

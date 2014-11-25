@@ -2,11 +2,11 @@
 #= require jquery-ui
 #= require jquery_ujs
 #= require jquery-migrate-1.2.1.min
+#= require jquery.placeholder
 #= require bootstrap-sprockets
 #= require sugar.min
 #= require utility/querilayer
 #= require utility/console
-#= require jquery.placeholder
 #= require respond
 #= require html5shiv
 #= require handlebars.runtime
