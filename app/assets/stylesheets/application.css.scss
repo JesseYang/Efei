@@ -13,8 +13,22 @@
 @import "bootstrap";
 @import "common";
 @import "jquery-ui";
-
 @import 'ui/widgets/notification';
+@import "icons/browser/*.png";
+
+#browser {
+  display: none;
+  background: $yellow-light;
+  padding: 5px;
+  font-size: 14px;
+  a {
+    @include square(64px);
+    margin: 10px;
+    &.ie { @include browser-sprite(ie); }
+    &.firefox { @include browser-sprite(firefox); }
+    &.chrome { @include browser-sprite(chrome); }
+  }
+}
 
 .sub-banner {
   margin-top: -40px;
