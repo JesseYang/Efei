@@ -5,6 +5,7 @@
 #= require "./_templates/index_table"
 #= require "./_templates/folder_chain"
 $ ->
+
   Handlebars.registerHelper "ifCond", (v1, v2, options) ->
     return options.fn(this)  if v1 is v2
     options.inverse this
@@ -187,6 +188,12 @@ $ ->
   ######## End: new folder part ########
 
   ######## Begin: new homework part ########
+  intervalFunc = ->
+    $('#file-name').html $('#file').val();
+  $("#browser-click").click ->
+    $("#file").click()
+    setInterval(intervalFunc, 1)
+
   $("body").on "click", ".popup-menu .new-doc", (event) ->
     data = popup_menu.popup_menu("option")
     $('.popup-menu').remove()
@@ -488,5 +495,4 @@ $ ->
           class: "delete"
         }
       ] if page_type == "recent" || page_type == "search" || page_type == "all"
-
 
