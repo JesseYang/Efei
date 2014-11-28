@@ -12,30 +12,35 @@
 /    $("#bd3").ready(function() {
 /    $( "#bd3" ).effect( "bounce",1800);
 /    });
-%body
-  %div#_main_header._main_header
-    %a.logo{:href =>"http://localhost:3000/school_admin/teachers",:target =>"blank",:tabindex =>"-1"}
-      %img#logo_img.logo_img{:src => "assets/teacher-photo/.png"}
-    %div#_main_menu._main_menu
-      %ul
-        %li
-          %a{:href =>"http://localhost:3000/teacher/homeworks"} 我的作业
-        %li
-          %a{:href  =>"http://localhost:3000/studentManage"} 学生管理
-        %li
-          %a{:href =>"http://localhost:3000/guide"} 新手指南
-    %div#_main_face._main_face
-      %div#innner.innner
-        %a{:href =>"http://localhost:3000/guide"} wangbenping@163.com
-        %img{:href =>"http://teacher_Photo"}
-    %div#-main_face_menu.main_face_menu
-      %ul
-        %li
-          %a{"data-method" => "get", :href => "/school_admin/teachers"} 学校管理员
-        %li
-          %a{:href => "/teacher/settings/54606ba4455e01f162000001"} 个人设置
-        %li
-          %a{"data-method" => "delete", :href => "/account/sessions/sign_out", :rel => "nofollow"} 退出
+%div#_main_header._main_header
+  %a.logo{:href =>"http://localhost:3000/school_admin/teachers",:target =>"blank",:tabindex =>"-1"}
+    %img#logo_img.logo_img{:src => "assets/teacher-photo/.png"}
+  %div#_main_menu._main_menu
+    %ul
+      %li
+        %a{:href =>"http://localhost:3000/teacher/homeworks"} 我的作业
+      %li
+        %a{:href  =>"http://localhost:3000/studentManage"} 学生管理
+      %li
+        %a{:href =>"http://localhost:3000/guide"} 新手指南
+  %div#_main_face._main_face
+    %div#innner.innner
+      %a{:href =>"http://localhost:3000/guide"} wangbenping@163.com
+      %img{:href =>"http://teacher_Photo"}
+  %div#-main_face_menu.main_face_menu
+    %ul
+      %li
+        %a{"data-method" => "get", :href => "/school_admin/teachers"} 学校管理员
+      %li
+        %a{:href => "/teacher/settings/54606ba4455e01f162000001"} 个人设置
+      %li
+        %a{"data-method" => "delete", :href => "/account/sessions/sign_out", :rel => "nofollow"} 退出
+
+#sub-nav
+
+#main-part
+  #left-part
+  #right-part
 
 
 
