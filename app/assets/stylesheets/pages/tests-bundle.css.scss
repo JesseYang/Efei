@@ -6,6 +6,7 @@
   height: 50px;
   background-color: #f7f7f7;
   box-shadow: 0px 1px 3px #464646;
+  display: none;
 }
 .logo_area{
   width: 200px;
@@ -75,112 +76,199 @@
   font-size: 12px;
 
 }
+
 #left-part {
   padding-left: 20px;
   padding-top: 20px;
   float: left;
   width: 200px;
   height: 500px;
-  border: 2px solid red;
   ul {
-  padding-left: 0px;
-  list-style: none;
-  .sub-folder {
-    margin-left: 12px;
+    padding-left: 0px;
+    list-style: none;
+    .sub-folder {
+      margin-left: 12px;
+    }
+    %caret {
+      @include inline-block;
+      position: absolute;
+      border-width: 5px;
+      border-style: solid;
+    }
+    b.open {
+      @extend %caret;
+      top: 8px;
+      border-color: black transparent transparent;
+    }
+    b.closed {
+      @extend %caret;
+      top: 6px;
+      left: 2px;
+      border-color: transparent transparent transparent black;
+    }
+    .root b.open {
+      @extend %caret;
+      top: 12px;
+      border-color: black transparent transparent;
+    }
+    .root b.closed {
+      @extend %caret;
+      top: 10px;
+      left: 2px;
+      border-color: transparent transparent transparent black;
+    }
+    .root {
+      @include one-line(30px);
+    }
+    .icon {
+      margin-left: 15px;
+      @include size(16px, 16px);
+      @include inline-block;
+    }
+    .name-node {
+      position: relative;
+      .folder-open {
+        @include homeworks-sprite(folder_open);
+      }
+      .folder-closed {
+        @include homeworks-sprite(folder_closed);
+      }
+      .documents {
+        @include homeworks-sprite(document);
+      }
+      .recent {
+        @include homeworks-sprite(clock);
+      }
+      .workbook {
+        @include homeworks-sprite(book);
+      }
+      .starred {
+        @include homeworks-sprite(star);
+      }
+      .trash {
+        @include homeworks-sprite(trash);
+      }
+      &.selected {
+        span {
+          color: #D54937;
+        }
+        .documents {
+          @include homeworks-sprite(document);
+        }
+        .folder-open {
+          @include homeworks-sprite(folder_open_selected);
+        }
+        .folder-closed {
+          @include homeworks-sprite(folder_closed_selected);
+        }
+        .recent {
+          @include homeworks-sprite(clock);
+        }
+        .workbook {
+          @include homeworks-sprite(book);
+        }
+        .starred {
+          @include homeworks-sprite(star);
+        }
+        .trash {
+          @include homeworks-sprite(trash);
+        }
+      }
+      &:hover {
+      background-color: #EEEEEE;
+      }
+      cursor: pointer;
+    }
   }
-  %caret {
-    @include inline-block;
-    position: absolute;
-    border-width: 5px;
-    border-style: solid;
-  }
-  b.open {
-    @extend %caret;
-    top: 8px;
-    border-color: black transparent transparent;
-  }
-  b.closed {
-    @extend %caret;
-    top: 6px;
-    left: 2px;
-    border-color: transparent transparent transparent black;
-  }
-  .root b.open {
-    @extend %caret;
-    top: 12px;
-    border-color: black transparent transparent;
-  }
-  .root b.closed {
-    @extend %caret;
-    top: 10px;
-    left: 2px;
-    border-color: transparent transparent transparent black;
-  }
-  .root {
-    @include one-line(30px);
-  }
-  .icon {
-    margin-left: 15px;
-    @include size(16px, 16px);
-    @include inline-block;
-  }
-  .name-node {
-    position: relative;
-    .folder-open {
-    @include homeworks-sprite(folder_open);
-    }
-    .folder-closed {
-    @include homeworks-sprite(folder_closed);
-    }
-    .documents {
-    @include homeworks-sprite(document);
-    }
-    .recent {
-    @include homeworks-sprite(clock);
-    }
-    .workbook {
-    @include homeworks-sprite(book);
-    }
-    .starred {
-    @include homeworks-sprite(star);
-    }
-    .trash {
-    @include homeworks-sprite(trash);
-    }
-    &.selected {
-    span {
-      color: #D54937;
-    }
-    .documents {
-      @include homeworks-sprite(document);
-    }
-    .folder-open {
-      @include homeworks-sprite(folder_open_selected);
-    }
-    .folder-closed {
-      @include homeworks-sprite(folder_closed_selected);
-    }
-    .recent {
-      @include homeworks-sprite(clock);
-    }
-    .workbook {
-      @include homeworks-sprite(book);
-    }
-    .starred {
-      @include homeworks-sprite(star);
-    }
-    .trash {
-      @include homeworks-sprite(trash);
-    }
-    }
-    &:hover {
-    background-color: #EEEEEE;
-    }
-    cursor: pointer;
-  }
-  }
-
 }
+
+#right-part {
+  overflow: hidden;
+  padding-left: 15px;
+  padding-top: 15px;
+  table {
+    a {
+      text-decoration: none;
+    }
+    .icon {
+      @include size(16px, 16px);
+      @include inline-block;
+      margin-left: 5px;
+    }
+    width: 95%;
+    th {
+      color: gray;
+      .title {
+        margin-left: 25px;
+      }
+    }
+    tr {
+      height: 40px;
+      border-bottom: 1px solid #E5E5E5;
+      &:not(:first-child) {
+        &:hover {
+          background-color: #FFFFD6;
+        }
+        .subject {
+          font-size: 0.75em;
+        }
+        .doc-title {
+          color: black;
+          &:hover {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    .star-empty {
+      @include homeworks-sprite(star_empty);
+      &:hover {
+        @include homeworks-sprite(star_hover);
+      }
+    }
+    .starred {
+      @include homeworks-sprite(star_starred);
+    }
+    .folder {
+      @include homeworks-sprite(folder_table);
+    }
+    .document {
+      @include homeworks-sprite(document_table);
+    }
+
+    .open {
+      @include homeworks-sprite(open);
+      &:hover {
+        @include homeworks-sprite(open_hover);
+      }
+    }
+    .move {
+      @include homeworks-sprite(move);
+      &:hover {
+        @include homeworks-sprite(move_hover);
+      }
+    }
+    .remove {
+      @include homeworks-sprite(remove);
+      &:hover {
+        @include homeworks-sprite(remove_hover);
+      }
+    }
+    .edit {
+      @include homeworks-sprite(edit);
+      &:hover {
+        @include homeworks-sprite(edit_hover);
+      }
+    }
+    .stat {
+      @include homeworks-sprite(stat);
+      &:hover {
+        @include homeworks-sprite(stat_hover);
+      }
+    }
+  }
+}
+
 .main_face_menu ul{
   list-style-type: none;
   width: 400px;

@@ -52,12 +52,12 @@
               %i.icon.folder-closed
               %span 高一数学
           .sub-folder.folder-node
-            .name-node.selected
+            .name-node
               %b
               %i.icon.folder-closed
               %span 高二数学
           .sub-folder.folder-node
-            .name-node
+            .name-node.selected
               %b.open
               %i.icon.folder-open
               %span 高三数学
@@ -98,7 +98,90 @@
             %i.icon.trash
             %span 已删除
   #right-part
-
-
-
+    %table
+      %tr
+        %th
+        %th
+          %span.title 标题
+        %th 所有者
+        %th 修改时间
+        %th 操作
+      %tr
+        %td
+          %a{href: "#"}
+            %i.icon.starred
+        %td
+          %i.icon.folder
+          %a.doc-title{href: "#"} 函数
+        %td
+          %span 我
+        %td
+          %span 2014年11月25日
+        %td
+          %a{href: "#", title: "打开" }
+            %i.icon.open
+          %a{href: "#", title: "移动" }
+            %i.icon.move
+          %a{href: "#", title: "删除" }
+            %i.icon.remove
+      %tr
+        %td
+          %a{href: "#"}
+            %i.icon.star-empty
+        %td
+          %i.icon.folder
+          %a.doc-title{href: "#"} 立体几何
+        %td
+          %span 我
+        %td
+          %span 2014年11月25日
+        %td
+          %a{href: "#", title: "打开"}
+            %i.icon.open
+          %a{href: "#", title: "移动"}
+            %i.icon.move
+          %a{href: "#", title: "删除"}
+            %i.icon.remove
+      %tr
+        %td
+          %a{href: "#"}
+            %i.icon.star-empty
+        %td
+          %i.icon.document
+          %a.doc-title{href: "#"} 第一次练习
+          %span.subject [数学]
+        %td
+          %span 我
+        %td
+          %span 2014年11月25日
+        %td
+          %a{href: "#", title: "编辑"}
+            %i.icon.edit
+          %a{href: "#", title: "统计"}
+            %i.icon.stat
+          %a{href: "#", title: "移动"}
+            %i.icon.move
+          %a{href: "#", title: "删除"}
+            %i.icon.remove
+      %tr
+        %td
+          %a{href: "#"}
+            %i.icon.star-empty
+        %td
+          %i.icon.document
+          %a.doc-title{href: "#"} 第二次练习
+          %span.subject [数学]
+        %td
+          %span 我
+        %td
+          %span 2014年11月25日
+        %td
+          %a{href: "#", title: "编辑"}
+            %i.icon.edit
+          %a{href: "#", title: "统计"}
+            %i.icon.stat
+          %a{href: "#", title: "移动"}
+            %i.icon.move
+          %a{href: "#", title: "删除"}
+            %i.icon.remove
 
