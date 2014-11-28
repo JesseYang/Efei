@@ -1,15 +1,25 @@
 = javascript_include_tag "pages/tests-bundle"
 = stylesheet_link_tag "pages/tests-bundle", :media => "all"
 
+/ %body
+/   #bd1.bd1
+/     %img.te1{:src => "assets/photoTest/bd1.png"}
+/   #bd2.bd2
+/     %img.te2{:src => "assets/photoTest/bd2.png"}
+/   #bd3.bd3
+/     %img#te3.te3{:src => "assets/photoTest/bd3.png"}
+/ :javascript
+/    $("#bd3").ready(function() {
+/    $( "#bd3" ).effect( "bounce",1800);
+/    });
 %body
-  #bd1.bd1
-    %img.te1{:src => "assets/photoTest/bd1.png"}
-  #bd2.bd2
-    %img.te2{:src => "assets/photoTest/bd2.png"}
-  #bd3.bd3
-    %img#te3.te3{:src => "assets/photoTest/bd3.png"}
-:javascript
-   $("#bd3").ready(function() {
-   $( "#bd3" ).effect( "bounce",1800);
-   });
-
+	%div#_main_header._main_header
+		%a.logo{:href =>"http://localhost:3000/school_admin/teachers",:target =>"blank",:tabindex =>"-1"}
+		%div#_main_menu._main_menu
+			%ul
+				%li
+					%a{:href =>"http://localhost:3000/teacher/homeworks"} 我的作业
+				%li
+					%a{:http =>"http://localhost:3000/studentManage"} 学生管理
+				%li
+					%a{:http =>"http://localhost:3000/guide"} 新手指南
