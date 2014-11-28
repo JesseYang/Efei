@@ -7,7 +7,9 @@
   width: 100%;
   height: 50px;
   background-color: #f7f7f7;
+
   box-shadow: 0px 0.5px 0.5px #787979;
+
 }
 .logo_area{
   width: 200px;
@@ -115,131 +117,6 @@
 }
 #btn_text{
   color: #fff;
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#left-part {
-  padding-left: 20px;
-  padding-top: 20px;
-  float: left;
-  width: 200px;
-  height: 500px;
-  border: 2px solid red;
-  ul {
-  padding-left: 0px;
-  list-style: none;
-  .sub-folder {
-    margin-left: 12px;
-  }
-  %caret {
-    @include inline-block;
-    position: absolute;
-    border-width: 5px;
-    border-style: solid;
-  }
-  b.open {
-    @extend %caret;
-    top: 8px;
-    border-color: black transparent transparent;
-  }
-  b.closed {
-    @extend %caret;
-    top: 6px;
-    left: 2px;
-    border-color: transparent transparent transparent black;
-  }
-  .root b.open {
-    @extend %caret;
-    top: 12px;
-    border-color: black transparent transparent;
-  }
-  .root b.closed {
-    @extend %caret;
-    top: 10px;
-    left: 2px;
-    border-color: transparent transparent transparent black;
-  }
-  .root {
-    @include one-line(30px);
-  }
-  .icon {
-    margin-left: 15px;
-    @include size(16px, 16px);
-    @include inline-block;
-  }
-  .name-node {
-    position: relative;
-    .folder-open {
-    @include homeworks-sprite(folder_open);
-    }
-    .folder-closed {
-    @include homeworks-sprite(folder_closed);
-    }
-    .documents {
-    @include homeworks-sprite(document);
-    }
-    .recent {
-    @include homeworks-sprite(clock);
-    }
-    .workbook {
-    @include homeworks-sprite(book);
-    }
-    .starred {
-    @include homeworks-sprite(star);
-    }
-    .trash {
-    @include homeworks-sprite(trash);
-    }
-    &.selected {
-    span {
-      color: #D54937;
-    }
-    .documents {
-      @include homeworks-sprite(document);
-    }
-    .folder-open {
-      @include homeworks-sprite(folder_open_selected);
-    }
-    .folder-closed {
-      @include homeworks-sprite(folder_closed_selected);
-    }
-    .recent {
-      @include homeworks-sprite(clock);
-    }
-    .workbook {
-      @include homeworks-sprite(book);
-    }
-    .starred {
-      @include homeworks-sprite(star);
-    }
-    .trash {
-      @include homeworks-sprite(trash);
-    }
-    }
-    &:hover {
-    background-color: #EEEEEE;
-    }
-    cursor: pointer;
-  }
-  }
 
 }
 
