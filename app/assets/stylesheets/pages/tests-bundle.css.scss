@@ -231,6 +231,21 @@
   padding-left: 15px;
   padding-top: 15px;
   table {
+    .column-star {
+      width: 5%;
+    }
+    .column-title {
+      width: 35%;
+    }
+    .column-owner {
+      width: 20%;
+    }
+    .column-update-time {
+      width: 20%;
+    }
+    .column-operation {
+      width: 20%;
+    }
     a {
       text-decoration: none;
     }
