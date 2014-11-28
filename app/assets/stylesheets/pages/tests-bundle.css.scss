@@ -1,91 +1,200 @@
+@import "common";
+@import "icons/homeworks/*.png";
+
 ._main_header{
-    width: 100%;
-    height: 50px;
-    background-color: #f7f7f7;
-    box-shadow: 0px 1px 3px #464646;
+  width: 100%;
+  height: 50px;
+  background-color: #f7f7f7;
+  box-shadow: 0px 1px 3px #464646;
 }
 .logo_area{
-    width: 200px;
-    height: 50px;
-    background-color: #ffff00;
+  width: 200px;
+  height: 50px;
+  background-color: #ffff00;
 }
 ._main_menu{
-    font-family: arial, sans-serif;
-    position: absolute;
-    top: 0px;
-    left: 130px;
-    width: 800px;
-    height:50px;
-    font-size:17px;
-    margin: 0 auto;
+  font-family: arial, sans-serif;
+  position: absolute;
+  top: 0px;
+  left: 130px;
+  width: 800px;
+  height:50px;
+  font-size:17px;
+  margin: 0 auto;
 
 
 }
 ._main_menu ul{
-    list-style-type: none;
+  list-style-type: none;
 }
 ._main_menu ul li{
-    float: left;
-    width: 150px;
+  float: left;
+  width: 150px;
 }
 ._main_menu ul li a{
-    text-align: center;
-    padding: 13px;
-    font-weight: bolder;
-    display:block;
-    text-decoration:none;
-    color: #000000;
+  text-align: center;
+  padding: 13px;
+  font-weight: bolder;
+  display:block;
+  text-decoration:none;
+  color: #000000;
 
 }
 ._main_menu ul li:hover {
-    background-color: #8dbbe1;
+  background-color: #8dbbe1;
 
 }
 ._main_menu ul li a:hover{
-    color: #ffffff;
+  color: #ffffff;
 }
 .main-face{
-    position: absolute;    
-    top: 0px;
-    right: 0px;
-    width: 200px;
-    height: 50px;
-    font-family: arial, sans-serif;
-    font-size:13px;
-    margin: 20px 5px auto;
+  position: absolute;    
+  top: 0px;
+  right: 0px;
+  width: 200px;
+  height: 50px;
+  font-family: arial, sans-serif;
+  font-size:13px;
+  margin: 20px 5px auto;
 }
 .inner a{
 
-    text-align: center;
-    font-weight: bolder;
-    text-decoration:none;
+  text-align: center;
+  font-weight: bolder;
+  text-decoration:none;
 }
 .main_face_menu{
-    // position: absolute;
-    // top: 50px;
-    // right: 100px;
-    // display: none;
-    background:#00f;
-    width: 400px;
-    height: 100px;
-    font-weight: bold;
-    font-size: 12px;
+  // position: absolute;
+  // top: 50px;
+  // right: 100px;
+  // display: none;
+  background:#00f;
+  width: 400px;
+  height: 100px;
+  font-weight: bold;
+  font-size: 12px;
+
+}
+#left-part {
+  padding-left: 20px;
+  padding-top: 20px;
+  float: left;
+  width: 200px;
+  height: 500px;
+  border: 2px solid red;
+  ul {
+  padding-left: 0px;
+  list-style: none;
+  .sub-folder {
+    margin-left: 12px;
+  }
+  %caret {
+    @include inline-block;
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+  }
+  b.open {
+    @extend %caret;
+    top: 8px;
+    border-color: black transparent transparent;
+  }
+  b.closed {
+    @extend %caret;
+    top: 6px;
+    left: 2px;
+    border-color: transparent transparent transparent black;
+  }
+  .root b.open {
+    @extend %caret;
+    top: 12px;
+    border-color: black transparent transparent;
+  }
+  .root b.closed {
+    @extend %caret;
+    top: 10px;
+    left: 2px;
+    border-color: transparent transparent transparent black;
+  }
+  .root {
+    @include one-line(30px);
+  }
+  .icon {
+    margin-left: 15px;
+    @include size(16px, 16px);
+    @include inline-block;
+  }
+  .name-node {
+    position: relative;
+    .folder-open {
+    @include homeworks-sprite(folder_open);
+    }
+    .folder-closed {
+    @include homeworks-sprite(folder_closed);
+    }
+    .documents {
+    @include homeworks-sprite(document);
+    }
+    .recent {
+    @include homeworks-sprite(clock);
+    }
+    .workbook {
+    @include homeworks-sprite(book);
+    }
+    .starred {
+    @include homeworks-sprite(star);
+    }
+    .trash {
+    @include homeworks-sprite(trash);
+    }
+    &.selected {
+    span {
+      color: #D54937;
+    }
+    .documents {
+      @include homeworks-sprite(document);
+    }
+    .folder-open {
+      @include homeworks-sprite(folder_open_selected);
+    }
+    .folder-closed {
+      @include homeworks-sprite(folder_closed_selected);
+    }
+    .recent {
+      @include homeworks-sprite(clock);
+    }
+    .workbook {
+      @include homeworks-sprite(book);
+    }
+    .starred {
+      @include homeworks-sprite(star);
+    }
+    .trash {
+      @include homeworks-sprite(trash);
+    }
+    }
+    &:hover {
+    background-color: #EEEEEE;
+    }
+    cursor: pointer;
+  }
+  }
 
 }
 .main_face_menu ul{
-    list-style-type: none;
-    width: 400px;
-    height: 100px;
-        // position: absolute;
+  list-style-type: none;
+  width: 400px;
+  height: 100px;
+    // position: absolute;
 }
 .main_face_menu ul li a{
-    display:block;
-    color:#000000;
-    margin: auto;
-    text-align: center;
-    padding: 10px;
-    background-color: #f00;
-    text-decoration: none;
+  display:block;
+  color:#000000;
+  margin: auto;
+  text-align: center;
+  padding: 10px;
+  background-color: #f00;
+  text-decoration: none;
 }
 
 
