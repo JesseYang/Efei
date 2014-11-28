@@ -2,15 +2,17 @@
 @import "icons/homeworks/*.png";
 
 ._main_header{
+  position: absolute;
+  z-index: 100;
   width: 100%;
   height: 50px;
   background-color: #f7f7f7;
-  box-shadow: 0px 1px 3px #464646;
+  box-shadow: 0px 0.5px 0.5px #787979;
 }
 .logo_area{
   width: 200px;
   height: 50px;
-  background-color: #ffff00;
+  // background-color: #ffff00;
 }
 ._main_menu{
   font-family: arial, sans-serif;
@@ -41,12 +43,10 @@
 
 }
 ._main_menu ul li:hover {
-  background-color: #8dbbe1;
+  background-color: #e9e9e9;
 
 }
-._main_menu ul li a:hover{
-  color: #ffffff;
-}
+
 .main-face{
   position: absolute;    
   top: 0px;
@@ -63,18 +63,79 @@
   font-weight: bolder;
   text-decoration:none;
 }
-.main_face_menu{
-  // position: absolute;
-  // top: 50px;
-  // right: 100px;
-  // display: none;
-  background:#00f;
-  width: 400px;
-  height: 100px;
-  font-weight: bold;
-  font-size: 12px;
+// .main_face_menu{
+//   // position: absolute;
+//   // top: 50px;
+//   // right: 100px;
+//   // display: none;
+//   background:#00f;
+//   width: 300px;
+//   height: 350px;
+//   font-weight: bold;
+//   font-size: 12px;
+
+
+// }
+// .main_face_menu ul{
+//   list-style-type: none;
+
+
+
+//     // position: absolute;
+// }
+// .main_face_menu ul li{
+// }
+// .main_face_menu ul li a{
+//   text-align: center;
+
+//   font-weight: bolder;
+//   // display:block;
+//   text-decoration:none;
+//   color: #000000;
+//   background-color: #ffff00;
+// }
+.vice_header{
+  position: absolute;
+  top: 50px;
+  z-index: 99;
+  width: 100%;
+  height: 50px;
+  background-color: #fafafa;
+  box-shadow: 0px 1px 3px #787979;
+}
+.btn_add{
+  width: 120px;
+  height: 30px;
+  background-color: #d74937;
+  margin-left: 34px;
+  margin-top: 10px;
+  font-family: arial, sans-serif;
+  font-size:17px;
+  padding: 4px 25px;
+}
+#btn_text{
+  color: #fff;
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #left-part {
   padding-left: 20px;
   padding-top: 20px;
@@ -180,21 +241,6 @@
   }
   }
 
-}
-.main_face_menu ul{
-  list-style-type: none;
-  width: 400px;
-  height: 100px;
-    // position: absolute;
-}
-.main_face_menu ul li a{
-  display:block;
-  color:#000000;
-  margin: auto;
-  text-align: center;
-  padding: 10px;
-  background-color: #f00;
-  text-decoration: none;
 }
 
 
