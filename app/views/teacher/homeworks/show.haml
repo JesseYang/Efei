@@ -1,6 +1,6 @@
 - content_for :head do
-  = javascript_include_tag "pages/teacher/show-bundle"
-  = stylesheet_link_tag "pages/teacher/homeworks-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/homeworks/show-bundle"
+  = stylesheet_link_tag "pages/teacher/homeworks/show-bundle", :media => "all"
   :javascript
     window.homework_id = '#{@homework.id.to_s}'
 
@@ -52,11 +52,8 @@
                 = render :partial => "partials/question_content", locals: { content: q.answer_content }
           .question-operation-div.col-lg-3
             .btn-group.right{data: { qid: q.id.to_s }}
-              / = link_to "替换", "", :method => "get", :class => 'btn btn-default replace-btn', data: {toggle: "modal", target: "#replaceModal", qid: q.id.to_s}
               = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default replace-btn', data: {qid: q.id.to_s}
-              / = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {toggle: "modal", target: "#insertModal", qid: q.id.to_s}
               = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {qid: q.id.to_s}
-              = link_to "统计", "javascript:void(0)", :method => "get", :class => 'btn btn-default stat-btn', data: {qid: q.id.to_s}
               = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s }, :method => "delete", :class => 'btn btn-danger'
         .clear-both
 
@@ -95,32 +92,3 @@
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "完成", :class => 'btn-primary btn'
-
-#statModal.modal.fade
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-        %h3 统计信息
-      .modal-body
-        %div
-          %ul#myTab.nav.nav-tabs{:role => "tablist"}
-            %li.active
-              %a{"data-toggle" => "tab", :href => "#note-type", :role => "tab"} 类型分布
-            / %li
-            /   %a{"data-toggle" => "tab", :href => "#note-topic", :role => "tab"} 知识点分布
-            %li
-              %a{"data-toggle" => "tab", :href => "#note-summary", :role => "tab"} 总结
-          .tab-content
-            #note-type.tab-pane.fade.active.in
-              #note-type-fig
-              #note-type-text
-                %p
-            / #note-topic.tab-pane.fade
-            /   #note-topic-fig
-            /   #note-topic-text
-            /     %p
-            #note-summary.tab-pane.fade
-              %textarea{readonly: true}
-      .modal-footer
-        %a.btn.btn-primary{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 确定

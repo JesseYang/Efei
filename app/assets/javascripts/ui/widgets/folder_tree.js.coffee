@@ -12,6 +12,7 @@
       children.empty()
       this.element.attr("data-folderid", this.options.content.id)
       this.element.addClass("root-folder")
+      this.element.addClass("folder-list")
       this.options.root_folder_id = this.options.content.id
       children.append(this._generate_dom child) for child in this.options.content.children
       this.refresh_caret(this.options.root_folder_id)

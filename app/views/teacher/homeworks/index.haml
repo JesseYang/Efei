@@ -20,7 +20,7 @@
       #new-button
         %a#create-btn.btn.btn-danger 新建作业
       #folders
-        .folder-list.root#root-folder
+        .root#root-folder
           .folder-name
             %span.icon
             %span.name 我的文件夹
@@ -82,7 +82,7 @@
           %span.bold.target-name
           %span 移至
         #move-folder-parent
-          .folder-list.root#move-folder
+          .root#move-folder
             .folder-name
               %span.icon
               %span.name 我的文件夹
@@ -106,7 +106,9 @@
             = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
           .form-group
             = label_tag :name, "选择文件"
-            = file_field_tag "file"
+            = file_field_tag "file", { class: "hide" }
+            %p#file-name
+            %input#browser-click.button{ type: "button", value: "Browser for files"}
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'
