@@ -1,0 +1,102 @@
+@import 'utility';
+@import 'compass/css3';
+@import 'common';
+@import 'icons/homeworks/*.png';
+
+#title-bar {
+  .icon {
+    margin-left: 15px;
+    @include size(20px, 20px);
+    @include inline-block;
+  }
+  width: auto;
+  height: 50px;
+  background: #FAFAFA;
+  @include box-shadow(gray 0px 0px 5px);
+  border-top: 1px solid #E5E5E5;
+  #title-wrapper {
+    float: left;
+    margin-left: 150px;
+    width: 400px;
+    font-size: 1.4em;
+    #title {
+      margin-top: 8px;
+      @include inline-block;
+      float: left;
+    }
+    .title-edit {
+      @include one-line(50px);
+      .form-control {
+        @include inline-block;
+        width: 250px;
+      }
+    }
+    #title-edit-icon {
+      @include size(16px, 16px);
+      @include inline-block;
+      cursor: pointer;
+      margin-left: 10px;
+      margin-top: 15px;
+      float: left;
+      @include homeworks-sprite(title_edit);
+    }
+  }
+  #operation-wrapper {
+    float: right;
+    margin-right: 150px;
+    ul {
+      list-style: none;
+      li {
+        @include one-line(50px);
+        margin-left: 10px;
+        a {
+          text-decoration: none;
+          color: black;
+          font-size: 1.3em;
+          .return {
+            @include homeworks-sprite(return20);
+          }
+          .download {
+            @include homeworks-sprite(download20);
+          }
+          .remove {
+            @include homeworks-sprite(remove20);
+          }
+          .edit {
+            @include homeworks-sprite(edit20);
+          }
+          .setting {
+            @include homeworks-sprite(setting20);
+          }
+          .stat {
+            @include homeworks-sprite(stat20);
+          }
+          &:hover {
+            .return {
+              @include homeworks-sprite(return20_hover);
+            }
+            .download {
+              @include homeworks-sprite(download20_hover);
+            }
+            .remove {
+              @include homeworks-sprite(remove20_hover);
+            }
+            .edit {
+              @include homeworks-sprite(edit20_hover);
+            }
+            .setting {
+              @include homeworks-sprite(setting20_hover);
+            }
+            .stat {
+              @include homeworks-sprite(stat20_hover);
+            }
+              span {
+              color: $efblue;
+            }
+          }
+        }
+        float: right;
+      }
+    }
+  }
+}

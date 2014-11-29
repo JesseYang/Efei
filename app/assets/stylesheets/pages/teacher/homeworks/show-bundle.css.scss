@@ -1,80 +1,51 @@
-/*
- *= require jquery.qtip
-*/
+@import 'jquery.qtip';
 @import 'utility';
 @import 'partials/question_variables';
+@import 'compass/css3';
+@import 'common';
+@import 'icons/homeworks/*.png';
 
-
-
-
-.question-content-div {
-  font-size: 1.3em;
-}
-
-#shareModal .scroll {
-  height: 350px;
-}
-
-.content-div {
-  background: $q-bg-color;
-  @include border-radius(10px);
-  margin-bottom: 20px;
-  padding: 10px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: $q-bd-color;
-}
-
-.current-stat {
-  background: $q-stat-bg-color;
-}
-
-.question-div {
-  table, th, td {
-    border: 1px solid black;
-  }
-}
-
-#note-summary textarea {
-  resize: none;
-  margin: 10px;
+#content-background {
   width: 100%;
-  height: 200px;
-  border: none;
+  background-color: #EEEEEE;
+  #paper-top, #paper-bottom {
+    width: 100%;
+    height: 30px;
+    background-color: #EEEEEE;
+  }
+  #paper {
+    margin-left: 150px;
+    margin-right: 150px;
+    background-color: white;
+    .content-div {
+      position: relative;
+      background-color: white;
+      padding: 40px 80px 0px 80px;
+      border-bottom: 1px solid #DDDDDD;
+      .question-content-div {
+        font-size: 1.3em;
+        span {
+          white-space: pre-wrap;
+        }
+        .question-items p {
+          margin-left: 10px;
+        }
+      }
+      .question-operation-div {
+        position: absolute;
+        top: 40px;
+        right: 80px;
+        padding: 5px;
+        background-color: white;
+        .btn {
+          background-color: lighten(#E6E6E6, 5%);
+          &:hover {
+            background-color: #E6E6E6;
+            border-color: #E6E6E6;
+          }
+        }
+      }
+    }
+  }
 }
 
-.highcharts-container {
-  width: 100% !important;
-}
-
-
-.question-content-div {
-  float: left;
-  font-size: 1.3em;
-  .question-content p {
-    span {
-      white-space: pre-wrap;
-    }
-  }
-  .question-answer p {
-    span {
-      white-space: pre-wrap;
-    }
-  }
-  .question-items {
-    span {
-      white-space: pre-wrap;
-    }
-    p {
-      margin-left: 10px;
-    }
-  }
-  .item-is-not-answer {
-    em {
-      display: none;
-    }
-    label {
-      margin-left: 18px;
-    }
-  }
-}

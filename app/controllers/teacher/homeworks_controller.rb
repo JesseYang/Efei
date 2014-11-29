@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
-  before_filter :ensure_homework, only: [:get_folder_id, :show, :move, :settings, :set_tag, :delete, :export, :generate, :rename]
+  layout :resolve_layout
+  before_filter :ensure_homework, only: [:get_folder_id, :show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :rename]
 
   def ensure_homework
     begin
@@ -62,6 +63,13 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def show
+  end
+
+  def stat
+    @classes = @current_user.classes.map do |e|
+      [e.name.to_s, e.id.to_s]
+    end
+    @classes.insert(0, ["全体学生", "-1"])
   end
 
   def move
@@ -134,5 +142,14 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   def rename
     @homework.update_attribute :name, params[:name]
     render_json
+  end
+
+  def resolve_layout
+    case action_name
+    when "show", "stat", "settings"
+      "layouts/homework"
+    else
+      "layouts/teacher"
+    end
   end
 end

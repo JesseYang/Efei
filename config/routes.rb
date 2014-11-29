@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
     resources :homeworks do
       member do
+        get :stat
         get :generate
         get :get_folder_id
         get :settings
