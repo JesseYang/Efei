@@ -1,7 +1,7 @@
 #encoding: utf-8
 class Teacher::FoldersController < Teacher::ApplicationController
 
-  before_filter :ensure_folder, only: [:rename, :delete, :move, :list, :chain]
+  before_filter :ensure_folder, only: [:rename, :delete, :move, :list, :chain, :star]
   def ensure_folder
     begin
       @folder = Folder.find(params[:id])
@@ -25,6 +25,7 @@ class Teacher::FoldersController < Teacher::ApplicationController
   # ajax
   def create
     @folder = Folder.create_new(current_user, params[:name], params[:parent_id])
+    @folder["id"] = @folder.id.to_s
     render_json({ folder: @folder })
   end
 
@@ -60,6 +61,16 @@ class Teacher::FoldersController < Teacher::ApplicationController
   def trash
     @nodes = current_user.folders.list_trash + current_user.homeworks.list_trash
     render_json({ nodes: @nodes })
+  end
+
+  def starred
+    @nodes = current_user.folders.list_starred + current_user.homeworks.list_starred
+    render_json({ nodes: @nodes })
+  end
+
+  def star
+    params[:add].to_s == "true" ? @folder.star : @folder.unstar
+    render_json
   end
 
   # ajax

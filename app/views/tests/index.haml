@@ -50,31 +50,33 @@
             %b.open
             %i.icon.folder-open
             %span 我的文件夹
-          .sub-folder.folder-node
-            .name-node
-              %b.closed
-              %i.icon.folder-closed
-              %span 高一数学
-          .sub-folder.folder-node
-            .name-node.selected
-              %b
-              %i.icon.folder-closed
-              %span 高二数学
-          .sub-folder.folder-node
-            .name-node
-              %b.open
-              %i.icon.folder-open
-              %span 高三数学
+          .children
             .sub-folder.folder-node
               .name-node
+                %b.closed
+                %i.icon.folder-closed
+                %span 高一数学
+            .sub-folder.folder-node
+              .name-node.selected
                 %b
                 %i.icon.folder-closed
-                %span 函数
+                %span 高二数学
             .sub-folder.folder-node
               .name-node
-                %b
-                %i.icon.folder-closed
-                %span 立体几何
+                %b.open
+                %i.icon.folder-open
+                %span 高三数学
+              .children
+                .sub-folder.folder-node
+                  .name-node
+                    %b
+                    %i.icon.folder-closed
+                    %span 函数
+                .sub-folder.folder-node
+                  .name-node
+                    %b
+                    %i.icon.folder-closed
+                    %span 立体几何
       %li
         .folder-node
           .name-node.root

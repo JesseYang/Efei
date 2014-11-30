@@ -3,7 +3,7 @@ class Folder
   include Mongoid::Document
   include Mongoid::Timestamps
   include Concerns::Trashable
-
+  include Concerns::Starred
   field :name, type: String, default: "我的文件夹"
   field :is_root, type: Boolean, default: false
   has_many :homeworks, class_name: "Homework", inverse_of: :folder, dependent: :destroy
@@ -64,6 +64,18 @@ class Folder
     end
   end
 
+  def self.list_starred
+    self.starred.map do |f|
+      {
+        folder: true,
+        id: f.id.to_s,
+        name: f.name,
+        last_update_time: f.last_update_time,
+        starred: f.starred
+      }
+    end
+  end
+
   def self.list_trash
     self.trashed.map do |f|
       {
@@ -82,7 +94,8 @@ class Folder
         folder: true,
         id: f.id.to_s,
         name: f.name,
-        last_update_time: f.last_update_time
+        last_update_time: f.last_update_time,
+        starred: f.starred
       }
     end
     self.homeworks.each do |h|
@@ -90,7 +103,8 @@ class Folder
         id: h.id.to_s,
         name: h.name,
         last_update_time: h.last_update_time,
-        subject: Subject::NAME[h.subject]
+        subject: Subject::NAME[h.subject],
+        starred: h.starred
       }
     end
     nodes

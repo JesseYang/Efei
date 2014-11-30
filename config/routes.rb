@@ -32,9 +32,11 @@ Rails.application.routes.draw do
         get :list
         get :chain
         put :recover
+        put :star
         delete :delete
       end
       collection do
+        get :starred
         get :trash
         get :search
       end
@@ -55,6 +57,7 @@ Rails.application.routes.draw do
         put :share_all
         put :set_tag_set
         put :recover
+        put :star
         delete :delete
       end
       collection do

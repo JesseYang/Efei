@@ -1,0 +1,114 @@
+//= require ui/widgets/folder_tree
+//= require ui/widgets/popup_menu
+@import "compass/css3";
+
+#homework-index {
+  width: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#wrap {
+  min-width: 900px;
+}
+
+#search-bar {
+  width: auto;
+  height: 50px;
+  background: #FAFAFA;
+  @include box-shadow(gray 0px 0px 5px);
+  border-top: 1px solid #E5E5E5;
+  #folder-wrapper {
+    float: left;
+    margin-left: 200px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    font-size: 1.4em;
+    .link-div {
+      padding: 5px;
+      display: inline-block;
+    }
+  }
+  #search-box {
+    padding: 10px;
+    float: right;
+    margin-right: 30px;
+  }
+}
+
+#main-part {
+  margin-top: 2px;
+}
+
+#left-part {
+  float: left;
+  width: 200px;
+  #new-button {
+  	margin-top: 10px;
+  	margin-left: 30px;
+  }
+  #folders {
+    overflow: auto;
+    height: 500px;
+  	margin-top: 10px;
+  	margin-left: 10px;
+  	margin-right: 5px;
+  	.root {
+  	  margin-bottom: 10px;
+  	}
+  }
+  div, span {
+  }
+}
+
+// move folder
+#moveModal {
+  .modal-body p {
+    margin-left: 84px;
+  }
+  .target-name {
+    font-weight: bold;
+  }
+}
+#move-folder-parent {
+  padding: 5px;
+  overflow: auto;
+  margin: 0 auto;
+  border: 2px solid #9CBEF5;
+  width: 400px;
+  height: 300px;
+}
+
+#right-part {
+  overflow: hidden;
+}
+
+#right-part #table-wraper {
+  margin-top: 10px;
+  margin-left: 8px;
+  margin-right: 50px;
+}
+
+#right-part .tips {
+  font-size: 1.5em;
+  margin-left: 50px;
+  margin-top: 30px;
+}
+
+#right-part table {
+  width: 100%;
+  th {
+    color: gray;
+  }
+  tr {
+    height: 40px;
+    border-bottom: 1px solid #E5E5E5;
+  }
+  .record:hover {
+    background-color: #FFFFD6;
+  }
+  .subject {
+    font-size: 0.8em;
+  }
+}

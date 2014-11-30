@@ -3,7 +3,10 @@
     {{#if hr}}
       <hr />
     {{else}}
-      <div class="item {{class}}"><span>{{text}}</span></div>
+      <div class="item {{class}}">
+        <i class="popup-icon {{class}}" />
+        <span>{{text}}</span>
+      </div>
     {{/if}}
   {{/each}}
 </div>

@@ -1,5 +1,3 @@
-@import "compass/css3";
-
 .popup-menu {
   z-index: 99;
   position: absolute;
@@ -13,7 +11,7 @@
   .item {
     height: 30px;
     span {
-      padding-left: 10px;
+      padding-left: 5px;
       line-height: 30px;
     }
     cursor: pointer;
@@ -24,5 +22,25 @@
   hr {
     margin-top: 5px;
     margin-bottom: 5px;
+  }
+  .popup-icon {
+    margin-left: 10px;
+    @include size(16px, 16px);
+    @include inline-block;
+  }
+  i.new-doc {
+    @include homeworks-sprite(new_doc_popup);
+  }
+  i.new-folder {
+    @include homeworks-sprite(new_folder_popup);
+  }
+  i.move {
+    @include homeworks-sprite(move_popup);
+  }
+  i.delete {
+    @include homeworks-sprite(delete_popup);
+  }
+  i.stat {
+    @include homeworks-sprite(stat_popup);
   }
 }

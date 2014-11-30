@@ -1,6 +1,8 @@
-//= require ui/widgets/folder_tree
-//= require ui/widgets/popup_menu
+@import 'common';
 @import "compass/css3";
+@import "icons/homeworks/*.png";
+@import 'ui/widgets/folder_tree';
+@import 'ui/widgets/popup_menu';
 
 #homework-index {
   width: auto;
@@ -42,25 +44,131 @@
 }
 
 #left-part {
+  padding-left: 20px;
+  padding-top: 20px;
   float: left;
   width: 200px;
-  #new-button {
-  	margin-top: 10px;
-  	margin-left: 30px;
-  }
-  #folders {
+  height: 500px;
+  ul {
+    padding-left: 0px;
+    list-style: none;
     overflow: auto;
-    height: 500px;
-  	margin-top: 10px;
-  	margin-left: 10px;
-  	margin-right: 5px;
-  	.root {
-  	  margin-bottom: 10px;
-  	}
-  }
-  div, span {
   }
 }
+
+#right-part {
+  #table-wraper {
+    margin-top: 10px;
+    margin-left: 8px;
+    margin-right: 50px;
+  }
+  overflow-x: hidden;
+  padding-left: 15px;
+  padding-top: 15px;
+  table {
+    .column-star {
+      width: 5%;
+    }
+    .column-title {
+      width: 35%;
+    }
+    .column-owner {
+      width: 20%;
+    }
+    .column-update-time {
+      width: 20%;
+    }
+    .column-operation {
+      width: 20%;
+    }
+    a {
+      text-decoration: none;
+    }
+    .icon {
+      @include size(16px, 16px);
+      @include inline-block;
+      margin-left: 5px;
+    }
+    width: 95%;
+    th {
+      color: gray;
+      .title {
+        margin-left: 25px;
+      }
+    }
+    tr {
+      height: 40px;
+      border-bottom: 1px solid #E5E5E5;
+      &:not(:first-child) {
+        &:hover {
+          background-color: #FFFFD6;
+        }
+        .subject {
+          font-size: 0.75em;
+        }
+        .doc-title {
+          color: black;
+          &:hover {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    .star-empty {
+      @include homeworks-sprite(star_empty);
+      &:hover {
+        @include homeworks-sprite(star_hover);
+      }
+    }
+    .starred {
+      @include homeworks-sprite(star_starred);
+    }
+    .folder {
+      @include homeworks-sprite(folder_table);
+    }
+    .document {
+      @include homeworks-sprite(document_table);
+    }
+
+    .open {
+      @include homeworks-sprite(open);
+      &:hover {
+        @include homeworks-sprite(open_hover);
+      }
+    }
+    .move {
+      @include homeworks-sprite(move);
+      &:hover {
+        @include homeworks-sprite(move_hover);
+      }
+    }
+    .remove {
+      @include homeworks-sprite(remove);
+      &:hover {
+        @include homeworks-sprite(remove_hover);
+      }
+    }
+    .edit {
+      @include homeworks-sprite(edit);
+      &:hover {
+        @include homeworks-sprite(edit_hover);
+      }
+    }
+    .stat {
+      @include homeworks-sprite(stat);
+      &:hover {
+        @include homeworks-sprite(stat_hover);
+      }
+    }
+    .recover {
+      @include homeworks-sprite(recover);
+      &:hover {
+        @include homeworks-sprite(recover_hover);
+      }
+    }
+  }
+}
+
 
 // move folder
 #moveModal {
@@ -78,37 +186,4 @@
   border: 2px solid #9CBEF5;
   width: 400px;
   height: 300px;
-}
-
-#right-part {
-  overflow: hidden;
-}
-
-#right-part #table-wraper {
-  margin-top: 10px;
-  margin-left: 8px;
-  margin-right: 50px;
-}
-
-#right-part .tips {
-  font-size: 1.5em;
-  margin-left: 50px;
-  margin-top: 30px;
-}
-
-#right-part table {
-  width: 100%;
-  th {
-    color: gray;
-  }
-  tr {
-    height: 40px;
-    border-bottom: 1px solid #E5E5E5;
-  }
-  .record:hover {
-    background-color: #FFFFD6;
-  }
-  .subject {
-    font-size: 0.8em;
-  }
 }

@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
   layout :resolve_layout
-  before_filter :ensure_homework, only: [:get_folder_id, :show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :rename]
+  before_filter :ensure_homework, only: [:get_folder_id, :show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :rename, :star]
 
   def ensure_homework
     begin
@@ -22,7 +22,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   def index
     @type = params[:type].blank? ? "folder" : params[:type]
     @root_folder_id = current_user.root_folder.id
-    if !%w{folder recent trash search all}.include?(@type)
+    if !%w{folder recent trash search all starred workbook}.include?(@type)
       redirect_to action: :index, folder_id: @root_folder_id, type: "folder" and return
     end
 
@@ -40,6 +40,8 @@ class Teacher::HomeworksController < Teacher::ApplicationController
         redirect_to action: index, folder_id: @root_folder_id, type: "folder" and return
       end
     when "all"
+    when "starred"
+    when "workbook"
     end
   end
 
@@ -141,6 +143,11 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   # ajax
   def rename
     @homework.update_attribute :name, params[:name]
+    render_json
+  end
+
+  def star
+    params[:add].to_s == "true" ? @homework.star : @homework.unstar
     render_json
   end
 

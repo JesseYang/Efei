@@ -1,35 +1,94 @@
 {{#if has_content}}
   <table data-pagetype={{type}}>
     <tr class=header>
-      <th></th>
-      <th>标题</th>
-      <th>所有者</th>
-      <th>上次修改时间</th>
-      <th>操作</th>
+      <th class=column-star></th>
+      <th class=column-title>标题</th>
+      <th class=column-owner>所有者</th>
+      <th class=column-update-time>上次修改时间</th>
+      <th class=column-operation>操作</th>
     </tr>
     {{#each nodes}}
       {{#if folder}}
-        <tr class="record folder" data-type="folder" data-id={{id}} data-name={{name}}>
-          <td>加星图标</td>
+        <tr class="record folder-tr" data-type="folder" data-id={{id}} data-name={{name}}>
           <td>
-            <span>文件夹图标</span>
-            <a href="/teacher/homeworks?folder_id={{id}}" class="node-link">{{name}}</a>
+            <a href="javascript:void(0);" class="star-link">
+              {{#ifCond starred true}}
+                <i class="icon starred" />
+              {{/ifCond}}
+              {{#ifCond starred false}}
+                <i class="icon star-empty" />
+              {{/ifCond}}
+            </a>
+          </td>
+          <td>
+            <i class="icon folder" />
+            <a href="/teacher/homeworks?folder_id={{id}}" class="doc-title node-link">{{name}}</a>
           </td>
           <td>我</td>
           <td>{{last_update_time}}</td>
-          <td>打开图标 删除图标 还原图标</td>
+          <td>
+            {{#ifCond ../../type "trash"}}
+              <a href="javascript:void(0);" title="还原">
+                <i class="icon recover" />
+              </a>
+              <a href="javascript:void(0);" title="彻底删除">
+                <i class="icon remove" />
+              </a>
+            {{else}}
+              <a href="javascript:void(0);" title="打开">
+                <i class="icon open" />
+              </a>
+              <a href="javascript:void(0);" title="移动">
+                <i class="icon move" />
+              </a>
+              <a href="javascript:void(0);" title="删除">
+                <i class="icon remove" />
+              </a>
+            {{/ifCond}}
+          </td>
         </tr>
       {{else}}
-        <tr class="record homework" data-type="homework" data-id={{id}} data-name={{name}}>
-          <td>加星图标</td>
+        <tr class="record homework-tr" data-type="homework" data-id={{id}} data-name={{name}}>
           <td>
-            <span>文档图标</span>
+            <a href="javascript:void(0);" class="star-link">
+              {{#ifCond starred true}}
+                <i class="icon starred" />
+              {{/ifCond}}
+              {{#ifCond starred false}}
+                <i class="icon star-empty" />
+              {{/ifCond}}
+            </a>
+          </td>
+          <td>
+            <i class="icon document" />
+            <a href="/teacher/homeworks/{{id}}" class="doc-title node-link">{{name}}</a>
             <span class="subject">[{{subject}}]</span>
-            <a href="/teacher/homeworks/{{id}}" class="node-link">{{name}}</a>
           </td>
           <td>我</td>
           <td>{{last_update_time}}</td>
-          <td>编辑图标 统计图标 导出图标 删除图标</td>
+          <td>
+            {{#ifCond ../../type "trash"}}
+              <a href="javascript:void(0);" title="还原">
+                <i class="icon recover" />
+              </a>
+              <a href="javascript:void(0);" title="彻底删除">
+                <i class="icon remove" />
+              </a>
+            {{else}}
+              <a href="javascript:void(0);" title="编辑">
+                <i class="icon edit" />
+              </a>
+              <a href="javascript:void(0);" title="统计">
+                <i class="icon stat" />
+              </a>
+              <a href="javascript:void(0);" title="移动">
+                <i class="icon move" />
+              </a>
+              <a href="javascript:void(0);" title="删除">
+                <i class="icon remove" />
+              </a>
+            {{/ifCond}}
+          </td>
         </tr>
       {{/if}}
     {{/each}}
@@ -48,8 +107,14 @@
     {{#ifCond type "recent"}}
       <span>您最近为使用过任何文档</span>
     {{/ifCond}}
-    {{#ifCond type "recent"}}
+    {{#ifCond type "all"}}
       <span>您没有任何文档</span>
+    {{/ifCond}}
+    {{#ifCond type "starred"}}
+      <span>您没有任何加星标的文件夹或者文档</span>
+    {{/ifCond}}
+    {{#ifCond type "workbook"}}
+      <span>您所在的机构没有任何购买练习册</span>
     {{/ifCond}}
   </div>
 {{/if}}

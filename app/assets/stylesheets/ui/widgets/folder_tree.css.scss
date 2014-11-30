@@ -1,32 +1,88 @@
-.folder-list {
-  padding-left: 10px;
+.sub-folder {
+  margin-left: 16px;
 }
-.root-folder {
-  padding-left: 0px;
-  div {
-    white-space: nowrap;
+.caret-wrapper {
+  position: absolute;
+  height: 30px;
+  width: 10px;
+  @include inline-block;
+}
+%caret {
+  @include inline-block;
+  position: absolute;
+  border-width: 6px;
+  border-style: solid;
+}
+b.open {
+  @extend %caret;
+  top: 8px;
+  border-color: black transparent transparent transparent;
+}
+b.closed {
+  @extend %caret;
+  top: 6px;
+  left: 2px;
+  border-color: transparent transparent transparent black;
+}
+.root {
+  margin-top: 10px;
+}
+.icon {
+  margin-left: 15px;
+  @include size(16px, 16px);
+  @include inline-block;
+}
+.name-node {
+  position: relative;
+  .folder-open {
+    @include homeworks-sprite(folder_open);
   }
-}
-
-.selected {
-  color: red;
-}
-
-.folder-name {
+  .folder-closed {
+    @include homeworks-sprite(folder_closed);
+  }
+  .documents {
+    @include homeworks-sprite(document);
+  }
+  .recent {
+    @include homeworks-sprite(clock);
+  }
+  .workbook {
+    @include homeworks-sprite(book);
+  }
+  .starred {
+    @include homeworks-sprite(star);
+  }
+  .trash {
+    @include homeworks-sprite(trash);
+  }
+  &.selected {
+    span {
+      color: #D54937;
+    }
+    .documents {
+      @include homeworks-sprite(document_selected);
+    }
+    .folder-open {
+      @include homeworks-sprite(folder_open_selected);
+    }
+    .folder-closed {
+      @include homeworks-sprite(folder_closed_selected);
+    }
+    .recent {
+      @include homeworks-sprite(clock_selected);
+    }
+    .workbook {
+      @include homeworks-sprite(book_selected);
+    }
+    .starred {
+      @include homeworks-sprite(star_selected);
+    }
+    .trash {
+      @include homeworks-sprite(trash_selected);
+    }
+  }
+  &:hover {
+  background-color: #EEEEEE;
+  }
   cursor: pointer;
-  .icon {
-    display: inline-block;
-    width: 20px;
-    height: 10px;
-    float: left;
-  }
-  .name {
-  	display: block;
-    width: 100px;
-    text-overflow: clip;
-  }
-}
-
-.folder-name:hover {
-  background-color: #F5F5F5;
 }

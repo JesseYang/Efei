@@ -8,13 +8,8 @@ $ ->
 
 
   # forbit the default right-click popup menu
-  $("html").bind "contextmenu", ->
+  $("body").bind "contextmenu", ->
     false
-  $("html").click ->
-    popup_menu.remove() if popup_menu != null
-  $("html").mousedown (event) ->
-    if event.button == 2
-      popup_menu.remove() if popup_menu != null
 
   tree = null
   move_tree = null
@@ -44,7 +39,6 @@ $ ->
       folder: "/teacher/folders/#{window.folder_id}/list"
       trash: "/teacher/folders/trash"
       recent: "/teacher/homeworks/recent"
-      starred: "/teacher/folders/starred"
       search: "/teacher/folders/search?keyword=" + window.keyword
       all: "/teacher/homeworks/all"
     $.getJSON data_url[window.type], (data) ->
@@ -75,14 +69,14 @@ $ ->
   # get the homework table content
   refresh_homework_table_and_folder_chain()
 
-  $("body").on "mousedown", "#root-folder .name-node", (event) ->
+  $("body").on "mousedown", "#root-folder .name", (event) ->
     if event.button is 2
       node_type = "folder"
       id = tree.folder_tree("get_folder_id_by_name_node", event.target)
       name = $(event.target).text()
       page_type = "folder"
       popup_menu = $("<div />").appendTo("body")
-      if $(event.target).closest(".name-node").hasClass("root")
+      if $(event.target).closest(".folder-list").hasClass("root")
         node_type = "root"
       popup_menu.popup_menu
         pos: [
@@ -179,7 +173,7 @@ $ ->
       }, (data) ->
         if data.success
           new_folder =
-            id: data.folder._id.$oid
+            id: data.folder._id
             name: name
             children: [ ]
           tree.folder_tree("insert_folder", parent_id, new_folder)
@@ -225,8 +219,8 @@ $ ->
           click_name_fun: (folder_id) ->
             move_tree.folder_tree("select_folder", folder_id)
         )
-        move_tree.folder_tree("select_folder", data.root_folder_id.$oid)
-        move_tree.folder_tree("open_folder", data.root_folder_id.$oid)
+        move_tree.folder_tree("select_folder", data.root_folder_id)
+        move_tree.folder_tree("open_folder", data.root_folder_id)
       else
         $.page_notification "服务器出错"
 
@@ -318,7 +312,7 @@ $ ->
   ######## End: recover part ########
 
   ######## Begin: other redirect part ########
-  $.each ["trash", "recent", "workbook", "starred", "all"], (i, v) ->
+  $.each ["trash", "recent", "all"], (i, v) ->
     $(".#{v}").click ->
       window.location = "/teacher/homeworks?type=#{v}"
   ######## End: other redirect part ########
@@ -343,25 +337,6 @@ $ ->
     keyword = $("#input-search").val()
     window.location = "/teacher/homeworks?type=search&keyword=" + keyword
   ######## End: destroy part ########
-
-  ######## Begin: add/remove star part #########
-  $("body").on "click", ".star-link", (event) ->
-    node_type = $(event.target).closest("tr").attr("data-type")
-    id = $(event.target).closest("tr").attr("data-id")
-    icon = $(event.target).closest(".star-link").find("i")
-    add_star = icon.hasClass("star-empty")
-    $.putJSON "/teacher/#{node_type}s/#{id}/star", {
-      add: add_star
-    }, (data) ->
-      if data.success
-        if add_star
-          icon.removeClass("star-empty")
-          icon.addClass("starred")
-        else
-          icon.addClass("star-empty")
-          icon.removeClass("starred")
-      else
-        $.page_notification "操作失败，请刷新页面重试"
 
 
   $("body").on "click", "*[data-pagetype=trash] a", (event) ->
