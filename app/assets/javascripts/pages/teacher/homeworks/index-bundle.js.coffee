@@ -6,9 +6,6 @@
 #= require "./_templates/folder_chain"
 $ ->
 
-  Handlebars.registerHelper "ifCond", (v1, v2, options) ->
-    return options.fn(this)  if v1 is v2
-    options.inverse this
 
   # forbit the default right-click popup menu
   $("body").bind "contextmenu", ->

@@ -19,6 +19,11 @@ $ ->
     , 500
   else
     $('#browser').remove();
+
+
+  Handlebars.registerHelper "ifCond", (v1, v2, options) ->
+    return options.fn(this)  if v1 is v2
+    options.inverse this
   
   $("input").placeholder()
   $("textarea").placeholder()

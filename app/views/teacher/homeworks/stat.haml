@@ -44,27 +44,41 @@
             %span 总结内容
         .analyze-result
           .result-part
-            .tag-result
+            %i.loading
+            .tag-result.hide
             .topic-result.hide
             .summary-result.hide
           .filter-part
-            .tag-filter
-              %form
-                .radio
-                  %label
-                    %input.single-radio{:type => "radio", name: "analyze-type", :value => "single", :checked => "checked"}/
-                    单独分析
-                  %label
-                    %input.compare-radio{:type => "radio", name: "analyze-type", :value => "compare"}/
-                    对比分析
-                .single-analyze
-                  %span 分析对象
-                  = select_tag "class", options_for_select(@classes)
-                .compare-analyze.hide
-                  = select_tag "class", options_for_select(@classes)
-                  %a.btn.btn-default 添加
+            .tag-filter.filter
+              %ul.nav.nav-pills
+                %li.active
+                  %a{:href => "#tag-single-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 单独分析
+                %li{:role => "presentation"}
+                  %a{:href => "#tag-compare-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 对比分析
+              .tab-content
+                .single-analyze.fade.in.active.tab-pane{ id: "tag-single-analyze-#{q.id.to_s}" }
+                  %span 分析对象:
+                  = select_tag "tag-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
+                .compare-analyze.fade.tab-pane{ id: "tag-compare-analyze-#{q.id.to_s}" }
+                  = select_tag "tag-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
+                  %a.btn.btn-default.btn-add 添加
                   %ul.compare-list
-                = submit_tag "刷新", :class => 'btn-primary btn'
-            .topic-filter.hide
-            .summary-filter.hide
+              = submit_tag "刷新", :class => 'btn-primary btn btn-refresh'
+            .topic-filter.filter.hide
+              %ul.nav.nav-pills
+                %li.active
+                  %a{:href => "#topic-single-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 单独分析
+                %li{:role => "presentation"}
+                  %a{:href => "#topic-compare-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 对比分析
+              .tab-content
+                .single-analyze.fade.in.active.tab-pane{ id: "topic-single-analyze-#{q.id.to_s}" }
+                  %span 分析对象:
+                  = select_tag "topic-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
+                .compare-analyze.fade.tab-pane{ id: "topic-compare-analyze-#{q.id.to_s}" }
+                  = select_tag "topic-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
+                  %a.btn.btn-default.btn-add 添加
+                  %ul.compare-list
+              = submit_tag "刷新", :class => 'btn-primary btn btn-refresh'
+            .summary-filter.filter.hide
+              %span hahahahaha
   #paper-bottom
