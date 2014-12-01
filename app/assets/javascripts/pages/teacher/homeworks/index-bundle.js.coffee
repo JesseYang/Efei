@@ -152,6 +152,7 @@ $ ->
   ######## Begin: open part ########
   $("body").on "click", ".popup-menu .open", (event) ->
     data = popup_menu.popup_menu("option")
+    $.page_notification "正在打开文件夹", 0
     window.location.href = "/teacher/homeworks?folder_id=" + data.id
 
   $("body").on "click", ".popup-menu .edit", (event) ->
@@ -160,9 +161,7 @@ $ ->
     window.location.href = "/teacher/homeworks/" + data.id
 
   $("body").on "click", "tr.record a .open", (event) ->
-    tr = $(event.target).closest("tr")
-    id = tr.attr("data-id")
-    window.location.href = "/teacher/homeworks?folder_id=" + id
+    open_doc_from_table($(event.target))
 
   $("body").on "click", "tr.record a .edit", (event) ->
     open_doc_from_table($(event.target))
@@ -173,8 +172,13 @@ $ ->
   open_doc_from_table = (node) ->
     tr = node.closest("tr")
     id = tr.attr("data-id")
-    $.page_notification "正在打开作业", 0
-    window.location.href = "/teacher/homeworks/" + id
+    node_type = tr.attr("data-type")
+    if node_type == "folder"
+      $.page_notification "正在打开文件夹", 0
+      window.location.href = "/teacher/homeworks?folder_id=" + id
+    else
+      $.page_notification "正在打开作业", 0
+      window.location.href = "/teacher/homeworks/" + id
     false
   ######## End: open part ########
 
