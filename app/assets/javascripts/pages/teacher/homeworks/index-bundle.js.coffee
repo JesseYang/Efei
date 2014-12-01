@@ -184,8 +184,14 @@ $ ->
 
   ######## Begin: stat part ########
   $("body").on "click", ".popup-menu .stat", (event) ->
-    data = popup_menu.popup_menu("option")
-    window.location.href = "/teacher/homeworks/" + data.id + "/stat"
+    open_stat(popup_menu.popup_menu("option").id)
+
+  $("body").on "click", "tr.record a .stat", (event) ->
+    open_stat($(event.target).closest("tr").attr("data-id"))
+
+  open_stat = (id) ->
+    $.page_notification "正在打开统计结果"
+    window.location.href = "/teacher/homeworks/" + id + "/stat"
   ######## End: stat part ########
 
   ######## Begin: new folder part ########
