@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
 
   def require_student
     if current_user.blank? || current_user.try(:school_admin) == true || current_user.try(:teacher) == true
-      sign_out(current_user)
+      refresh_session(nil)
       flash[:notice] = "请以学生身份登录"
       redirect_to new_account_session_path
     end
@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
 
   def require_teacher
     if current_user.try(:teacher) != true
-      sign_out(current_user)
+      refresh_session(nil)
       flash[:notice] = "请以教师身份登录"
       redirect_to new_account_session_path
     end
