@@ -165,10 +165,17 @@ $ ->
     window.location.href = "/teacher/homeworks?folder_id=" + id
 
   $("body").on "click", "tr.record a .edit", (event) ->
-    tr = $(event.target).closest("tr")
+    open_doc_from_table($(event.target))
+
+  $("body").on "click", "tr.record .node-link", (event) ->
+    open_doc_from_table($(event.target))
+
+  open_doc_from_table = (node) ->
+    tr = node.closest("tr")
     id = tr.attr("data-id")
     $.page_notification "正在打开作业"
     window.location.href = "/teacher/homeworks/" + id
+    false
   ######## End: open part ########
 
   ######## Begin: stat part ########
