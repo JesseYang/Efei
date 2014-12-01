@@ -28,6 +28,9 @@
     @include size(16px, 16px);
     @include inline-block;
   }
+  i.edit {
+    @include homeworks-sprite(edit_popup);
+  }
   i.new-doc {
     @include homeworks-sprite(new_doc_popup);
   }

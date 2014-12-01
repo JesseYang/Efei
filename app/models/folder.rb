@@ -59,7 +59,8 @@ class Folder
         folder: true,
         id: f.id.to_s,
         name: f.name,
-        last_update_time: f.last_update_time
+        last_update_time: f.last_update_time,
+        starred: f.starred
       }
     end
   end

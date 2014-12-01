@@ -98,7 +98,8 @@ class Homework
         id: h.id.to_s,
         name: h.name,
         last_update_time: h.last_update_time,
-        subject: Subject::NAME[h.subject]
+        subject: Subject::NAME[h.subject],
+        starred: h.starred
       }
     end
   end

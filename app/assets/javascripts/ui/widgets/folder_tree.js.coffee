@@ -8,6 +8,12 @@
       click_name_fun: null
     
     _create: ->
+      if this.element.find(".name-node").length == 0
+        # need to render the root folder
+        name_node = "<div class='name-node root'><span class='caret-wrapper'><b class='open'></b></span><i class='icon folder-open'></i><span class='name'>我的文件夹</span></div>"
+        children = "<div class='children hide'></div>"
+        this.element.append(name_node)
+        this.element.append(children)
       children = this.element.children(".children")
       children.empty()
       this.element.attr("data-folderid", this.options.content.id)
@@ -17,14 +23,14 @@
       this.refresh_caret(this.options.root_folder_id)
       that = this
       id = this.element.attr("id")
-      $("body").on "click", "#" + id + " .caret-wrapper", (event) ->
-        that.toggle_folder_by_icon_node event.target
-        false
-
-      $("body").on "click", "#" + id + " .name-node", ->
-        folder_id = that.get_folder_id_by_name_node(event.target)
-        that.options.click_name_fun folder_id
-
+      this._on this.element,
+        "click .caret-wrapper": (event) ->
+          that.toggle_folder_by_icon_node event.target
+          false
+      this._on this.element,
+        "click .name-node": (event) ->
+          folder_id = that.get_folder_id_by_name_node(event.target)
+          that.options.click_name_fun folder_id
 
     hbs: (content) ->
       $(HandlebarsTemplates["ui/widgets/_templates/folder_tree"](content))

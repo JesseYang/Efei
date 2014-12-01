@@ -166,6 +166,12 @@
         @include homeworks-sprite(recover_hover);
       }
     }
+    .destroy {
+      @include homeworks-sprite(destroy);
+      &:hover {
+        @include homeworks-sprite(destroy_hover);
+      }
+    }
   }
 }
 

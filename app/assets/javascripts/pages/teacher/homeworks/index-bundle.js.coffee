@@ -126,9 +126,17 @@ $ ->
     $('.target').select()
 
   $("#renameModal .ok").click ->
-    type = $(this).closest("#renameModal").attr("data-type")
-    id = $(this).closest("#renameModal").attr("data-id")
-    name = $(this).closest("#renameModal").find(".target").val()
+    rename($(this).closest("#renameModal"))
+
+  $("#renameModal .target").keydown (event) ->
+    code = event.which
+    if code == 13
+      rename($(this).closest("#renameModal"))
+
+  rename = (modal) ->
+    type = modal.attr("data-type")
+    id = modal.attr("data-id")
+    name = modal.find(".target").val()
     data_url = 
       folder: "/teacher/folders/#{id}/rename"
       homework: "/teacher/homeworks/#{id}/rename"
@@ -144,11 +152,23 @@ $ ->
   ######## Begin: open part ########
   $("body").on "click", ".popup-menu .open", (event) ->
     data = popup_menu.popup_menu("option")
-    if data.type == "folder"
-      window.location.href = "/teacher/homeworks?folder_id=" + data.id
-    else if data.type == "homework"
-      $.page_notification "正在打开作业"
-      window.location.href = "/teacher/homeworks/" + data.id
+    window.location.href = "/teacher/homeworks?folder_id=" + data.id
+
+  $("body").on "click", ".popup-menu .edit", (event) ->
+    data = popup_menu.popup_menu("option")
+    $.page_notification "正在打开作业"
+    window.location.href = "/teacher/homeworks/" + data.id
+
+  $("body").on "click", "tr.record a .open", (event) ->
+    tr = $(event.target).closest("tr")
+    id = tr.attr("data-id")
+    window.location.href = "/teacher/homeworks?folder_id=" + id
+
+  $("body").on "click", "tr.record a .edit", (event) ->
+    tr = $(event.target).closest("tr")
+    id = tr.attr("data-id")
+    $.page_notification "正在打开作业"
+    window.location.href = "/teacher/homeworks/" + id
   ######## End: open part ########
 
   ######## Begin: stat part ########
@@ -172,6 +192,16 @@ $ ->
   $("#newFolderModal .ok").click ->
     parent_id = $(this).closest("#newFolderModal").attr("data-folderid")
     name = $(this).closest("#newFolderModal").find(".target").val()
+    new_folder(parent_id, name)
+
+  $("#newFolderModal .target").keydown (event) ->
+    code = event.which
+    if code == 13
+      parent_id = $(this).closest("#newFolderModal").attr("data-folderid")
+      name = $(this).closest("#newFolderModal").find(".target").val()
+      new_folder(parent_id, name)
+
+  new_folder = (parent_id, name) ->
     $.postJSON '/teacher/folders',
       {
         parent_id: parent_id 
@@ -209,48 +239,67 @@ $ ->
     $("#newHomeworkModal #folder_id").val(folder_id)
   ######## End: new homework part ########
 
-  ######## Begin: move folder part ########
+  ######## Begin: move part ########
   $("body").on "click", ".popup-menu .move", (event) ->
     data = popup_menu.popup_menu("option")
     $('.popup-menu').remove()
+    show_move_modal(data.type, data.id, data.name)
+
+  $("body").on "click", "tr.record a .move", (event) ->
+    tr = $(event.target).closest("tr")
+    node_type = tr.attr("data-type")
+    name = tr.attr("data-name")
+    id = tr.attr("data-id")
+    show_move_modal(node_type, id, name)
+
+  show_move_modal = (node_type, id, name) ->
     $('#moveModal').modal('show')
-    $("#moveModal").attr("data-type", data.type)
-    $("#moveModal").attr("data-id", data.id)
-    $("#moveModal").find('.target-name').text(data.name)
+    $("#moveModal").attr("data-type", node_type)
+    $("#moveModal").attr("data-id", id)
+    $("#moveModal").find('.target-name').text(name)
     $.getJSON "/teacher/folders", (data) ->
       if data.success
         move_tree = $("#moveModal #move-folder").folder_tree(
           content: data.tree
-          root_folder_id: data.root_folder_id
+          root_folder_id: data.root_folder_id.$oid
           click_name_fun: (folder_id) ->
             move_tree.folder_tree("select_folder", folder_id)
         )
+        move_tree.folder_tree("remove_folder", id) if node_type == "folder"
         move_tree.folder_tree("select_folder", data.root_folder_id.$oid)
         move_tree.folder_tree("open_folder", data.root_folder_id.$oid)
       else
         $.page_notification "服务器出错"
 
+  $('#moveModal').on 'hidden.bs.modal', ->
+    move_tree.folder_tree("destroy")
+
   $('#moveModal .ok').click ->
-    type = $(this).closest("#moveModal").attr("data-type")
-    if type == "folder"
-      folder_id = $(this).closest("#moveModal").attr("data-id")
-      des_folder_id = move_tree.folder_tree("get_selected_folder_id")
-      $.putJSON '/teacher/folders/' + folder_id + "/move",
+    move($(this).closest("#moveModal"))
+
+  $('#moveModal #move-folder').keydown (event) ->
+    code = event.which
+    if code == 13
+      move($(this))
+
+  move = (modal) ->
+    node_type = modal.attr("data-type")
+    id = modal.attr("data-id")
+    des_folder_id = move_tree.folder_tree("get_selected_folder_id")
+    if node_type == "folder"
+      $.putJSON '/teacher/folders/' + id + "/move",
         {
           des_folder_id: des_folder_id
         }, (data) ->
           if data.success
-            tree.folder_tree("move_folder", folder_id, des_folder_id)
-            tree.folder_tree("open_folder", des_folder_id)
+            tree.folder_tree("move_folder", id, des_folder_id)
             refresh_homework_table_and_folder_chain()
           else
             $.page_notification "操作失败，请刷新页面重试"
-          $("#moveModal").modal("hide")
+          modal.modal("hide")
     else
       # move a document
-      homework_id = $(this).closest("#moveModal").attr("data-id")
-      des_folder_id = move_tree.folder_tree("get_selected_folder_id")
-      $.putJSON '/teacher/homeworks/' + homework_id + "/move",
+      $.putJSON '/teacher/homeworks/' + id + "/move",
         {
           folder_id: des_folder_id
         }, (data) ->
@@ -258,14 +307,23 @@ $ ->
             refresh_homework_table_and_folder_chain()
           else
             $.page_notification "操作失败，请刷新页面重试"
-          $("#moveModal").modal("hide")
-  ######## End: move folder part ########
+          modalmodal("hide")
+  ######## End: move part ########
 
   ######## Begin: delete part ########
   $("body").on "click", ".popup-menu .delete", (event) ->
-    type = popup_menu.popup_menu("option", "type")
+    node_type = popup_menu.popup_menu("option", "type")
     id = popup_menu.popup_menu("option", "id")
-    if type == "folder"
+    delete_node(node_type, id)
+
+  $("body").on "click", "tr.record a .remove", (event) ->
+    tr = $(event.target).closest("tr")
+    node_type = tr.attr("data-type")
+    id = tr.attr("data-id")
+    delete_node(node_type, id)
+
+  delete_node = (node_type, id) ->
+    if node_type == "folder"
       $.deleteJSON "/teacher/folders/" + id + "/delete", {}, (data) ->
         if data.success
           parent_id = tree.folder_tree("get_parent_id", id)
@@ -277,7 +335,7 @@ $ ->
             refresh_homework_table_and_folder_chain()
         else
           $.page_notification "操作失败，请刷新页面重试"
-    else if type == "homework"
+    else if node_type == "homework"
       $.deleteJSON "/teacher/homeworks/" + id + "/delete", {}, (data) ->
         if data.success
           $(".popup-menu").remove()
@@ -308,9 +366,18 @@ $ ->
 
   ######## Begin: recover part ########
   $("body").on "click", ".popup-menu .recover", (event) ->
-    type = popup_menu.popup_menu("option", "type")
+    node_type = popup_menu.popup_menu("option", "type")
     id = popup_menu.popup_menu("option", "id")
-    $.putJSON "/teacher/#{type}s/#{id}/recover", { }, (data) ->
+    recover_node(node_type, id)
+
+  $("body").on "click", "tr.record a .recover", (event) ->
+    tr = $(event.target).closest("tr")
+    node_type = tr.attr("data-type")
+    id = tr.attr("data-id")
+    recover_node(node_type, id)
+
+  recover_node = (node_type, id) ->
+    $.putJSON "/teacher/#{node_type}s/#{id}/recover", { }, (data) ->
       if data.success
         window.location = "/teacher/homeworks?folder_id=" + data.parent_id
       else
@@ -325,22 +392,39 @@ $ ->
 
   ######## Begin: destroy part ########
   $("body").on "click", ".popup-menu .destroy", ->
-    type = popup_menu.popup_menu("option", "type")
+    node_type = popup_menu.popup_menu("option", "type")
     id = popup_menu.popup_menu("option", "id")
+    destroy_node(node_type, id)
+
+  $("body").on "click", "tr.record a .destroy", (event) ->
+    tr = $(event.target).closest("tr")
+    node_type = tr.attr("data-type")
+    id = tr.attr("data-id")
+    destroy_node(node_type, id)
+
+  destroy_node = (node_type, id) ->
     data_url =
       folder: "/teacher/folders/#{id}"
       homework: "/teacher/homeworks/#{id}"
-    $.deleteJSON data_url[type], { }, (data) ->
+    $.deleteJSON data_url[node_type], { }, (data) ->
       if data.success
         $(".popup-menu").remove()
         refresh_homework_table_and_folder_chain()
       else
-      $.page_notification "操作失败，请刷新页面重试"
+        $.page_notification "操作失败，请刷新页面重试"
   ######## End: destroy part ########
 
   ######## Begin: search part ########
   $("#btn-search").click ->
     keyword = $("#input-search").val()
+    search(keyword)
+
+  $("#input-search").keydown (event) ->
+    code = event.which
+    if code == 13
+      search($(this).val())
+
+  search = (keyword) ->
     window.location = "/teacher/homeworks?type=search&keyword=" + keyword
   ######## End: destroy part ########
 
@@ -364,7 +448,7 @@ $ ->
         $.page_notification "操作失败，请刷新页面重试"
 
 
-  $("body").on "click", "*[data-pagetype=trash] a", (event) ->
+  $("body").on "click", "*[data-pagetype=trash] a.node-link", (event) ->
     $("#recoverModal").modal('show')
     type = $(event.target).closest("tr").attr("data-type")
     id = $(event.target).closest("tr").attr("data-id")
@@ -465,8 +549,8 @@ $ ->
     if folder_type == "homework"
       return [
         {
-          text: "打开"
-          class: "open"
+          text: "编辑"
+          class: "edit"
         }
         {
           text: "统计"
