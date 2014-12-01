@@ -1,0 +1,84 @@
+- content_for :head do
+  = javascript_include_tag "pages/teacher/homeworks/stat-bundle"
+  = stylesheet_link_tag "pages/teacher/homeworks/stat-bundle", :media => "all"
+
+#content-background
+  #paper-top
+  #paper
+    %p#homework-summary= "共有78人，102次收录了这份作业中的题目。其中35人，64次收录来自您的学生"
+    - @homework.questions_in_order.each do |q|
+      .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
+        .question-content-div
+          .question-content
+            = render :partial => "partials/question_content", locals: { content: q.content }
+          - if q.figures.present?
+            .question-figures
+              = render :partial => "partials/question_figures", locals: { figures: q.q_figures }
+          - if q.type == "choice"
+            .question-items{data: {"question-answer" => q.answer}}
+              - q.items.each_with_index do |item, index|
+                - if q.answer == index
+                  %p{id: "#{q.id.to_s}-item-#{index}"}
+                    %label= d2c(index) + ". "
+                    %span.item-content= item.render_question.html_safe
+                - else
+                  %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
+                    %label= d2c(index) + ". "
+                    %span.item-content= item.render_question.html_safe
+          - if q.answer_content.present?
+            %strong.answer-label 解答
+            .question-answer
+              = render :partial => "partials/question_content", locals: { content: q.answer_content }
+          - else
+            %strong.answer-label.hide 解答
+            .question-answer.hide
+              = render :partial => "partials/question_content", locals: { content: q.answer_content }
+          %a.expand-link{ href: "javascript:void(0);", data: { "expand" => "false" } } 展开
+      .stat-div
+        .tab-title
+          .tab.tag-tab.active-tab
+            %span 标签分类
+          .tab.topic-tab.inactive-tab
+            %span 知识点分布
+          .tab.summary-tab.inactive-tab
+            %span 总结内容
+        .analyze-result
+          .result-part
+            %i.loading
+            .tag-result.hide
+            .topic-result.hide
+            .summary-result.hide
+          .filter-part
+            .tag-filter.filter
+              %ul.nav.nav-pills
+                %li.active
+                  %a{:href => "#tag-single-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 单独分析
+                %li{:role => "presentation"}
+                  %a{:href => "#tag-compare-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 对比分析
+              .tab-content
+                .single-analyze.fade.in.active.tab-pane{ id: "tag-single-analyze-#{q.id.to_s}" }
+                  %span 分析对象:
+                  = select_tag "tag-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
+                .compare-analyze.fade.tab-pane{ id: "tag-compare-analyze-#{q.id.to_s}" }
+                  = select_tag "tag-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
+                  %a.btn.btn-default.btn-add 添加
+                  %ul.compare-list
+              = submit_tag "刷新", :class => 'btn-primary btn btn-refresh'
+            .topic-filter.filter.hide
+              %ul.nav.nav-pills
+                %li.active
+                  %a{:href => "#topic-single-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 单独分析
+                %li{:role => "presentation"}
+                  %a{:href => "#topic-compare-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 对比分析
+              .tab-content
+                .single-analyze.fade.in.active.tab-pane{ id: "topic-single-analyze-#{q.id.to_s}" }
+                  %span 分析对象:
+                  = select_tag "topic-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
+                .compare-analyze.fade.tab-pane{ id: "topic-compare-analyze-#{q.id.to_s}" }
+                  = select_tag "topic-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
+                  %a.btn.btn-default.btn-add 添加
+                  %ul.compare-list
+              = submit_tag "刷新", :class => 'btn-primary btn btn-refresh'
+            .summary-filter.filter.hide
+              %span hahahahaha
+  #paper-bottom

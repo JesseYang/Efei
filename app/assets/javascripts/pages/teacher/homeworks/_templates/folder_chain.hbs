@@ -4,7 +4,7 @@
       <span>/<span>
     {{else}}
       <div class="link-div">
-        <a href="/teacher/homeworks?folder_id={{id}}">{{name}}</a>
+        <a href="/teacher/homeworks?folder_id={{id.$oid}}">{{name}}</a>
       </div>
     {{/if}}
   {{/each}}
@@ -17,6 +17,12 @@
 {{/ifCond}}
 {{#ifCond type "all"}}
   <span>全部作业</span>
+{{/ifCond}}
+{{#ifCond type "starred"}}
+  <span>已加星标</span>
+{{/ifCond}}
+{{#ifCond type "workbook"}}
+  <span>练习册</span>
 {{/ifCond}}
 {{#ifCond type "search"}}
   <span>搜索结果</span>

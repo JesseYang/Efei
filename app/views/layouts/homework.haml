@@ -1,0 +1,43 @@
+- content_for :app_head do
+  = stylesheet_link_tag "layouts/homework-layout", :media => "all"
+  = javascript_include_tag "layouts/homework-layout"
+  :javascript
+    window.homework_id = "#{@homework.id.to_s}"
+- content_for :teacher_content do
+  #title-bar
+    #title-wrapper
+      %h2#title= truncate_u(@homework.name, 10)
+      .title-edit.hide
+        %input.form-control{type: "text", value: @homework.name}/
+        %button.btn.btn-default.btn-sm.title-ok{data: {"homework-id" => @homework.id.to_s}} 确 定
+        %button.btn.btn-default.btn-sm.title-cancel 取 消
+      %i#title-edit-icon.edit.hide
+    #operation-wrapper
+      %ul
+        %li
+          %a{href: "javascript:void();"}
+            %i.icon.remove
+            %span 删除
+        %li
+          %a{href: generate_teacher_homework_path(@homework)}
+            %i.icon.download
+            %span 下载
+        %li
+          %a{href: settings_teacher_homework_path(@homework)}
+            %i.icon.setting
+            %span 设置
+        %li
+          %a{href: stat_teacher_homework_path(@homework)}
+            %i.icon.stat
+            %span 统计
+        %li
+          %a{href: teacher_homework_path(@homework)}
+            %i.icon.edit
+            %span 编辑
+        %li
+          %a{href: teacher_homeworks_path + "?folder_id=" + @homework.folder.id.to_s}
+            %i.icon.return
+            %span 返回
+  = yield
+
+= render :template => 'layouts/teacher'

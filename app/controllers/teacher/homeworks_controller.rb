@@ -1,6 +1,7 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
-  before_filter :ensure_homework, only: [:get_folder_id, :show, :move, :settings, :set_tag, :delete, :export, :generate, :rename]
+  layout :resolve_layout
+  before_filter :ensure_homework, only: [:get_folder_id, :show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :rename, :star]
 
   def ensure_homework
     begin
@@ -21,7 +22,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   def index
     @type = params[:type].blank? ? "folder" : params[:type]
     @root_folder_id = current_user.root_folder.id
-    if !%w{folder recent trash search all}.include?(@type)
+    if !%w{folder recent trash search all starred workbook}.include?(@type)
       redirect_to action: :index, folder_id: @root_folder_id, type: "folder" and return
     end
 
@@ -39,6 +40,8 @@ class Teacher::HomeworksController < Teacher::ApplicationController
         redirect_to action: index, folder_id: @root_folder_id, type: "folder" and return
       end
     when "all"
+    when "starred"
+    when "workbook"
     end
   end
 
@@ -62,6 +65,13 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def show
+  end
+
+  def stat
+    @classes = @current_user.classes.map do |e|
+      [e.name.to_s, e.id.to_s]
+    end
+    @classes.insert(0, ["全体学生", "-1"])
   end
 
   def move
@@ -134,5 +144,19 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   def rename
     @homework.update_attribute :name, params[:name]
     render_json
+  end
+
+  def star
+    params[:add].to_s == "true" ? @homework.star : @homework.unstar
+    render_json
+  end
+
+  def resolve_layout
+    case action_name
+    when "show", "stat", "settings"
+      "layouts/homework"
+    else
+      "layouts/teacher"
+    end
   end
 end

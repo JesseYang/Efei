@@ -1,64 +1,39 @@
 - content_for :head do
-  = javascript_include_tag "pages/teacher/show-bundle"
-  = stylesheet_link_tag "pages/teacher/homeworks-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/homeworks/show-bundle"
+  = stylesheet_link_tag "pages/teacher/homeworks/show-bundle", :media => "all"
   :javascript
-    window.homework_id = '#{@homework.id.to_s}'
 
-.container
-  .sub-banner
-    .wrap
-      %h2= truncate_u(@homework.name, 10)
-      .title-edit.hide
-        %input.form-control{type: "text", value: @homework.name}/
-        %button.btn.btn-default.btn-sm.title-ok{data: {"homework-id" => @homework.id.to_s}} 确 定
-        %button.btn.btn-default.btn-sm.title-cancel 取 消
-      %ul
-        %li.tooltips{title: "返回", data: {toggle: "tooltip", placement: "bottom"}}
-          = link_to "返回", teacher_homeworks_path + "?folder_id=" + @homework.folder.id.to_s
-        %li.tooltips{title: "生成", data: {toggle: "tooltip", placement: "bottom"}}
-          = link_to "生成", generate_teacher_homework_path(@homework)
-        %li.tooltips{title: "删除", data: {toggle: "tooltip", placement: "bottom"}}
-          = link_to "删除", teacher_homework_path(@homework), {method: "delete", confirm: "确定删除？"}
-  .lib-content.container
+#content-background
+  #paper-top
+  #paper
     - @homework.questions_in_order.each do |q|
-      .content-div.row
-        .question-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
-          .question-content-div.col-lg-9
-            .question-content
-              = render :partial => "partials/question_content", locals: { content: q.content }
-            - if q.figures.present?
-              .question-figures
-                = render :partial => "partials/question_figures", locals: { figures: q.q_figures }
-            - if q.type == "choice"
-              .question-items{data: {"question-answer" => q.answer}}
-                - q.items.each_with_index do |item, index|
-                  - if q.answer == index
-                    %p{id: "#{q.id.to_s}-item-#{index}"}
-                      %em.glyphicon.glyphicon-ok
-                      %label= d2c(index) + ". "
-                      %span.item-content= item.render_question.html_safe
-                  - else
-                    %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
-                      %em.glyphicon.glyphicon-ok
-                      %label= d2c(index) + ". "
-                      %span.item-content= item.render_question.html_safe
-            - if q.answer_content.present?
-              %strong.answer-label 解答
-              .question-answer
-                = render :partial => "partials/question_content", locals: { content: q.answer_content }
-            - else
-              %strong.answer-label.hide 解答
-              .question-answer.hide
-                = render :partial => "partials/question_content", locals: { content: q.answer_content }
-          .question-operation-div.col-lg-3
-            .btn-group.right{data: { qid: q.id.to_s }}
-              / = link_to "替换", "", :method => "get", :class => 'btn btn-default replace-btn', data: {toggle: "modal", target: "#replaceModal", qid: q.id.to_s}
-              = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default replace-btn', data: {qid: q.id.to_s}
-              / = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {toggle: "modal", target: "#insertModal", qid: q.id.to_s}
-              = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {qid: q.id.to_s}
-              = link_to "统计", "javascript:void(0)", :method => "get", :class => 'btn btn-default stat-btn', data: {qid: q.id.to_s}
-              = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s }, :method => "delete", :class => 'btn btn-danger'
-        .clear-both
+      .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
+        .question-content-div
+          .question-content
+            = render :partial => "partials/question_content", locals: { content: q.content }
+          - if q.figures.present?
+            .question-figures
+              = render :partial => "partials/question_figures", locals: { figures: q.q_figures }
+          - if q.type == "choice"
+            .question-items{data: {"question-answer" => q.answer}}
+              - q.items.each_with_index do |item, index|
+                %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
+                  %label= d2c(index) + ". "
+                  %span.item-content= item.render_question.html_safe
+          - if q.answer_content.present?
+            %strong.answer-label 解答
+            .question-answer
+              = render :partial => "partials/question_content", locals: { content: q.answer_content }
+          - else
+            %strong.answer-label.hide 解答
+            .question-answer.hide
+              = render :partial => "partials/question_content", locals: { content: q.answer_content }
+        .question-operation-div.hide
+          .btn-group.right{data: { qid: q.id.to_s }}
+            = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default replace-btn', data: {qid: q.id.to_s}
+            = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default insert-btn', data: {qid: q.id.to_s}
+            = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s }, :method => "delete", :class => 'btn btn-default'
+  #paper-bottom
 
 #replaceModal.modal.fade
   .modal-dialog
@@ -95,32 +70,3 @@
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "完成", :class => 'btn-primary btn'
-
-#statModal.modal.fade
-  .modal-dialog
-    .modal-content
-      .modal-header
-        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-        %h3 统计信息
-      .modal-body
-        %div
-          %ul#myTab.nav.nav-tabs{:role => "tablist"}
-            %li.active
-              %a{"data-toggle" => "tab", :href => "#note-type", :role => "tab"} 类型分布
-            / %li
-            /   %a{"data-toggle" => "tab", :href => "#note-topic", :role => "tab"} 知识点分布
-            %li
-              %a{"data-toggle" => "tab", :href => "#note-summary", :role => "tab"} 总结
-          .tab-content
-            #note-type.tab-pane.fade.active.in
-              #note-type-fig
-              #note-type-text
-                %p
-            / #note-topic.tab-pane.fade
-            /   #note-topic-fig
-            /   #note-topic-text
-            /     %p
-            #note-summary.tab-pane.fade
-              %textarea{readonly: true}
-      .modal-footer
-        %a.btn.btn-primary{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 确定

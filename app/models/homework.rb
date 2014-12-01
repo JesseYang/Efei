@@ -75,7 +75,8 @@ class Homework
         id: h.id.to_s,
         name: h.name,
         last_update_time: h.last_update_time,
-        subject: Subject::NAME[h.subject]
+        subject: Subject::NAME[h.subject],
+        starred: h.starred
       }
     end
   end
@@ -86,7 +87,8 @@ class Homework
         id: h.id.to_s,
         name: h.name,
         last_update_time: h.last_update_time,
-        subject: Subject::NAME[h.subject]
+        subject: Subject::NAME[h.subject],
+        starred: h.starred
       }
     end
   end
@@ -97,7 +99,20 @@ class Homework
         id: h.id.to_s,
         name: h.name,
         last_update_time: h.last_update_time,
-        subject: Subject::NAME[h.subject]
+        subject: Subject::NAME[h.subject],
+        starred: h.starred
+      }
+    end
+  end
+
+  def self.list_starred
+    self.starred.map do |h|
+      {
+        id: h.id.to_s,
+        name: h.name,
+        last_update_time: h.last_update_time,
+        subject: Subject::NAME[h.subject],
+        starred: h.starred
       }
     end
   end
