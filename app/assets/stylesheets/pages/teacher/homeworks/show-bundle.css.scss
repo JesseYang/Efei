@@ -20,7 +20,7 @@
     .content-div {
       position: relative;
       background-color: white;
-      padding: 40px 80px 0px 80px;
+      padding: 40px 80px 40px 80px;
       border-bottom: 1px solid #DDDDDD;
       .question-content-div {
         font-size: 1.3em;
@@ -30,10 +30,25 @@
         .question-items p {
           margin-left: 10px;
         }
+        .question-answer {
+          margin-top: 10px;
+        }
+      }
+      table.line4 {
+        width: 100%;
+        tr {
+          width: 25%;
+        }
+      }
+      table.line2 {
+        width: 100%;
+        tr {
+          width: 50%;
+        }
       }
       .question-operation-div {
         position: absolute;
-        top: 40px;
+        top: 20px;
         right: 80px;
         padding: 5px;
         background-color: white;

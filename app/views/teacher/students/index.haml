@@ -1,0 +1,64 @@
+- content_for :head do
+  = stylesheet_link_tag "pages/teacher/students/index-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/students/index-bundle"
+  :javascript
+    window.cid = "#{@cid}"
+
+- content_for :teacher_content do
+  #student-index
+    #left-part
+      .all-students
+        .class-link-wrapper
+          %a.student-link{ href: teacher_students_path } 所有学生
+      %ul#class-list
+        - @classes.each do |c|
+          %li
+            .class-link-wrapper
+              %a.student-link{data: { id: c.id.to_s}, href: teacher_students_path + "?cid=#{c.id.to_s}"}= c.name
+        %li
+          .new-class-wrapper
+            %a.new-class{href: "javascript:void(0);"} 新建分组
+    #right-part
+      #summary
+        - if @cid == ""
+          %span 所有学生
+        - else
+          %span= @klass.name
+        %span= "共#{@students.length}人"
+      #table-wrapper
+        %table
+          %tr
+            %th 姓名
+            %th 邮箱
+            %th 手机
+            %th 操作
+          - @students.each do |s|
+            %tr{data: {id: s.id.to_s}}
+              %th
+                %a{href: teacher_student_path(s)}= s.name
+              %th= s.email
+              %th= s.mobile
+              %th
+                %a{href: "javascript:void(0);", title: "统计"}
+                  %i.icon.stat
+                %a{href: "javascript:void(0);", title: "移动"}
+                  %i.icon.move
+                %a{href: "javascript:void(0);", title: "复制"}
+                  %i.icon.copy
+                %a{href: "javascript:void(0);", title: "删除"}
+                  %i.icon.remove
+
+  #newClassModal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 创建新分组
+        .modal-body
+          %p
+            %span 请为其输入名称
+          %p
+            %input.target.form-control{type: "text", value: ""}/
+        .modal-footer
+          %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

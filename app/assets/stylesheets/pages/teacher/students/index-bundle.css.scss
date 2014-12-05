@@ -1,0 +1,73 @@
+@import 'common';
+@import "compass/css3";
+@import "icons/students/*.png";
+
+#student-index {
+  width: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#left-part {
+  padding-left: 20px;
+  padding-top: 20px;
+  float: left;
+  width: 200px;
+  height: 500px;
+  .class-link-wrapper {
+    a {
+      text-decoration: none;
+      color: black;
+      &.select {
+        color: #D54937;
+      }
+    }
+    &:hover {
+      background-color: #EEEEEE;
+    }
+  }
+  .new-class-wrapper {
+    margin-top: 10px;
+  }
+  ul {
+    padding-left: 10px;
+    list-style: none;
+    overflow: auto;
+  }
+}
+
+#right-part {
+  table {
+    .icon {
+      @include size(16px, 16px);
+      @include inline-block;
+      margin-left: 5px;
+    }
+    .stat {
+      @include students-sprite(stat);
+      &:hover {
+        @include students-sprite(stat_hover);
+      }
+    }
+    .move {
+      @include students-sprite(move);
+      &:hover {
+        @include students-sprite(move_hover);
+      }
+    }
+    .copy {
+      @include students-sprite(copy);
+      &:hover {
+        @include students-sprite(copy_hover);
+      }
+    }
+    .remove {
+      @include students-sprite(remove);
+      &:hover {
+        @include students-sprite(remove_hover);
+      }
+    }
+  }
+}

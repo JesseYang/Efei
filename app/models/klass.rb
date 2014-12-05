@@ -11,4 +11,11 @@ class Klass
   belongs_to :teacher, class_name: "User", inverse_of: :classes
   has_and_belongs_to_many :students, class_name: "User", inverse_of: :klasses
 
+
+  def delete
+  end
+
+  def rename(name)
+  	self.update_attribute :name, name
+  end
 end

@@ -6,42 +6,38 @@
     window.controller = "#{params[:controller]}"
     window.action = "#{params[:action]}"
 - content_for :app_nav do
-  #app-teacher-navbar.navbar.navbar-default{role: "navigation"}
-    .navbar-header
-      %a.navbar-brand{href: "/"} 易飞
-    .container
-      %ul.nav.navbar-nav
-        %li.divider-vertical
-        %li.homeworks
+  #teacher-navbar{role: "navigation"}
+    .container-fluid
+      %a.brand{href: "/"} 易飞
+      %ul.nav
+        %li
           %a{href: "/teacher/homeworks/"} 作业列表
-        %li.divider-vertical
-        %li.homeworks
-          %a{href: "/teacher/homeworks/"} 学生管理
-        %li.divider-vertical
+        %li
+          %a{href: teacher_students_path } 学生管理
         %li
           %a{href: "#"} 使用指南
-      %ul.nav.navbar-nav.navbar-right
-        %li.dropdown
+      %ul.nav.pull-right
+        %li
           - if user_signed_in?
-            %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
+            %a.ef-dropdown-toggle{href: "#"}
               = current_user.email
               %b.caret
-            %ul.dropdown-menu
+            .ef-dropdown-menu.hide
               - if current_user.school_admin
-                %li
+                .ef-dropdown-item
                   %a{href: "/school_admin/teachers", data: {method: "get"}} 学校管理员
-              %li
+              .ef-dropdown-item
                 %a{href: "/teacher/settings/#{current_user.id.to_s}"} 个人设置
-              %li
+              .ef-dropdown-item
                 %a{href: "/account/sessions/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
           - else
-            %a.dropdown-toggle{href: "#", data: {toggle: "dropdown"}}
-              Account
+            %a.ef-dropdown-toggle{href: "#"}
+              帐号
               %b.caret
-            %ul.dropdown-menu
-              %li
+            .ef-dropdown-menu.hide
+              .ef-dropdown-item
                 %a{href: "/users/sign_in"} 登录
-              %li
+              .ef-dropdown-item
                 %a{href: "/users/sign_up"} 注册
 - content_for :app_content do
   = yield :teacher_content

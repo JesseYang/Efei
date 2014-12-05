@@ -106,4 +106,15 @@ module UserComponents::Student
     ExportNoteEmailWorker.perform_async(email, download_path) if email.present?
     URI.encode(download_path[download_path.index('/')+1..-1])
   end
+
+  def move_to(old_klass, new_klass_id)
+    self.klasses.delete(old_klass)
+    new_klass = Klass.find(new_klass_id)
+    self.klasses << new_klass
+  end
+
+  def copy_to(klass_id)
+    klass = Klass.find(klass_id)
+    klass.students << self
+  end
 end

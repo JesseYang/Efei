@@ -91,7 +91,7 @@ class Document
   def extract_one_question(subject, cache)
     # 1. separate answer and question if there is answer
     answer_index = cache.index do |e|
-      e.class == String && e.strip.match(/^[解|答|案|析]{1,2}[\:|：|\.| ].+/)
+      e.class == String && e.strip.match(/^[解|答|案|析]{1,2}[\:|：|\.| ].*/)
     end
     q_part = answer_index.nil? ? cache : cache[0..answer_index - 1]
     a_part = answer_index.nil? ? [] : cache[answer_index..- 1]

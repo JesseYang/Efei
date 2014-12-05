@@ -12,6 +12,19 @@ class String
     self.length > 1 && self.match(/-+/).present? && self.match(/-+/)[0] == self
   end
 
+  def item_length
+    length = 0
+    self.split('$$').each do |f|
+      if f.start_with?("equ_") || f.start_with?("math_") || f.start_with?("fig_")
+        image_type, filename, width, height = f.split(/\*|_/)
+        length += width.to_i / 8
+      else
+        length += f.length
+      end
+    end
+    length
+  end
+
   def render_question
     result = ""
     self.split('$$').each do |f|

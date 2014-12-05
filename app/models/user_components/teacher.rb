@@ -17,7 +17,7 @@ module UserComponents::Teacher
 
   def add_to_class(class_id, student)
     return if self.has_student?(student)
-    klass = self.classes.where(id: class_id).first || self.classes.where(default: true).first || self.classes.create(default: true, name: "默认班级")
+    klass = self.classes.where(id: class_id).first || self.classes.where(default: true).first || self.classes.create(default: true, name: "其他")
     klass.students << student
     return { success: true }
   end
@@ -69,5 +69,9 @@ module UserComponents::Teacher
   def root_folder
     f = self.folders.where(is_root: true).first
     f.nil? ? self.folders.create(is_root: true) : f
+  end
+
+  def create_class(name)
+    self.classes.create(name: name)
   end
 end
