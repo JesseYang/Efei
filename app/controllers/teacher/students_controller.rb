@@ -30,13 +30,16 @@ class Teacher::StudentsController < Teacher::ApplicationController
 
   def move
     @student.move_to(@klass, params[:new_class_id])
+    render_json
   end
 
   def copy
     @student.copy_to(params[:new_class_id])
+    render_json
   end
 
   def destroy
-    
+    @student.delete_from_class(@klass)
+    render_json
   end
 end

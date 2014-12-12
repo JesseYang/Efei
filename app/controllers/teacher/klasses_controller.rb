@@ -20,6 +20,7 @@ class Teacher::KlassesController < Teacher::ApplicationController
   end
 
   def destroy
-    
+    @klass.clear_students
+    render_json @klass.destroy
   end
 end

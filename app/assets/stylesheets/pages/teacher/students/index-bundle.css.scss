@@ -17,12 +17,17 @@
   width: 200px;
   height: 500px;
   .class-link-wrapper {
-    a {
+    a.student-link {
       text-decoration: none;
       color: black;
       &.select {
         color: #D54937;
       }
+    }
+    a.remove-link {
+      float: right;
+      margin-right: 10px;
+      cursor: pointer;
     }
     &:hover {
       background-color: #EEEEEE;

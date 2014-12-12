@@ -11,11 +11,21 @@ class Klass
   belongs_to :teacher, class_name: "User", inverse_of: :classes
   has_and_belongs_to_many :students, class_name: "User", inverse_of: :klasses
 
-
-  def delete
-  end
-
   def rename(name)
   	self.update_attribute :name, name
+  end
+
+  def clear_students
+    if self.default
+      # the "其他" group
+      self.students.delete_all
+      return
+    end
+    other_classes = self.teacher.classes.where(:id.ne => self.id)
+    the_other_class = self.teacher.classes.where(default: true).first
+    other_students = other_classes.map { |e| e.students } .flatten .uniq
+    self.students.each do |s|
+      the_other_class.students << s if !other_students.include?(s)
+    end
   end
 end

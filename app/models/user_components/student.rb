@@ -117,4 +117,13 @@ module UserComponents::Student
     klass = Klass.find(klass_id)
     klass.students << self
   end
+
+  def delete_from_class(klass)
+    teacher = klass.teacher
+    other_classes = teacher.classes.where(:id.ne => klass.id)
+    the_other_class = teacher.classes.where(default: true).first
+    other_students = other_classes.map { |e| e.students }
+    the_other_class.students << s if !other_students.include?(s)
+    self.klasses.delete(klass)
+  end
 end

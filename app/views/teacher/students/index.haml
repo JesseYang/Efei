@@ -11,10 +11,14 @@
         .class-link-wrapper
           %a.student-link{ href: teacher_students_path } 所有学生
       %ul#class-list
-        - @classes.each do |c|
+        - @classes[0..-2].each do |c|
           %li
             .class-link-wrapper
               %a.student-link{data: { id: c.id.to_s}, href: teacher_students_path + "?cid=#{c.id.to_s}"}= c.name
+              %a.remove-link.hide 删除
+        %li
+          .class-link-wrapper
+            %a.student-link{data: { id: @classes[-1].id.to_s}, href: teacher_students_path + "?cid=#{@classes[-1].id.to_s}"}= @classes[-1].name
         %li
           .new-class-wrapper
             %a.new-class{href: "javascript:void(0);"} 新建分组
