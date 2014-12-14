@@ -85,36 +85,137 @@ class Teacher::QuestionsController < Teacher::ApplicationController
   end
 
   def stat
-    q = Question.find(params[:id])
-    students = {}
-    note_type = [[], [], [], []]
-    note_topic = { }
-    summary = []
-    q.notes.each do |e|
-      stu = e.user
-      next if !current_user.has_student?(stu)
-      students[stu.id.to_s] = stu.name
-      note_type[e.note_type-1] << stu
-      e.topics.each do |t|
-        note_topic[t.name] ||= []
-        note_topic[t.name] << stu
+    qid = Question.find(params[:id])
+    if params[:analyze_type] == "single"
+      notes = []
+      if params[:class_id] = "-1"
+        students = current_user.classes.map { |e| e.students } .flatten .uniq
+      else
+        klass = current_user.classes.find(params[:class_id])
+        students = klass.students
       end
-      summary << stu.name + ": " + e.summary
+      students.each do |s|
+        n = s.notes.where(question_id: qid)
+        notes << n if n.present?
+      end
+    else
+      params[:class_ids].split(',').each do |cid|
+        if cid == "-1"
+          students = current_user.classes.map { |e| e.students } .flatten .uniq
+        else
+          klass = current_user.classes.find(params[:class_id])
+          students = klass.students
+        end
+        temp_notes = []
+        students.each do |s|
+          n = s.notes.where(question_id: qid)
+          temp_notes << n if n.present?
+        end
+        notes << temp_notes
+      end
     end
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: {
-          students: students,
-          note_type: note_type.map { |students| students.map { |e| e.name } .join(',') },
-          note_type_data: note_type.map { |e| e.length },
-          note_type_ary: ["不懂", "不会", "不对", "典型题"],
-          note_topic: note_topic.values.map { |students| students.map { |e| e.name } .join(',') },
-          note_topic_data: note_topic.values.map { |e| e.length },
-          note_topic_ary: note_topic.keys,
-          summary: summary.join("\n")
-        }
+    case params[:target]
+    when "tag"
+      if params[:analyze_type] == "single"
+        categories = [ ]
+        data = [ ]
+        students = [ ]
+        notes.each do |n|
+          categories << n.tag if !categories.include? n.tag
+          index = categories.index(n.tag)
+          data[index] ||= 0
+          data[index] += 1
+          students[index] ||= []
+          students[index] << n.student.name
+        end
+        students.map! { |e| e.join(", ") }
+        render_json({
+          categories: ["不懂", "不会", "不对", "典型题"],
+          data: [10, 8, 2, 4],
+          students: ["白玉芬, 仓春莲, 仓红, 陈超云, 陈高, 陈国祥, 陈宏柳, 陈金娣, 陈丽丽, 陈平",
+            "袁刚, 章丽丽, 张德梅, 张芳, 张红芳, 张珊珊, 赵勇, 赵哲明",
+            "卞红巧, 蔡坤",
+            "郑永军, 周风, 周娟娟, 周鹿屏"]
+        }) and return
+=begin
+        render_json({
+          categories: categories,
+          data: data,
+          students: students
+        }) and return
+=end
+      else
       end
+    when "topic"
+      if params[:analyze_type] == "single"
+        categories = [ ]
+        data = [ ]
+        students = [ ]
+        notes.each do |n|
+          n.topic_str.split(',').each do |t|
+            categories << t if !categories.include? t
+            index = categories.index(t)
+            data[index] ||= 0
+            data[index] += 1
+            students[index] ||= []
+            students[index] << n.user.name
+          end
+        end
+        students.map! { |e| e.join(", ") }
+        render_json({
+          categories: ["三角函数, 辅助角公式, 诱导公式"],
+          data: [3, 16, 5],
+          students: ["陈金娣, 陈丽丽, 陈平",
+            "袁刚, 章丽丽, 卞红巧, 白玉芬, 仓春莲, 仓红, 陈超云, 陈高, 陈国祥, 陈宏柳, 张德梅, 张芳, 张红芳, 张珊珊, 赵勇, 赵哲明",
+            "郑永军, 周风, 周娟娟, 周鹿屏, 蔡坤"]
+        })
+=begin
+        render_json({
+          categories: categories,
+          data: data,
+          students: students
+        }) and return
+=end
+      else
+      end
+    when "summary"
+      summary = [ ]
+      notes.each do |n|
+        summary << { student_id: n.user.id.to_s, student_name: n.user.name, summary: n.summary }
+      end
+=begin
+      render_json({
+        summary: summary
+      }) and return
+=end
+      render_json({
+        summary: [
+          { student_id: "", student_name: "陈金娣", summary: "诱导公式背错了"},
+          { student_id: "", student_name: "陈丽丽", summary: "没有想起用辅助角公式"},
+          { student_id: "", student_name: "陈平", summary: ""},
+          { student_id: "", student_name: "章丽丽", summary: ""},
+          { student_id: "", student_name: "袁刚", summary: "辅助角公式提公因子计算错误"},
+          { student_id: "", student_name: "卞红巧", summary: ""},
+          { student_id: "", student_name: "白玉芬", summary: "三角函数掌握不牢固"},
+          { student_id: "", student_name: "仓春莲", summary: "诱导公式没记住"},
+          { student_id: "", student_name: "仓红", summary: ""},
+          { student_id: "", student_name: "陈超云", summary: ""},
+          { student_id: "", student_name: "陈高", summary: "没有想起用诱导公式"},
+          { student_id: "", student_name: "陈国祥", summary: "万能公式"},
+          { student_id: "", student_name: "陈宏柳", summary: "三角函数不扎实"},
+          { student_id: "", student_name: "张德梅", summary: ""},
+          { student_id: "", student_name: "张芳", summary: "诱导公式白学了"},
+          { student_id: "", student_name: "张红芳", summary: "计算错误"},
+          { student_id: "", student_name: "张珊珊", summary: "审题不清楚，直接看错题目了"},
+          { student_id: "", student_name: "赵勇", summary: "没时间了做不完了"},
+          { student_id: "", student_name: "赵哲明", summary: "算错了..."},
+          { student_id: "", student_name: "郑永军", summary: "诱导公式"},
+          { student_id: "", student_name: "周风", summary: ""},
+          { student_id: "", student_name: "周娟娟", summary: "错得很不应该"},
+          { student_id: "", student_name: "周鹿屏", summary: "不扎实，完全没有思路"},
+          { student_id: "", student_name: "蔡坤", summary: ""}
+        ]
+      }) and return
     end
   end
 end

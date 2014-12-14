@@ -7,34 +7,35 @@
   #paper
     %p#homework-summary= "共有78人，102次收录了这份作业中的题目。其中35人，64次收录来自您的学生"
     - @homework.questions_in_order.each do |q|
-      .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
-        .question-content-div
-          .question-content
-            = render :partial => "partials/question_content", locals: { content: q.content }
-          - if q.figures.present?
-            .question-figures
-              = render :partial => "partials/question_figures", locals: { figures: q.q_figures }
-          - if q.type == "choice"
-            .question-items{data: {"question-answer" => q.answer}}
-              - q.items.each_with_index do |item, index|
-                - if q.answer == index
-                  %p{id: "#{q.id.to_s}-item-#{index}"}
-                    %label= d2c(index) + ". "
-                    %span.item-content= item.render_question.html_safe
-                - else
-                  %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
-                    %label= d2c(index) + ". "
-                    %span.item-content= item.render_question.html_safe
-          - if q.answer_content.present?
-            %strong.answer-label 解答
-            .question-answer
-              = render :partial => "partials/question_content", locals: { content: q.answer_content }
-          - else
-            %strong.answer-label.hide 解答
-            .question-answer.hide
-              = render :partial => "partials/question_content", locals: { content: q.answer_content }
+      .content-div{data: {questionId: q.id.to_s, questionType: q.type}}
+        .question-content-wrapper
+          .question-content-div
+            .question-content
+              = render :partial => "partials/question_content", locals: { content: q.content }
+            - if q.figures.present?
+              .question-figures
+                = render :partial => "partials/question_figures", locals: { figures: q.q_figures }
+            - if q.type == "choice"
+              .question-items{data: {"question-answer" => q.answer}}
+                - q.items.each_with_index do |item, index|
+                  - if q.answer == index
+                    %p{id: "#{q.id.to_s}-item-#{index}"}
+                      %label= d2c(index) + ". "
+                      %span.item-content= item.render_question.html_safe
+                  - else
+                    %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
+                      %label= d2c(index) + ". "
+                      %span.item-content= item.render_question.html_safe
+            - if q.answer_content.present?
+              %strong.answer-label 解答
+              .question-answer
+                = render :partial => "partials/question_content", locals: { content: q.answer_content }
+            - else
+              %strong.answer-label.hide 解答
+              .question-answer.hide
+                = render :partial => "partials/question_content", locals: { content: q.answer_content }
           %a.expand-link{ href: "javascript:void(0);", data: { "expand" => "false" } } 展开
-      .stat-div
+      .stat-div{data: {questionId: q.id.to_s} }
         .tab-title
           .tab.tag-tab.active-tab
             %span 标签分类
@@ -46,7 +47,13 @@
           .result-part
             %i.loading
             .tag-result.hide
+              .result-figure
+              .result-text
+                %p
             .topic-result.hide
+              .result-figure
+              .result-text
+                %p
             .summary-result.hide
           .filter-part
             .tag-filter.filter
