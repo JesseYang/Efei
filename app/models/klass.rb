@@ -16,16 +16,13 @@ class Klass
   end
 
   def clear_students
-    if self.default
-      # the "其他" group
-      self.students.delete_all
-      return
-    end
+    self.students.clear and return if self.default
     other_classes = self.teacher.classes.where(:id.ne => self.id)
     the_other_class = self.teacher.classes.where(default: true).first
     other_students = other_classes.map { |e| e.students } .flatten .uniq
     self.students.each do |s|
       the_other_class.students << s if !other_students.include?(s)
     end
+    self.students.clear
   end
 end

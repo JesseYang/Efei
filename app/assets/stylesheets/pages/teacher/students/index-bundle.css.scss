@@ -17,6 +17,7 @@
   width: 200px;
   height: 500px;
   .class-link-wrapper {
+    cursor: pointer;
     a.student-link {
       text-decoration: none;
       color: black;
@@ -44,7 +45,73 @@
 }
 
 #right-part {
+  overflow-x: hidden;
+  padding-left: 15px;
+  padding-top: 15px;
+  #summary {
+    width: 95%;
+    .class_name {
+      font-size: 1.5em;
+      margin-right: 10px;
+    }
+    .students_number {
+      font-size: 1em;
+      color: #888888;
+    }
+    #search-box {
+      float: right;
+      margin-right: 50px;
+    }
+  }
+  #table-wrapper {
+    margin-top: 10px;
+    margin-left: 8px;
+    margin-right: 50px;
+  }
   table {
+    width: 95%;
+    .column-name {
+      width: 15%;
+    }
+    .column-email {
+      width: 25%;
+    }
+    .column-mobile {
+      width: 20%;
+    }
+    .column-group {
+      width: 20%;
+    }
+    .column-operation {
+      width: 20%;
+    }
+    th {
+      color: gray;
+      .title {
+        margin-left: 25px;
+      }
+    }
+    tr {
+      height: 40px;
+      border-bottom: 1px solid #E5E5E5;
+      &:not(:first-child) {
+        &:hover {
+          background-color: #FFFFD6;
+        }
+        .subject {
+          font-size: 0.75em;
+        }
+        .doc-title {
+          color: black;
+          &:hover {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+    a {
+      text-decoration: none;
+    }
     .icon {
       @include size(16px, 16px);
       @include inline-block;
@@ -72,6 +139,26 @@
       @include students-sprite(remove);
       &:hover {
         @include students-sprite(remove_hover);
+      }
+    }
+  }
+}
+
+.modal {
+  .class_select_list {
+    ul {
+      list-style: none;
+      overflow: auto;
+      height: 200px;
+      li {
+        cursor: pointer;
+        width: 200px;
+        &:hover {
+          background-color: #EEEEEE;
+        }
+        &.select {
+          color: #D54937;
+        }
       }
     }
   }

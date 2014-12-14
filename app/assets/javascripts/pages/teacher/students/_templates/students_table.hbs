@@ -1,0 +1,42 @@
+{{#ifCond students_number 0}}
+{{else}}
+  <table class="students-table">
+    <tr>
+      <th class=column-name>姓名</th>
+      <th class=column-email>邮箱</th>
+      <th class=column-mobile>手机</th>
+      <th class=column-group>分组</th>
+      <th class=column-operation>操作</th>
+    </tr>
+    {{#each students}}
+      <tr data-id={{id}} data-name={{name}} data-classId={{class_id}}>
+        <td>
+          <a href="javascript:void(0);" class="stat-link">{{name}}</a>
+        </td>
+        <td>
+          {{email}}
+        </td>
+        <td>
+          {{mobile}}
+        </td>
+        <td>
+          {{class_name}}
+        </td>
+        <td>
+          <a href="javascript:void(0);" title="统计" class="stat-link">
+            <i class="icon stat"></i>
+          </a>
+          <a href="javascript:void(0);" title="移动" class="move-link">
+            <i class="icon move"></i>
+          </a>
+          <a href="javascript:void(0);" title="复制" class="copy-link">
+            <i class="icon copy"></i>
+          </a>
+          <a href="javascript:void(0);" title="删除" class="remove-link">
+            <i class="icon remove"></i>
+          </a>
+        </td>
+      </tr>
+    {{/each}}
+  </table>
+{{/ifCond}}

@@ -57,15 +57,16 @@
 }
 
 #right-part {
+  overflow-x: hidden;
+  padding-left: 15px;
+  padding-top: 15px;
   #table-wraper {
     margin-top: 10px;
     margin-left: 8px;
     margin-right: 50px;
   }
-  overflow-x: hidden;
-  padding-left: 15px;
-  padding-top: 15px;
   table {
+    width: 95%;
     .column-star {
       width: 5%;
     }
@@ -89,7 +90,6 @@
       @include inline-block;
       margin-left: 5px;
     }
-    width: 95%;
     th {
       color: gray;
       .title {

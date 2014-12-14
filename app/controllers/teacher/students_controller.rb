@@ -13,19 +13,64 @@ class Teacher::StudentsController < Teacher::ApplicationController
   end
 
   def index
-    # ensure default class
-    if !current_user.classes.where(default: true).first
-      current_user.classes.create(default: true, name: "其他")
-    end
+    current_user.ensure_default_class
     @classes = @current_user.classes.asc(:default)
+    @cid = params[:cid]
+    @keyword = params[:keyword].to_s.strip
+  end
+
+  def list
+    current_user.ensure_default_class
     @klass = current_user.classes.where(id: params[:cid]).first
+    k = params[:keyword]
+    @students = [ ]
     if @klass.present?
-      @cid = @klass.id.to_s
-      @students = @klass.students
+      @klass.students.each do |s|
+        @students << {
+          id: s.id.to_s,
+          name: s.name.to_s,
+          email: s.email,
+          mobile: s.mobile,
+          class_id: @klass.id.to_s,
+          class_name: @klass.name.to_s
+        }
+      end
+      students_summary = { class_name: @klass.name }
+    elsif k.present?
+      current_user.classes.each do |c|
+        c.students.each do |s|
+          @students << {
+            id: s.id.to_s,
+            name: s.name.to_s,
+            email: s.email,
+            mobile: s.mobile,
+            class_id: c.id.to_s,
+            class_name: c.name.to_s
+          } if s.name.include?(k) || s.email.include?(k) || s.mobile.include?(k)
+        end
+      end
+      students_summary = { class_name: "搜索结果" }
     else
-      @cid = ""
-      @students = current_user.classes.map { |c| c.students }.flatten
+      current_user.classes.each do |c|
+        c.students.each do |s|
+          @students << {
+            id: s.id.to_s,
+            name: s.name.to_s,
+            email: s.email,
+            mobile: s.mobile,
+            class_id: c.id.to_s,
+            class_name: c.name.to_s
+          }
+        end
+      end
+      students_summary = { class_name: "所有学生" }
     end
+    students_summary[:students_number] = @students.length
+    students_table = {
+      students_number: @students.length,
+      students: @students
+    }
+    render_json({students_summary: students_summary, students_table: students_table})
   end
 
   def move

@@ -3,6 +3,7 @@
   = javascript_include_tag "pages/teacher/students/index-bundle"
   :javascript
     window.cid = "#{@cid}"
+    window.keyword = "#{@keyword}"
 
 - content_for :teacher_content do
   #student-index
@@ -14,43 +15,23 @@
         - @classes[0..-2].each do |c|
           %li
             .class-link-wrapper
-              %a.student-link{data: { id: c.id.to_s}, href: teacher_students_path + "?cid=#{c.id.to_s}"}= c.name
+              %a.student-link{href: "javascript:void(0);", data: {id: c.id.to_s}}= c.name
               %a.remove-link.hide 删除
         %li
           .class-link-wrapper
-            %a.student-link{data: { id: @classes[-1].id.to_s}, href: teacher_students_path + "?cid=#{@classes[-1].id.to_s}"}= @classes[-1].name
+            %a.student-link{href: "javascript:void(0);", data: {id: @classes[-1].id.to_s}}= @classes[-1].name
         %li
           .new-class-wrapper
             %a.new-class{href: "javascript:void(0);"} 新建分组
     #right-part
       #summary
-        - if @cid == ""
-          %span 所有学生
-        - else
-          %span= @klass.name
-        %span= "共#{@students.length}人"
+        %span.class_name
+        %span.students_number
+        #search-box
+          %input#input-search{:placeholder => "姓名、邮箱或者手机号", :type => "text", :value => params[:keyword]}
+            %span
+              %button#btn-search.btn.btn-default.btn-sm{:type => "button"} 搜索
       #table-wrapper
-        %table
-          %tr
-            %th 姓名
-            %th 邮箱
-            %th 手机
-            %th 操作
-          - @students.each do |s|
-            %tr{data: {id: s.id.to_s}}
-              %th
-                %a{href: teacher_student_path(s)}= s.name
-              %th= s.email
-              %th= s.mobile
-              %th
-                %a{href: "javascript:void(0);", title: "统计"}
-                  %i.icon.stat
-                %a{href: "javascript:void(0);", title: "移动"}
-                  %i.icon.move
-                %a{href: "javascript:void(0);", title: "复制"}
-                  %i.icon.copy
-                %a{href: "javascript:void(0);", title: "删除"}
-                  %i.icon.remove
 
   #newClassModal.modal.fade
     .modal-dialog
@@ -63,6 +44,40 @@
             %span 请为其输入名称
           %p
             %input.target.form-control{type: "text", value: ""}/
+        .modal-footer
+          %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+
+  #moveStudentModal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 移动
+        .modal-body
+          %p
+            %span 将
+            %span.bold.target-name
+            %span 移至
+          %p
+            .class_select_list
+        .modal-footer
+          %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+
+  #copyStudentModal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 复制
+        .modal-body
+          %p
+            %span 将
+            %span.bold.target-name
+            %span 复制到
+          %p
+            .class_select_list
         .modal-footer
           %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

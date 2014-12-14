@@ -115,15 +115,16 @@ module UserComponents::Student
 
   def copy_to(klass_id)
     klass = Klass.find(klass_id)
-    klass.students << self
+    self.klasses << klass if !self.klasses.include?(klass)
   end
 
   def delete_from_class(klass)
+    self.classes.delete(klass) and return if klass.default
     teacher = klass.teacher
     other_classes = teacher.classes.where(:id.ne => klass.id)
     the_other_class = teacher.classes.where(default: true).first
     other_students = other_classes.map { |e| e.students }
-    the_other_class.students << s if !other_students.include?(s)
+    the_other_class.students << self if !other_students.include?(self)
     self.klasses.delete(klass)
   end
 end

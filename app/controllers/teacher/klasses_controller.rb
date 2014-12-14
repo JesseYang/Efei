@@ -4,10 +4,24 @@ class Teacher::KlassesController < Teacher::ApplicationController
 
   def ensure_klass
     begin
-      @klass = current_user.klasses.find(params[:id])
+      @klass = current_user.classes.find(params[:id])
     rescue
       render_json ErrCode.ret_false(ErrCode::KLASS_NOT_EXIST)
     end
+  end
+
+  def index
+    @classes = @current_user.classes.asc(:default)
+    classes = 
+      {
+        classes: @classes.select { |e| e.id.to_s != params[:except] } .map do |e|
+          {
+            id: e.id.to_s,
+            name: e.name.to_s
+          }
+        end
+      }
+    render_json({ classes: classes })
   end
 
   def create
@@ -21,6 +35,7 @@ class Teacher::KlassesController < Teacher::ApplicationController
 
   def destroy
     @klass.clear_students
-    render_json @klass.destroy
+    @klass.destroy
+    render_json
   end
 end
