@@ -89,6 +89,6 @@ class Note
   end
 
   def item_len
-    item_max_len = items.map { |e| e.length } .max
+    item_max_len = items.map { |e| e.item_length } .max
   end
 end

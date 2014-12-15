@@ -20,7 +20,62 @@ class Teacher::StudentsController < Teacher::ApplicationController
   end
 
   def show
-    
+    @student = User.find(params[:id])
+    @notes = @student.notes.where(subject: current_user.subject)
+    @subject = Subject::NAME[current_user.subject]
+  end
+
+  def stat
+    @student = User.find(params[:id])
+    @notes = @student.notes.where(subject: current_user.subject)
+    @subject = Subject::NAME[current_user.subject]
+    tag_categories = [ ]
+    tag_series_data = [ ]
+    topic_categories = [ ]
+    topic_series_data = [ ]
+    @notes.each do |n|
+      tag_categories << n.tag if !tag_categories.include? n.tag
+      index = tag_categories.index(n.tag)
+      tag_series_data[index] ||= 0
+      tag_series_data[index] += 1
+      n.topic_str.split(',').each do |t|
+        topic_categories << t if !topic_categories.include? t
+        index = topic_categories.index(t)
+        topic_series_data[index] ||= 0
+        topic_series_data[index] += 1
+      end
+    end
+    @tag_stat = {
+      tag_categories: ["不懂", "不会", "不对", "典型题"],
+      tag_series: [
+        name: "题目数量",
+        data: [13, 2, 5, 10]
+      ]
+    }
+    @topic_stat = {
+      topic_categories: ["函数", "导数", "立体几何"],
+      topic_series: [
+        name: "题目数量",
+        data: [15, 8, 20]
+      ]
+    }
+=begin
+    @tag_stat = {
+      tag_categories: tag_categories,
+      tag_series: [
+        name: "题目数量",
+        data: tag_series_data
+      ]
+    }
+    @topic_stat = {
+      topic_categories: topic_categories,
+      topic_series: [
+        name: "题目数量",
+        data: topic_series_data
+      ]
+    }
+=end
+    render_json({tag_stat: @tag_stat, topic_stat: @topic_stat}) and return
   end
 
   def list

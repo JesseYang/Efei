@@ -29,6 +29,18 @@
         height: 60px;
         overflow: hidden;
       }
+      table.line4 {
+        width: 100%;
+        tr {
+          width: 25%;
+        }
+      }
+      table.line2 {
+        width: 100%;
+        tr {
+          width: 50%;
+        }
+      }
       .question-content-div {
         height: auto;
         overflow: hidden;

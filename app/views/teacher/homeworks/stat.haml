@@ -12,20 +12,34 @@
           .question-content-div
             .question-content
               = render :partial => "partials/question_content", locals: { content: q.content }
-            - if q.figures.present?
-              .question-figures
-                = render :partial => "partials/question_figures", locals: { figures: q.q_figures }
             - if q.type == "choice"
               .question-items{data: {"question-answer" => q.answer}}
-                - q.items.each_with_index do |item, index|
-                  - if q.answer == index
-                    %p{id: "#{q.id.to_s}-item-#{index}"}
-                      %label= d2c(index) + ". "
-                      %span.item-content= item.render_question.html_safe
-                  - else
-                    %p.item-is-not-answer{id: "#{q.id.to_s}-item-#{index}"}
-                      %label= d2c(index) + ". "
-                      %span.item-content= item.render_question.html_safe
+                - if q.item_len < 8
+                  %table.line4
+                    %tr
+                      - q.items.each_with_index do |item, index|
+                        %td
+                          %label= d2c(index) + ". "
+                          %span.item-content= item.render_question.html_safe
+                - elsif q.item_len < 16
+                  %table.line2
+                    %tr
+                      - q.items[0..1].each_with_index do |item, index|
+                        %td
+                          %label= d2c(index) + ". "
+                          %span.item-content= item.render_question.html_safe
+                    %tr
+                      - q.items[2..3].each_with_index do |item, index|
+                        %td
+                          %label= d2c(index + 2) + ". "
+                          %span.item-content= item.render_question.html_safe
+                - else
+                  %table.line1
+                    - q.items.each_with_index do |item, index|
+                      %tr
+                        %td
+                          %label= d2c(index) + ". "
+                          %span.item-content= item.render_question.html_safe
             - if q.answer_content.present?
               %strong.answer-label 解答
               .question-answer

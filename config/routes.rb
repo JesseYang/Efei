@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       member do
         put :move
         put :copy
+        get :stat
       end
       collection do
         get :list
