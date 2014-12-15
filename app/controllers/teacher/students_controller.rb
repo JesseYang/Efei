@@ -19,6 +19,10 @@ class Teacher::StudentsController < Teacher::ApplicationController
     @keyword = params[:keyword].to_s.strip
   end
 
+  def show
+    
+  end
+
   def list
     current_user.ensure_default_class
     @klass = current_user.classes.where(id: params[:cid]).first

@@ -82,7 +82,7 @@ class Teacher::FoldersController < Teacher::ApplicationController
   # ajax
   def chain
     chain = @folder.ancestor_chain
-    new_chain = (chain.map { |e| { id: e.id, name: e.name} } .flat_map { |x| [x, { separate: true }] }) [0..-2]
+    new_chain = (chain.map { |e| { id: e.id.to_s, name: e.name} } .flat_map { |x| [x, { separate: true }] }) [0..-2]
     render_json({ chain: new_chain })
   end
 
