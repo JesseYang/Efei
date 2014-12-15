@@ -41,18 +41,18 @@ class Question
 
   def self.create_choice_question(content, items, answer, answer_content, q_figures, a_figures)
     question = self.create(type: "choice",
-      content: content,
+      content: content + q_figures,
       items: items,
       answer: answer,
-      answer_content: answer_content || [],
+      answer_content: (answer_content || []) + (a_figures || []),
       q_figures: q_figures,
       a_figures: a_figures)
   end
 
   def self.create_analysis_question(content, answer_content, q_figures, a_figures)
     question = self.create(type: "analysis",
-      content: content,
-      answer_content: answer_content || [],
+      content: content + q_figures,
+      answer_content: (answer_content || []) + (a_figures || []),
       q_figures: q_figures,
       a_figures: a_figures)
   end

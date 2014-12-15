@@ -11,9 +11,6 @@
         .question-content-div
           .question-content
             = render :partial => "partials/question_content", locals: { content: q.content }
-          - if q.figures.present?
-            .question-figures
-              = render :partial => "partials/question_figures", locals: { figures: q.q_figures }
           - if q.type == "choice"
             .question-items{data: {"question-answer" => q.answer}}
               - if q.item_len < 8
