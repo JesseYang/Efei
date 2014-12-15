@@ -31,7 +31,6 @@ class Note
   def update_note(summary, tag, topics)
     q = Question.find(self.question_id)
     self.update_attributes(subject: q.homework.subject,
-      question_type: q.type,
       type: q.type,
       content: q.content,
       items: q.items,
@@ -57,7 +56,6 @@ class Note
   def self.create_new(qid, summary, tag, topics)
     q = Question.find(qid)
     n = Note.create(subject: q.homework.subject,
-      question_type: q.type,
       type: q.type,
       content: q.content,
       items: q.items,
@@ -83,7 +81,8 @@ class Note
 
   def check_teacher(student)
     t = self.question.homework.user
-    if !student.teachers(self.subject).include?(t)
+    teachers = student.klasses.map { |e| e.teacher } .uniq
+    if !teachers.include?(t)
       return t
     end
     nil
