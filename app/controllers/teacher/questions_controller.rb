@@ -86,8 +86,23 @@ class Teacher::QuestionsController < Teacher::ApplicationController
 
   def stat
     qid = Question.find(params[:id])
-    if params[:analyze_type] == "single"
-      notes = []
+    notes = []
+    if params[:analyze_type] == "compare"
+      params[:class_id].split(',').each do |cid|
+        if cid == "-1"
+          students = current_user.classes.map { |e| e.students } .flatten .uniq
+        else
+          klass = current_user.classes.find(cid)
+          students = klass.students
+        end
+        temp_notes = []
+        students.each do |s|
+          n = s.notes.where(question_id: qid)
+          temp_notes << n if n.present?
+        end
+        notes << temp_notes
+      end
+    else
       if params[:class_id] = "-1"
         students = current_user.classes.map { |e| e.students } .flatten .uniq
       else
@@ -97,21 +112,6 @@ class Teacher::QuestionsController < Teacher::ApplicationController
       students.each do |s|
         n = s.notes.where(question_id: qid)
         notes << n if n.present?
-      end
-    else
-      params[:class_ids].split(',').each do |cid|
-        if cid == "-1"
-          students = current_user.classes.map { |e| e.students } .flatten .uniq
-        else
-          klass = current_user.classes.find(params[:class_id])
-          students = klass.students
-        end
-        temp_notes = []
-        students.each do |s|
-          n = s.notes.where(question_id: qid)
-          temp_notes << n if n.present?
-        end
-        notes << temp_notes
       end
     end
     case params[:target]
@@ -131,7 +131,12 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         students.map! { |e| e.join(", ") }
         render_json({
           categories: ["不懂", "不会", "不对", "典型题"],
-          data: [10, 8, 2, 4],
+          series: [
+            {
+              name: "选择人数",
+              data:[10, 8, 2, 4]
+            }
+          ],
           students: ["白玉芬, 仓春莲, 仓红, 陈超云, 陈高, 陈国祥, 陈宏柳, 陈金娣, 陈丽丽, 陈平",
             "袁刚, 章丽丽, 张德梅, 张芳, 张红芳, 张珊珊, 赵勇, 赵哲明",
             "卞红巧, 蔡坤",
@@ -145,6 +150,23 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         }) and return
 =end
       else
+        render_json({
+          categories: ["不懂", "不会", "不对", "典型题"],
+          series: [
+            {
+              name: "高一（1)班",
+              data: [4, 2, 6, 2]
+            },
+            {
+              name: "高一（2)班",
+              data: [5, 7, 8, 4]
+            }
+          ],
+          students: ["白玉芬, 仓春莲, 仓红, 陈超云, 陈高, 陈国祥, 陈宏柳, 陈金娣, 陈丽丽, 陈平",
+            "袁刚, 章丽丽, 张德梅, 张芳, 张红芳, 张珊珊, 赵勇, 赵哲明",
+            "卞红巧, 蔡坤",
+            "郑永军, 周风, 周娟娟, 周鹿屏"]
+        }) and return
       end
     when "topic"
       if params[:analyze_type] == "single"
@@ -163,12 +185,17 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         end
         students.map! { |e| e.join(", ") }
         render_json({
-          categories: ["三角函数, 辅助角公式, 诱导公式"],
-          data: [3, 16, 5],
+          categories: ["三角函数", "辅助角公式", "诱导公式"],
+          series: [
+            {
+              name: "选择人数",
+              data:[10, 8, 2, 4]
+            }
+          ],
           students: ["陈金娣, 陈丽丽, 陈平",
             "袁刚, 章丽丽, 卞红巧, 白玉芬, 仓春莲, 仓红, 陈超云, 陈高, 陈国祥, 陈宏柳, 张德梅, 张芳, 张红芳, 张珊珊, 赵勇, 赵哲明",
             "郑永军, 周风, 周娟娟, 周鹿屏, 蔡坤"]
-        })
+        }) and return
 =begin
         render_json({
           categories: categories,
@@ -177,6 +204,22 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         }) and return
 =end
       else
+        render_json({
+          categories: ["三角函数", "辅助角公式", "诱导公式"],
+          series: [
+            {
+              name: "高一（1)班",
+              data: [4, 4, 6]
+            },
+            {
+              name: "高一（2)班",
+              data: [5, 9, 10]
+            }
+          ],
+          students: ["陈金娣, 陈丽丽, 陈平",
+            "袁刚, 章丽丽, 卞红巧, 白玉芬, 仓春莲, 仓红, 陈超云, 陈高, 陈国祥, 陈宏柳, 张德梅, 张芳, 张红芳, 张珊珊, 赵勇, 赵哲明",
+            "郑永军, 周风, 周娟娟, 周鹿屏, 蔡坤"]
+        }) and return
       end
     when "summary"
       summary = [ ]

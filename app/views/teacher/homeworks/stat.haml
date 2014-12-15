@@ -46,6 +46,7 @@
         .analyze-result
           .result-part
             %i.loading
+            %span.no-target.hide 请添加比对象
             .tag-result.hide
               .result-figure
               .result-text
@@ -58,9 +59,9 @@
           .filter-part
             .tag-filter.filter
               %ul.nav.nav-pills
-                %li.active
+                %li.single-li.active
                   %a{:href => "#tag-single-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 单独分析
-                %li{:role => "presentation"}
+                %li.compare-li{:role => "presentation"}
                   %a{:href => "#tag-compare-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 对比分析
               .tab-content
                 .single-analyze.fade.in.active.tab-pane{ id: "tag-single-analyze-#{q.id.to_s}" }
@@ -70,12 +71,12 @@
                   = select_tag "tag-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
                   %a.btn.btn-default.btn-add 添加
                   %ul.compare-list
-              = submit_tag "刷新", :class => 'btn-primary btn btn-refresh'
+              / = submit_tag "刷新", :class => 'btn-primary btn btn-refresh'
             .topic-filter.filter.hide
               %ul.nav.nav-pills
-                %li.active
+                %li.single-li.active
                   %a{:href => "#topic-single-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 单独分析
-                %li{:role => "presentation"}
+                %li.compare-li{:role => "presentation"}
                   %a{:href => "#topic-compare-analyze-#{q.id.to_s}", data: {toggle: "pill"} } 对比分析
               .tab-content
                 .single-analyze.fade.in.active.tab-pane{ id: "topic-single-analyze-#{q.id.to_s}" }
@@ -85,7 +86,9 @@
                   = select_tag "topic-single-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
                   %a.btn.btn-default.btn-add 添加
                   %ul.compare-list
-              = submit_tag "刷新", :class => 'btn-primary btn btn-refresh'
+              / = submit_tag "刷新", :class => 'btn-primary btn btn-refresh'
             .summary-filter.filter.hide
-              %span hahahahaha
+              %span 分析对象:
+              = select_tag "summary-classes-#{q.id.to_s}", options_for_select(@classes), { class: "classes" }
+              / = submit_tag "刷新", :class => 'btn-primary btn btn-refresh'
   #paper-bottom
