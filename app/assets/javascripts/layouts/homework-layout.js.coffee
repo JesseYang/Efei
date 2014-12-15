@@ -1,3 +1,4 @@
+#= require 'utility/ajax'
 $ ->
   edit_title = false
 

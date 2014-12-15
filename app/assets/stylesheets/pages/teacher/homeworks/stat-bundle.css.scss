@@ -24,8 +24,13 @@
       background-color: white;
       padding: 40px 80px 0px 80px;
       border-top: 1px solid #DDDDDD;
-      .question-content-div {
+      .question-content-wrapper {
+        position: relative;
         height: 60px;
+        overflow: hidden;
+      }
+      .question-content-div {
+        height: auto;
         overflow: hidden;
         position: relative;
         font-size: 1.3em;
@@ -35,18 +40,17 @@
         .question-items p {
           margin-left: 10px;
         }
-        .expand-link {
-          padding: 5px;
-          background-color: white;
-          font-size: 0.8em;
-          position: absolute;
-          bottom: 10px;
-          right: 0px;
-        }
+      }
+      .expand-link {
+        padding: 5px 5px 0 5px;
+        background-color: white;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
       }
     }
     .stat-div {
-      height: 300px;
+      height: 320px;
       position: relative;
       padding-bottom: 20px;
       .tab-title {
@@ -96,6 +100,11 @@
             position: absolute;
             left: 234px;
             top: 123px;
+          }
+          .result-text {
+            padding: 0px 5px;
+            height: 50px;
+            overflow: auto;
           }
         }
         .filter-part {
