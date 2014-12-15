@@ -59,7 +59,7 @@ class Question
 
   def info_for_student
     {
-      id: self.id.to_s,
+      _id: self.id.to_s,
       subject: self.homework.subject,
       type: self.type,
       content: self.content,
