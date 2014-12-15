@@ -189,7 +189,7 @@ $ ->
       }, (data) ->
         if data.success
           class_data =
-            id: data.klass.$oid
+            id: data.klass.id
             name: data.klass.name
           new_class = $(HandlebarsTemplates["class_item"](class_data))
           last_class = $("#class-list").find(".student-link:last").closest("li")

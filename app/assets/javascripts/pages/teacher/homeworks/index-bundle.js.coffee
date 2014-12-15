@@ -226,7 +226,7 @@ $ ->
       }, (data) ->
         if data.success
           new_folder =
-            id: data.folder._id.$oid
+            id: data.folder.id
             name: name
             children: [ ]
           tree.folder_tree("insert_folder", parent_id, new_folder)
@@ -278,13 +278,13 @@ $ ->
       if data.success
         move_tree = $("#moveModal #move-folder").folder_tree(
           content: data.tree
-          root_folder_id: data.root_folder_id.$oid
+          root_folder_id: data.root_folder_id
           click_name_fun: (folder_id) ->
             move_tree.folder_tree("select_folder", folder_id)
         )
         move_tree.folder_tree("remove_folder", id) if node_type == "folder"
-        move_tree.folder_tree("select_folder", data.root_folder_id.$oid)
-        move_tree.folder_tree("open_folder", data.root_folder_id.$oid)
+        move_tree.folder_tree("select_folder", data.root_folder_id)
+        move_tree.folder_tree("open_folder", data.root_folder_id)
       else
         $.page_notification "服务器出错"
 

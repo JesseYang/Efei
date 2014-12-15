@@ -13,7 +13,7 @@ class Teacher::FoldersController < Teacher::ApplicationController
   # ajax
   def index
     tree = Folder.folder_tree(current_user)
-    render_json({ tree: tree, root_folder_id: current_user.root_folder.id })
+    render_json({ tree: tree, root_folder_id: current_user.root_folder.id.to_s })
   end
 
   # ajax
