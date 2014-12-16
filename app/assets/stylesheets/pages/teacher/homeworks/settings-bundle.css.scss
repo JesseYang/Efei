@@ -1,0 +1,139 @@
+@import 'utility';
+@import 'compass/css3';
+@import 'common';
+@import 'icons/homeworks/*.png';
+@import "compass/utilities/general/clearfix";
+
+#content-background {
+  width: 100%;
+  @include clearfix;
+  #content-container {
+    margin: 0 auto;
+    width: 980px;
+    margin-top: 30px;
+    background-color: white;
+    @include clearfix;
+  }
+}
+
+.icon {
+  margin-left: 15px;
+  @include size(32px, 32px);
+  @include inline-block;
+}
+
+#left-float-menus {
+  float: left;
+  width: 100px;
+  @include clearfix;
+  ul {
+    list-style: none;
+    padding-left: 8px;
+    background: #f0f0f0;
+    width: 90px;
+    border: 1px #e6e6e6 solid;
+    float: left;
+    li {
+      width: 80px;
+      text-align: center;
+      font-size: 12px;
+      &:not(:last-child) {
+        border-bottom: 1px #BEBEBE dotted;
+      }
+      a {
+        width: 80px;
+        display: block;
+        padding: 12px 0;
+        text-decoration: none;
+        .icon {
+          margin: 0 auto;
+        }
+        span {
+          display: block;
+          margin-top: 5px;
+          color: #666666;
+        }
+        .basic-setting {
+          @include homeworks-sprite(setting32);
+        }
+        .export-setting {
+          @include homeworks-sprite(export32);
+        }
+        .tag-setting {
+          @include homeworks-sprite(tag32);
+        }
+        &:hover {
+          .basic-setting {
+            @include homeworks-sprite(setting32_hover);
+          }
+          .export-setting {
+            @include homeworks-sprite(export32_hover);
+          }
+          .tag-setting {
+            @include homeworks-sprite(tag32_hover);
+          }
+          span {
+            color: $efblue;
+          }
+        }
+      }
+    }
+  }
+}
+
+#right-part {
+  float: right;
+  width: 850px;
+  height: auto;
+  #setting-form {
+    border: 1px #DDDDDD solid;
+    form {
+      padding: 0 20px 40px 20px;
+      h2 {
+        font-weight: bold;
+        font-size: 15px;
+        padding-top: 20px;
+      }
+    }
+    #now-answer, #time-answer {
+      @include inline-block;
+      margin-right: 50px;
+    }
+  }
+  #submit-btn {
+    float: right;
+    margin-top: 20px;
+  }
+
+  .tag-set-ul {
+    list-style: none;
+    padding-left: 0px;
+    margin-top: 30px;
+    li {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    span.tips {
+      margin-left: 20px;
+      font-size: 0.8em;
+      color: #666666;
+    }
+    .tag-set-operation {
+      @include inline-block;
+      a {
+        text-decoration: none;
+      }
+    }
+    .icon {
+      margin-left: 15px;
+      @include size(16px, 16px);
+      @include inline-block;
+    }
+    .remove-tag-set {
+      @include homeworks-sprite(remove);
+    }
+    .edit-tag-set {
+      @include homeworks-sprite(edit);
+    }
+  }
+}

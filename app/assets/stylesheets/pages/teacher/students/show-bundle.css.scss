@@ -66,8 +66,21 @@
           }
         }
         .student-note-div {
+          margin-top: 10px;
+          color: #777777;
           .note-title {
             font-weight: bold;
+          }
+          .tag-topic-div {
+            @include clearfix;
+            margin-bottom: 10px;
+            .tag-div {
+              float: left;
+            }
+            .topic-div {
+              float: right;
+              margin-right: 20px;
+            }
           }
         }
       }

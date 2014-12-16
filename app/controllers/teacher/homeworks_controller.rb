@@ -85,8 +85,13 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def settings
-    @tags = current_user.tags
-    @default_tags = DefaultTag::TAG[@homework.subject]
+    @type = %w{basic export tag} .include?(params[:type]) ? params[:type] : "basic"
+    case @type
+    when "basic"
+    when "export"
+    when "tag"
+      @tag_sets = current_user.tag_sets
+    end
   end
 
   def set_tag_set

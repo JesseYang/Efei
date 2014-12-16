@@ -52,12 +52,13 @@
                             %label= d2c(index) + ". "
                             %span.item-content= item.render_question.html_safe
             .student-note-div
-              .tag-div
-                %span.note-title= "标签: "
-                %span= q.tag
-              .topic-div
-                %span.note-title= "知识点: "
-                %span= q.topic_str
+              .tag-topic-div
+                .tag-div
+                  %span.note-title= "标签: "
+                  %span= q.tag
+                .topic-div
+                  %span.note-title= "知识点: "
+                  %span= q.topic_str
               .summary-div
                 %p
                   %span.note-title= "总结笔记: "

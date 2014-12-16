@@ -6,13 +6,13 @@ module UserComponents::Teacher
     field :teacher, type: Boolean, default: false
     field :subject, type: Integer
     field :teacher_desc, type: String
-    field :tag_sets, type: Array, default: []
     field :admin, type: Boolean, default: false
 
     has_many :homeworks, class_name: "Homework", inverse_of: :user
     belongs_to :school, class_name: "School", inverse_of: :teachers
     has_many :classes, class_name: "Klass", inverse_of: :teacher
     has_many :folders, class_name: "Folder", inverse_of: :user
+    has_many :tag_sets, class_name: "TagSet", inverse_of: :teacher
   end
 
   def ensure_default_class
@@ -44,31 +44,25 @@ module UserComponents::Teacher
   end
 
   def create_tag_set(tag_set_str)
-    new_tag_set = tag_set_str.split(/,|，/).map { |e| e.strip } .uniq
-    self.tag_sets.each do |tag_set|
-      if tag_set.sort == new_tag_set.sort
-        return ErrCode.ret_false(ErrCode::TAG_EXIST)
-      end
-    end
-    self.tag_sets << new_tag_set
-    self.save
-    return { success: true, tag_set: new_tag_set }
+    tag_set_ary = tag_set_str.split(/,|，/).map { |e| e.strip } .uniq
+    tag_set = self.tag_sets.create(subject: self.subject, tags: tag_set_ary)
+    return { success: true, tag_set: tag_set }
   end
 
-  def update_tag_set(index, tag_set_str)
-    new_tag_set = tag_set_str.split(/,|，/).map { |e| e.strip } .uniq
-    self.tag_sets.each do |tag_set|
-      if tag_set.sort == new_tag_set.sort
-        return ErrCode.ret_false(ErrCode::TAG_EXIST)
-      end
+  def update_tag_set(id, tag_set_str)
+    tag_set_ary = tag_set_str.split(/,|，/).map { |e| e.strip } .uniq
+    tag_set = self.tag_sets.where(id: id).first
+    if tag_set.blank?
+      return ErrCode.ret_false(ErrCode::TAG_EXIST)
+    else
+      tag_set.update_attribute(:tags, tag_set_ary)
+      return { success: true, tag_set: tag_set }
     end
-    self.tag_sets[index] = new_tag_set
-    self.save
-    return { success: true, tag_set: new_tag_set }
   end
 
-  def remove_tag_set(index, tag_set_str)
-    self.tag_sets.delete(tag_set_str)
+  def remove_tag_set(id)
+    tag_set = self.tag_sets.where(id: id).first
+    self.tag_sets.delete(tag_set) if tag_set.present?
     { success: true }
   end
 
