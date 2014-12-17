@@ -21,6 +21,3 @@ $ ->
       $(".ef-dropdown-menu").addClass("hide")
       dropdown = false
     true
-
-  $(".ef-dropdown-menu").click ->
-    false

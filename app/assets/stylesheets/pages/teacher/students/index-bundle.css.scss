@@ -94,7 +94,7 @@
     tr {
       height: 40px;
       border-bottom: 1px solid #E5E5E5;
-      &:not(:first-child) {
+      &.record {
         &:hover {
           background-color: #FFFFD6;
         }

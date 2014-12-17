@@ -14,7 +14,7 @@
       #search-box
         %input#input-search{:placeholder => "文件夹或者作业标题", :type => "text", :value => params[:keyword]}
           %span
-            %button#btn-search.btn.btn-default.btn-sm{:type => "button"} 搜索
+            %button#btn-search.btn.btn-primary.btn-sm{:type => "button"} 搜索
     .clear-both
     #main-part
       #left-part
@@ -125,10 +125,9 @@
               = label_tag :subject, "学科"
               = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
             .form-group
-              = label_tag :name, "选择文件"
               = file_field_tag "file", { class: "hide" }
+              %a#browser-click= "选择文件"
               %p#file-name
-              %input#browser-click.button{ type: "button", value: "Browser for files"}
           .modal-footer
             %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
             = submit_tag "创建", :class => 'btn-primary btn'

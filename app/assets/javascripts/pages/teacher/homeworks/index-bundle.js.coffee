@@ -79,7 +79,7 @@ $ ->
     if event.button is 2
       node_type = "folder"
       id = tree.folder_tree("get_folder_id_by_name_node", event.target)
-      name = $(event.target).text()
+      name = $(event.target).closest(".name-node").find(".name").text()
       page_type = "folder"
       popup_menu = $("<div />").appendTo("body")
       if $(event.target).closest(".name-node").hasClass("root")
@@ -226,7 +226,7 @@ $ ->
       }, (data) ->
         if data.success
           new_folder =
-            id: data.folder.id
+            id: data.folder._id
             name: name
             children: [ ]
           tree.folder_tree("insert_folder", parent_id, new_folder)
@@ -254,6 +254,12 @@ $ ->
     folder_id = tree.folder_tree("get_selected_folder_id") || window.root_folder_id
     $('#newHomeworkModal').modal('show')
     $("#newHomeworkModal #folder_id").val(folder_id)
+
+  $("#newHomeworkModal .btn-primary").click ->
+    notification = $("<div />").appendTo("#newHomeworkModal") 
+    notification.notification
+      delay: 0
+      content: "正在创建作业，请稍候"
   ######## End: new homework part ########
 
   ######## Begin: move part ########

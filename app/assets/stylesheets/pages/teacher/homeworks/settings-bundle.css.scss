@@ -37,7 +37,7 @@
       width: 80px;
       text-align: center;
       font-size: 12px;
-      &:not(:last-child) {
+      &.not-last-li {
         border-bottom: 1px #BEBEBE dotted;
       }
       a {
