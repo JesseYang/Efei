@@ -20,7 +20,9 @@
         #new-button
           %a#create-doc-link
           %a#create-other-link
-          %a#create-folder-link.hide 新建文件夹
+          #create-other-dropdown-list.hide.ef-dropdown-menu
+            .ef-dropdown-item
+              %a#create-folder-link 新建文件夹
         %ul
           %li
             .folder-node#root-folder

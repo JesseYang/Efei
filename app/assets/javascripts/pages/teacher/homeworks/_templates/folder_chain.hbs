@@ -1,7 +1,9 @@
 {{#ifCond type "folder"}}
   {{#each folder_chain}}
     {{#if separate}}
-      <span>/</span>
+      <div class="folder-chain-separator">
+        <span>/</span>
+      </div>
     {{else}}
       <div class="link-div">
         <a href="/teacher/homeworks?folder_id={{id}}">{{name}}</a>

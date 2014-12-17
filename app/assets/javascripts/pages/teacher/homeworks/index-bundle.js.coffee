@@ -195,6 +195,17 @@ $ ->
   ######## End: stat part ########
 
   ######## Begin: new folder part ########
+  $("#create-other-link").click ->
+    $("#create-other-dropdown-list").removeClass("hide")
+    false
+
+  $("#create-folder-link").click ->
+    $('#newFolderModal').modal("show")
+    $('#newFolderModal').attr("data-folderid", window.folder_id)
+
+  $("body").click ->
+    $("#create-other-dropdown-list").addClass("hide")
+
   $("body").on "click", ".popup-menu .new-folder", (event) ->
     # the new folder name dialog
     data = popup_menu.popup_menu("option")
@@ -225,11 +236,11 @@ $ ->
         name: name
       }, (data) ->
         if data.success
-          new_folder =
+          new_folder_data =
             id: data.folder._id
             name: name
             children: [ ]
-          tree.folder_tree("insert_folder", parent_id, new_folder)
+          tree.folder_tree("insert_folder", parent_id, new_folder_data)
           tree.folder_tree("open_folder", parent_id)
           refresh_homework_table_and_folder_chain()
         else
@@ -250,7 +261,7 @@ $ ->
     $('#newHomeworkModal').modal('show')
     $("#newHomeworkModal #folder_id").val(data.id)
 
-  $("#create-btn").on "click", (event) ->
+  $("#create-doc-link").on "click", (event) ->
     folder_id = tree.folder_tree("get_selected_folder_id") || window.root_folder_id
     $('#newHomeworkModal').modal('show')
     $("#newHomeworkModal #folder_id").val(folder_id)
