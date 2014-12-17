@@ -59,6 +59,23 @@
   float: left;
   width: 200px;
   height: 500px;
+  #new-button {
+    position: relative;
+    #create-doc-link {
+      @include inline-block;
+      @include size(72px, 34px);
+      @include homeworks-sprite(create_doc);
+      border-right: 1px #FFFFFF solid;
+    }
+    #create-other-link {
+      @include inline-block;
+      @include size(20px, 34px);
+      @include homeworks-sprite(create_other);
+    }
+    #new-folder-link {
+      position: absolute;
+    }
+  }
   ul {
     padding-left: 0px;
     list-style: none;
