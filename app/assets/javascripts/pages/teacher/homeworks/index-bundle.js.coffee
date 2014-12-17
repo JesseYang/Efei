@@ -438,7 +438,7 @@ $ ->
   ######## End: destroy part ########
 
   ######## Begin: search part ########
-  $("#btn-search").click ->
+  $("#link-search").click ->
     keyword = $("#input-search").val()
     search(keyword)
 
@@ -448,6 +448,9 @@ $ ->
       search($(this).val())
 
   search = (keyword) ->
+    if $.trim(keyword) == ""
+      $.page_notification "请输入关键字"
+      return
     window.location = "/teacher/homeworks?type=search&keyword=" + keyword
   ######## End: destroy part ########
 

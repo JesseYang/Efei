@@ -38,6 +38,14 @@
     padding: 10px;
     float: right;
     margin-right: 40px;
+    #input-search {
+      @include one-line(26px);
+    }
+    a {
+      @include inline-block;
+      @include size(47px, 26px);
+      @include homeworks-sprite(search_button);
+    }
   }
 }
 

@@ -12,9 +12,8 @@
     #search-bar
       #folder-wrapper
       #search-box
-        %input#input-search{:placeholder => "文件夹或者作业标题", :type => "text", :value => params[:keyword]}
-          %span
-            %button#btn-search.btn.btn-primary.btn-sm{:type => "button"} 搜索
+        %input#input-search{:placeholder => "文件夹或作业名称", :type => "text", :value => params[:keyword]}
+          %a#link-search{href: "javascript:void(0);"}
     .clear-both
     #main-part
       #left-part
