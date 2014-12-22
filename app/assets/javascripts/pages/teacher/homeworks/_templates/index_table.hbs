@@ -48,48 +48,91 @@
           </td>
         </tr>
       {{else}}
-        <tr class="record homework-tr" data-type="homework" data-id={{id}} data-name={{name}}>
-          <td>
-            <a href="javascript:void(0);" class="star-link">
-              {{#ifCond starred true}}
-                <i class="icon starred" />
+        {{#ifCond doc_type "homework"}}
+          <tr class="record homework-tr" data-type="homework" data-id={{id}} data-name={{name}}>
+            <td>
+              <a href="javascript:void(0);" class="star-link">
+                {{#ifCond starred true}}
+                  <i class="icon starred" />
+                {{/ifCond}}
+                {{#ifCond starred false}}
+                  <i class="icon star-empty" />
+                {{/ifCond}}
+              </a>
+            </td>
+            <td>
+              <i class="icon document" />
+              <a href="javascript:void(0);" class="doc-title node-link">{{name}}</a>
+              <span class="subject">[{{subject}}]</span>
+            </td>
+            <td>我</td>
+            <td>{{last_update_time}}</td>
+            <td>
+              {{#ifCond ../../type "trash"}}
+                <a href="javascript:void(0);" title="还原">
+                  <i class="icon recover" />
+                </a>
+                <a href="javascript:void(0);" title="彻底删除">
+                  <i class="icon destroy" />
+                </a>
+              {{else}}
+                <a href="javascript:void(0);" title="编辑">
+                  <i class="icon edit" />
+                </a>
+                <a href="javascript:void(0);" title="统计">
+                  <i class="icon stat" />
+                </a>
+                <a href="javascript:void(0);" title="移动">
+                  <i class="icon move" />
+                </a>
+                <a href="javascript:void(0);" title="删除">
+                  <i class="icon remove" />
+                </a>
               {{/ifCond}}
-              {{#ifCond starred false}}
-                <i class="icon star-empty" />
+            </td>
+          </tr>
+        {{/ifCond}}
+        {{#ifCond doc_type "slide"}}
+          <tr class="record slide-tr" data-type="slide" data-id={{id}} data-name={{name}}>
+            <td>
+              <a href="javascript:void(0);" class="star-link">
+                {{#ifCond starred true}}
+                  <i class="icon starred" />
+                {{/ifCond}}
+                {{#ifCond starred false}}
+                  <i class="icon star-empty" />
+                {{/ifCond}}
+              </a>
+            </td>
+            <td>
+              <i class="icon slide" />
+              <a href="javascript:void(0);" class="doc-title node-link">{{name}}</a>
+              <span class="subject">[{{subject}}]</span>
+            </td>
+            <td>我</td>
+            <td>{{last_update_time}}</td>
+            <td>
+              {{#ifCond ../../type "trash"}}
+                <a href="javascript:void(0);" title="还原">
+                  <i class="icon recover" />
+                </a>
+                <a href="javascript:void(0);" title="彻底删除">
+                  <i class="icon destroy" />
+                </a>
+              {{else}}
+                <a href="javascript:void(0);" title="编辑">
+                  <i class="icon edit" />
+                </a>
+                <a href="javascript:void(0);" title="移动">
+                  <i class="icon move" />
+                </a>
+                <a href="javascript:void(0);" title="删除">
+                  <i class="icon remove" />
+                </a>
               {{/ifCond}}
-            </a>
-          </td>
-          <td>
-            <i class="icon document" />
-            <a href="javascript:void(0);" class="doc-title node-link">{{name}}</a>
-            <span class="subject">[{{subject}}]</span>
-          </td>
-          <td>我</td>
-          <td>{{last_update_time}}</td>
-          <td>
-            {{#ifCond ../../type "trash"}}
-              <a href="javascript:void(0);" title="还原">
-                <i class="icon recover" />
-              </a>
-              <a href="javascript:void(0);" title="彻底删除">
-                <i class="icon destroy" />
-              </a>
-            {{else}}
-              <a href="javascript:void(0);" title="编辑">
-                <i class="icon edit" />
-              </a>
-              <a href="javascript:void(0);" title="统计">
-                <i class="icon stat" />
-              </a>
-              <a href="javascript:void(0);" title="移动">
-                <i class="icon move" />
-              </a>
-              <a href="javascript:void(0);" title="删除">
-                <i class="icon remove" />
-              </a>
-            {{/ifCond}}
-          </td>
-        </tr>
+            </td>
+          </tr>
+        {{/ifCond}}
       {{/if}}
     {{/each}}
   </table>

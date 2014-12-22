@@ -7,6 +7,7 @@ class Folder
   field :name, type: String, default: "我的文件夹"
   field :is_root, type: Boolean, default: false
   has_many :homeworks, class_name: "Homework", inverse_of: :folder, dependent: :destroy
+  has_many :slides, class_name: "Slide", inverse_of: :folder, dependent: :destroy
   has_many :children, class_name: "Folder", inverse_of: :parent, dependent: :destroy
   belongs_to :parent, class_name: "Folder", inverse_of: :children
   belongs_to :user, class_name: "User", inverse_of: :folders
@@ -102,10 +103,21 @@ class Folder
     self.homeworks.each do |h|
       nodes << {
         id: h.id.to_s,
+        doc_type: "homework",
         name: h.name,
         last_update_time: h.last_update_time,
         subject: Subject::NAME[h.subject],
         starred: h.starred
+      }
+    end
+    self.slides.each do |s|
+      nodes << {
+        id: s.id.to_s,
+        doc_type: "slide",
+        name: s.name,
+        last_update_time: s.last_update_time,
+        subject: Subject::NAME[s.subject],
+        starred: s.starred
       }
     end
     nodes

@@ -41,6 +41,9 @@ Rails.application.configure do
   # word processing host name
   config.word_host = "http://dev.image.efei.org"
 
+  # slide parsing host name
+  config.slides_host = "http://dev.image.efei.org"
+
   # image convertion url
   config.convert_image_url = "http://dev.image.efei.org"
 

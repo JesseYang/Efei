@@ -1,0 +1,52 @@
+@import 'jquery.qtip';
+@import 'utility';
+@import 'partials/question_variables';
+@import 'compass/css3';
+@import 'common';
+@import 'icons/homeworks/*.png';
+
+#content-container {
+  width: 100%;
+  background-color: #EEEEEE;
+  #content-table {
+    width: 100%;
+    height: 100%;
+    tr {
+      width: 100%;
+      height: 100%;
+      #left-part {
+        width: 15%;
+        position: absolute;
+        overflow: auto;
+        top: 95px;
+        bottom: 0px;
+        background-color: #EEEEEE;
+        border-right: 1px solid #AAAAAA;
+        #thumbnails {
+          overflow: auto;
+          margin-top: 20px;
+          .thumbnail-wrapper {
+            margin-left: 20px;
+            margin-right: 20px;
+            .thumbnail {
+              cursor: pointer;
+              border: 3px solid white;
+              &.selected {
+                border: 3px solid $efblue;
+              }
+            }
+          }
+        }
+      }
+      #right-part {
+        position: absolute;
+        float: right;
+        top: 95px;
+        bottom: 0px;
+        right: 0px;
+        width: 85%;
+        background-color: #EEEEEE;
+      }
+    }
+  }
+}

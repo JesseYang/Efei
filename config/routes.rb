@@ -59,6 +59,12 @@ Rails.application.routes.draw do
 
     resources :tag_sets
 
+    resources :slides do
+      member do
+        put :rename
+      end
+    end
+
     resources :homeworks do
       member do
         get :stat

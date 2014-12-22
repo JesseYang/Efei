@@ -131,9 +131,9 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   # ajax
   def create
     document = Document.new
-    document.document = params[:file]
+    document.document = params[:homework_file]
     document.store_document!
-    document.name = params[:file].original_filename
+    document.name = params[:homework_file].original_filename
     homework = document.parse_homework(params[:subject].to_i)
     current_user.homeworks << homework
     if current_user.folders.where(id: params[:folder_id]).first

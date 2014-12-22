@@ -22,9 +22,20 @@ class Document
   PNG = 6
   BMP = 7
 
+  def parse_slide(subject)
+    slide = Slide.create_by_name(self.name, subject)
+    page_id_ary = Document.post("/ParseSlides.aspx", :query => {
+      ppt_file: File.new("public/#{self.document.to_s}")
+    })
+
+    slide.page_ids = page_id_ary
+    slide.save
+    slide
+  end
+
   def parse_homework(subject, homework = nil)
     content = Document.post("/ParseWord.aspx", :query => {
-      file: File.new("public/#{self.document.to_s}")
+      word_file: File.new("public/#{self.document.to_s}")
     })
     questions = []
     cache = []

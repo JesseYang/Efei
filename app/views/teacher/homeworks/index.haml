@@ -23,6 +23,8 @@
           #create-other-dropdown-list.hide.ef-dropdown-menu
             .ef-dropdown-item
               %a#create-folder-link 新建文件夹
+            .ef-dropdown-item
+              %a#create-slides-link 新建课件
         %ul
           %li
             .folder-node#root-folder
@@ -128,9 +130,29 @@
               = label_tag :subject, "学科"
               = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
             .form-group
-              = file_field_tag "file", { class: "hide" }
-              %a#browser-click= "选择文件"
-              %p#file-name
+              = file_field_tag "homework_file", { class: "hide" }
+              %a#browser-homework-click= "选择文件"
+              %p#homework-name
+          .modal-footer
+            %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+            = submit_tag "创建", :class => 'btn-primary btn'
+
+  #newSlidesModal.modal.fade
+    .modal-dialog
+      .modal-content
+        = form_tag(teacher_slides_path, method: "post", multipart: true) do
+          .modal-header
+            %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+            %h3 创建新课件
+          .modal-body
+            .form-group.hide
+              = text_field_tag :folder_id, ""
+            .form-group
+              = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
+            .form-group
+              = file_field_tag "slide_file", { class: "hide" }
+              %a#browser-slide-click= "选择文件"
+              %p#slide-name
           .modal-footer
             %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
             = submit_tag "创建", :class => 'btn-primary btn'

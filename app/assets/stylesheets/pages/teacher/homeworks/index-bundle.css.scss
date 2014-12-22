@@ -186,6 +186,9 @@
     .document {
       @include homeworks-sprite(document_table);
     }
+    .slide {
+      @include homeworks-sprite(slide_table);
+    }
 
     .open {
       @include homeworks-sprite(open);
@@ -251,7 +254,7 @@
   height: 300px;
 }
 
-#browser-click {
+#browser-homework-click, #browser-slide-click {
   text-decoration: none;
   font-weight: bold;
   color: #333333;

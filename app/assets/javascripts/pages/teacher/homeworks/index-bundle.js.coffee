@@ -176,9 +176,12 @@ $ ->
     if node_type == "folder"
       $.page_notification "正在打开文件夹", 0
       window.location.href = "/teacher/homeworks?folder_id=" + id
-    else
+    else if node_type == "homework"
       $.page_notification "正在打开作业", 0
       window.location.href = "/teacher/homeworks/" + id
+    else if node_type == "slide"
+      $.page_notification "正在打开电子课件", 0
+      window.location.href = "/teacher/slides/" + id
     false
   ######## End: open part ########
 
@@ -202,6 +205,12 @@ $ ->
   $("#create-folder-link").click ->
     $('#newFolderModal').modal("show")
     $('#newFolderModal').attr("data-folderid", window.folder_id)
+
+  $("#create-slides-link").click ->
+    $('#newSlidesModal').modal("show")
+    $('#newSlidesModal').attr("data-folderid", window.folder_id)
+
+  $("#create-slides-link").click ->
 
   $("body").click ->
     $("#create-other-dropdown-list").addClass("hide")
@@ -248,12 +257,20 @@ $ ->
         $("#newFolderModal").modal("hide")
   ######## End: new folder part ########
 
+  ######## Begin: new slide part ########
+  slideIntervalFunc = ->
+    $('#slide-name').html $('#slide_file').val();
+  $("#browser-slide-click").click ->
+    $("#slide_file").click()
+    setInterval(slideIntervalFunc, 1)
+  ######## End: new slide part ########
+
   ######## Begin: new homework part ########
-  intervalFunc = ->
-    $('#file-name').html $('#file').val();
-  $("#browser-click").click ->
-    $("#file").click()
-    setInterval(intervalFunc, 1)
+  homeworkIntervalFunc = ->
+    $('#homework-name').html $('#homework_file').val();
+  $("#browser-homework-click").click ->
+    $("#homework_file").click()
+    setInterval(homeworkIntervalFunc, 1)
 
   $("body").on "click", ".popup-menu .new-doc", (event) ->
     data = popup_menu.popup_menu("option")

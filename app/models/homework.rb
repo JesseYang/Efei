@@ -10,8 +10,8 @@ class Homework
   field :q_ids, type: Array, default: []
   field :tag_set, type: String, default: "不懂,不会,不对,典型题"
   has_many :questions, dependent: :destroy
-  belongs_to :user, class_name: "User", inverse_of: :homework
-  belongs_to :folder, class_name: "Folder", inverse_of: :homework
+  belongs_to :user, class_name: "User", inverse_of: :homeworks
+  belongs_to :folder, class_name: "Folder", inverse_of: :homeworks
 
   include HTTParty
   base_uri Rails.application.config.word_host

@@ -1,0 +1,27 @@
+- content_for :app_head do
+  = stylesheet_link_tag "layouts/slide-layout", :media => "all"
+  = javascript_include_tag "layouts/slide-layout"
+  :javascript
+    window.slide_id = "#{@slide.id.to_s}"
+- content_for :teacher_content do
+  #title-bar
+    #title-wrapper
+      %h2#title= truncate_u(@slide.name, 10)
+      .title-edit.hide
+        %input.form-control{type: "text", value: @slide.name}/
+        %button.btn.btn-default.btn-sm.title-ok{data: {"slide-id" => @slide.id.to_s}} 确 定
+        %button.btn.btn-default.btn-sm.title-cancel 取 消
+      %i#title-edit-icon.edit.hide
+    #operation-wrapper
+      %ul
+        %li
+          %a{href: "javascript:void();"}
+            %i.icon.remove
+            %span 删除
+        %li
+          %a{href: teacher_homeworks_path + "?folder_id=" + @slide.folder.id.to_s}
+            %i.icon.return
+            %span 返回
+  = yield
+
+= render :template => 'layouts/teacher'

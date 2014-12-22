@@ -1,0 +1,57 @@
+# encoding: utf-8
+class Teacher::SlidesController < Teacher::ApplicationController
+  layout :resolve_layout
+  before_filter :ensure_slide, only: [:get_folder_id, :show, :move, :settings, :set_tag, :delete, :export, :generate, :rename, :star]
+
+  def ensure_slide
+    begin
+      @slide = Slide.find(params[:id])
+    rescue
+      respond_to do |format|
+        format.html
+        format.json do
+          render_json ErrCode.ret_false(ErrCode::SLIDES_NOT_EXIST) and return
+        end
+      end
+    end
+  end
+
+  def get_folder_id
+    render_json({ folder_id: @slide.folder_id })
+  end
+
+  def show
+    Rails.logger.info "AAAAAAAAAAAAAA"
+  end
+
+  def rename
+    @slide.update_attribute :name, params[:name]
+    render_json
+  end
+
+  # ajax
+  def create
+    document = Document.new
+    document.document = params[:slide_file]
+    document.store_document!
+    document.name = params[:slide_file].original_filename
+    slide = document.parse_slide(params[:subject].to_i)
+    current_user.slides << slide
+    if current_user.folders.where(id: params[:folder_id]).first
+      folder_id = params[:folder_id]
+    else
+      folder_id = current_user.root_folder.id
+    end
+    slide.update_attribute :folder_id, folder_id
+    redirect_to action: :show, id: slide.id.to_s
+  end
+
+  def resolve_layout
+    case action_name
+    when "show"
+      "layouts/slide"
+    else
+      "layouts/teacher"
+    end
+  end
+end
