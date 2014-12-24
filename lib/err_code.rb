@@ -15,11 +15,12 @@ module ErrCode
 
   TAG_EXIST = -21
 
-  FOLDER_NOT_EXIST = -30
-  HOMEWORK_NOT_EXIST = -31
-  SLIDES_NOT_EXIST = -32
-  KLASS_NOT_EXIST = -33
-  STUDENT_NOT_EXIST = -34
+  NODE_NOT_EXIST = -30
+  FOLDER_NOT_EXIST = -31
+  HOMEWORK_NOT_EXIST = -32
+  SLIDES_NOT_EXIST = -33
+  KLASS_NOT_EXIST = -34
+  STUDENT_NOT_EXIST = -35
 
 
   def self.ret_false(code)
@@ -61,6 +62,8 @@ module ErrCode
       "班级不存在"
     when STUDENT_NOT_EXIST
       "学生不存在"
+    when Node_NOT_EXIST 
+      "节点不存在"
     when SLIDES_NOT_EXIST 
       "课件不存在"
     end

@@ -31,8 +31,11 @@
   i.edit {
     @include homeworks-sprite(edit_popup);
   }
-  i.new-doc {
-    @include homeworks-sprite(new_doc_popup);
+  i.new-homework {
+    @include homeworks-sprite(new_word_popup);
+  }
+  i.new-slide {
+    @include homeworks-sprite(new_ppt_popup);
   }
   i.new-folder {
     @include homeworks-sprite(new_folder_popup);

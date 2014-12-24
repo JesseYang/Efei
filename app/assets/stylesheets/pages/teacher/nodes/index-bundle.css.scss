@@ -61,10 +61,11 @@
 #left-part {
   padding-left: 20px;
   padding-top: 20px;
-  position: relative;
-  float: left;
+  position: absolute;
+  top: 112px;
+  left: 15px;
+  bottom: 0px;
   width: 200px;
-  height: 500px;
   #new-button {
     margin-left: 5px;
     @include clearfix;
@@ -120,9 +121,12 @@
 }
 
 #right-part {
+  position: absolute;
+  top: 107px;
+  bottom: 0px;
+  right: 0px;
+  left: 200px;
   overflow-x: hidden;
-  padding-left: 15px;
-  padding-top: 15px;
   #table-wraper {
     margin-top: 10px;
     margin-left: 8px;
@@ -183,8 +187,8 @@
     .folder {
       @include homeworks-sprite(folder_table);
     }
-    .document {
-      @include homeworks-sprite(document_table);
+    .word {
+      @include homeworks-sprite(word_table);
     }
     .slide {
       @include homeworks-sprite(slide_table);

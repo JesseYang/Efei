@@ -3,6 +3,7 @@
   = javascript_include_tag "layouts/slide-layout"
   :javascript
     window.slide_id = "#{@slide.id.to_s}"
+    window.parent_id = "#{@slide.parent.id.to_s}"
 - content_for :teacher_content do
   #title-bar
     #title-wrapper
@@ -15,11 +16,11 @@
     #operation-wrapper
       %ul
         %li
-          %a{href: "javascript:void();"}
+          %a.remove-link{href: "javascript:void(0);"}
             %i.icon.remove
             %span 删除
         %li
-          %a{href: teacher_homeworks_path + "?folder_id=" + @slide.folder.id.to_s}
+          %a{href: teacher_nodes_path + "?folder_id=" + @slide.parent.id.to_s}
             %i.icon.return
             %span 返回
   = yield

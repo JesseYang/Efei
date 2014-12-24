@@ -27,7 +27,7 @@ $ ->
   rename = ->
     edit_title = false
     name = $("#title-wrapper").find("input:text").val()
-    $.putJSON "/teacher/homeworks/#{window.homework_id}/rename", {name: name}, (data) ->
+    $.putJSON "/teacher/nodes/#{window.homework_id}/rename", {name: name}, (data) ->
       if data.success
         $.page_notification "标题修改成功"
       else
@@ -43,3 +43,13 @@ $ ->
     $(this).closest(".title-edit").addClass("hide")
     $("#title-edit-icon").removeClass "hide"
 
+  $(".remove-link").click ->
+    remove()
+
+  remove = ->
+    $.deleteJSON "/teacher/nodes/#{window.homework_id}/delete", {}, (data) ->
+      if data.success
+        $.page_notification "删除成功，正在跳转"
+        window.location = "/teacher/nodes?folder_id=#{window.parent_id}"
+      else
+        $.page_notification "操作失败，请刷新页面重试"

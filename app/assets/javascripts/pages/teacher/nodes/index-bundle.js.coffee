@@ -41,12 +41,13 @@ $ ->
       $("#folder-wrapper").append(folder_chain)
 
     data_url =
-      folder: "/teacher/folders/#{window.folder_id}/list"
-      trash: "/teacher/folders/trash"
-      recent: "/teacher/homeworks/recent"
-      starred: "/teacher/folders/starred"
-      search: "/teacher/folders/search?keyword=" + window.keyword
-      all: "/teacher/homeworks/all"
+      folder: "/teacher/nodes/#{window.folder_id}/list_children"
+      trash: "/teacher/nodes/trash"
+      recent: "/teacher/nodes/recent"
+      starred: "/teacher/nodes/starred"
+      search: "/teacher/nodes/search?keyword=" + window.keyword
+      all_homeworks: "/teacher/nodes/all_homeworks"
+      all_slides: "/teacher/nodes/all_slides"
     $.getJSON data_url[window.type], (data) ->
       if data.success
         table_data = 
@@ -77,7 +78,7 @@ $ ->
 
   $("body").on "mousedown", "#root-folder .name-node", (event) ->
     if event.button is 2
-      node_type = "folder"
+      node_type = "Folder"
       id = tree.folder_tree("get_folder_id_by_name_node", event.target)
       name = $(event.target).closest(".name-node").find(".name").text()
       page_type = "folder"
@@ -137,12 +138,9 @@ $ ->
     type = modal.attr("data-type")
     id = modal.attr("data-id")
     name = modal.find(".target").val()
-    data_url = 
-      folder: "/teacher/folders/#{id}/rename"
-      homework: "/teacher/homeworks/#{id}/rename"
-    $.putJSON data_url[type], {name: name}, (data) ->
+    $.putJSON "/teacher/nodes/#{id}/rename", {name: name}, (data) ->
       if data.success
-        tree.folder_tree("rename_folder", id, name) if type == "folder"
+        tree.folder_tree("rename_folder", id, name) if type == "Folder"
         refresh_homework_table_and_folder_chain()
       else
         $.page_notification "操作失败，请刷新页面重试"
@@ -152,8 +150,15 @@ $ ->
   ######## Begin: open part ########
   $("body").on "click", ".popup-menu .open", (event) ->
     data = popup_menu.popup_menu("option")
-    $.page_notification "正在打开文件夹", 0
-    window.location.href = "/teacher/homeworks?folder_id=" + data.id
+    if data.type == "Folder"
+      $.page_notification "正在打开文件夹", 0
+      window.location.href = "/teacher/nodes?folder_id=#{data.id}"
+    else if data.type == "Homework"
+      $.page_notification "正在打开作业", 0
+      window.location.href = "/teacher/homeworks/#{data.id}"
+    else if data.type == "Slide"
+      $.page_notification "正在打开课件", 0
+      window.location.href = "/teacher/slides/#{data.id}"
 
   $("body").on "click", ".popup-menu .edit", (event) ->
     data = popup_menu.popup_menu("option")
@@ -173,13 +178,13 @@ $ ->
     tr = node.closest("tr")
     id = tr.attr("data-id")
     node_type = tr.attr("data-type")
-    if node_type == "folder"
+    if node_type == "Folder"
       $.page_notification "正在打开文件夹", 0
-      window.location.href = "/teacher/homeworks?folder_id=" + id
-    else if node_type == "homework"
+      window.location.href = "/teacher/nodes?folder_id=" + id
+    else if node_type == "Homework"
       $.page_notification "正在打开作业", 0
       window.location.href = "/teacher/homeworks/" + id
-    else if node_type == "slide"
+    else if node_type == "Slide"
       $.page_notification "正在打开电子课件", 0
       window.location.href = "/teacher/slides/" + id
     false
@@ -206,11 +211,6 @@ $ ->
     $('#newFolderModal').modal("show")
     $('#newFolderModal').attr("data-folderid", window.folder_id)
 
-  $("#create-slides-link").click ->
-    $('#newSlidesModal').modal("show")
-    $('#newSlidesModal').attr("data-folderid", window.folder_id)
-
-  $("#create-slides-link").click ->
 
   $("body").click ->
     $("#create-other-dropdown-list").addClass("hide")
@@ -263,6 +263,23 @@ $ ->
   $("#browser-slide-click").click ->
     $("#slide_file").click()
     setInterval(slideIntervalFunc, 1)
+
+  $("body").on "click", ".popup-menu .new-slide", (event) ->
+    data = popup_menu.popup_menu("option")
+    $('.popup-menu').remove()
+    $('#newSlideModal').modal('show')
+    $("#newSlideModal #folder_id").val(data.id)
+
+  $("#create-slides-link").click ->
+    folder_id = tree.folder_tree("get_selected_folder_id") || window.root_folder_id
+    $('#newSlideModal').modal("show")
+    $("#newSlideModal #folder_id").val(folder_id)
+
+  $("#newSlideModal .btn-primary").click ->
+    notification = $("<div />").appendTo("#newSlideModal") 
+    notification.notification
+      delay: 0
+      content: "正在创建课件，请稍候"
   ######## End: new slide part ########
 
   ######## Begin: new homework part ########
@@ -272,7 +289,7 @@ $ ->
     $("#homework_file").click()
     setInterval(homeworkIntervalFunc, 1)
 
-  $("body").on "click", ".popup-menu .new-doc", (event) ->
+  $("body").on "click", ".popup-menu .new-homework", (event) ->
     data = popup_menu.popup_menu("option")
     $('.popup-menu').remove()
     $('#newHomeworkModal').modal('show')
@@ -316,7 +333,7 @@ $ ->
           click_name_fun: (folder_id) ->
             move_tree.folder_tree("select_folder", folder_id)
         )
-        move_tree.folder_tree("remove_folder", id) if node_type == "folder"
+        move_tree.folder_tree("remove_folder", id) if node_type == "Folder"
         move_tree.folder_tree("select_folder", data.root_folder_id)
         move_tree.folder_tree("open_folder", data.root_folder_id)
       else
@@ -337,28 +354,17 @@ $ ->
     node_type = modal.attr("data-type")
     id = modal.attr("data-id")
     des_folder_id = move_tree.folder_tree("get_selected_folder_id")
-    if node_type == "folder"
-      $.putJSON '/teacher/folders/' + id + "/move",
-        {
-          des_folder_id: des_folder_id
-        }, (data) ->
-          if data.success
+    $.putJSON '/teacher/nodes/' + id + "/move",
+      {
+        des_folder_id: des_folder_id
+      }, (data) ->
+        if data.success
+          if node_type == "Folder"
             tree.folder_tree("move_folder", id, des_folder_id)
-            refresh_homework_table_and_folder_chain()
-          else
-            $.page_notification "操作失败，请刷新页面重试"
-          modal.modal("hide")
-    else
-      # move a document
-      $.putJSON '/teacher/homeworks/' + id + "/move",
-        {
-          folder_id: des_folder_id
-        }, (data) ->
-          if data.success
-            refresh_homework_table_and_folder_chain()
-          else
-            $.page_notification "操作失败，请刷新页面重试"
-          modalmodal("hide")
+          refresh_homework_table_and_folder_chain()
+        else
+          $.page_notification "操作失败，请刷新页面重试"
+        modal.modal("hide")
   ######## End: move part ########
 
   ######## Begin: delete part ########
@@ -374,71 +380,60 @@ $ ->
     delete_node(node_type, id)
 
   delete_node = (node_type, id) ->
-    if node_type == "folder"
-      $.deleteJSON "/teacher/folders/" + id + "/delete", {}, (data) ->
-        if data.success
+    $.deleteJSON "/teacher/nodes/" + id + "/delete", {}, (data) ->
+      if data.success
+        if node_type == "Folder"
           parent_id = tree.folder_tree("get_parent_id", id)
           tree.folder_tree("remove_folder", id)
           $(".popup-menu").remove()
           if window.folder_id == id
-            window.location.href = "/teacher/homeworks?folder_id=" + parent_id
+            window.location.href = "/teacher/nodes?folder_id=" + parent_id
           else
             refresh_homework_table_and_folder_chain()
         else
-          $.page_notification "操作失败，请刷新页面重试"
-    else if node_type == "homework"
-      $.deleteJSON "/teacher/homeworks/" + id + "/delete", {}, (data) ->
-        if data.success
           $(".popup-menu").remove()
           refresh_homework_table_and_folder_chain()
-        else
-          $.page_notification "操作失败，请刷新页面重试"
+      else
+        $.page_notification "操作失败，请刷新页面重试"
   ######## End: delete part ########
 
   ######## Begin: redirect part ########
   redirect_folder = (folder_id) ->
-    window.location = '/teacher/homeworks?folder_id=' + folder_id
+    window.location = '/teacher/nodes?folder_id=' + folder_id
   ######## End: redirect part ########
 
   ######## Begin: open parent part ########
   $("body").on "click", ".popup-menu .open-parent", (event) ->
-    type = popup_menu.popup_menu("option", "type")
     id = popup_menu.popup_menu("option", "id")
-    if type == "folder"
-      parent_id = tree.folder_tree("get_parent_id", id)
-      window.location = "/teacher/homeworks?folder_id=" + parent_id
-    else
-      $.getJSON "/teacher/homeworks/" + id + "/get_folder_id", (data) ->
-        if data.success
-          window.location = "/teacher/homeworks?folder_id=" + data.folder_id
-        else
-          $.page_notification "操作失败，请刷新页面重试"
+    $.getJSON "/teacher/nodes/" + id + "/get_folder_id", (data) ->
+      if data.success
+        window.location = "/teacher/nodes?folder_id=" + data.folder_id
+      else
+        $.page_notification "操作失败，请刷新页面重试"
   ######## End: open parent part ########
 
   ######## Begin: recover part ########
   $("body").on "click", ".popup-menu .recover", (event) ->
-    node_type = popup_menu.popup_menu("option", "type")
     id = popup_menu.popup_menu("option", "id")
-    recover_node(node_type, id)
+    recover_node(id)
 
   $("body").on "click", "tr.record a .recover", (event) ->
     tr = $(event.target).closest("tr")
-    node_type = tr.attr("data-type")
     id = tr.attr("data-id")
-    recover_node(node_type, id)
+    recover_node(id)
 
-  recover_node = (node_type, id) ->
-    $.putJSON "/teacher/#{node_type}s/#{id}/recover", { }, (data) ->
+  recover_node = (id) ->
+    $.putJSON "/teacher/nodes/#{id}/recover", { }, (data) ->
       if data.success
-        window.location = "/teacher/homeworks?folder_id=" + data.parent_id
+        window.location = "/teacher/nodes?folder_id=" + data.parent_id
       else
         $.page_notification "操作失败，请刷新页面重试"
   ######## End: recover part ########
 
   ######## Begin: other redirect part ########
-  $.each ["trash", "recent", "workbook", "starred", "all"], (i, v) ->
+  $.each ["trash", "recent", "workbook", "starred", "all_homeworks", "all_slides"], (i, v) ->
     $(".#{v}").click ->
-      window.location = "/teacher/homeworks?type=#{v}"
+      window.location = "/teacher/nodes?type=#{v}"
   ######## End: other redirect part ########
 
   ######## Begin: destroy part ########
@@ -449,15 +444,11 @@ $ ->
 
   $("body").on "click", "tr.record a .destroy", (event) ->
     tr = $(event.target).closest("tr")
-    node_type = tr.attr("data-type")
     id = tr.attr("data-id")
-    destroy_node(node_type, id)
+    destroy_node(id)
 
-  destroy_node = (node_type, id) ->
-    data_url =
-      folder: "/teacher/folders/#{id}"
-      homework: "/teacher/homeworks/#{id}"
-    $.deleteJSON data_url[node_type], { }, (data) ->
+  destroy_node = (id) ->
+    $.deleteJSON "/teacher/nodes/#{id}", { }, (data) ->
       if data.success
         $(".popup-menu").remove()
         refresh_homework_table_and_folder_chain()
@@ -479,16 +470,15 @@ $ ->
     if $.trim(keyword) == ""
       $.page_notification "请输入关键字"
       return
-    window.location = "/teacher/homeworks?type=search&keyword=" + keyword
+    window.location = "/teacher/nodes?type=search&keyword=" + keyword
   ######## End: destroy part ########
 
   ######## Begin: add/remove star part #########
   $("body").on "click", ".star-link", (event) ->
-    node_type = $(event.target).closest("tr").attr("data-type")
     id = $(event.target).closest("tr").attr("data-id")
     icon = $(event.target).closest(".star-link").find("i")
     add_star = icon.hasClass("star-empty")
-    $.putJSON "/teacher/#{node_type}s/#{id}/star", {
+    $.putJSON "/teacher/nodes/#{id}/star", {
       add: add_star
     }, (data) ->
       if data.success
@@ -504,25 +494,19 @@ $ ->
 
   $("body").on "click", "*[data-pagetype=trash] a.node-link", (event) ->
     $("#recoverModal").modal('show')
-    type = $(event.target).closest("tr").attr("data-type")
     id = $(event.target).closest("tr").attr("data-id")
-    $("#recoverModal").attr("data-type", type)
     $("#recoverModal").attr("data-id", id)
     event.preventDefault()
 
   $("#recoverModal .ok").click ->
-    type = $("#recoverModal").attr("data-type")
     id = $("#recoverModal").attr("data-id")
-    data_url = 
-      folder: "/teacher/folders/#{id}/recover"
-      homework: "/teacher/homeworks/#{id}/recover"
-    $.putJSON data_url[type], { }, (data) ->
+    $.putJSON "/teacher/nodes/#{id}/recover", { }, (data) ->
       if data.success
-        window.location = "/teacher/homeworks?folder_id=" + data.parent_id
+        window.location = "/teacher/nodes?folder_id=" + data.parent_id
       else
         $.page_notification "操作失败，请刷新页面重试"
 
-  generate_popup_menu = (id, folder_type, page_type) ->
+  generate_popup_menu = (id, node_type, page_type) ->
     if page_type == "trash"
       return [
         {
@@ -534,26 +518,34 @@ $ ->
           class: "destroy"
         }
       ]
-    if folder_type == "root"
+    if node_type == "root"
       return [
         {
           text: "新建文件夹"
           class: "new-folder"
         }
         {
-          text: "新建文件"
-          class: "new-doc"
+          text: "新建作业"
+          class: "new-homework"
+        }
+        {
+          text: "新建课件"
+          class: "new-slide"
         }
       ]
-    if folder_type == "folder"
+    if node_type == "Folder"
       return [
         {
           text: "新建文件夹"
           class: "new-folder"
         }
         {
-          text: "新建文件"
-          class: "new-doc"
+          text: "新建作业"
+          class: "new-homework"
+        }
+        {
+          text: "新建课件"
+          class: "new-slide"
         }
         {
           hr: true
@@ -570,15 +562,20 @@ $ ->
           text: "删除"
           class: "delete"
         }
-      ] if page_type == "folder"
+      ]
+    if page_type == "folder"
       return [
         {
           text: "新建文件夹"
           class: "new-folder"
         }
         {
-          text: "新建文件"
-          class: "new-doc"
+          text: "新建作业"
+          class: "new-homework"
+        }
+        {
+          text: "新建课件"
+          class: "new-slide"
         }
         {
           hr: true
@@ -600,7 +597,7 @@ $ ->
           class: "delete"
         }
       ] if page_type == "recent" || page_type == "search" || page_type == "all"
-    if folder_type == "homework"
+    if node_type == "Homework"
       return [
         {
           text: "编辑"
@@ -625,22 +622,15 @@ $ ->
           text: "删除"
           class: "delete"
         }
-      ] if page_type == "folder"
+      ]
+    if node_type == "Slide"
       return [
         {
           text: "打开"
-          class: "open"
-        }
-        {
-          text: "统计"
-          class: "stat"
+          class: "edit"
         }
         {
           hr: true
-        }
-        {
-          text: "打开所在文件夹"
-          class: "open-parent"
         }
         {
           text: "重命名"
@@ -654,5 +644,5 @@ $ ->
           text: "删除"
           class: "delete"
         }
-      ] if page_type == "recent" || page_type == "search" || page_type == "all"
+      ]
 

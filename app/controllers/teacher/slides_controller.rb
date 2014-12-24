@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Teacher::SlidesController < Teacher::ApplicationController
   layout :resolve_layout
-  before_filter :ensure_slide, only: [:get_folder_id, :show, :move, :settings, :set_tag, :delete, :export, :generate, :rename, :star]
+  before_filter :ensure_slide, only: [:show, :move, :settings, :set_tag, :delete, :export, :generate, :rename, :star]
 
   def ensure_slide
     begin
@@ -16,12 +16,7 @@ class Teacher::SlidesController < Teacher::ApplicationController
     end
   end
 
-  def get_folder_id
-    render_json({ folder_id: @slide.folder_id })
-  end
-
   def show
-    Rails.logger.info "AAAAAAAAAAAAAA"
   end
 
   def rename
@@ -36,13 +31,13 @@ class Teacher::SlidesController < Teacher::ApplicationController
     document.store_document!
     document.name = params[:slide_file].original_filename
     slide = document.parse_slide(params[:subject].to_i)
-    current_user.slides << slide
+    current_user.nodes << slide
     if current_user.folders.where(id: params[:folder_id]).first
       folder_id = params[:folder_id]
     else
       folder_id = current_user.root_folder.id
     end
-    slide.update_attribute :folder_id, folder_id
+    slide.update_attribute :parent_id, folder_id
     redirect_to action: :show, id: slide.id.to_s
   end
 

@@ -1,6 +1,6 @@
 - content_for :head do
-  = stylesheet_link_tag "pages/teacher/homeworks/index-bundle", :media => "all"
-  = javascript_include_tag "pages/teacher/homeworks/index-bundle"
+  = stylesheet_link_tag "pages/teacher/nodes/index-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/nodes/index-bundle"
   :javascript
     window.folder_id = "#{@folder_id}"
     window.root_folder_id = "#{@root_folder_id}"
@@ -12,7 +12,7 @@
     #search-bar
       #folder-wrapper
       #search-box
-        %input#input-search{:placeholder => "文件夹或作业名称", :type => "text", :value => params[:keyword]}
+        %input#input-search{:placeholder => "文件夹或文档名称", :type => "text", :value => params[:keyword]}
           %a#link-search{href: "javascript:void(0);"}
     .clear-both
     #main-part
@@ -35,10 +35,15 @@
                 %span.name 我的文件夹
               .children.hide
           %li
-            .folder-node.all
-              .name-node.root{:class => ("selected" if @type == "all")}
-                %i.icon.documents
+            .folder-node.all_homeworks
+              .name-node.root{:class => ("selected" if @type == "all_homeworks")}
+                %i.icon.word
                 %span 全部作业
+          %li
+            .folder-node.all_slides
+              .name-node.root{:class => ("selected" if @type == "all_slides")}
+                %i.icon.ppt
+                %span 全部课件
           %li
             .folder-node.recent
               .name-node.root{:class => ("selected" if @type == "recent")}
@@ -137,7 +142,7 @@
             %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
             = submit_tag "创建", :class => 'btn-primary btn'
 
-  #newSlidesModal.modal.fade
+  #newSlideModal.modal.fade
     .modal-dialog
       .modal-content
         = form_tag(teacher_slides_path, method: "post", multipart: true) do

@@ -1,17 +1,12 @@
 # encoding: utf-8
 require 'httparty'
-class Homework
-  include Mongoid::Document
-  include Mongoid::Timestamps
-  include Concerns::Trashable
-  include Concerns::Starred
-  field :name, type: String
+class Homework < Node
   field :subject, type: Integer
   field :q_ids, type: Array, default: []
   field :tag_set, type: String, default: "不懂,不会,不对,典型题"
   has_many :questions, dependent: :destroy
-  belongs_to :user, class_name: "User", inverse_of: :homeworks
-  belongs_to :folder, class_name: "Folder", inverse_of: :homeworks
+  # belongs_to :user, class_name: "User", inverse_of: :homeworks
+  # belongs_to :folder, class_name: "Folder", inverse_of: :homeworks
 
   include HTTParty
   base_uri Rails.application.config.word_host
@@ -89,41 +84,6 @@ class Homework
         last_update_time: h.last_update_time,
         subject: Subject::NAME[h.subject],
         starred: h.starred
-      }
-    end
-  end
-
-  def self.search(keyword)
-    self.where(name: /#{keyword}/).map do |h|
-      {
-        id: h.id.to_s,
-        name: h.name,
-        last_update_time: h.last_update_time,
-        subject: Subject::NAME[h.subject],
-        starred: h.starred
-      }
-    end
-  end
-
-  def self.list_starred
-    self.starred.map do |h|
-      {
-        id: h.id.to_s,
-        name: h.name,
-        last_update_time: h.last_update_time,
-        subject: Subject::NAME[h.subject],
-        starred: h.starred
-      }
-    end
-  end
-
-  def self.list_trash
-    self.trashed.map do |h|
-      {
-        id: h.id.to_s,
-        name: h.name,
-        last_update_time: h.last_update_time,
-        subject: Subject::NAME[h.subject]
       }
     end
   end

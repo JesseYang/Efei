@@ -1,15 +1,10 @@
 # encoding: utf-8
 require 'httparty'
-class Slide
-  include Mongoid::Document
-  include Mongoid::Timestamps
-  include Concerns::Trashable
-  include Concerns::Starred
-  field :name, type: String
+class Slide < Node
   field :subject, type: Integer
   field :page_ids, type: Array, default: []
-  belongs_to :user, class_name: "User", inverse_of: :slides
-  belongs_to :folder, class_name: "Folder", inverse_of: :slides
+  # belongs_to :user, class_name: "User", inverse_of: :slides
+  # belongs_to :folder, class_name: "Folder", inverse_of: :slides
 
   include HTTParty
   base_uri Rails.application.config.slides_host

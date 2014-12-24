@@ -1,16 +1,12 @@
 # encoding: utf-8
-class Folder
-  include Mongoid::Document
-  include Mongoid::Timestamps
-  include Concerns::Trashable
-  include Concerns::Starred
-  field :name, type: String, default: "我的文件夹"
+class Folder < Node
   field :is_root, type: Boolean, default: false
-  has_many :homeworks, class_name: "Homework", inverse_of: :folder, dependent: :destroy
-  has_many :slides, class_name: "Slide", inverse_of: :folder, dependent: :destroy
-  has_many :children, class_name: "Folder", inverse_of: :parent, dependent: :destroy
-  belongs_to :parent, class_name: "Folder", inverse_of: :children
-  belongs_to :user, class_name: "User", inverse_of: :folders
+  has_many :children, class_name: "Node", inverse_of: :parent, dependent: :destroy
+  # has_many :homeworks, class_name: "Homework", inverse_of: :folder, dependent: :destroy
+  # has_many :slides, class_name: "Slide", inverse_of: :folder, dependent: :destroy
+  # has_many :children, class_name: "Folder", inverse_of: :parent, dependent: :destroy
+  # belongs_to :parent, class_name: "Folder", inverse_of: :children
+  # belongs_to :user, class_name: "User", inverse_of: :folders
 
   def self.folder_tree(user, parent_id = nil)
     tree = [ ]
@@ -22,7 +18,7 @@ class Folder
     }
     collection = parent.children
     collection.each do |n|
-      tree[:children] << self.folder_tree(user, n.id)
+      tree[:children] << self.folder_tree(user, n.id) if n._type == "Folder"
     end
     tree
   end
@@ -49,84 +45,9 @@ class Folder
     f
   end
 
-  def move_to(user, des_folder_id)
-    des_folder = des_folder_id == "root" ? user.root_folder : user.folders.find(des_folder_id)
-    self.update_attribute :parent_id, des_folder.id
-  end
-
-  def self.search(keyword)
-    self.where(name: /#{keyword}/).map do |f|
-      {
-        folder: true,
-        id: f.id.to_s,
-        name: f.name,
-        last_update_time: f.last_update_time,
-        starred: f.starred
-      }
-    end
-  end
-
-  def self.list_starred
-    self.starred.map do |f|
-      {
-        folder: true,
-        id: f.id.to_s,
-        name: f.name,
-        last_update_time: f.last_update_time,
-        starred: f.starred
-      }
-    end
-  end
-
-  def self.list_trash
-    self.trashed.map do |f|
-      {
-        folder: true,
-        id: f.id.to_s,
-        name: f.name,
-        last_update_time: f.last_update_time
-      }
-    end
-  end
-
-  def list_nodes
-    nodes = [ ]
-    self.children.each do |f|
-      nodes << {
-        folder: true,
-        id: f.id.to_s,
-        name: f.name,
-        last_update_time: f.last_update_time,
-        starred: f.starred
-      }
-    end
-    self.homeworks.each do |h|
-      nodes << {
-        id: h.id.to_s,
-        doc_type: "homework",
-        name: h.name,
-        last_update_time: h.last_update_time,
-        subject: Subject::NAME[h.subject],
-        starred: h.starred
-      }
-    end
-    self.slides.each do |s|
-      nodes << {
-        id: s.id.to_s,
-        doc_type: "slide",
-        name: s.name,
-        last_update_time: s.last_update_time,
-        subject: Subject::NAME[s.subject],
-        starred: s.starred
-      }
-    end
-    nodes
-  end
-
   def last_update_time
-    homework_time = self.homeworks.map { |e| e.updated_at } .to_a
-    folder_time = self.children.map { |e| e.updated_at } .to_a
-    time = ( homework_time + folder_time + [self.updated_at] ).max
+    children_time = self.children.map { |e| e.updated_at } .to_a
+    time = ( children_time + [self.updated_at] ).max
     time.today? ? time.strftime("%H点%M分") : time.strftime("%Y年%m月%d日")
   end
 end

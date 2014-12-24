@@ -8,12 +8,25 @@ module UserComponents::Teacher
     field :teacher_desc, type: String
     field :admin, type: Boolean, default: false
 
-    has_many :homeworks, class_name: "Homework", inverse_of: :user
-    has_many :slides, class_name: "Homework", inverse_of: :user
+    has_many :nodes, class_name: "Node", inverse_of: :user
+    # has_many :homeworks, class_name: "Homework", inverse_of: :user
+    # has_many :slides, class_name: "Homework", inverse_of: :user
+    # has_many :folders, class_name: "Folder", inverse_of: :user
     belongs_to :school, class_name: "School", inverse_of: :teachers
     has_many :classes, class_name: "Klass", inverse_of: :teacher
-    has_many :folders, class_name: "Folder", inverse_of: :user
     has_many :tag_sets, class_name: "TagSet", inverse_of: :teacher
+  end
+
+  def folders
+    self.nodes.where(_type: Folder)
+  end
+
+  def homeworks
+    self.nodes.where(_type: Homework)
+  end
+
+  def slides
+    self.nodes.where(_type: Slide)
   end
 
   def ensure_default_class
@@ -69,7 +82,7 @@ module UserComponents::Teacher
 
   def root_folder
     f = self.folders.where(is_root: true).first
-    f.nil? ? self.folders.create(is_root: true) : f
+    f.nil? ? self.nodes.create({is_root: true, name: "我的文件夹"}, Folder) : f
   end
 
   def create_class(name)

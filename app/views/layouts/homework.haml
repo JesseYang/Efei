@@ -3,6 +3,7 @@
   = javascript_include_tag "layouts/homework-layout"
   :javascript
     window.homework_id = "#{@homework.id.to_s}"
+    window.parent_id = "#{@homework.parent.id.to_s}"
 - content_for :teacher_content do
   #title-bar
     #title-wrapper
@@ -15,7 +16,7 @@
     #operation-wrapper
       %ul
         %li
-          %a{href: "javascript:void();"}
+          %a.remove-link{href: "javascript:void(0);"}
             %i.icon.remove
             %span 删除
         %li
@@ -35,7 +36,7 @@
             %i.icon.edit
             %span 编辑
         %li
-          %a{href: teacher_homeworks_path + "?folder_id=" + @homework.folder.id.to_s}
+          %a{href: teacher_nodes_path + "?folder_id=" + @homework.parent.id.to_s}
             %i.icon.return
             %span 返回
   = yield

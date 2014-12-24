@@ -42,26 +42,31 @@ Rails.application.routes.draw do
 
     resources :folders do
       member do
-        put :rename
-        put :move
-        get :list
         get :chain
-        put :recover
-        put :star
-        delete :delete
-      end
-      collection do
-        get :starred
-        get :trash
-        get :search
       end
     end
 
     resources :tag_sets
 
     resources :slides do
+    end
+
+    resources :nodes do
       member do
+        put :recover
+        put :star
+        delete :delete
+        put :move
         put :rename
+        get :list_children
+      end
+      collection do
+        get :starred
+        get :trash
+        get :search
+        get :recent
+        get :all_homeworks
+        get :all_slides
       end
     end
 
@@ -72,30 +77,15 @@ Rails.application.routes.draw do
         get :get_folder_id
         get :settings
         get :export
-        put :rename
-        put :move
         put :share
         put :share_all
         put :set_tag_set
-        put :recover
-        put :star
-        delete :delete
-      end
-      collection do
-        get :recent
-        get :all
       end
     end
 
     resources :settings do
       member do
         put :update_password
-      end
-    end
-
-    resources :groups do
-      member do
-        post :update_select
       end
     end
 
@@ -156,13 +146,8 @@ Rails.application.routes.draw do
 
   resources :qrcodes do
   end
-  resources :tests do
-  end
   resources :topics do
   end
-  resources :widgets do
-  end
-
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

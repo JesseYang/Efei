@@ -40,8 +40,11 @@ b.closed {
   .folder-closed {
     @include homeworks-sprite(folder_closed);
   }
-  .documents {
-    @include homeworks-sprite(document);
+  .word {
+    @include homeworks-sprite(word);
+  }
+  .ppt {
+    @include homeworks-sprite(ppt);
   }
   .recent {
     @include homeworks-sprite(clock);
