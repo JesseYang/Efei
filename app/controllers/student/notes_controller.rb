@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Student::NotesController < Student::ApplicationController
-  before_filter :require_student, only: [:create, :batch]
+  before_filter :require_student
 
   def create
     begin
@@ -35,6 +35,16 @@ class Student::NotesController < Student::ApplicationController
 
   def index
     render_with_auth_key({ notes: current_user.list_notes })
+  end
+
+  def list
+    notes = []
+    params[:note_ids].split(',').each do |nid|
+      note = current_user.notes.where(id: nid).first
+      note["last_update_time"] = note.updated_at.to_i
+      notes << note
+    end
+    render_with_auth_key({notes: notes}) and return
   end
 
   def show

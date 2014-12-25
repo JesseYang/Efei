@@ -118,6 +118,7 @@ Rails.application.routes.draw do
         get :note_update_time
         get :export
         post :batch
+        get :list
       end
     end
     resources :questions do
