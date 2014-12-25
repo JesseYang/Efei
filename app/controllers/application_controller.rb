@@ -108,10 +108,10 @@ class ApplicationController < ActionController::Base
   def redirect_to_root
     if current_user.blank?
       root_path
-    elsif current_user.try(:school_admin)
-      school_admin_teachers_path
+    # elsif current_user.try(:school_admin)
+    #  school_admin_teachers_path
     elsif current_user.try(:teacher)
-      teacher_homeworks_path
+      teacher_nodes_path
     else
       student_notes_path
     end
