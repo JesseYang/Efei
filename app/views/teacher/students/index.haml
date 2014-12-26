@@ -30,7 +30,8 @@
         #search-box
           %input#input-search{:placeholder => "姓名、邮箱或者手机号", :type => "text", :value => params[:keyword]}
             %span
-              %button#btn-search.btn.btn-default.btn-sm{:type => "button"} 搜索
+              / %button#btn-search.btn.btn-default.btn-sm{:type => "button"} 搜索
+              %a#link-search{:type => "button"}
       #table-wrapper
 
   #newClassModal.modal.fade

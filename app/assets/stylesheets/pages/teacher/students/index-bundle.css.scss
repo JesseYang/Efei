@@ -59,8 +59,17 @@
       color: #888888;
     }
     #search-box {
+      padding: 10px;
       float: right;
-      margin-right: 50px;
+      margin-right: 40px;
+      #input-search {
+        @include one-line(26px);
+      }
+      a {
+        @include inline-block;
+        @include size(47px, 26px);
+        @include students-sprite(search_button);
+      }
     }
   }
   #table-wrapper {

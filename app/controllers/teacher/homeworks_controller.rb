@@ -74,6 +74,9 @@ class Teacher::HomeworksController < Teacher::ApplicationController
       homework.update_attribute :parent_id, folder_id
       redirect_to action: :show, id: homework.id.to_s
     rescue Exception => e
+      logger.info "AAAAAAAAA"
+      logger.info e.message
+      logger.info "AAAAAAAAA"
       if e.message == "wrong filetype"
         flash[:error] = "文件格式错误或者文件损坏，请上传doc或者docx格式文件"
         redirect_to teacher_nodes_path

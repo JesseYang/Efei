@@ -27,10 +27,10 @@ class Document
     data = Document.post("/ParseSlides.aspx", :query => {
       ppt_file: File.new("public/#{self.document.to_s}")
     })
-    if data["success"] == false
+    if data[0] == false
       raise "wrong filetype"
     end
-    slide.page_ids = data["page_id_ary"]
+    slide.page_ids = data[1]
     slide.save
     slide
   end
@@ -39,12 +39,12 @@ class Document
     data = Document.post("/ParseWord.aspx", :query => {
       word_file: File.new("public/#{self.document.to_s}")
     })
-    if data["success"] == false
+    if data[0] == false
       raise "wrong filetype"
     end
     questions = []
     cache = []
-    data["content"].each do |ele|
+    data[1].each do |ele|
       # convert full width char to half width char
       # ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z') if ele.class == String
       # question separation

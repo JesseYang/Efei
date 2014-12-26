@@ -25,7 +25,7 @@ $ ->
   search = (keyword) ->
     window.location.href = "/teacher/students?keyword=#{keyword}"
 
-  $("#btn-search").click (event) ->
+  $("#link-search").click (event) ->
     keyword = $("#input-search").val()
     search(keyword)
 
