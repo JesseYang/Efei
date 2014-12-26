@@ -59,19 +59,26 @@ class Teacher::HomeworksController < Teacher::ApplicationController
 
   # ajax
   def create
-    document = Document.new
-    document.document = params[:homework_file]
-    document.store_document!
-    document.name = params[:homework_file].original_filename
-    homework = document.parse_homework(params[:subject].to_i)
-    current_user.nodes << homework
-    if current_user.folders.where(id: params[:folder_id]).first
-      folder_id = params[:folder_id]
-    else
-      folder_id = current_user.root_folder.id
+    begin
+      document = Document.new
+      document.document = params[:homework_file]
+      document.store_document!
+      document.name = params[:homework_file].original_filename
+      homework = document.parse_homework(params[:subject].to_i)
+      current_user.nodes << homework
+      if current_user.folders.where(id: params[:folder_id]).first
+        folder_id = params[:folder_id]
+      else
+        folder_id = current_user.root_folder.id
+      end
+      homework.update_attribute :parent_id, folder_id
+      redirect_to action: :show, id: homework.id.to_s
+    rescue Exception => e
+      if e.message == "wrong filetype"
+        flash[:error] = "文件格式错误或者文件损坏，请上传doc或者docx格式文件"
+        redirect_to teacher_nodes_path
+      end
     end
-    homework.update_attribute :parent_id, folder_id
-    redirect_to action: :show, id: homework.id.to_s
   end
 
   def resolve_layout

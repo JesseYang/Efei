@@ -1,0 +1,28 @@
+@import "common";
+@import "compass/css3/inline-block";
+@import "compass/utilities/general/clearfix";
+
+form {
+  margin-top: 50px;
+  position: relative;
+  .student-role {
+    @include one-line(31px);
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+}
+
+.left {
+  float: left;
+  @include inline-block;
+}
+
+.right {
+  float: right;
+  @include inline-block;
+}
+
+.content {
+  @include clearfix;
+}

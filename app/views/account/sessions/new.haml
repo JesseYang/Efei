@@ -1,22 +1,23 @@
 - content_for :head do
+  = stylesheet_link_tag "pages/account/sessions-bundle", :media => "all"
   = javascript_include_tag "pages/account/sessions-bundle"
 
 .container
   .row
     .col-sm-4.col-sm-offset-4.col-xs-10.col-xs-offset-1
-      = form_tag(account_sessions_path, method: "post", multipart: true) do
+      = form_tag(account_sessions_path, id: "login-form", method: "post", multipart: true) do
+        = link_to "我是学生", "javascript:void(0);", class: 'student-role'
         %fieldset
-          %legend 登录
+          %legend 教师登录
           .form-group
             = label_tag :email_mobile, "邮箱"
-            = text_field_tag :email_mobile, "", :autofocus => true, class: "form-control"
+            = text_field_tag :email_mobile, params[:email_mobile], :autofocus => true, class: "form-control"
           .form-group
             = label_tag :password, "密码"
             = password_field_tag :password, "", class: "form-control"
-          .checkbox.left
-            = label_tag :remember_me do
-              = check_box_tag :remember_me
-              保持登录状态
-            .forget-password.right
+          .content
+            .registrate.right
+              = link_to "没有帐号，立即注册", new_account_registration_path
+            .forget-password.left
               = link_to "忘记密码？", new_account_password_path
-          = submit_tag "登录", class: "btn btn-default"
+          = submit_tag "登录", class: "btn btn-primary login-btn"

@@ -127,10 +127,14 @@
   right: 0px;
   left: 200px;
   overflow-x: hidden;
-  #table-wraper {
+  #table-wrapper {
     margin-top: 10px;
     margin-left: 8px;
     margin-right: 50px;
+    .tips {
+      margin-top: 30px;
+
+    }
   }
   table {
     width: 95%;
@@ -177,9 +181,6 @@
     }
     .star-empty {
       @include homeworks-sprite(star_empty);
-      &:hover {
-        @include homeworks-sprite(star_hover);
-      }
     }
     .starred {
       @include homeworks-sprite(star_starred);

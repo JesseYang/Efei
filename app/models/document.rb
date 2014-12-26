@@ -24,22 +24,27 @@ class Document
 
   def parse_slide(subject)
     slide = Slide.create_by_name(self.name, subject)
-    page_id_ary = Document.post("/ParseSlides.aspx", :query => {
+    data = Document.post("/ParseSlides.aspx", :query => {
       ppt_file: File.new("public/#{self.document.to_s}")
     })
-
-    slide.page_ids = page_id_ary
+    if data["success"] == false
+      raise "wrong filetype"
+    end
+    slide.page_ids = data["page_id_ary"]
     slide.save
     slide
   end
 
   def parse_homework(subject, homework = nil)
-    content = Document.post("/ParseWord.aspx", :query => {
+    data = Document.post("/ParseWord.aspx", :query => {
       word_file: File.new("public/#{self.document.to_s}")
     })
+    if data["success"] == false
+      raise "wrong filetype"
+    end
     questions = []
     cache = []
-    content.each do |ele|
+    data["content"].each do |ele|
       # convert full width char to half width char
       # ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z') if ele.class == String
       # question separation

@@ -53,7 +53,7 @@ b.closed {
     @include homeworks-sprite(book);
   }
   .starred {
-    @include homeworks-sprite(star);
+    @include homeworks-sprite(starred);
   }
   .trash {
     @include homeworks-sprite(trash);
@@ -78,7 +78,7 @@ b.closed {
       @include homeworks-sprite(book_selected);
     }
     .starred {
-      @include homeworks-sprite(star_selected);
+      @include homeworks-sprite(starred_selected);
     }
     .trash {
       @include homeworks-sprite(trash_selected);

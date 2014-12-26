@@ -6,7 +6,6 @@
 #= require "./_templates/folder_chain"
 $ ->
 
-
   # forbit the default right-click popup menu
   $("html").bind "contextmenu", ->
     false
@@ -23,7 +22,8 @@ $ ->
   popup_menu = null
 
   refresh_homework_table_and_folder_chain = ->
-    notification = $.page_notification("正在加载", 0)
+    if window.flash == ""
+      notification = $.page_notification("正在加载", 0)
     if window.type == "folder"
       $.getJSON "/teacher/folders/#{window.folder_id}/chain", (data) ->
         if data.success
@@ -48,6 +48,7 @@ $ ->
       search: "/teacher/nodes/search?keyword=" + window.keyword
       all_homeworks: "/teacher/nodes/all_homeworks"
       all_slides: "/teacher/nodes/all_slides"
+      workbook: "/teacher/nodes/workbook"
     $.getJSON data_url[window.type], (data) ->
       if data.success
         table_data = 
@@ -57,7 +58,7 @@ $ ->
         homework_table = $(HandlebarsTemplates["index_table"](table_data))
         $("#table-wrapper").empty()
         $("#table-wrapper").append(homework_table)
-        notification.notification("set_delay", 500)
+        notification.notification("set_delay", 500) if notification != undefined
       else
         $.page_notification "服务器出错"
 
@@ -275,7 +276,12 @@ $ ->
     $('#newSlideModal').modal("show")
     $("#newSlideModal #folder_id").val(folder_id)
 
-  $("#newSlideModal .btn-primary").click ->
+  $("#newSlideModal form").submit ->
+    if $("#newSlideModal #slide_file").val() == ""
+      notification = $("<div />").appendTo("#newSlideModal") 
+      notification.notification
+        content: "请先选择要上传的课件文件"
+      return false
     notification = $("<div />").appendTo("#newSlideModal") 
     notification.notification
       delay: 0
@@ -300,7 +306,12 @@ $ ->
     $('#newHomeworkModal').modal('show')
     $("#newHomeworkModal #folder_id").val(folder_id)
 
-  $("#newHomeworkModal .btn-primary").click ->
+  $("#newHomeworkModal form").submit ->
+    if $("#newHomeworkModal #homework_file").val() == ""
+      notification = $("<div />").appendTo("#newHomeworkModal") 
+      notification.notification
+        content: "请先选择要上传的作业文件"
+      return false
     notification = $("<div />").appendTo("#newHomeworkModal") 
     notification.notification
       delay: 0

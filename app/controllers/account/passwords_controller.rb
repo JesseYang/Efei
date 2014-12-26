@@ -1,5 +1,5 @@
 # encoding: utf-8
-class Account::PasswordsController < ApplicationController
+class Account::PasswordsController < Account::ApplicationController
 
   def create
     # find out the user

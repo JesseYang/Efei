@@ -1,7 +1,8 @@
 #= require 'utility/ajax'
+#= require "extensions/page_notification"
 $(document).ready ->
 
-  $("form").submit ->
+  $("#login-form").submit ->
     email_mobile = $("#email_mobile").val()
     password = $("#password").val()
     $.postJSON(
@@ -12,9 +13,9 @@ $(document).ready ->
       },
       (retval) ->
         if !retval.success
-          $("#app-notification").notification({content: retval.message})
+          $.page_notification(retval.message)
         else
-          window.location.href = "/?notice=登录成功"
+          $.page_notification("登录成功，正在跳转")
+          window.location.href = "/"
     )
     return false
-

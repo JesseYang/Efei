@@ -67,6 +67,7 @@ Rails.application.routes.draw do
         get :recent
         get :all_homeworks
         get :all_slides
+        get :workbook
       end
     end
 

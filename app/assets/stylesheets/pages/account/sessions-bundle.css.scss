@@ -1,0 +1,10 @@
+@import "compass/css3/inline-block";
+@import "compass/utilities/general/clearfix";
+
+.content {
+  @include clearfix;
+}
+
+.login-btn {
+  margin-top: 10px;
+}

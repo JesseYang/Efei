@@ -105,13 +105,17 @@ class Teacher::NodesController < Teacher::ApplicationController
   end
 
   def all_homeworks
-    @nodes = current_user.nodes.where(_type: Homework)
+    @nodes = current_user.nodes.list_homeworks
     render_json({ nodes: @nodes })
   end
 
   def all_slides
-    @nodes = current_user.nodes.where(_type: Slide)
+    @nodes = current_user.nodes.list_slides
     render_json({ nodes: @nodes })
+  end
+
+  def workbook
+    render_json({ nodes: [ ] })
   end
 
   # ajax

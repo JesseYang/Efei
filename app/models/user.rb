@@ -52,7 +52,7 @@ class User
     Encryption.encrypt_auth_key(info)
   end
 
-  def self.create_new_user(email_mobile, password, name)
+  def self.create_new_user(email_mobile, password, name, role="student", subject=2)
     return ErrCode.ret_false(ErrCode::BLANK_EMAIL_MOBILE) if email_mobile.blank?
     u = User.where(email: email_mobile).first || User.where(mobile: email_mobile).first
     return ErrCode.ret_false(ErrCode::USER_EXIST) if u.present?
@@ -61,6 +61,8 @@ class User
     else
       u = User.create(email: email_mobile, password: Encryption.encrypt_password(password), name: name)
     end
+    u.update_attribute(:teacher, true) if role == "teacher"
+    u.update_attribute(:subject, subject.to_i) if role == "teacher"
     return { success: true, auth_key: u.generate_auth_key }
   end
 

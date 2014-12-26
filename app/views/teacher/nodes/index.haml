@@ -135,12 +135,13 @@
               = label_tag :subject, "学科"
               = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
             .form-group
-              = file_field_tag "homework_file", { class: "hide" }
+              = file_field_tag "homework_file", { class: "hide", accept: ".docx,.doc" }
+              = label_tag :file, "上传作业文件"
               %a#browser-homework-click= "选择文件"
               %p#homework-name
           .modal-footer
-            %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
             = submit_tag "创建", :class => 'btn-primary btn'
+            %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
 
   #newSlideModal.modal.fade
     .modal-dialog
@@ -155,12 +156,13 @@
             .form-group
               = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
             .form-group
-              = file_field_tag "slide_file", { class: "hide" }
+              = file_field_tag "slide_file", { class: "hide", accept: ".pptx,.ppt" }
+              = label_tag :file, "上传课件文件"
               %a#browser-slide-click= "选择文件"
               %p#slide-name
           .modal-footer
-            %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
             = submit_tag "创建", :class => 'btn-primary btn'
+            %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
 
   #recoverModal.modal.fade
     .modal-dialog

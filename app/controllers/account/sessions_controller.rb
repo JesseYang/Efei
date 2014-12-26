@@ -1,4 +1,5 @@
-class Account::SessionsController < ApplicationController
+class Account::SessionsController < Account::ApplicationController
+
   def create
     retval = User.login(params[:email_mobile].to_s, params[:password].to_s)
     refresh_session retval[:auth_key] if retval[:success]

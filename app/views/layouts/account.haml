@@ -1,8 +1,8 @@
 - content_for :app_head do
+  = stylesheet_link_tag "layouts/account-layout", :media => "all"
+  = javascript_include_tag "layouts/account-layout"
   = yield :head
   :javascript
-    window.controller = "#{params[:controller]}"
-    window.action = "#{params[:action]}"
 - content_for :app_content do
   = yield
 
