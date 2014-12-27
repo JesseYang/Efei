@@ -34,10 +34,11 @@ $ ->
     if code == 13
       search($(this).val())
 
-  if window.cid == ""
-    $(".all-students .student-link").addClass("select")
-  else
-    $("*[data-id=" + window.cid + "]").addClass("select")
+  if window.keyword == ""
+    if window.cid == ""
+      $(".all-students .student-link").addClass("select")
+    else
+      $("*[data-id=" + window.cid + "]").addClass("select")
 
   refresh_students_table()
 

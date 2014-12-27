@@ -11,11 +11,13 @@
 }
 
 #left-part {
+  position: absolute;
+  top: 42px;
+  bottom: 0px;
+  width: 200px;
+  left: 0px;
   padding-left: 20px;
   padding-top: 20px;
-  float: left;
-  width: 200px;
-  height: 500px;
   .class-link-wrapper {
     cursor: pointer;
     a.student-link {
@@ -45,6 +47,11 @@
 }
 
 #right-part {
+  position: absolute;
+  top: 42px;
+  bottom: 0px;
+  right: 0px;
+  left: 200px;
   overflow-x: hidden;
   padding-left: 15px;
   padding-top: 15px;
@@ -73,9 +80,12 @@
     }
   }
   #table-wrapper {
-    margin-top: 10px;
-    margin-left: 8px;
-    margin-right: 50px;
+    position: absolute;
+    top: 55px;
+    bottom: 0px;
+    left: 23px;
+    right: 0px;
+    overflow: auto;
   }
   table {
     width: 95%;
