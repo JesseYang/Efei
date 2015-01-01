@@ -30,6 +30,22 @@ class Homework < Node
     self.save
   end
 
+  def replace_question(replace_question_id, question)
+    self.questions.delete(Question.find(replace_question_id))
+    index = self.q_ids.index(replace_question_id)
+    self.q_ids[index] = question.id.to_s
+    self.save
+  end
+
+  def insert_questions(before_question_id, questions)
+    index = self.q.q_ids.index(before_question_id) + 1
+    questions.reverse.each do |q|
+      self.q_ids.insert(index, q.id.to_s)
+      self.questions << q
+    end
+    self.save
+  end
+
   def delete_question_by_index(index)
     self.q_ids.delete_at(index)
     self.save
@@ -49,16 +65,19 @@ class Homework < Node
     self.questions << q if !self.questions.include?(q)
   end
 
-  def generate
+  def generate(doc_type, qr_code)
     questions = []
     self.questions_in_order.each do |q|
-      # link = MongoidShortener.generate(Rails.application.config.server_host + "/student/questions/#{q.id.to_s}")
       link = MongoidShortener.generate(q.id.to_s)
       questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link, "figures" => q.q_figures}
     end
-    data = {"questions" => questions, "name" => self.name, "qrcode_host" => Rails.application.config.server_host}
-    puts data.inspect
-    logger.info data
+    data = {
+      "questions" => questions,
+      "name" => self.name,
+      "qrcode_host" => Rails.application.config.server_host,
+      "doc_type" => doc_type,
+      "qr_code" => qr_code
+    }
     response = Homework.post("/Generate.aspx",
       :body => {data: data.to_json} )
     return response.body

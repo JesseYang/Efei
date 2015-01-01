@@ -66,9 +66,64 @@ class Document
       end
     end
     questions << extract_one_question(subject, cache) if cache.length >= 1
+    if questions.length == 0
+      raise "no content"
+    end
     homework ||= Homework.create_by_name(self.name, subject)
     homework.add_questions(questions)
     homework
+  end
+
+  def insert_question(homework, before_question_id)
+    data = Document.post("/ParseWord.aspx", :query => {
+      word_file: File.new("public/#{self.document.to_s}")
+    })
+    if data[0] == false
+      raise "wrong filetype"
+    end
+    questions = []
+    cache = []
+    data[1].each do |ele|
+      # convert full width char to half width char
+      # ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z') if ele.class == String
+      # question separation
+      if ele.class == String && ele.blank?
+        questions << extract_one_question(subject, cache) if cache.length >= 1
+        cache = []
+        next
+      end
+      # parse para/table/image
+      if ele.class == String
+        if cache.blank?
+          # this is the first line of this question, should remove the Number
+          match = ele.strip.scan(/^例?[0-9]{0,2}\.?\s+(.*)$/)
+          ele = match[0][0] if match[0].present?
+        end
+        cache << ele
+      elsif ele.class == Hash || ele["type"] == "table"
+        cache << ele
+      end
+    end
+    questions << extract_one_question(subject, cache) if cache.length >= 1
+    if questions.length == 0
+      raise "no content"
+    end
+    homework.insert_questions(before_question_id, questions)
+  end
+
+  def replace_question(homework, replace_question_id)
+    data = Document.post("/ParseWord.aspx", :query => {
+      word_file: File.new("public/#{self.document.to_s}")
+    })
+    if data[0] == false
+      raise "wrong filetype"
+    end
+    cache = data[1].select { |e| e.present? }
+    if cache.length == 0
+      raise "no content"
+    end
+    question = extract_one_question(homework.subject, cache)
+    homework.replace_question(replace_question_id, question)
   end
 
   def parse_one_question(subject)

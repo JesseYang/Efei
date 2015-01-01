@@ -150,6 +150,12 @@ $ ->
 
   ######## Begin: open part ########
   $("body").on "click", ".popup-menu .open", (event) ->
+    open_doc_from_popup_menu()
+
+  $("body").on "click", ".popup-menu .edit", (event) ->
+    open_doc_from_popup_menu()
+
+  open_doc_from_popup_menu = ->
     data = popup_menu.popup_menu("option")
     if data.type == "Folder"
       $.page_notification "正在打开文件夹", 0
@@ -160,11 +166,6 @@ $ ->
     else if data.type == "Slide"
       $.page_notification "正在打开课件", 0
       window.location.href = "/teacher/slides/#{data.id}"
-
-  $("body").on "click", ".popup-menu .edit", (event) ->
-    data = popup_menu.popup_menu("option")
-    $.page_notification "正在打开作业", 0
-    window.location.href = "/teacher/homeworks/" + data.id
 
   $("body").on "click", "tr.record a .open", (event) ->
     open_doc_from_table($(event.target))
@@ -200,7 +201,7 @@ $ ->
 
   open_stat = (id) ->
     $.page_notification "正在打开统计结果"
-    window.location.href = "/teacher/homeworks/" + id + "/stat"
+    window.location.href = "/teacher/homeworks/#{id}/stat"
   ######## End: stat part ########
 
   ######## Begin: new folder part ########
@@ -282,6 +283,12 @@ $ ->
       notification.notification
         content: "请先选择要上传的课件文件"
       return false
+    if !$("#newSlideModal #slide_file").val().match(/\.pptx?$/)
+      notification = $("<div />").appendTo("#newSlideModal") 
+      notification.notification
+        content: "文件格式错误，请上传ppt或者pptx格式文件"
+        delay: 2000
+      return false
     notification = $("<div />").appendTo("#newSlideModal") 
     notification.notification
       delay: 0
@@ -311,6 +318,12 @@ $ ->
       notification = $("<div />").appendTo("#newHomeworkModal") 
       notification.notification
         content: "请先选择要上传的作业文件"
+      return false
+    if !$("#newHomeworkModal #homework_file").val().match(/\.docx?$/)
+      notification = $("<div />").appendTo("#newHomeworkModal") 
+      notification.notification
+        content: "文件格式错误，请上传doc或者docx格式文件"
+        delay: 2000
       return false
     notification = $("<div />").appendTo("#newHomeworkModal") 
     notification.notification

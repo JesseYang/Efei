@@ -81,6 +81,8 @@ Rails.application.routes.draw do
         put :share
         put :share_all
         put :set_tag_set
+        post :replace
+        post :insert
       end
     end
 

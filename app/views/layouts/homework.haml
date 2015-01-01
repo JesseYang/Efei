@@ -20,7 +20,8 @@
             %i.icon.remove
             %span 删除
         %li
-          %a{href: generate_teacher_homework_path(@homework)}
+          / %a{href: generate_teacher_homework_path(@homework)}
+          %a.download-link{href: "javascript:void(0);"}
             %i.icon.download
             %span 下载
         %li
@@ -40,5 +41,31 @@
             %i.icon.return
             %span 返回
   = yield
+
+#downloadModal.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 导出设置
+        .modal-body
+          %p
+            %span 导出文档格式
+          %p
+            = radio_button_tag 'doc_type', "word", true
+            = label_tag "doc_type_word", "word"
+            = radio_button_tag 'doc_type', "pdf", false
+            = label_tag "doc_type_pdf", "pdf"
+          %p
+            %span 是否包含二维码
+          %p
+            = radio_button_tag 'qr_code', "yes", true
+            = label_tag "qr_code_yes", "包含"
+            = radio_button_tag 'qr_code', "no", false
+            = label_tag "qr_code_no", "不包含"
+        .modal-footer
+          = submit_tag "确定", :class => 'btn-primary btn'
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
 
 = render :template => 'layouts/teacher'

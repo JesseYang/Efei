@@ -16,13 +16,6 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     end
   end
 
-  ########### list folders or documents #################
-
-  def workbook
-  end
-
-  ########################################################
-
   def show
   end
 
@@ -53,8 +46,54 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def generate
-    download_url = "#{Rails.application.config.word_host}/#{@homework.generate}"
-    redirect_to URI.encode download_url
+    download_url = "#{Rails.application.config.word_host}/#{@homework.generate(params[:doc_type], params[:qr_code].to_s == 'yes')}"
+    render_json({ download_url: download_url })
+  end
+
+  def replace
+    homework = Homework.find(params[:id])
+    begin
+      document = Document.new
+      document.document = params[:replace_homework_file]
+      document.store_document!
+      document.replace_question(homework, params[:question_id])
+      flash[:notice] = "已完成题目替换"
+      redirect_to action: :show, id: homework.id.to_s
+    rescue Exception => e
+      if e.message == "wrong filetype"
+        flash[:error] = "文件损坏，解析失败"
+        redirect_to action: :show, id: homework.id.to_s
+      elsif e.message == "no content"
+        flash[:error] = "文件中没有有效内容"
+        redirect_to action: :show, id: homework.id.to_s
+      else
+        flash[:error] = "服务器错误，请重试"
+        redirect_to action: :show, id: homework.id.to_s
+      end
+    end
+  end
+
+  def insert
+    homework = Homework.find(params[:id])
+    begin
+      document = Document.new
+      document.document = params[:insert_homework_file]
+      document.store_document!
+      document.insert_question(homework, params[:question_id])
+      flash[:notice] = "已完成题目插入"
+      redirect_to action: :show, id: homework.id.to_s
+    rescue Exception => e
+      if e.message == "wrong filetype"
+        flash[:error] = "文件损坏，解析失败"
+        redirect_to action: :show, id: homework.id.to_s
+      elsif e.message == "no content"
+        flash[:error] = "文件中没有有效内容"
+        redirect_to action: :show, id: homework.id.to_s
+      else
+        flash[:error] = "服务器错误，请重试"
+        redirect_to action: :show, id: homework.id.to_s
+      end
+    end
   end
 
   # ajax
@@ -74,11 +113,14 @@ class Teacher::HomeworksController < Teacher::ApplicationController
       homework.update_attribute :parent_id, folder_id
       redirect_to action: :show, id: homework.id.to_s
     rescue Exception => e
-      logger.info "AAAAAAAAA"
-      logger.info e.message
-      logger.info "AAAAAAAAA"
       if e.message == "wrong filetype"
-        flash[:error] = "文件格式错误或者文件损坏，请上传doc或者docx格式文件"
+        flash[:error] = "文件损坏，解析失败"
+        redirect_to teacher_nodes_path
+      elsif e.message == "no content"
+        flash[:error] = "文件中没有有效内容"
+        redirect_to teacher_nodes_path
+      else
+        flash[:error] = "服务器错误，请重试"
         redirect_to teacher_nodes_path
       end
     end

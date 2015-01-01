@@ -56,18 +56,22 @@
 #replaceModal.modal.fade
   .modal-dialog
     .modal-content
-      = form_tag("", method: "post", multipart: true) do
+      = form_tag(replace_teacher_homework_path(@homework), method: "post", multipart: true) do
         .modal-header
           %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
           %h3 替换题目
         .modal-body
+          %p.hide
+            = text_field_tag "question_id"
           %p
             %span 1、请
             = link_to "点击这里", "javascript:void(0)", :class => 'question-download-url', :method => "get"
             %span 下载本题目
           %p
+            = file_field_tag "replace_homework_file", { class: "hide", accept: ".docx,.doc" }
             %span 2、上传修改后的题目
-            = file_field_tag "file"
+            %a#browser-replace-homework-click= "选择文件"
+            %p#replace-homework-name
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "完成", :class => 'btn-primary btn'
@@ -75,16 +79,20 @@
 #insertModal.modal.fade
   .modal-dialog
     .modal-content
-      = form_tag("", method: "post", multipart: true) do
+      = form_tag(insert_teacher_homework_path(@homework), method: "post", multipart: true) do
         .modal-header
           %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
           %h3 插入题目
         .modal-body
+          %p.hide
+            = text_field_tag "question_id"
           %p
             %span 新题目将出现在本题之后
           %p
+            = file_field_tag "insert_homework_file", { class: "hide", accept: ".docx,.doc" }
             %span 上传要插入的题目
-            = file_field_tag "file"
+            %a#browser-insert-homework-click= "选择文件"
+            %p#insert-homework-name
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "完成", :class => 'btn-primary btn'

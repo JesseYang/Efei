@@ -43,9 +43,6 @@ $ ->
     $(this).closest(".title-edit").addClass("hide")
     $("#title-edit-icon").removeClass "hide"
 
-  $(".remove-link").click ->
-    remove()
-
   remove = ->
     $.deleteJSON "/teacher/nodes/#{window.homework_id}/delete", {}, (data) ->
       if data.success
@@ -53,3 +50,31 @@ $ ->
         window.location = "/teacher/nodes?folder_id=#{window.parent_id}"
       else
         $.page_notification "操作失败，请刷新页面重试"
+
+  $(".remove-link").click ->
+    remove()
+
+
+  download_notification = undefined
+
+  $(".download-link").click ->
+    $("#downloadModal").modal("show")
+
+  $("#downloadModal form").submit ->
+    doc_type = $("#downloadModal input:radio[name='doc_type']:checked").val()
+    qr_code = $("#downloadModal input:radio[name='qr_code']:checked").val()
+    download_notification = $("<div />").appendTo("#downloadModal") 
+    download_notification.notification
+      content: "正在生成"
+      delay: 0
+    $.getJSON "/teacher/homeworks/#{window.homework_id}/generate?doc_type=#{doc_type}&qr_code=#{qr_code}", (data) ->
+      if data.success
+        download_notification.notification("set_delay", 1)
+        notification = $("<div />").appendTo("#downloadModal") 
+        notification.notification
+          content: "导出完成，正在下载"
+        window.location.href = data.download_url
+      else
+        $.page_notification "服务器出错"
+
+    false

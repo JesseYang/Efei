@@ -18,11 +18,13 @@
     float: left;
     margin-left: 150px;
     width: 400px;
-    font-size: 1.4em;
     #title {
-      margin-top: 8px;
+      margin-top: 0;
+      margin-bottom: 0;
       @include inline-block;
+      @include one-line(50px);
       float: left;
+      font-size: 1.4em;
     }
     .title-edit {
       @include one-line(50px);
@@ -52,7 +54,6 @@
         a {
           text-decoration: none;
           color: black;
-          font-size: 1.3em;
           .return {
             @include homeworks-sprite(return20);
           }
