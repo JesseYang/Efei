@@ -229,6 +229,12 @@ class Document
       q_type = "analysis"
       content = q_part_text
     end
+    if q_type == "choice"
+      kuohao = content[-1].match(/\s*(\(|（)\s*(\)|）)\s*$/)
+      if kuohao.present?
+        content[-1] = content[-1][0..-1-kuohao[0].length] + " " + kuohao[0].strip
+      end
+    end
     # 3. parse the answer
     answer, answer_content = *extract_answer(a_part_text, q_type)
     # create the question object
