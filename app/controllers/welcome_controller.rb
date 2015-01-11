@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  layout 'layouts/index'
+  layout :resolve_layout
   def index
     flash[:notice] = params[:notice]
     # if current_user.try(:school_admin)
@@ -11,6 +11,25 @@ class WelcomeController < ApplicationController
       redirect_to student_notes_path and return
     else
       redirect_to new_account_session_path
+    end
+  end
+
+  def student_app
+    
+  end
+
+  def app_download
+    
+  end
+
+  private
+
+  def resolve_layout
+    case action_name
+    when "index"
+      'layouts/index'
+    when "student_app", "app_download"
+      'layouts/welcome'
     end
   end
 end

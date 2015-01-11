@@ -1,0 +1,86 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "welcome/*.png";
+
+#left-part {
+  width: 50%;
+  float: left;
+  position: relative;
+  #mobile {
+    float: right;
+    margin-right: 80px;
+    margin-top: 60px;
+    @include size(281px, 556px);
+    @include welcome-sprite(mobile);
+  }
+  #screenshots {
+    width: 240px;
+    position: absolute;
+    top: 124px;
+    right: 98px;
+    overflow: auto;
+    li {
+      list-style: none;
+      list-style-type: none;
+      float: left;
+    }
+    ul {
+      list-style: none;
+      list-style-type: none;
+      padding-left: 0px;
+    }
+    #pic1 {
+      @include size(240px, 426px);
+      @include welcome-sprite(pic1);
+    }
+    #pic2 {
+      @include size(240px, 426px);
+      @include welcome-sprite(pic2);
+    }
+    #pic3 {
+      @include size(240px, 426px);
+      @include welcome-sprite(pic3);
+    }
+  }
+}
+#right-part {
+  width: 50%;
+  float: left;
+  #right-content {
+    float: left;
+    margin-left: 30px;
+    margin-top: 50px;
+    width: 380px;
+    div {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #logo {
+      @include size(364px, 146px);
+      @include welcome-sprite(logo);
+      margin-bottom: 20px;
+    }
+    #qr_code {
+      @include size(200px, 200px);
+      @include welcome-sprite(app_download);
+    }
+    #spec {
+      width: 100%;
+      text-align: center;
+    }
+    #ios-link {
+      @include size(300px, 65px);
+      @include welcome-sprite(ios_btn);
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    #android-link {
+      @include size(300px, 65px);
+      @include welcome-sprite(android_btn);
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+  }
+}

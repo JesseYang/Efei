@@ -1,0 +1,4 @@
+#= require 'unslider'
+
+$ ->
+	$('#screenshots').unslider();

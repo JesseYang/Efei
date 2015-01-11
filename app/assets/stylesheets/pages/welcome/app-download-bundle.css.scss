@@ -1,0 +1,47 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "welcome/*.png";
+
+#container {
+  width: 100%;
+  text-align: center;
+}
+
+.icon {
+  @include inline-block;
+}
+
+#logo {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  @include size(104px, 150px);
+  @include welcome-sprite(download);
+}
+
+#table-wrapper {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    td {
+      width: 120px;
+    }
+    #ios-logo {
+      margin-left: auto;
+      margin-right: auto;
+      @include size(53px, 53px);
+      @include welcome-sprite(ios);
+    }
+    #android-logo {
+      margin-left: auto;
+      margin-right: auto;
+      @include size(53px, 53px);
+      @include welcome-sprite(android);
+    }
+  }
+}

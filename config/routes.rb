@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   match '/:unique_key' => 'mongoid_shortener/shortened_urls#translate', :via => :get, :constraints => { :unique_key => /~.+/ }
 
   get "welcome/index"
+  get "welcome/student_app"
+  get "welcome/app_download"
 
   namespace :account do
     resources :registrations do

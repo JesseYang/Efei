@@ -1,0 +1,6 @@
+- content_for :app_head do
+  = yield :head
+- content_for :app_content do
+  = yield
+
+= render :template => 'layouts/application'

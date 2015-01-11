@@ -1,0 +1,22 @@
+- content_for :head do
+  = stylesheet_link_tag "pages/welcome/app-download-bundle", :media => "all"
+  = javascript_include_tag "pages/welcome/app-download-bundle"
+
+
+#container
+  #logo
+  #table-wrapper
+    #spec 请点击下载与手机系统相匹配的App
+    %table
+      %tr
+        %td
+          %a.download-link{href: "javascript:void(0);"}
+            %i#ios-logo.icon
+        %td
+          %a.download-link{href: "javascript:void(0);"}
+            %i#android-logo.icon
+      %tr
+        %td
+          %span iOS
+        %td
+          %span Android
