@@ -44,6 +44,11 @@
     }
   }
 }
+.icon {
+  @include inline-block;
+  margin-left: auto;
+  margin-right: auto;
+}
 #right-part {
   width: 50%;
   float: left;
@@ -56,10 +61,12 @@
       margin-left: auto;
       margin-right: auto;
     }
-    #logo {
-      @include size(364px, 146px);
-      @include welcome-sprite(logo);
+    #logo-wrapper {
       margin-bottom: 20px;
+      #efei-logo {
+        @include size(364px, 146px);
+        @include welcome-sprite(logo);
+      }
     }
     #qr_code {
       @include size(200px, 200px);
@@ -69,18 +76,24 @@
       width: 100%;
       text-align: center;
     }
-    #ios-link {
-      @include size(300px, 65px);
-      @include welcome-sprite(ios_btn);
+    #ios-link-wrapper {
       cursor: pointer;
       margin-top: 20px;
       margin-bottom: 20px;
+      text-align: center;
+      #ios-link {
+        @include size(300px, 65px);
+        @include welcome-sprite(ios_btn);
+      }
     }
-    #android-link {
-      @include size(300px, 65px);
-      @include welcome-sprite(android_btn);
+    #android-link-wrapper {
       cursor: pointer;
       margin-bottom: 20px;
+      text-align: center;
+      #android-link {
+        @include size(300px, 65px);
+        @include welcome-sprite(android_btn);
+      }
     }
   }
 }
