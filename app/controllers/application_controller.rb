@@ -106,17 +106,13 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to_root
-    logger.info "AAAAAAAAAAAAAAA"
     if current_user.blank?
-      logger.info "BBBBBBBBBBBBBBB"
       root_path
     # elsif current_user.try(:school_admin)
     #  school_admin_teachers_path
     elsif current_user.try(:teacher)
-      logger.info "CCCCCCCCCCCCCCC"
       teacher_nodes_path
     else
-      logger.info "DDDDDDDDDDDDDDD"
       student_notes_path
     end
   end

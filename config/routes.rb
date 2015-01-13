@@ -61,6 +61,7 @@ Rails.application.routes.draw do
         put :move
         put :rename
         get :list_children
+        get :get_folder_id
       end
       collection do
         get :starred
@@ -77,7 +78,6 @@ Rails.application.routes.draw do
       member do
         get :stat
         get :generate
-        get :get_folder_id
         get :settings
         get :export
         put :share

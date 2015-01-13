@@ -45,7 +45,7 @@ $ ->
       trash: "/teacher/nodes/trash"
       recent: "/teacher/nodes/recent"
       starred: "/teacher/nodes/starred"
-      search: "/teacher/nodes/search?keyword=" + window.keyword
+      search: "/teacher/nodes/search?keyword=" + encodeURIComponent(window.keyword)
       all_homeworks: "/teacher/nodes/all_homeworks"
       all_slides: "/teacher/nodes/all_slides"
       workbook: "/teacher/nodes/workbook"
@@ -494,7 +494,7 @@ $ ->
     if $.trim(keyword) == ""
       $.page_notification "请输入关键字"
       return
-    window.location = "/teacher/nodes?type=search&keyword=" + keyword
+    window.location = "/teacher/nodes?type=search&keyword=" + encodeURIComponent(keyword)
   ######## End: destroy part ########
 
   ######## Begin: add/remove star part #########
@@ -531,17 +531,6 @@ $ ->
         $.page_notification "操作失败，请刷新页面重试"
 
   generate_popup_menu = (id, node_type, page_type) ->
-    if page_type == "trash"
-      return [
-        {
-          text: "还原"
-          class: "recover"
-        }
-        {
-          text: "彻底删除"
-          class: "destroy"
-        }
-      ]
     if node_type == "root"
       return [
         {
@@ -557,37 +546,18 @@ $ ->
           class: "new-slide"
         }
       ]
-    if node_type == "Folder"
+    if page_type == "trash"
       return [
         {
-          text: "新建文件夹"
-          class: "new-folder"
+          text: "还原"
+          class: "recover"
         }
         {
-          text: "新建作业"
-          class: "new-homework"
-        }
-        {
-          text: "新建课件"
-          class: "new-slide"
-        }
-        {
-          hr: true
-        }
-        {
-          text: "重命名"
-          class: "rename"
-        }
-        {
-          text: "移动"
-          class: "move"
-        }
-        {
-          text: "删除"
-          class: "delete"
+          text: "彻底删除"
+          class: "destroy"
         }
       ]
-    if page_type == "folder"
+    if page_type == "recent" || page_type == "search" || page_type == "all_homeworks" || page_type == "all_slides" || page_type == "starred"
       return [
         {
           text: "新建文件夹"
@@ -620,8 +590,91 @@ $ ->
           text: "删除"
           class: "delete"
         }
-      ] if page_type == "recent" || page_type == "search" || page_type == "all"
-    if node_type == "Homework"
+      ] if node_type == "Folder"
+      return [
+        {
+          text: "编辑"
+          class: "edit"
+        }
+        {
+          text: "统计"
+          class: "stat"
+        }
+        {
+          hr: true
+        }
+        {
+          text: "打开所在文件夹"
+          class: "open-parent"
+        }
+        {
+          text: "重命名"
+          class: "rename"
+        }
+        {
+          text: "移动"
+          class: "move"
+        }
+        {
+          text: "删除"
+          class: "delete"
+        }
+      ] if node_type == "Homework"
+      return [
+        {
+          text: "打开"
+          class: "edit"
+        }
+        {
+          hr: true
+        }
+        {
+          text: "打开所在文件夹"
+          class: "open-parent"
+        }
+        {
+          text: "重命名"
+          class: "rename"
+        }
+        {
+          text: "移动"
+          class: "move"
+        }
+        {
+          text: "删除"
+          class: "delete"
+        }
+      ] if node_type == "Slide"
+    if page_type == "folder"
+      return [
+        {
+          text: "新建文件夹"
+          class: "new-folder"
+        }
+        {
+          text: "新建作业"
+          class: "new-homework"
+        }
+        {
+          text: "新建课件"
+          class: "new-slide"
+        }
+        {
+          hr: true
+        }
+        {
+          text: "重命名"
+          class: "rename"
+        }
+        {
+          text: "移动"
+          class: "move"
+        }
+        {
+          text: "删除"
+          class: "delete"
+        }
+      ] if node_type == "Folder"
       return [
         {
           text: "编辑"
@@ -646,8 +699,7 @@ $ ->
           text: "删除"
           class: "delete"
         }
-      ]
-    if node_type == "Slide"
+      ] if node_type == "Homework"
       return [
         {
           text: "打开"
@@ -668,5 +720,4 @@ $ ->
           text: "删除"
           class: "delete"
         }
-      ]
-
+      ] if node_type == "Slide"

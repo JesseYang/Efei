@@ -14,21 +14,21 @@ class Teacher::NodesController < Teacher::ApplicationController
     @type = params[:type].blank? ? "folder" : params[:type]
     @root_folder_id = current_user.root_folder.id
     if !%w{folder recent trash search all_homeworks all_slides starred workbook}.include?(@type)
-      redirect_to action: :index, folder_id: @root_folder_id, type: "folder" and return
+      redirect_to teacher_nodes_path(folder_id: @root_folder_id, type: "folder") and return
     end
 
     case @type
     when "folder"
       @folder_id = params[:folder_id]
       if current_user.folders.where(id: @folder_id).first.nil?
-        redirect_to action: :index, folder_id: current_user.root_folder.id, type: "folder" and return
+        redirect_to teacher_nodes_path(folder_id: current_user.root_folder.id, type: "folder") and return
       end
       @root_folder = current_user.root_folder
     when "recent"
     when "trash"
     when "search"
       if params[:keyword].blank?
-        redirect_to action: index, folder_id: @root_folder_id, type: "folder" and return
+        redirect_to teacher_nodes_path(folder_id: @root_folder_id, type: "folder") and return
       end
     when "all_homeworks"
     when "all_slides"
@@ -38,7 +38,7 @@ class Teacher::NodesController < Teacher::ApplicationController
   end
 
   def get_folder_id
-    render_json({ folder_id: @node.parent_id })
+    render_json({ folder_id: @node.parent_id.to_s })
   end
 
   # ajax
