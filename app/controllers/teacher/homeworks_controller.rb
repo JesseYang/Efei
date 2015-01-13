@@ -36,6 +36,10 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     end
   end
 
+  def set_basic_setting
+    
+  end
+
   def set_tag_set
     @homework.update_attributes({tag_set: params[:tag_set]})
     render json: { success: true }

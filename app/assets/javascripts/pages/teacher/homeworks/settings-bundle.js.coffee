@@ -97,6 +97,13 @@ $ ->
   $("#submit-btn a").click ->
     if window.type == "tag"
       # update tag set
-    else if window.type == "export"
+    else if window.type == "basic"
+      # basic setting
+      title = $("form #title-edit-wrapper input").val()
+      answer_time_type = $("form #answer-time-wrapper input[name=time]:checked").val()
+      answer_time = $("form #answer-time-wrapper #datepicker").val()
+      if answer_time_type == "later" && answer_time == ""
+        $.page_notification "请指定具体答案公布时间"
+        return
     else
 
