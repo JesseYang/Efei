@@ -11,7 +11,16 @@ $ ->
 
   check_tag_set_selection()
 
-  $("#datepicker" ).datepicker()
+  $("#datepicker").datepicker(
+    onSelect: (date) ->
+      $("#time_later").prop("checked", true)
+  )
+  $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
+
+  $("input[name=time]").change ->
+    if this.value == "now"
+      $("#datepicker").val("")
+
 
   $(document).on(
     mouseenter: (event) ->

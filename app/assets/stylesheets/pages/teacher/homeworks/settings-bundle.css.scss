@@ -53,6 +53,9 @@
           margin-top: 5px;
           color: #666666;
         }
+        .basic-setting-selected {
+          @include homeworks-sprite(setting32_selected);
+        }
         .basic-setting {
           @include homeworks-sprite(setting32);
         }
@@ -61,6 +64,9 @@
         }
         .tag-setting {
           @include homeworks-sprite(tag32);
+        }
+        .tag-setting-selected {
+          @include homeworks-sprite(tag32_selected);
         }
         &:hover {
           .basic-setting {
@@ -72,9 +78,12 @@
           .tag-setting {
             @include homeworks-sprite(tag32_hover);
           }
-          span {
+          .spen-not-selected {
             color: $efblue;
           }
+        }
+        .span-selected {
+          color: #D9534F;
         }
       }
     }
@@ -92,12 +101,16 @@
       h2 {
         font-weight: bold;
         font-size: 15px;
-        padding-top: 20px;
       }
-    }
-    #now-answer, #time-answer {
-      @include inline-block;
-      margin-right: 50px;
+      #title-edit-wrapper {
+        margin-left: 20px;
+        input {
+          width: 400px;
+        }
+      }
+      #answer-time-wrapper {
+        margin-left: 20px;
+      }
     }
   }
   #submit-btn {

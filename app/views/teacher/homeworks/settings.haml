@@ -10,31 +10,41 @@
       %ul.left-menus
         %li.not-last-li
           %a{href: settings_teacher_homework_path(params[:id]) + "?type=basic"}
-            %i.icon.basic-setting
-            %span 基本设置
-        %li.not-last-li
-          %a{href: settings_teacher_homework_path(params[:id]) + "?type=export"}
-            %i.icon.export-setting
-            %span 导出格式
+            - if @type == "basic"
+              %i.icon.basic-setting-selected
+              %span.span-selected 基本设置
+            - else
+              %i.icon.basic-setting
+              %span.span-not-selected 基本设置
+        / %li.not-last-li
+        /   %a{href: settings_teacher_homework_path(params[:id]) + "?type=export"}
+        /     %i.icon.export-setting
+        /     %span 导出格式
         %li
           %a{href: settings_teacher_homework_path(params[:id]) + "?type=tag"}
-            %i.icon.tag-setting
-            %span 标签设置
+            - if @type == "tag"
+              %i.icon.tag-setting-selected
+              %span.span-selected 标签设置
+            - else
+              %i.icon.tag-setting
+              %span.span-not-selected 标签设置
     #right-part
       #setting-form
         %form
           - case @type
           - when "basic"
             %h2 标题
-            %input{:maxlength => "24", :name => "p-title", :type => "text", :value => @homework.name}/
+            #title-edit-wrapper
+              %input{:maxlength => "24", :name => "p-title", :type => "text", :value => @homework.name}/
             %h2 答案公布时间
-            #now-answer
-              = radio_button_tag(:time, "now")
-              = label_tag(:time_now, "现在公布")
-            #time-answer
-              = radio_button_tag(:time, "later")
-              = label_tag(:time_later, "指定时间公布")
-              %input#datepicker{:type => "text"}/
+            #answer-time-wrapper
+              #now-answer
+                = radio_button_tag(:time, "now")
+                = label_tag(:time_now, "现在公布")
+              #time-answer
+                = radio_button_tag(:time, "later")
+                = label_tag(:time_later, "指定时间公布")
+                %input#datepicker{:type => "text"}/
           - when "export"
           - when "tag"
             %ul.tag-set-ul
