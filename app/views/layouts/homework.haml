@@ -6,39 +6,40 @@
     window.parent_id = "#{@homework.parent.id.to_s}"
 - content_for :teacher_content do
   #title-bar
-    #title-wrapper
-      %h2#title= truncate_u(@homework.name, 10)
-      .title-edit.hide
-        %input.form-control{type: "text", value: @homework.name}/
-        %button.btn.btn-default.btn-sm.title-ok{data: {"homework-id" => @homework.id.to_s}} 确 定
-        %button.btn.btn-default.btn-sm.title-cancel 取 消
-      %i#title-edit-icon.edit.hide
-    #operation-wrapper
-      %ul
-        %li
-          %a.remove-link{href: "javascript:void(0);"}
-            %i.icon.remove
-            %span 删除
-        %li
-          %a.download-link{href: "javascript:void(0);"}
-            %i.icon.download
-            %span 下载
-        %li
-          %a{href: settings_teacher_homework_path(@homework)}
-            %i.icon.setting
-            %span 设置
-        %li
-          %a{href: stat_teacher_homework_path(@homework)}
-            %i.icon.stat
-            %span 统计
-        %li
-          %a{href: teacher_homework_path(@homework)}
-            %i.icon.edit
-            %span 编辑
-        %li
-          %a{href: teacher_nodes_path + "?folder_id=" + @homework.parent.id.to_s}
-            %i.icon.return
-            %span 返回
+    #wrapper
+      #title-wrapper
+        %h2#title= truncate_u(@homework.name, 10)
+        .title-edit.hide
+          %input.form-control{type: "text", value: @homework.name}/
+          %button.btn.btn-default.btn-sm.title-ok{data: {"homework-id" => @homework.id.to_s}} 确 定
+          %button.btn.btn-default.btn-sm.title-cancel 取 消
+        %i#title-edit-icon.edit.hide
+      #operation-wrapper
+        %ul
+          %li
+            %a.remove-link{href: "javascript:void(0);"}
+              %i.icon.remove
+              %span 删除
+          %li
+            %a.download-link{href: "javascript:void(0);"}
+              %i.icon.download
+              %span 下载
+          %li
+            %a{href: settings_teacher_homework_path(@homework)}
+              %i.icon.setting
+              %span 设置
+          %li
+            %a{href: stat_teacher_homework_path(@homework)}
+              %i.icon.stat
+              %span 统计
+          %li
+            %a{href: teacher_homework_path(@homework)}
+              %i.icon.edit
+              %span 编辑
+          %li
+            %a{href: teacher_nodes_path + "?folder_id=" + @homework.parent.id.to_s}
+              %i.icon.return
+              %span 返回
   = yield
 
   #downloadModal.modal.fade

@@ -16,6 +16,10 @@
 @import 'ui/widgets/notification';
 @import "icons/browser/*.png";
 
+body {
+  min-width: 1000px;
+}
+
 #browser {
   display: none;
   background: $yellow-light;

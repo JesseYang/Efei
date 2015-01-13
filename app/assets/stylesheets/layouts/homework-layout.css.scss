@@ -14,9 +14,13 @@
   background: #FAFAFA;
   @include box-shadow(gray 0px 0px 5px);
   border-top: 1px solid #E5E5E5;
+  #wrapper {
+    width: 965px;
+    margin-left: auto;
+    margin-right: auto;
+  }
   #title-wrapper {
     float: left;
-    margin-left: 150px;
     width: 400px;
     #title {
       margin-top: 0;
@@ -45,7 +49,6 @@
   }
   #operation-wrapper {
     float: right;
-    margin-right: 150px;
     ul {
       list-style: none;
       li {
