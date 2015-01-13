@@ -6,10 +6,10 @@
     window.controller = "#{params[:controller]}"
     window.action = "#{params[:action]}"
 - content_for :app_nav do
-  #teacher-navbar{role: "navigation"}
+  #teacher-navbar
     .container-fluid
       %a.brand{href: "/"} 易飞
-      %ul.nav
+      %ul#teacher-nav
         %li
           %a{href: "/teacher/nodes/"} 云平台
         %li
