@@ -61,13 +61,13 @@ $ ->
     $("#downloadModal").modal("show")
 
   $("#downloadModal form").submit ->
-    doc_type = $("#downloadModal input:radio[name='doc_type']:checked").val()
+    # doc_type = $("#downloadModal input:radio[name='doc_type']:checked").val()
     qr_code = $("#downloadModal input:radio[name='qr_code']:checked").val()
     download_notification = $("<div />").appendTo("#downloadModal") 
     download_notification.notification
       content: "正在生成"
       delay: 0
-    $.getJSON "/teacher/homeworks/#{window.homework_id}/generate?doc_type=#{doc_type}&qr_code=#{qr_code}", (data) ->
+    $.getJSON "/teacher/homeworks/#{window.homework_id}/generate?qr_code=#{qr_code}", (data) ->
       if data.success
         download_notification.notification("set_delay", 1)
         notification = $("<div />").appendTo("#downloadModal") 

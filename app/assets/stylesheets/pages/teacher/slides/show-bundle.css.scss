@@ -15,7 +15,7 @@
       width: 100%;
       height: 100%;
       #left-part {
-        width: 15%;
+        width: 190px;
         position: absolute;
         overflow: auto;
         top: 95px;
@@ -44,7 +44,8 @@
         top: 95px;
         bottom: 0px;
         right: 0px;
-        width: 85%;
+        left: 190px;
+        min-width: 810px;
         background-color: #EEEEEE;
       }
     }

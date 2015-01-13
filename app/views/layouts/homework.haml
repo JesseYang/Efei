@@ -50,16 +50,16 @@
             %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
             %h3 导出设置
           .modal-body
-            %p
-              %span 导出文档格式
-            %p
-              = radio_button_tag 'doc_type', "word", true
-              = label_tag "doc_type_word", "word"
-              = radio_button_tag 'doc_type', "pdf", false
-              = label_tag "doc_type_pdf", "pdf"
-            %p
+            / %p
+            /   %span 导出文档格式
+            / %p
+            /   = radio_button_tag 'doc_type', "word", true
+            /   = label_tag "doc_type_word", "word"
+            /   = radio_button_tag 'doc_type', "pdf", false
+            /   = label_tag "doc_type_pdf", "pdf"
+            %p.title-p
               %span 是否包含二维码
-            %p
+            %p.content-p
               = radio_button_tag 'qr_code', "yes", true
               = label_tag "qr_code_yes", "包含"
               = radio_button_tag 'qr_code', "no", false

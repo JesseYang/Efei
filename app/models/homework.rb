@@ -65,7 +65,7 @@ class Homework < Node
     self.questions << q if !self.questions.include?(q)
   end
 
-  def generate(doc_type, qr_code)
+  def generate(qr_code)
     questions = []
     self.questions_in_order.each do |q|
       link = MongoidShortener.generate(q.id.to_s)
@@ -75,7 +75,7 @@ class Homework < Node
       "questions" => questions,
       "name" => self.name,
       "qrcode_host" => Rails.application.config.server_host,
-      "doc_type" => doc_type,
+      "doc_type" => "word",
       "qr_code" => qr_code
     }
     response = Homework.post("/Generate.aspx",

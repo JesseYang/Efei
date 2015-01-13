@@ -46,7 +46,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def generate
-    download_url = "#{Rails.application.config.word_host}/#{@homework.generate(params[:doc_type], params[:qr_code].to_s == 'yes')}"
+    download_url = "#{Rails.application.config.word_host}/#{@homework.generate(params[:qr_code].to_s == 'yes')}"
     render_json({ download_url: download_url })
   end
 
