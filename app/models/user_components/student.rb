@@ -8,14 +8,16 @@ module UserComponents::Student
     has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
   end
 
-  def list_my_teachers
-    teachers_info = self.klasses.map { |e| e.teacher } .uniq.map { |t| t.teacher_info_for_student }
-    { success: true, teachers: teachers_info }
+  module ClassMethods
+    def search_teachers(subject, name)
+      teachers = User.where(teacher: true, subject: subject, name: /#{name}/)
+      teachers_info = teachers.map { |t| t.teacher_info_for_student }
+      { success: true, teachers: teachers_info }
+    end
   end
 
-  def self.search_teachers(subject, name)
-    teachers = User.where(teacher: true, subject: subject, name: /#{name}/)
-    teachers_info = teachers.map { |t| t.teacher_info_for_student }
+  def list_my_teachers
+    teachers_info = self.klasses.map { |e| e.teacher } .uniq.map { |t| t.teacher_info_for_student }
     { success: true, teachers: teachers_info }
   end
 
