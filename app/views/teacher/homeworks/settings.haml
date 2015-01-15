@@ -3,6 +3,10 @@
   = stylesheet_link_tag "pages/teacher/homeworks/settings-bundle", :media => "all"
   :javascript
     window.type = "#{@type}"
+    window.answer_time_type = "#{@answer_time_type}"
+    window.answer_time = "#{@answer_time}"
+    window.tag_set_id = "#{@tag_set_id}"
+    window.tag_set = "#{@homework.tag_set}"
 
 #content-background
   #content-container
@@ -38,32 +42,38 @@
               %input{:maxlength => "24", :name => "p-title", :type => "text", :value => @homework.name}/
             %h2 答案公布时间
             #answer-time-wrapper
+              #no-answer
+                = radio_button_tag(:time, "no")
+                = label_tag(:time_no, "不公布答案")
               #now-answer
                 = radio_button_tag(:time, "now")
                 = label_tag(:time_now, "现在公布")
-              #time-answer
+              #later-answer
                 = radio_button_tag(:time, "later")
                 = label_tag(:time_later, "指定时间公布")
-                %input#datepicker{:type => "text"}/
+                %input#datepicker{:type => "text", value: "2015-2-1"}/
           - when "export"
           - when "tag"
-            %ul.tag-set-ul
-              - TagSet.where(default: true).each do |ts|
-                %li{data: {default: "true"}}
-                  = radio_button_tag(:tag_set, ts.id.to_s)
-                  = label_tag("tag_set_#{ts.id.to_s}", ts.tags.join(", "))
-                  %span.tips 系统自带
-              - @tag_sets.each do |ts|
-                %li{data: {id: ts.id.to_s}}
-                  = radio_button_tag(:tag_set, ts.id.to_s)
-                  = label_tag("tag_set_#{ts.id.to_s}", ts.tags.join(", "))
-                  .tag-set-operation.hide
-                    %a.remove-tag-set-link{href: "javascript:void(0);"}
-                      %i.icon.remove-tag-set
-                    %a.edit-tag-set-link{href: "javascript:void(0);"}
-                      %i.icon.edit-tag-set
-            #new-tagset
-              %a{href: "javascript:void(0);"} 新的标签设置
+            #tag-setting-wrapper
+              - if @tag_set_id == "" && @homework.tag_set.present?
+                %p= "本作业的标签设置“#{@homework.tag_set}”已被您删除或修改"
+              %ul.tag-set-ul
+                - TagSet.where(default: true).each do |ts|
+                  %li{data: {default: "true"}}
+                    = radio_button_tag(:tag_set, ts.id.to_s)
+                    = label_tag("tag_set_#{ts.id.to_s}", ts.tags.join(", "))
+                    %span.tips 系统自带
+                - @tag_sets.each do |ts|
+                  %li{data: {id: ts.id.to_s}}
+                    = radio_button_tag(:tag_set, ts.id.to_s)
+                    = label_tag("tag_set_#{ts.id.to_s}", ts.tags.join(", "))
+                    .tag-set-operation.hide
+                      %a.remove-tag-set-link{href: "javascript:void(0);"}
+                        %i.icon.remove-tag-set
+                      %a.edit-tag-set-link{href: "javascript:void(0);"}
+                        %i.icon.edit-tag-set
+              #new-tagset
+                %a{href: "javascript:void(0);"} 新的标签设置
 
       #submit-btn
         %a.btn.btn-primary{href: "javascript:void(0);"} 确定
@@ -89,7 +99,7 @@
       .modal-content
         .modal-header
           %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-          %h3 新的标签设置
+          %h3 修改标签设置
         .modal-body
           %p
             %span 请输入逗号分割的标签

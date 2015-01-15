@@ -4,6 +4,9 @@ class Homework < Node
   field :subject, type: Integer
   field :q_ids, type: Array, default: []
   field :tag_set, type: String, default: "不懂,不会,不对,典型题"
+  # no, now, and later
+  field :answer_time_type, type: String, default: "no"
+  field :answer_time, type: Integer
   has_many :questions, dependent: :destroy
   # belongs_to :user, class_name: "User", inverse_of: :homeworks
   # belongs_to :folder, class_name: "Folder", inverse_of: :homeworks
@@ -104,6 +107,14 @@ class Homework < Node
         subject: Subject::NAME[h.subject],
         starred: h.starred
       }
+    end
+  end
+
+  def format_answer_time
+    if self.answer_time.blank?
+      ""
+    else
+      Time.at(self.answer_time).strftime("%Y-%m-%d")
     end
   end
 

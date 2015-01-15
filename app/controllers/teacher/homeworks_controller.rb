@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
   layout :resolve_layout
-  before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :rename, :star]
+  before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :star, :set_basic_setting, :set_tag_set]
 
   def ensure_homework
     begin
@@ -30,19 +30,39 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     @type = %w{basic export tag} .include?(params[:type]) ? params[:type] : "basic"
     case @type
     when "basic"
+      @answer_time_type = @homework.answer_time_type || "no"
+      @answer_time = @homework.format_answer_time
     when "export"
     when "tag"
       @tag_sets = current_user.tag_sets
+      tag_set_ary = @homework.tag_set.split(',')
+      all_tag_sets = current_user.tag_sets + TagSet.where(default: true)
+      @tag_set_id = ""
+      all_tag_sets.each do |tag_set|
+        if tag_set_ary.uniq.sort == tag_set.tags.uniq.sort
+          @tag_set_id = tag_set.id.to_s
+        end
+      end
+
     end
   end
 
   def set_basic_setting
-    
+    @homework.update_attribute(:name, params[:name])
+    if %w{no now later} .include? params[:answer_time_type]
+      @homework.update_attribute(:answer_time_type, params[:answer_time_type])
+    end
+    if params[:answer_time_type] == "later"
+      answer_time = Time.mktime(*(params[:answer_time].split('-'))).to_i
+      @homework.update_attribute(:answer_time, answer_time)
+    end
+    render_json
   end
 
   def set_tag_set
-    @homework.update_attributes({tag_set: params[:tag_set]})
-    render json: { success: true }
+    tag_set = TagSet.find(params[:tag_set_id])
+    @homework.update_attribute(:tag_set, tag_set.tags.join(','))
+    render_json
   end
 
   def export
