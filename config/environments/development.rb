@@ -54,4 +54,6 @@ Rails.application.configure do
   config.image_dir = "public/uploads/documents/images/"
 
   config.mailgun_api_key = "key-6o1gu03r0rslxbtbhczzt3912lrgdvk4"
+
+  config.expire_time = 3600
 end
