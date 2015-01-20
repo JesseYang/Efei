@@ -70,7 +70,7 @@
           %p
             = file_field_tag "replace_homework_file", { class: "hide", accept: ".docx,.doc" }
             %span 2、上传修改后的题目
-            %a#browser-replace-homework-click= "选择文件"
+            %a#browser-replace-homework-click{href: "javascript:void(0);"}
             %p#replace-homework-name
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
@@ -91,7 +91,7 @@
           %p
             = file_field_tag "insert_homework_file", { class: "hide", accept: ".docx,.doc" }
             %span 上传要插入的题目
-            %a#browser-insert-homework-click= "选择文件"
+            %a#browser-insert-homework-click{href: "javascript:void(0);"}
             %p#insert-homework-name
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

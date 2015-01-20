@@ -205,8 +205,8 @@ $ ->
   ######## End: stat part ########
 
   ######## Begin: new folder part ########
-  $("#create-other-link").click ->
-    $("#create-other-dropdown-list").removeClass("hide")
+  $("#create-new-link").click ->
+    $("#create-dropdown-list").removeClass("hide")
     false
 
   $("#create-folder-link").click ->
@@ -215,7 +215,7 @@ $ ->
 
 
   $("body").click ->
-    $("#create-other-dropdown-list").addClass("hide")
+    $("#create-dropdown-list").addClass("hide")
 
   $("body").on "click", ".popup-menu .new-folder", (event) ->
     # the new folder name dialog

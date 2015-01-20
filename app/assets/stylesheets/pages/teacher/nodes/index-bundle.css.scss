@@ -69,26 +69,19 @@
   #new-button {
     margin-left: 5px;
     @include clearfix;
-    #create-doc-link {
+    #create-new-link {
       @include inline-block;
-      @include size(72px, 34px);
-      @include homeworks-sprite(create_doc);
+      @include size(114px, 29px);
+      @include homeworks-sprite(create_new);
       border-right: 1px #FFFFFF solid;
-      float: left;
-      cursor: pointer;
-    }
-    #create-other-link {
-      @include inline-block;
-      @include size(20px, 34px);
-      @include homeworks-sprite(create_other);
       float: left;
       cursor: pointer;
     }
     .ef-dropdown-menu {
       @include box-shadow(gray 0px 0px 5px);
-      width: 100px;
-      top: 55px;
-      left: 97px;
+      width: 114px;
+      top: 50px;
+      left: 24px;
       position: absolute;
       border: 1px #CCCCCC solid;
       background-color: white;
@@ -262,7 +255,9 @@
 
 #browser-homework-click, #browser-slide-click {
   text-decoration: none;
-  font-weight: bold;
-  color: #333333;
   cursor: pointer;
+  @include inline-block;
+  @include size(60px, 16px);
+  @include homeworks-sprite(upload);
+  margin-bottom: 5px;
 }

@@ -18,13 +18,14 @@
     #main-part
       #left-part
         #new-button
-          %a#create-doc-link
-          %a#create-other-link
-          #create-other-dropdown-list.hide.ef-dropdown-menu
+          %a#create-new-link
+          #create-dropdown-list.hide.ef-dropdown-menu
             .ef-dropdown-item
               %a#create-folder-link 新建文件夹
             .ef-dropdown-item
-              %a#create-slides-link 新建课件
+              %a#create-slides-link 上传课件
+            .ef-dropdown-item
+              %a#create-doc-link 上传作业
         %ul
           %li
             .folder-node#root-folder
@@ -137,7 +138,7 @@
             .form-group
               = file_field_tag "homework_file", { class: "hide", accept: ".docx,.doc" }
               = label_tag :file, "上传作业文件"
-              %a#browser-homework-click= "选择文件"
+              %a#browser-homework-click{href: "javascript:void(0);"}
               %p#homework-name
           .modal-footer
             = submit_tag "创建", :class => 'btn-primary btn'
@@ -158,7 +159,7 @@
             .form-group
               = file_field_tag "slide_file", { class: "hide", accept: ".pptx,.ppt" }
               = label_tag :file, "上传课件文件"
-              %a#browser-slide-click= "选择文件"
+              %a#browser-slide-click{href: "javascript:void(0);"}
               %p#slide-name
           .modal-footer
             = submit_tag "创建", :class => 'btn-primary btn'

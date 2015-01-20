@@ -65,3 +65,12 @@
   }
 }
 
+
+#browser-replace-homework-click, #browser-insert-homework-click {
+  text-decoration: none;
+  cursor: pointer;
+  @include inline-block;
+  @include size(60px, 16px);
+  @include homeworks-sprite(upload);
+  margin-bottom: 5px;
+}
