@@ -41,7 +41,7 @@ class Student::NotesController < Student::ApplicationController
     notes = []
     params[:note_ids].split(',').each do |nid|
       note = current_user.notes.where(id: nid).first
-      next if node.blank?
+      next if note.blank?
       note["last_update_time"] = note.updated_at.to_i
       notes << note
     end
