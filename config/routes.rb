@@ -101,6 +101,7 @@ Rails.application.routes.draw do
         get :stat
         post :replace
         post :insert
+        get :export
       end
     end
   end

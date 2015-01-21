@@ -12,6 +12,7 @@ $ ->
     $("#replaceModal").modal("show")
     qid = $(this).closest(".btn-group").attr("data-qid")
     $("#replaceModal").find("#question_id").val(qid)
+    $("#replaceModal .question-download-url").attr("href", "/teacher/questions/#{qid}/export")
 
   $(".insert-btn").click ->
     $("#insertModal").modal("show")

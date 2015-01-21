@@ -64,6 +64,11 @@ class Teacher::QuestionsController < Teacher::ApplicationController
     redirect_to teacher_homework_path(h) and return
   end
 
+  def export
+    @question = Question.find(params[:id])
+    redirect_to URI.encode Rails.application.config.word_host + "/#{@question.generate}"
+  end
+
   def insert
     q = Question.where(id: params[:id]).first
     h = q.homework
