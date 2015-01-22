@@ -1,8 +1,72 @@
 - content_for :head do
-  = javascript_include_tag "pages/teacher/questions-bundle"
-  = stylesheet_link_tag "pages/teacher/questions-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/questions/index-bundle"
+  = stylesheet_link_tag "pages/teacher/questions/index-bundle", :media => "all"
+  :javascript
+    window.scope = "#{@scope}"
 
-.container
-  .span9.offset1
-    - @questions.each do |q|
-      = render partial: "question_partials/teacher/question", locals: { type: "teacher",  q: q }
+- content_for :teacher_content do
+  #question-index
+    #search-bar
+      #search-box
+        %form
+          %input#input-search{:placeholder => "题目内容", :type => "text", :value => params[:keyword]}
+            %a#link-search{href: "javascript:void(0);"}
+          .scope-checkbox
+            = label_tag :personal do
+              = check_box_tag :personal
+              个人题库
+            = label_tag :public do
+              = check_box_tag :public
+              公共题库
+    .clear-both
+    #content-background
+      #paper-top
+        .paginator
+          = paginate @questions
+      #paper
+        - @questions.each do |q|
+          .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
+            .question-content-div
+              .question-content
+                = render :partial => "partials/question_content", locals: { content: q.content }
+              - if q.type == "choice"
+                .question-items{data: {"question-answer" => q.answer}}
+                  - if q.item_len < 8
+                    %table.line4
+                      %tr
+                        - q.items.each_with_index do |item, index|
+                          %td
+                            %label= d2c(index) + ". "
+                            %span.item-content= item.render_question.html_safe
+                  - elsif q.item_len < 16
+                    %table.line2
+                      %tr
+                        - q.items[0..1].each_with_index do |item, index|
+                          %td
+                            %label= d2c(index) + ". "
+                            %span.item-content= item.render_question.html_safe
+                      %tr
+                        - q.items[2..3].each_with_index do |item, index|
+                          %td
+                            %label= d2c(index + 2) + ". "
+                            %span.item-content= item.render_question.html_safe
+                  - else
+                    %table.line1
+                      - q.items.each_with_index do |item, index|
+                        %tr
+                          %td
+                            %label= d2c(index) + ". "
+                            %span.item-content= item.render_question.html_safe
+              - if q.answer_content.present? || q.answer.present?
+                .question-answer
+                  %strong.answer-label 解答:
+                  - if q.answer.present?
+                    %span= d2c(q.answer)
+                .question-answer-content
+                  = render :partial => "partials/question_content", locals: { content: q.answer_content }
+            .question-operation-div.hide
+              .btn-group.right{data: { qid: q.id.to_s }}
+                = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm replace-btn', data: {qid: q.id.to_s}
+                = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm insert-btn', data: {qid: q.id.to_s}
+                = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s }, :method => "delete", :class => 'btn btn-default btn-sm'
+      #paper-bottom

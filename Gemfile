@@ -33,7 +33,7 @@ gem 'carrierwave', '~> 0.10.0'
 gem 'rqrcode_png', '~> 0.1.5'
 gem 'mongoid_shortener', :path => "../mongoid_shortener"
 gem 'string_utf8', '~> 0.1.1'
-gem 'kaminari', '~> 0.16.1'
+gem 'kaminari', '~>0.16.2'
 gem 'premailer-rails', '~> 1.8.0'
 gem 'rest-client', '~> 1.7.2'
 

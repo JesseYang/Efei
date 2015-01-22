@@ -1,0 +1,115 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "icons/homeworks/*.png";
+
+#homework-index {
+  width: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+#wrap {
+  min-width: 900px;
+}
+
+#search-bar {
+  width: 100%;
+  height: 50px;
+  background: #FAFAFA;
+  @include box-shadow(gray 0px 0px 5px);
+  border-bottom: 1px #CCCCCC solid;
+  border-top: 1px solid #E5E5E5;
+  #search-box {
+    padding: 10px;
+    width: 965px;
+    margin-left: auto;
+    margin-right: auto;
+    #input-search {
+      @include one-line(30px);
+      width: 250px;
+    }
+    a {
+      @include inline-block;
+      @include size(47px, 26px);
+      @include homeworks-sprite(search_button);
+    }
+    .scope-checkbox {
+      @include inline-block;
+      @include one-line(30px);
+      margin-left: 30px;
+      label {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+#content-background {
+  width: 100%;
+  background-color: #EEEEEE;
+  #paper-top, #paper-bottom {
+    width: 100%;
+    height: 50px;
+    background-color: #EEEEEE;
+    .paginator {
+      width: 965px;
+      margin-left: auto;
+      margin-right: auto;
+      .pagination {
+        float: right;
+      }
+    }
+  }
+  #paper {
+    margin-left: auto;
+    margin-right: auto;
+    width: 965px;
+    background-color: white;
+    .content-div {
+      position: relative;
+      background-color: white;
+      padding: 40px 80px 40px 80px;
+      border-bottom: 1px solid #DDDDDD;
+      .question-content-div {
+        font-size: 1.3em;
+        span {
+          white-space: pre-wrap;
+        }
+        .question-items p {
+          margin-left: 10px;
+        }
+        .question-answer {
+          margin-top: 10px;
+        }
+      }
+      table.line4 {
+        width: 100%;
+        tr {
+          width: 25%;
+        }
+      }
+      table.line2 {
+        width: 100%;
+        tr {
+          width: 50%;
+        }
+      }
+      .question-operation-div {
+        position: absolute;
+        top: 20px;
+        right: 80px;
+        padding: 5px;
+        background-color: white;
+        .btn {
+          background-color: lighten(#E6E6E6, 5%);
+          &:hover {
+            background-color: #E6E6E6;
+            border-color: #E6E6E6;
+          }
+        }
+      }
+    }
+  }
+}

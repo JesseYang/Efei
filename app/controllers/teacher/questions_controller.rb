@@ -1,5 +1,10 @@
 # encoding: utf-8
 class Teacher::QuestionsController < Teacher::ApplicationController
+  def index
+    @scope = params[:scope] || "personal"
+    @questions = current_user.questions.page(params[:page] || 0).per(10)
+  end
+
   def update
     @question = Question.find(params[:id])
     @question.update_content(params[:question_content], params[:question_answer])
