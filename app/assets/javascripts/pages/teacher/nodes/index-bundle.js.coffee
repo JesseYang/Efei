@@ -462,9 +462,8 @@ $ ->
 
   ######## Begin: destroy part ########
   $("body").on "click", ".popup-menu .destroy", ->
-    node_type = popup_menu.popup_menu("option", "type")
     id = popup_menu.popup_menu("option", "id")
-    destroy_node(node_type, id)
+    destroy_node(id)
 
   $("body").on "click", "tr.record a .destroy", (event) ->
     tr = $(event.target).closest("tr")

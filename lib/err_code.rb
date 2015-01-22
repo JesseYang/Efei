@@ -22,6 +22,8 @@ module ErrCode
   KLASS_NOT_EXIST = -34
   STUDENT_NOT_EXIST = -35
 
+  COMPOSE_NOT_EXIST = -40
+
 
   def self.ret_false(code)
     retval = { success: false }
@@ -66,6 +68,8 @@ module ErrCode
       "节点不存在"
     when SLIDES_NOT_EXIST 
       "课件不存在"
+    when COMPOSE_NOT_EXIST 
+      "不在选题状态"
     end
   end
 end

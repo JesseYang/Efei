@@ -18,6 +18,7 @@ class Question
   field :q_figures, type: Array, default: []
   field :a_figures, type: Array, default: []
   belongs_to :homework
+  belongs_to :compose
   belongs_to :user
   has_many :notes
 

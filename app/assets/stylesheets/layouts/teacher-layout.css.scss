@@ -80,4 +80,16 @@
       }
     }
   }
+  .compose-indicator {
+    cursor: pointer;
+    background: #C9302C;
+    color: white;
+    font-weight: bold;
+    @include one-line(32px);
+    @include inline-block;
+    margin-top: 5px;
+    margin-right: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }

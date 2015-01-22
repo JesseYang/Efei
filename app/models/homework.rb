@@ -8,6 +8,7 @@ class Homework < Node
   field :answer_time_type, type: String, default: "no"
   field :answer_time, type: Integer
   has_many :questions, dependent: :destroy
+  has_one :compose
   # belongs_to :user, class_name: "User", inverse_of: :homeworks
   # belongs_to :folder, class_name: "Folder", inverse_of: :homeworks
 

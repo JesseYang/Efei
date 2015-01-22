@@ -1,28 +1,32 @@
 - content_for :head do
-  = javascript_include_tag "pages/teacher/questions/index-bundle"
-  = stylesheet_link_tag "pages/teacher/questions/index-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/composes/index-bundle"
+  = stylesheet_link_tag "pages/teacher/composes/index-bundle", :media => "all"
   :javascript
-    window.scope = "#{@scope}"
 
 - content_for :teacher_content do
-  #question-index
-    #search-bar
-      #search-box
-        %form
-          %input#input-search{:placeholder => "题目内容", :type => "text", :value => params[:keyword]}
-            %a#link-search{href: "javascript:void(0);"}
-          .scope-checkbox
-            = label_tag :personal do
-              = check_box_tag :personal
-              个人题库
-            = label_tag :public do
-              = check_box_tag :public
-              公共题库
+  #compose-index
+    #title-bar
+      #wrapper
+        #title-wrapper
+          %h2#title= "为《" + truncate_u(current_user.compose.homework.name, 10) + "》选题"
+        #operation-wrapper
+          %ul
+            %li
+              %a.clear-link{href: "javascript:void(0);"}
+                %i.icon.clear
+                %span 清空
+            %li
+              %a.cancel-link{href: "javascript:void(0);"}
+                %i.icon.cancel
+                %span 放弃
+            %li
+              %a.confirm-link{href: "javascript:void(0)"}
+                %i.icon.confirm
+                %span 确认
+
     .clear-both
     #content-background
       #paper-top
-        .paginator
-          = paginate @questions
       #paper
         - @questions.each do |q|
           .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
@@ -64,8 +68,7 @@
                     %span= d2c(q.answer)
                 .question-answer-content
                   = render :partial => "partials/question_content", locals: { content: q.answer_content }
-            .compose-operation.hide
-              %a.do-compose{href: "javascript:void(0);"}
-            .compose-status.hide
-              %a.composed{href: "javascript:void(0);"}
+            .question-operation-div.hide
+              .btn-group.right{data: { qid: q.id.to_s }}
+                = link_to "删除", "javascript:void(0);", :class => 'btn btn-default btn-sm remove-compose-question'
       #paper-bottom

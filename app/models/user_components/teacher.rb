@@ -10,6 +10,7 @@ module UserComponents::Teacher
 
     has_many :nodes, class_name: "Node", inverse_of: :user
     has_many :questions, class_name: "Question", inverse_of: :user
+    has_one :compose, class_name: "Compose", inverse_of: :user
     # has_many :homeworks, class_name: "Homework", inverse_of: :user
     # has_many :slides, class_name: "Homework", inverse_of: :user
     # has_many :folders, class_name: "Folder", inverse_of: :user
@@ -34,6 +35,13 @@ module UserComponents::Teacher
     if !self.classes.where(default: true).first
       self.classes.create(default: true, name: "其他")
     end
+  end
+
+  def ensure_compose(homework_id = nil)
+    if self.compose.blank?
+      self.compose = Compose.create(homework_id: homework_id)
+    end
+    self.compose
   end
 
   def add_to_class(class_id, student)

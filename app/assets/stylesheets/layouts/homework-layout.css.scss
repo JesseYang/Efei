@@ -63,6 +63,9 @@
           .download {
             @include homeworks-sprite(download20);
           }
+          .compose {
+            @include homeworks-sprite(compose20);
+          }
           .remove {
             @include homeworks-sprite(remove20);
           }
@@ -81,6 +84,9 @@
             }
             .download {
               @include homeworks-sprite(download20_hover);
+            }
+            .compose {
+              @include homeworks-sprite(compose20_hover);
             }
             .remove {
               @include homeworks-sprite(remove20_hover);

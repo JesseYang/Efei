@@ -5,6 +5,8 @@
   :javascript
     window.controller = "#{params[:controller]}"
     window.action = "#{params[:action]}"
+    window.show_compose = "#{@show_compose}"
+    window.compose_qid_str = "#{@compose_qid_str}".split(',')
 - content_for :app_nav do
   #teacher-navbar
     .container-fluid
@@ -13,7 +15,7 @@
         %li
           %a{href: "/teacher/nodes/"} 文件夹
         %li
-          %a{href: "/teacher/questions/"} 个人题库
+          %a{href: "/teacher/questions/"} 题库
         %li
           %a{href: teacher_students_path } 学生管理
         %li
@@ -41,6 +43,9 @@
                 %a{href: "/users/sign_in"} 登录
               .ef-dropdown-item
                 %a{href: "/users/sign_up"} 注册
+      .compose-indicator.pull-right.hide
+        %span 正在选题：
+        %span.compose-question-number= @compose.questions.length
 - content_for :app_content do
   = yield :teacher_content
 

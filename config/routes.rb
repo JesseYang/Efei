@@ -104,6 +104,14 @@ Rails.application.routes.draw do
         get :export
       end
     end
+
+    resources :composes do
+      collection do
+        put :add
+        put :remove
+        put :clear
+      end
+    end
   end
 
   namespace :student do
