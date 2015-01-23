@@ -23,9 +23,11 @@
             .ef-dropdown-item
               %a#create-folder-link 新建文件夹
             .ef-dropdown-item
-              %a#create-slides-link 上传课件
+              %a#upload-slides-link 上传课件
             .ef-dropdown-item
-              %a#create-doc-link 上传作业
+              %a#upload-doc-link 上传作业
+            .ef-dropdown-item
+              %a#new-homework-link 新建作业
         %ul
           %li
             .folder-node#root-folder
@@ -99,6 +101,25 @@
           %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
 
+  #newHomeworkModal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 新建作业
+        .modal-body
+          %p
+            = label_tag :subject, "学科"
+            = select_tag :subject, options_for_select(Subject::CODE, current_user.subject), class: "form-control"
+          %p
+            = label_tag :name, "请为新作业输入名称"
+          %p
+            %input.folder-id.hide{type: "text", value: ""}/
+            %input.target.form-control{type: "text", value: ""}/
+        .modal-footer
+          %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+
   #moveModal.modal.fade
     .modal-dialog
       .modal-content
@@ -122,7 +143,7 @@
           %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
 
-  #newHomeworkModal.modal.fade
+  #uploadHomeworkModal.modal.fade
     .modal-dialog
       .modal-content
         = form_tag(teacher_homeworks_path, method: "post", multipart: true) do
@@ -144,7 +165,7 @@
             = submit_tag "创建", :class => 'btn-primary btn'
             %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
 
-  #newSlideModal.modal.fade
+  #uploadSlideModal.modal.fade
     .modal-dialog
       .modal-content
         = form_tag(teacher_slides_path, method: "post", multipart: true) do

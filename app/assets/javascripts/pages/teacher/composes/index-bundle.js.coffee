@@ -40,3 +40,11 @@ $ ->
         window.location.href = "/teacher/nodes"
       else
         $.page_notification "操作失败，请刷新页面重试"
+
+  $(".confirm-link").click ->
+    $.putJSON "/teacher/composes/confirm", {}, (data) ->
+      if data.success
+        $.page_notification "已经确认，正在跳转"
+        window.location.href = "/teacher/homeworks/#{window.homework_id}"
+      else
+        $.page_notification "操作失败，请刷新页面重试"

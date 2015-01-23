@@ -259,77 +259,116 @@ $ ->
         $("#newFolderModal").modal("hide")
   ######## End: new folder part ########
 
-  ######## Begin: new slide part ########
+  ######## Begin: upload slide part ########
   slideIntervalFunc = ->
     $('#slide-name').html $('#slide_file').val();
   $("#browser-slide-click").click ->
     $("#slide_file").click()
     setInterval(slideIntervalFunc, 1)
 
-  $("body").on "click", ".popup-menu .new-slide", (event) ->
+  $("body").on "click", ".popup-menu .upload-slide", (event) ->
     data = popup_menu.popup_menu("option")
     $('.popup-menu').remove()
-    $('#newSlideModal').modal('show')
-    $("#newSlideModal #folder_id").val(data.id)
+    $('#uploadSlideModal').modal('show')
+    $("#uploadSlideModal #folder_id").val(data.id)
 
-  $("#create-slides-link").click ->
+  $("#upload-slides-link").click ->
     folder_id = tree.folder_tree("get_selected_folder_id") || window.root_folder_id
-    $('#newSlideModal').modal("show")
-    $("#newSlideModal #folder_id").val(folder_id)
+    $('#uploadSlideModal').modal("show")
+    $("#uploadSlideModal #folder_id").val(folder_id)
 
-  $("#newSlideModal form").submit ->
-    if $("#newSlideModal #slide_file").val() == ""
-      notification = $("<div />").appendTo("#newSlideModal") 
+  $("#uploadSlideModal form").submit ->
+    if $("#uploadSlideModal #slide_file").val() == ""
+      notification = $("<div />").appendTo("#uploadSlideModal") 
       notification.notification
         content: "请先选择要上传的课件文件"
       return false
-    if !$("#newSlideModal #slide_file").val().match(/\.pptx?$/)
-      notification = $("<div />").appendTo("#newSlideModal") 
+    if !$("#uploadSlideModal #slide_file").val().match(/\.pptx?$/)
+      notification = $("<div />").appendTo("#uploadSlideModal") 
       notification.notification
         content: "文件格式错误，请上传ppt或者pptx格式文件"
         delay: 2000
       return false
-    notification = $("<div />").appendTo("#newSlideModal") 
+    notification = $("<div />").appendTo("#uploadSlideModal") 
     notification.notification
       delay: 0
       content: "正在创建课件，请稍候"
-  ######## End: new slide part ########
+  ######## End: upload slide part ########
 
-  ######## Begin: new homework part ########
+  ######## Begin: upload homework part ########
   homeworkIntervalFunc = ->
     $('#homework-name').html $('#homework_file').val();
   $("#browser-homework-click").click ->
     $("#homework_file").click()
     setInterval(homeworkIntervalFunc, 1)
 
-  $("body").on "click", ".popup-menu .new-homework", (event) ->
+  $("body").on "click", ".popup-menu .upload-homework", (event) ->
     data = popup_menu.popup_menu("option")
     $('.popup-menu').remove()
-    $('#newHomeworkModal').modal('show')
-    $("#newHomeworkModal #folder_id").val(data.id)
+    $('#uploadHomeworkModal').modal('show')
+    $("#uploadHomeworkModal #folder_id").val(data.id)
 
-  $("#create-doc-link").on "click", (event) ->
+  $("#upload-doc-link").on "click", (event) ->
     folder_id = tree.folder_tree("get_selected_folder_id") || window.root_folder_id
-    $('#newHomeworkModal').modal('show')
-    $("#newHomeworkModal #folder_id").val(folder_id)
+    $('#uploadHomeworkModal').modal('show')
+    $("#uploadHomeworkModal #folder_id").val(folder_id)
 
-  $("#newHomeworkModal form").submit ->
-    if $("#newHomeworkModal #homework_file").val() == ""
-      notification = $("<div />").appendTo("#newHomeworkModal") 
+  $("#uploadHomeworkModal form").submit ->
+    if $("#uploadHomeworkModal #homework_file").val() == ""
+      notification = $("<div />").appendTo("#uploadHomeworkModal") 
       notification.notification
         content: "请先选择要上传的作业文件"
       return false
-    if !$("#newHomeworkModal #homework_file").val().match(/\.docx?$/)
-      notification = $("<div />").appendTo("#newHomeworkModal") 
+    if !$("#uploadHomeworkModal #homework_file").val().match(/\.docx?$/)
+      notification = $("<div />").appendTo("#uploadHomeworkModal") 
       notification.notification
         content: "文件格式错误，请上传doc或者docx格式文件"
         delay: 2000
       return false
-    notification = $("<div />").appendTo("#newHomeworkModal") 
+    notification = $("<div />").appendTo("#uploadHomeworkModal") 
     notification.notification
       delay: 0
       content: "正在创建作业，请稍候"
-  ######## End: new homework part ########
+  ######## End: upload homework part ########
+
+  ######## Begin: create homework part ########
+  $("body").on "click" ,".popup-menu .new-homework", (event) ->
+    data = popup_menu.popup_menu("option")
+    $(".popup-menu").remove()
+    $('#newHomeworkModal').modal("show")
+    $('#newHomeworkModal .folder_id').val(data.id)
+
+  $("#new-homework-link").on "click", (event) ->
+    folder_id = tree.folder_tree("get_selected_folder_id") || window.root_folder_id
+    $("#newHomeworkModal").modal('show')
+    $("#newHomeworkModal .folder-id").val(folder_id)
+
+  $("#newHomeworkModal .ok").click ->
+    newHomework()
+
+  $("#newHomeworkModal .target").keydown (event) ->
+    code = event.which
+    if code == 13
+      newHomework()
+
+  newHomework = ->
+    subject = $("#newHomeworkModal #subject").val()
+    name = $("#newHomeworkModal .target").val()
+    folder_id = $("#newHomeworkModal .folder-id").val()
+    $.postJSON '/teacher/homeworks/create_blank',
+      {
+        parent_id: folder_id 
+        subject: subject 
+        name: name
+      }, (data) ->
+        if data.success
+          refresh_homework_table_and_folder_chain()
+          window.location.href = "/teacher/homeworks/#{data.homework_id}"
+        else
+          $.page_notification "操作失败，请刷新页面重试"
+        $("#newHomeworkModal").modal("hide")
+  ######## End: create homework part ########
+
 
   ######## Begin: move part ########
   $("body").on "click", ".popup-menu .move", (event) ->
@@ -537,12 +576,16 @@ $ ->
           class: "new-folder"
         }
         {
-          text: "新建作业"
-          class: "new-homework"
+          text: "上传作业"
+          class: "upload-homework"
         }
         {
-          text: "新建课件"
-          class: "new-slide"
+          text: "上传课件"
+          class: "upload-slide"
+        }
+        {
+          text: "新建作业"
+          class: "new-homework"
         }
       ]
     if page_type == "trash"
@@ -563,12 +606,16 @@ $ ->
           class: "new-folder"
         }
         {
-          text: "新建作业"
-          class: "new-homework"
+          text: "上传作业"
+          class: "upload-homework"
         }
         {
-          text: "新建课件"
-          class: "new-slide"
+          text: "上传课件"
+          class: "upload-slide"
+        }
+        {
+          text: "新建作业"
+          class: "new-homework"
         }
         {
           hr: true
@@ -651,12 +698,16 @@ $ ->
           class: "new-folder"
         }
         {
-          text: "新建作业"
-          class: "new-homework"
+          text: "上传作业"
+          class: "upload-homework"
         }
         {
-          text: "新建课件"
-          class: "new-slide"
+          text: "上传课件"
+          class: "upload-slide"
+        }
+        {
+          text: "新建作业"
+          class: "new-homework"
         }
         {
           hr: true

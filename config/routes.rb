@@ -75,6 +75,9 @@ Rails.application.routes.draw do
     end
 
     resources :homeworks do
+      collection do
+        post :create_blank
+      end
       member do
         get :stat
         get :generate
@@ -110,6 +113,7 @@ Rails.application.routes.draw do
         put :add
         put :remove
         put :clear
+        put :confirm
       end
     end
   end

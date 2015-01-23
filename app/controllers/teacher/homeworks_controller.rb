@@ -120,7 +120,6 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     end
   end
 
-  # ajax
   def create
     begin
       document = Document.new
@@ -148,6 +147,13 @@ class Teacher::HomeworksController < Teacher::ApplicationController
         redirect_to teacher_nodes_path
       end
     end
+  end
+
+  def create_blank
+    homework = Homework.create(name: params[:name], subject: params[:subject].to_i)
+    current_user.nodes << homework
+    homework.update_attribute :parent_id, params[:parent_id]
+    render_json({ homework_id: homework.id.to_s }) and return
   end
 
   def resolve_layout

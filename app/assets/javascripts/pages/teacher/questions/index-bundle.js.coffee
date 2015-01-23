@@ -9,11 +9,12 @@ $ ->
     $("#personal").attr("checked", true)
     $("#public").attr("checked", true)
 
-  $(".content-div").hover (->
-    $(this).find(".compose-operation").removeClass "hide"
-  ), (->
-    $(this).find(".compose-operation").addClass "hide"
-  )
+  if window.show_compose == "true"
+    $(".content-div").hover (->
+      $(this).find(".compose-operation").removeClass "hide"
+    ), (->
+      $(this).find(".compose-operation").addClass "hide"
+    )
 
   console.log window.compose_qid_str
 

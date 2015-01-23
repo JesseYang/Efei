@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Teacher::ComposesController < Teacher::ApplicationController
 
-  before_filter :ensure_compose, only: [:add, :remove, :index, :destroy]
+  before_filter :ensure_compose, only: [:add, :remove, :index, :destroy, :confirm]
 
   def ensure_compose
     if current_user.compose.blank? || current_user.compose.homework.blank?
@@ -40,6 +40,20 @@ class Teacher::ComposesController < Teacher::ApplicationController
     c = current_user.compose
     c.questions = nil
     c.save
+    render_json
+  end
+
+  def confirm
+    compose = current_user.compose
+    h = compose.homework
+    compose.questions.each do |q|
+      h.q_ids.push(q.id.to_s) if !h.q_ids.include?(q.id.to_s)
+      h.questions << q
+    end
+    h.save
+    compose.homework = nil
+    compose.questions = nil
+    compose.save
     render_json
   end
 

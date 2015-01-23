@@ -31,11 +31,14 @@
   i.edit {
     @include homeworks-sprite(edit_popup);
   }
-  i.new-homework {
-    @include homeworks-sprite(new_word_popup);
+  i.upload-homework {
+    @include homeworks-sprite(upload_word_popup);
   }
-  i.new-slide {
-    @include homeworks-sprite(new_ppt_popup);
+  i.upload-slide {
+    @include homeworks-sprite(upload_ppt_popup);
+  }
+  i.new-homework {
+    @include homeworks-sprite(new_homework_popup);
   }
   i.new-folder {
     @include homeworks-sprite(new_folder_popup);
