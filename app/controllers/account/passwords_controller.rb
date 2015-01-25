@@ -27,7 +27,7 @@ class Account::PasswordsController < Account::ApplicationController
       end
     else
       # send an email to the user
-      PasswordEmailWorker.perform_async(u)
+      PasswordEmailWorker.perform_async(u.id.to_s)
       respond_to do |format|
         format.html do
           flash[:notice] = "重置密码邮件已发送，请查收"
@@ -41,8 +41,9 @@ class Account::PasswordsController < Account::ApplicationController
   end
 
   def verify_code
+    render json: ErrCode.ret_false(ErrCode::USER_NOT_EXIST) and return if params[:mobile].blank?
     u = User.where(mobile: params[:mobile]).first
-    render json: ErrCode.ret_false(ErrCode::USER_NOT_EXIST) if u.blank? and return
+    render json: ErrCode.ret_false(ErrCode::USER_NOT_EXIST) and return if u.blank?
     if u.reset_password_verify_code != params[:verify_code]
       render json: ErrCode.ret_false(ErrCode::WRONG_VERIFY_CODE) and return
     end

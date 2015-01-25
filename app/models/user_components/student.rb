@@ -100,7 +100,7 @@ module UserComponents::Student
     response = User.post("/ExportNote.aspx",
       :body => {notes: notes.to_json} )
     filepath = response.body
-    download_path = "public/documents/导出-#{SecureRandom.uuid}.docx"
+    download_path = "public/documents/export-#{SecureRandom.uuid}.docx"
 
     open(download_path, 'wb') do |file|
       file << open("#{Rails.application.config.word_host}/#{URI.encode filepath}").read

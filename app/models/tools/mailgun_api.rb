@@ -28,9 +28,9 @@ class MailgunApi
     self.send_message(data)
   end
 
-  def self.forget_password(user)
-    @user = user
-    password_info = "#{user.email},#{Time.now.to_i}"
+  def self.forget_password(uid)
+    @user = User.find(uid)
+    password_info = "#{@user.email},#{Time.now.to_i}"
     @password_link = "#{Rails.application.config.server_host}/account/passwords/edit?key=" + CGI::escape(Encryption.encrypt_activate_key(password_info))
     data = {}
     data[:domain] = @@email_domain
@@ -40,13 +40,13 @@ class MailgunApi
     text_template_file_name = "#{Rails.root}/app/views/user_mailer/find_password_email.text.erb"
     html_template = ERB.new(File.new(html_template_file_name).read, nil, "%")
     text_template = ERB.new(File.new(text_template_file_name).read, nil, "%")
-    premailer = Premailer.new(html_template.result(binding), :warn_level => Premailer::Warnings::SAFE)
+    premailer = Premailer.new(html_template_file_name, :warn_level => Premailer::Warnings::SAFE)
     data[:html] = premailer.to_inline_css
     data[:text] = text_template.result(binding)
 
     data[:subject] = "找回密码"
-    data[:subject] += " --- to #{user.email}" if Rails.env != "production"
-    data[:to] = Rails.env == "production" ? user.email : @@test_email
+    data[:subject] += " --- to #{@user.email}" if Rails.env != "production"
+    data[:to] = Rails.env == "production" ? @user.email : @@test_email
     self.send_message(data)
   end
 
@@ -59,7 +59,7 @@ class MailgunApi
     text_template_file_name = "#{Rails.root}/app/views/user_mailer/export_note.text.erb"
     html_template = ERB.new(File.new(html_template_file_name).read, nil, "%")
     text_template = ERB.new(File.new(text_template_file_name).read, nil, "%")
-    premailer = Premailer.new(html_template.result(binding), :warn_level => Premailer::Warnings::SAFE)
+    premailer = Premailer.new(html_template_file_name, :warn_level => Premailer::Warnings::SAFE)
     data[:html] = premailer.to_inline_css
     data[:text] = text_template.result(binding)
 

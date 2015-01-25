@@ -4,6 +4,8 @@ gem 'rails', '4.1.8'
 gem 'activeresource', '~> 4.0.0'
 gem 'respond-rails', '~> 1.0.1'
 
+gem 'sinatra', :require => nil
+
 gem 'mongoid', '~> 4.0.0'
 gem 'haml', '~> 4.0.5'
 gem 'httparty', '~> 0.13.3'
@@ -28,7 +30,7 @@ gem 'jquery-rails', '~> 3.1.2'
 gem 'jquery-ui-rails', '~> 5.0.2'
 gem 'wkhtmltopdf-binary', '~> 0.9.9.3'
 gem 'wicked_pdf', '~> 0.11.0'
-# gem 'nokogiri', '~> 1.6.4.1'
+gem 'nokogiri', '~> 1.6.6.2'
 gem 'carrierwave', '~> 0.10.0'
 gem 'rqrcode_png', '~> 0.1.5'
 gem 'mongoid_shortener', :path => "../mongoid_shortener"
