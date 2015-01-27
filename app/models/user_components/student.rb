@@ -10,7 +10,11 @@ module UserComponents::Student
 
   module ClassMethods
     def search_teachers(subject, name)
-      teachers = User.where(teacher: true, subject: subject, name: /#{name}/)
+      if subject == 0
+        teachers = User.where(teacher: true, name: /#{name}/)
+      else
+        teachers = User.where(teacher: true, subject: subject, name: /#{name}/)
+      end
       teachers_info = teachers.map { |t| t.teacher_info_for_student }
       { success: true, teachers: teachers_info }
     end
