@@ -127,7 +127,7 @@ class User
     end
     self.update_attributes(new_email: email)
     # TODO: send an email to the email address, with a link and a key as the link parameter. The key should contains the email address, the user id, and the time information
-    ResetEamilWorker.perform_async(self, email)
+    ResetEmailWorker.perform_async(self.id.to_s, email)
     return
   end
 
