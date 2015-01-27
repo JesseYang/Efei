@@ -5,10 +5,10 @@ class MailgunApi
   @@email_from = "\"易飞网\" <postmaster@efei.org>"
   @@email_domain = "efei.org"
 
-  def self.reset_email(user, email)
-    @user = user
+  def self.reset_email(uid, email)
+    @user = User.find(uid)
     @email = email
-    reset_email_info = "#{user.id.to_s},#{email},#{Time.now.to_i}"
+    reset_email_info = "#{@user.id.to_s},#{email},#{Time.now.to_i}"
     @reset_email_link = "#{Rails.application.config.server_host}/account/registrations/reset_email?key=" + CGI::escape(Encryption.encrypt_reset_email_key(reset_email_info))
     data = {}
     data[:domain] = @@email_domain
@@ -23,7 +23,7 @@ class MailgunApi
     data[:text] = text_template.result(binding)
 
     data[:subject] = "修改登录邮箱"
-    data[:subject] += " --- to #{user.email}" if Rails.env != "production"
+    data[:subject] += " --- to #{@user.email}" if Rails.env != "production"
     data[:to] = Rails.env == "production" ? email : @@test_email
     self.send_message(data)
   end
