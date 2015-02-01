@@ -18,7 +18,7 @@ class MailgunApi
     text_template_file_name = "#{Rails.root}/app/views/user_mailer/reset_email.text.erb"
     html_template = ERB.new(File.new(html_template_file_name).read, nil, "%")
     text_template = ERB.new(File.new(text_template_file_name).read, nil, "%")
-    premailer = Premailer.new(html_template.result(binding), :warn_level => Premailer::Warnings::SAFE)
+    premailer = Premailer.new(html_template_file_name, :warn_level => Premailer::Warnings::SAFE)
     data[:html] = premailer.to_inline_css
     data[:text] = text_template.result(binding)
 

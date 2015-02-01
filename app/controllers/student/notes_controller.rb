@@ -19,7 +19,7 @@ class Student::NotesController < Student::ApplicationController
       notes = params[:question_ids].map { |qid| current_user.add_note(qid) }
       new_teachers = notes.map { |n| n.check_teacher(current_user) }
       new_teachers = new_teachers.select { |e| !e.nil? } .uniq
-      retval = { note_update_time: current_user.note_update_time }
+      retval = { note_ids: notes.map { |e| e.id.to_s }, note_update_time: current_user.note_update_time }
       if new_teachers.present?
         retval[:teachers] = new_teachers.map { |e| e.teacher_info_for_student(true) }
       end

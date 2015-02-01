@@ -3,7 +3,7 @@ class ResetEmailWorker
   sidekiq_options :retry => false, :queue => "efei_#{Rails.env}".to_sym
 
   def perform(uid, email)
-    MailgunApi.reset_email_password(uid, email)
+    MailgunApi.reset_email(uid, email)
     return true
   end
 end
