@@ -23,6 +23,9 @@
           .form-group
             = label_tag :name, "学科"
             = select_tag :subject, options_for_select(Subject::CODE, 2), class: "form-control"
+          .form-group
+            = label_tag :invite_code, "邀请码"
+            = text_field_tag :invite_code, "", class: "form-control"
           .content
             .login.right
               = link_to "已有帐号，立即登录", new_account_session_path

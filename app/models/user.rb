@@ -25,6 +25,9 @@ class User
   field :reset_mobile_verify_code, type: String, default: ""
   field :reset_mobile_expire_time, type: Integer
 
+  # for registration invitation
+  field :invite_code, type: String
+
   has_many :feedbacks
 
   include HTTParty
@@ -52,14 +55,17 @@ class User
     Encryption.encrypt_auth_key(info)
   end
 
-  def self.create_new_user(email_mobile, password, name, role="student", subject=2)
+  def self.create_new_user(invite_code, email_mobile, password, name, role="student", subject=2)
+    i = InviteCode.where(code: invite_code, used: false).first
+    return ErrCode.ret_false(ErrCode::WRONG_INVITE_CODE) if i.blank?
+    i.update_attribute(:used, false)
     return ErrCode.ret_false(ErrCode::BLANK_EMAIL_MOBILE) if email_mobile.blank?
     u = User.where(email: email_mobile).first || User.where(mobile: email_mobile).first
     return ErrCode.ret_false(ErrCode::USER_EXIST) if u.present?
     if email_mobile.is_mobile?
-      u = User.create(mobile: email_mobile, password: Encryption.encrypt_password(password), name: name)
+      u = User.create(invite_code: invite_code, mobile: email_mobile, password: Encryption.encrypt_password(password), name: name)
     else
-      u = User.create(email: email_mobile, password: Encryption.encrypt_password(password), name: name)
+      u = User.create(invite_code: invite_code, email: email_mobile, password: Encryption.encrypt_password(password), name: name)
     end
     u.update_attribute(:teacher, true) if role == "teacher"
     u.update_attribute(:subject, subject.to_i) if role == "teacher"
