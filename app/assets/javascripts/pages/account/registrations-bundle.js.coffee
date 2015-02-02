@@ -8,6 +8,7 @@ $(document).ready ->
     name = $("#name").val()
     role = $("#role").val()
     subject = $("#subject").val()
+    invite_code = $("#invite_code").val()
     $.postJSON(
       '/account/registrations/',
       {
@@ -16,6 +17,7 @@ $(document).ready ->
         name: name
         role: role
         subject: subject
+        invite_code: invite_code
       },
       (retval) ->
         console.log retval

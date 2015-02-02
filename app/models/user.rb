@@ -56,9 +56,12 @@ class User
   end
 
   def self.create_new_user(invite_code, email_mobile, password, name, role="student", subject=2)
-    i = InviteCode.where(code: invite_code, used: false).first
-    return ErrCode.ret_false(ErrCode::WRONG_INVITE_CODE) if i.blank?
-    i.update_attribute(:used, false)
+    role ||= "student"
+    if role == "teacher"
+      i = InviteCode.where(code: invite_code, used: false).first
+      return ErrCode.ret_false(ErrCode::WRONG_INVITE_CODE) if i.blank?
+      i.update_attribute(:used, false)
+    end
     return ErrCode.ret_false(ErrCode::BLANK_EMAIL_MOBILE) if email_mobile.blank?
     u = User.where(email: email_mobile).first || User.where(mobile: email_mobile).first
     return ErrCode.ret_false(ErrCode::USER_EXIST) if u.present?
