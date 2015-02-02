@@ -1,9 +1,0 @@
-@import "common";
-@import "ui/widgets/popup_menu";
-@import "ui/widgets/icon_buttons";
-@import "ui/widgets/folder_tree";
-
-#widget-container {
-  border: 1px solid black;
-  @include size(400px, 200px);
-}
