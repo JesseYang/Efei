@@ -16,7 +16,7 @@ gem 'passenger', '~> 4.0.53'
 # Gems used only for assets and not required
 # in production environments by default.
 gem 'sass-rails', github: 'rails/sass-rails'
-gem 'compass-rails', '~> 2.0.1'
+gem 'compass-rails', '~> 2.0.4'
 gem 'bootstrap-sass', '~> 3.3.1.0'
 gem 'autoprefixer-rails', '~> 4.0.0.1'
 gem 'coffee-rails', '~> 4.1.0'
