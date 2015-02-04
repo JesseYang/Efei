@@ -46,6 +46,27 @@ class String
     result
   end
 
+  def render_resource
+    result = ""
+    self.split('$$').each do |f|
+      if f.start_with?("img_")
+        tmp, image_type, filename = f.split(/\*|_/)
+        result += "<img src='/external_images/#{filename}.#{image_type}'></img>"
+      elsif f.start_with?("sub_")
+        result += "<sub>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</sub>"
+      elsif f.start_with?("sup_")
+        result += "<sup>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</sup>"
+      elsif f.start_with?("und_")
+        result += "<u>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</u>"
+      elsif f.start_with?("ita_")
+        result += "<i>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</i>"
+      else
+        result += "<span>#{f.gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</span>"
+      end
+    end
+    result
+  end
+
   def render_figure
     image_type, filename, width, height = self[2..-3].split(/\*|_/)
     "<img src='#{Rails.application.config.word_host}/public/download/#{filename}.png' width='#{width.to_f * CF}', height='#{height.to_f * CF}'></img>"

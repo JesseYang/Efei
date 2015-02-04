@@ -31,6 +31,9 @@ Rails.application.routes.draw do
 
   namespace :teacher do
 
+    resources :resources do
+    end
+
     resources :students do
       member do
         put :move

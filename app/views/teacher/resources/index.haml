@@ -1,0 +1,13 @@
+- content_for :head do
+  :javascript
+
+- content_for :teacher_content do
+  %p
+    %span= "知识点列表 (#{@structures.length})"
+    - @structures.each do |s|
+      %br
+      %span= ( s.status == "done" ? "完成" : "未完成" ) + ", "
+      %span= s.questions.length.to_s + ", "
+      %a{href: "/teacher/resources/#{s.id.to_s}" } 链接
+      %span , 
+      %a{href: s.uri } 原链接

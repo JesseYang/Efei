@@ -1,0 +1,36 @@
+- content_for :head do
+  :javascript
+
+- content_for :teacher_content do
+  %p
+    %span 链接地址：
+    %a{href: @resource.uri } 链接
+  %p
+    %span 资源类型：
+    %span= @resource.type == "structure" ? "知识点" : "题目"
+  - if @resource.type == "question"
+    %p
+      %span 知识点资源链接
+      %a{href: "/teacher/resources/#{@resource.structure_id}" } 链接
+    - @resource.info.each do |i|
+      %p
+        %span= i
+    %p
+      %strong 题目内容
+    %p
+      = render :partial => "partials/resource_content", locals: { content: @resource.content }
+    %p
+      %strong 答案
+      - if @resource.answer.present?
+        = render :partial => "partials/resource_content", locals: { content: @resource.answer }
+      = render :partial => "partials/resource_content", locals: { content: @resource.answer_content }
+  - if @resource.type == "structure"
+    %p
+      %span 是否完成: 
+      %span= @resource.status == "done" ? "YES" : "NO"
+    %p
+      %span= "题目列表 (#{@resource.questions.length})"
+      - @resource.questions.each do |q|
+        %br
+        %a{href: "/teacher/resources/#{q.id.to_s}" } 链接
+        %a{href: q.uri } 原链接
