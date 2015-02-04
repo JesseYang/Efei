@@ -39,6 +39,8 @@ class Parser
 
 
   def self.parse_one_page(structure, uri)
+    puts uri
+
     # skip those already saved
     if Resource.where(uri: uri).first.present?
       puts "skip one"
