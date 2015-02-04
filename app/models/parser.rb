@@ -1,7 +1,21 @@
 class Parser
 
+  def self.safe_open_page(uri)
+    page = nil
+    while page.nil?
+      begin
+        page = Nokogiri::HTML(open(uri))
+      rescue
+        page = nil
+        puts "fail to open #{uri} and sleep 10 seconds"
+        sleep(10)
+      end
+    end
+    return page
+  end
+
   def self.parse_root
-    page = Nokogiri::HTML(open("http://www.mofangge.com/qlist/shuxue"))
+    page = self.safe_open_page("http://www.mofangge.com/qlist/shuxue")
 
     page.css("#ul_hidbk_470").xpath("li").each do |e|
       link = e.css('a')[0]
@@ -19,7 +33,7 @@ class Parser
   end
 
   def self.parse_one_structure(structure)
-    s_page = Nokogiri::HTML(open(structure.uri))
+    s_page = self.safe_open_page(structure.uri)
 
     page_number = s_page.css(".seopage")[0].css("a").length
     page_index = (1..page_number).to_a.map { |e| e.to_s }
@@ -28,11 +42,23 @@ class Parser
     page_index.each do |e|
       p_uri = structure.uri + e
       puts p_uri
-      cur_page = Nokogiri::HTML(open(p_uri))
+      cur_page = self.safe_open_page(p_uri)
       list = cur_page.css(".seoleftul")[0]
       list.xpath("li").each do |li|
         q_uri = li.css("a")[0].attr("href")
         self.parse_one_page(structure, q_uri)
+      end
+    end
+  end
+
+  def self.save_parse_one_page(structure, uri)
+    success = false
+    while !success
+      begin
+        self.parse_one_page(structure, uri)
+        success = true
+      rescue
+        puts "fail to parse page: #{uri}"
       end
     end
   end
@@ -51,7 +77,7 @@ class Parser
     sleep(5)
 
     @@img_save_folder = "public/external_images/"
-    page = Nokogiri::HTML(open(uri)) 
+    page = self.safe_open_page(uri)
     # the info part
     info_ele = page.css("div.provider#q_indexkuai2211").css('div#q_indexkuai22111')
     info = info_ele.css('span').map { |e| e.text }
