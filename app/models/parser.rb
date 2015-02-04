@@ -40,7 +40,10 @@ class Parser
 
   def self.parse_one_page(structure, uri)
     # skip those already saved
-    return if Resource.where(uri: uri).first.present?
+    if Resource.where(uri: uri).first.present?
+      puts "skip one"
+      return
+    end
 
     # sleep to slow down
     sleep(5)
