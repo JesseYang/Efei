@@ -97,13 +97,13 @@ class Parser
     a_div = page.css('div#q_indexkuai321')
     if a_div.xpath("table").length == 1
       analysis_table = a_div.xpath("table")[0]
-    else
+      analysis = self.parse_ele(analysis_table)
+    elsif a_div.xpath("table").length == 2
       answer_table = a_div.xpath("table")[0]
       analysis_table = a_div.xpath("table")[1]
+      answer = self.parse_ele(answer_table) if answer_table.present?
+      analysis = self.parse_ele(analysis_table)
     end
-
-    answer = self.parse_ele(answer_table) if answer_table.present?
-    analysis = self.parse_ele(analysis_table)
 
     q = Resource.create(uri: uri, subject: 2, type: "question", info: info, content: content, answer: answer, answer_content: analysis)
     structure.questions << q

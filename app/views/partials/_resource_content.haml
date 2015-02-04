@@ -1,4 +1,4 @@
-- content.each do |node|
+- (content || []).each do |node|
   - if node.class == String
     %p= node.render_resource.html_safe
   - elsif node.class == Hash && node["type"] == "table"
