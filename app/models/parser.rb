@@ -22,6 +22,7 @@ class Parser
       structure_uri = link.attr("href")
       structure = Resource.where(uri: structure_uri).first
       if structure.present? && structure.status == "done"
+        puts "structure done: #{structure.uri}"
         next
       end
       structure = Resource.create(uri: structure_uri, subject: 2, type: "structure", status: "doing") if structure.blank?
@@ -59,6 +60,7 @@ class Parser
         success = true
       rescue
         puts "fail to parse page: #{uri}"
+        sleep(10)
       end
     end
   end
