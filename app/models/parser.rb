@@ -46,12 +46,12 @@ class Parser
       list = cur_page.css(".seoleftul")[0]
       list.xpath("li").each do |li|
         q_uri = li.css("a")[0].attr("href")
-        self.parse_one_page(structure, q_uri)
+        self.safe_parse_one_page(structure, q_uri)
       end
     end
   end
 
-  def self.save_parse_one_page(structure, uri)
+  def self.safe_parse_one_page(structure, uri)
     success = false
     while !success
       begin
@@ -93,11 +93,11 @@ class Parser
 
     # the question answer and analysis part
     a_div = page.css('div#q_indexkuai321')
-    if info[0].include?("单选") || info[0].include?("填空")
+    if a_div.xpath("table").length == 1
+      analysis_table = a_div.xpath("table")[0]
+    else
       answer_table = a_div.xpath("table")[0]
       analysis_table = a_div.xpath("table")[1]
-    else
-      analysis_table = a_div.xpath("table")[0]
     end
 
     answer = self.parse_ele(answer_table) if answer_table.present?
