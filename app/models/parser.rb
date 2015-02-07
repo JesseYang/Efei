@@ -76,7 +76,7 @@ class Parser
     end
 
     # sleep to slow down
-    sleep(5)
+    sleep(1)
 
     @@img_save_folder = "public/external_images/"
     page = self.safe_open_page(uri)
