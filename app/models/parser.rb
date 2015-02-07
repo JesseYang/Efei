@@ -36,7 +36,8 @@ class Parser
   def self.parse_one_structure(structure)
     s_page = self.safe_open_page(structure.uri)
 
-    page_number = s_page.css(".seopage")[0].css("a").length
+    paginator = s_page.css(".seopage")[0]
+    page_number = paginator.nil? ? 1 : paginator.css("a").length
     page_index = (1..page_number).to_a.map { |e| e.to_s }
     page_index[0] = ""
 
