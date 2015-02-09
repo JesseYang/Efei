@@ -15,7 +15,7 @@ module UserComponents::Student
       else
         teachers = User.where(teacher: true, subject: subject, name: /#{name}/)
       end
-      teachers_info = teachers.map { |t| t.teacher_info_for_student }
+      teachers_info = teachers.map { |t| t.teacher_info_for_student(true) }
       { success: true, teachers: teachers_info }
     end
   end
