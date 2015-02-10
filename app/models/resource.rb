@@ -13,6 +13,8 @@ class Resource
   field :answer_content, type: Array, default: []
   field :status, type: String
 
+  index({ uri: 1 }, { unique: true, name: "uri_index" })
+
   has_many :questions, class_name: "Resource", inverse_of: :structure
   belongs_to :structure, class_name: "Resource", inverse_of: :questions
 

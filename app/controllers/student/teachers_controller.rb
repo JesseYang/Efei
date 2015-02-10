@@ -8,7 +8,7 @@ class Student::TeachersController < Student::ApplicationController
       retval = current_user.list_my_teachers
       render_with_auth_key retval
     else
-      retval = User.search_teachers(params[:subject].to_i, params[:name])
+      retval = User.search_teachers(params[:subject].to_i, params[:name] || "")
       render_with_auth_key retval
     end
   end
