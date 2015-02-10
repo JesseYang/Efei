@@ -77,7 +77,7 @@ class Parser
     end
 
     # sleep to slow down
-    sleep(1)
+    # sleep(1)
 
     @@img_save_folder = "public/external_images/"
     page = self.safe_open_page(uri)
@@ -120,12 +120,15 @@ class Parser
       when "text"
         cur_text += e.text
       when "img"
-        img_id = SecureRandom.uuid
-        img_type = e.attr('src').split('.')[-1]
-        File.open("#{@@img_save_folder}#{img_id}.#{img_type}", 'wb') do |fo|
-          fo.write open(e.attr('src')).read 
+        begin
+          img_id = SecureRandom.uuid
+          img_type = e.attr('src').split('.')[-1]
+          File.open("#{@@img_save_folder}#{img_id}.#{img_type}", 'wb') do |fo|
+            fo.write open(e.attr('src')).read 
+          end
+          cur_text += "$$img_#{img_type}*#{img_id}$$"
+        rescue
         end
-        cur_text += "$$img_#{img_type}*#{img_id}$$"
       when "sup"
         cur_text += "$$sup_#{e.text}$$"
       when "sub"

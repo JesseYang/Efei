@@ -10,6 +10,9 @@ module UserComponents::Student
 
   module ClassMethods
     def search_teachers(subject, name)
+      if name.blank?
+        return { success: true, teachers: [] }
+      end
       if subject == 0
         teachers = User.where(teacher: true, name: /#{name}/)
       else
