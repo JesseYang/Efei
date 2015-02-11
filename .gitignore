@@ -24,3 +24,4 @@
 /config/mongoid.yml
 /.idea
 /public/external_images
+/public/materials

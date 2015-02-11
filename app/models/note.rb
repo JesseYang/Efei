@@ -12,8 +12,6 @@ class Note
   field :answer, type: Integer, default: -1
   field :answer_content, type: Array, default: []
   field :inline_images, type: Array, default: []
-  field :q_figures, type: Array, default: []
-  field :a_figures, type: Array, default: []
 
   field :question_str, type: String, default: ""
 
@@ -38,8 +36,6 @@ class Note
       answer: q.answer,
       answer_content: q.answer_content,
       inline_images: q.inline_images,
-      q_figures: q.q_figures,
-      a_figures: q.a_figures,
       tag_set: q.homework.tag_set,
       summary: summary,
       tag: tag)
@@ -63,8 +59,6 @@ class Note
       answer: q.answer,
       answer_content: q.answer_content,
       inline_images: q.inline_images,
-      q_figures: q.q_figures,
-      a_figures: q.a_figures,
       tag_set: q.homework.tag_set,
       summary: summary,
       tag: tag)

@@ -93,8 +93,7 @@ module UserComponents::Student
       note = {
         "type" => n.type,
         "content" => n.content,
-        "items" => n.items,
-        "figures" => n.q_figures
+        "items" => n.items
       }
       if has_answer.to_s == "true"
         note.merge!({ "answer" => n.answer || -1, "answer_content" => n.answer_content })

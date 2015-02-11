@@ -73,7 +73,7 @@ class Homework < Node
     questions = []
     self.questions_in_order.each do |q|
       link = MongoidShortener.generate(q.id.to_s)
-      questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link, "figures" => q.q_figures}
+      questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link}
     end
     data = {
       "questions" => questions,
