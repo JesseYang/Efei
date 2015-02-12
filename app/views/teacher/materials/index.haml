@@ -1,0 +1,32 @@
+- content_for :head do
+  :javascript
+
+- content_for :teacher_content do
+  - if @category.present?
+    %p
+      = link_to "返回", "/teacher/materials"
+    %table
+      %tr
+        %th 编号
+        %th 链接
+        %th 类型
+        %th 难度
+        %th 知识点
+      - @materials.each_with_index do |e, i|
+        %tr
+          %td
+            %span= "#{i+1}"
+          %td
+            = link_to "链接", "/teacher/materials/#{e.id.to_s}"
+          %td
+            %span= e.type
+          %td
+            %span= e.difficulty
+          %td
+            %span= e.tags.map { |e| e[:text] } .join(',')
+  - else
+    %p 知识点列表:
+    %br
+    - @list.each do |e|
+      %p
+        = link_to e, "/teacher/materials?category=#{e}"

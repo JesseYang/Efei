@@ -41,6 +41,9 @@ Rails.application.configure do
   # word processing host name
   config.word_host = "http://dev.image.efei.org"
 
+  # tex2gif service host name
+  config.tex_host = "http://tex.efei.org/cgi-bin/mathtex.cgi?"
+
   # slide parsing host name
   config.slides_host = "http://dev.image.efei.org"
 
