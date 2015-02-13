@@ -58,4 +58,12 @@ class Structure
       e.print(indent + " ")
     end
   end
+
+  def print_end
+    puts self.name if self.children.blank?
+    self.children_id.each do |eid|
+      e = Structure.find(eid)
+      e.print_end
+    end
+  end
 end

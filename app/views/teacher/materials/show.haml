@@ -1,0 +1,25 @@
+- content_for :head do
+  :javascript
+
+- content_for :teacher_content do
+  %p
+    = link_to "返回", "/teacher/materials?category=#{@material.category}"
+  %p
+    %strong 知识点：
+    %span= @material.tags.map { |e| e["text"] } .join(', ')
+  %p
+    %strong 难度：
+    %span= @material.difficulty
+  %strong 题目：
+  - @material.content.each do |e|
+    %p= e.render_material.html_safe
+  - if @material.type == "选择题"
+    - @material.items.each do |e|
+      %p= e.map { | ee| ee.render_material} .join .html_safe
+  %strong 答案：
+  - @material.answer.each do |e|
+    %p= e.render_material.html_safe
+  - if @material.answer_content.present?
+    %strong 解析：
+    - @material.answer_content.each do |e|
+      %p= e.render_material.html_safe

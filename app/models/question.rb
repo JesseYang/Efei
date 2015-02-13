@@ -14,8 +14,6 @@ class Question
   field :answer, type: Integer
   field :answer_content, type: Array, default: []
   field :inline_images, type: Array, default: []
-  field :q_figures, type: Array, default: []
-  field :a_figures, type: Array, default: []
   belongs_to :homework
   belongs_to :compose
   belongs_to :user
@@ -40,22 +38,18 @@ class Question
   end
 
 
-  def self.create_choice_question(content, items, answer, answer_content, q_figures, a_figures)
+  def self.create_choice_question(content, items, answer, answer_content)
     question = self.create(type: "choice",
-      content: content + q_figures,
+      content: content,
       items: items,
       answer: answer,
-      answer_content: (answer_content || []) + (a_figures || []),
-      q_figures: q_figures,
-      a_figures: a_figures)
+      answer_content: (answer_content || []))
   end
 
-  def self.create_analysis_question(content, answer_content, q_figures, a_figures)
+  def self.create_analysis_question(content, answer_content)
     question = self.create(type: "analysis",
-      content: content + q_figures,
-      answer_content: (answer_content || []) + (a_figures || []),
-      q_figures: q_figures,
-      a_figures: a_figures)
+      content: content,
+      answer_content: (answer_content || []))
   end
 
   def info_for_student
@@ -69,18 +63,6 @@ class Question
       answer_content: self.answer_content,
       tag_set: self.homework.tag_set
     }
-  end
-
-  def figures
-    if self.type == "choice"
-      if self.q_figures.length >= 4
-        return self.q_figures[0..-5]
-      else
-        return self.q_figures
-      end
-    else
-      return self.q_figures
-    end
   end
 
   def generate_qr_code
@@ -99,7 +81,7 @@ class Question
 
   def generate
     questions = []
-    questions << {"type" => self.type, "content" => self.content, "items" => self.items, "figures" => self.q_figures}
+    questions << {"type" => self.type, "content" => self.content, "items" => self.items}
     data = {
       "questions" => questions,
       "name" => "题目",

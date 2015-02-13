@@ -45,19 +45,17 @@ class Document
     questions = []
     cache = []
     data[1].each do |ele|
-      # convert full width char to half width char
-      # ele = NKF.nkf('-X -w', ele).tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z') if ele.class == String
       # question separation
       if ele.class == String && ele.blank?
         questions << extract_one_question(subject, cache) if cache.length >= 1
         cache = []
         next
       end
-      # parse para/table/image
+      # parse para/table
       if ele.class == String
         if cache.blank?
           # this is the first line of this question, should remove the Number
-          match = ele.strip.scan(/^例?[0-9]{0,2}\.?\s+(.*)$/)
+          match = ele.strip.scan(/^例?题?[0-9]{0,2}\.\s*(\D+.*)$/)
           ele = match[0][0] if match[0].present?
         end
         cache << ele
@@ -167,28 +165,8 @@ class Document
     q_part = answer_index.nil? ? cache : cache[0..answer_index - 1]
     a_part = answer_index.nil? ? [] : cache[answer_index..- 1]
 
-    q_part_figures = []
-    q_part_text = []
-    a_part_figures = []
-    a_part_text = []
-
-    q_part.each do |e|
-      next if e.blank?
-      if e.class == String && e.start_with?("$$fig_")
-        q_part_figures << e
-      else
-        q_part_text << e
-      end
-    end
-
-    a_part.each do |e|
-      next if e.blank?
-      if e.class == String && e.start_with?("$$fig_")
-        a_part_figures << e
-      else
-        a_part_text << e
-      end
-    end
+    q_part_text = q_part
+    a_part_text = a_part
 
     # 2. judge the type of the question and parse the question
     q_part_text = q_part_text.select { |e| e.present? }
@@ -239,9 +217,9 @@ class Document
     answer, answer_content = *extract_answer(a_part_text, q_type)
     # create the question object
     if q_type == "choice"
-      q = Question.create_choice_question(content, items, answer, answer_content, q_part_figures, a_part_figures)
+      q = Question.create_choice_question(content, items, answer, answer_content)
     else
-      q = Question.create_analysis_question(content, answer_content, q_part_figures, a_part_figures)
+      q = Question.create_analysis_question(content, answer_content)
     end
     q
   end

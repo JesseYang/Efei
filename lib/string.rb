@@ -25,6 +25,23 @@ class String
     length
   end
 
+  def render_material
+    result = ""
+    self.split('$$').each do |f|
+      if f.start_with?("equ_")
+        result += "<img src='#{Rails.application.config.tex_host}#{f[4..-1]}'></img>"
+      elsif f.start_with?("img_")
+        tmp, image_type, filename = f.split(/\*|_/)
+        result += "<img src='/material_images/#{filename}.#{image_type}'></img>"
+      elsif f.start_with?("und_")
+        result += "<u>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</u>"
+      else
+        result += "<span>#{f.gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</span>"
+      end
+    end
+    result
+  end
+
   def render_question
     result = ""
     self.split('$$').each do |f|
