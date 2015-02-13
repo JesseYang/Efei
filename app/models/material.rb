@@ -13,9 +13,14 @@ class Material
   field :answer_content, type: Array, default: []
   field :tags, type: Array, default: []
   field :category, type: String
+  field :dangerous, type: Boolean
 
   index({ external_id: 1 }, { unique: true, name: "external_id_index" })
 
+
+  @@chn = false
+  @@img_save_folder = "public/material_images/"
+  @@domain = "http://kuailexue.com"
 
   def self.parse
     rom = ["", "I. ", "II. ", "III. ", "IV. ", "V. ", "VI. "]
@@ -35,6 +40,7 @@ class Material
         q_ele_ary = part_body.xpath("div")
         q_ele_ary.each do |q_ele|
           external_id = q_ele.attr("data-id")
+          next if external_id == "null"
           next if Material.where(external_id: external_id).first.present?
           content = []
           q_ele.css("stem").each_with_index do |s, i|
@@ -63,7 +69,8 @@ class Material
             answer_content_ele = answer_content_part.css(".dd").first
             answer_content = self.parse_content(answer_content_ele)
           end
-          Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category)
+          Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn)
+          @@chn = false
         end
       end
       new_name = "done_#{name}"
@@ -86,7 +93,14 @@ class Material
       if e.name == "br"
         content << cur_text
         cur_text = ""
-      elsif e.name == "div" && e.attr("class") == "MathJax_Display"
+      elsif e.name == "img"
+        img_id = SecureRandom.uuid
+        img_type = e.attr('src').split('.')[-1]
+        File.open("#{@@img_save_folder}#{img_id}.#{img_type}", 'wb') do |fo|
+          fo.write open(@@domain + e.attr('src')).read 
+        end
+        cur_text += "$$img_#{img_type}*#{img_id}$$"
+      elsif e.name == "div" && e.attr("class").to_s.include?("MathJax_Display")
         content << cur_text
         cur_text = ""
         new_line = true
@@ -95,20 +109,24 @@ class Material
         cur_text += e.text
       elsif e.name == "nn"
         cur_text += "$$und_#{e.text}$$"
-      elsif e.name == "span" && e.attr("class") == "MathJax_Preview"
+      elsif e.name == "span" && e.attr("class").to_s.include?("MathJax_Preview")
         next
-      elsif e.name == "span" && e.attr("class") == "MathJax"
+      elsif e.name == "span" && e.attr("class").to_s.include?("MathJax")
         next
       elsif e.name == "script" && e.children[0].name == "#cdata-section"
         r = e.children[0].text.scan(/^\\begin\{split\}(.+)\\end\{split\}$/)
         if r.blank?
-          cur_text += "$$equ_#{e.children[0].text.gsub('∴', '\therefore')}$$"
+          equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
+          @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
+          cur_text += "$$equ_#{equ}$$"
         else
           content << cur_text if cur_text.present?
           cur_text = ""
           equs = r[0][0].split("\\\\")
           equs.each do |e|
-            content << "$$equ_#{e.gsub('∴', '\therefore')}$$"
+            equ = e.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
+            @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
+            content << "$$equ_#{equ}$$"
           end
         end
       elsif e.children.length > 0

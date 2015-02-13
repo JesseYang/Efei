@@ -8,6 +8,7 @@
     %table
       %tr
         %th 编号
+        %th 重点
         %th 链接
         %th 类型
         %th 难度
@@ -16,6 +17,11 @@
         %tr
           %td
             %span= "#{i+1}"
+          %td
+            - if e.dangerous
+              %span.red YES
+            - else
+              %span NO
           %td
             = link_to "链接", "/teacher/materials/#{e.id.to_s}"
           %td
