@@ -12,6 +12,7 @@ class Note
   field :answer, type: Integer, default: -1
   field :answer_content, type: Array, default: []
   field :inline_images, type: Array, default: []
+  field :image_path, type: String, default: "http://dev.efei.org/public/download/"
 
   field :question_str, type: String, default: ""
 
@@ -59,6 +60,7 @@ class Note
       answer: q.answer,
       answer_content: q.answer_content,
       inline_images: q.inline_images,
+      image_path: q.image_path,
       tag_set: q.homework.tag_set,
       summary: summary,
       tag: tag)
