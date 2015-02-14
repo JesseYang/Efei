@@ -46,6 +46,7 @@ class Parser
       puts p_uri
       cur_page = self.safe_open_page(p_uri)
       list = cur_page.css(".seoleftul")[0]
+      return if list.nil?
       list.xpath("li").each do |li|
         q_uri = li.css("a")[0].attr("href")
         self.safe_parse_one_page(structure, q_uri)
@@ -125,6 +126,7 @@ class Parser
           img_type = e.attr('src').split('.')[-1]
           File.open("#{@@img_save_folder}#{img_id}.#{img_type}", 'wb') do |fo|
             fo.write open(e.attr('src')).read 
+            fo.close
           end
           cur_text += "$$img_#{img_type}*#{img_id}$$"
         rescue
