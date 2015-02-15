@@ -22,6 +22,10 @@ class WelcomeController < ApplicationController
     
   end
 
+  def app_version
+    render json: { android: "1.0", ios: "1.0" } and return
+  end
+
   private
 
   def resolve_layout

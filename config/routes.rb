@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "welcome/index"
   get "welcome/student_app"
   get "welcome/app_download"
+  get "welcome/app_version"
 
   namespace :account do
     resources :registrations do
