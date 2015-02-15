@@ -42,7 +42,7 @@ class Material
         q_ele_ary.each do |q_ele|
           choice_without_items = false
           external_id = q_ele.attr("data-id")
-          next if external_id == "null"
+          next if external_id == "null" || external_id.nil?
           next if Material.where(external_id: external_id).first.present?
           content = []
           q_ele.css("stem").each_with_index do |s, i|
