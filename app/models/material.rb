@@ -14,6 +14,7 @@ class Material
   field :tags, type: Array, default: []
   field :category, type: String
   field :dangerous, type: Boolean
+  field :choice_without_items, type: Boolean, default: false
 
   index({ external_id: 1 }, { unique: true, name: "external_id_index" })
 
@@ -39,6 +40,7 @@ class Material
         part_body = e.css(".part_body").first
         q_ele_ary = part_body.xpath("div")
         q_ele_ary.each do |q_ele|
+          choice_without_items = false
           external_id = q_ele.attr("data-id")
           next if external_id == "null"
           next if Material.where(external_id: external_id).first.present?
@@ -46,7 +48,13 @@ class Material
           q_ele.css("stem").each_with_index do |s, i|
             content += self.parse_content(s, rom[i])
           end
-          items = self.parse_options(q_ele.css("opts").first) if type == "选择题"
+          if type == "选择题"
+            if q_ele.css("opts").first.present?
+              items = self.parse_options(q_ele.css("opts").first)
+            else
+              choice_without_items = true
+            end
+          end
           tags = []
           q_ele.css(".q_tags").each do |t|
             tags += t.css("li").map { |e| { id: e.attr("tid"), text: e.text } }
@@ -69,7 +77,7 @@ class Material
             answer_content_ele = answer_content_part.css(".dd").first
             answer_content = self.parse_content(answer_content_ele)
           end
-          Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn)
+          Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn, choice_without_items: choice_without_items)
           @@chn = false
         end
       end
@@ -87,7 +95,7 @@ class Material
 
   def self.parse_content(ele, pre = "")
     content = []
-    cur_text = pre
+    cur_text = pre || ""
     new_line = false
     ele.children.each do |e|
       if e.name == "br"
