@@ -3,124 +3,104 @@
 @import "compass/utilities/general/clearfix";
 @import "icons/homeworks/*.png";
 
-#homework-index {
-  width: auto;
-  margin-left: 0px;
-  margin-right: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-}
-#wrap {
-  min-width: 900px;
-}
-
-#search-bar {
+#book-bar {
   width: 100%;
-  height: 50px;
+  height: 85px;
   background: #FAFAFA;
   @include box-shadow(gray 0px 0px 5px);
   border-bottom: 1px #CCCCCC solid;
   border-top: 1px solid #E5E5E5;
-  #search-box {
+  table {
     padding: 10px;
     width: 965px;
     margin-left: auto;
     margin-right: auto;
-    #input-search {
-      @include one-line(30px);
-      width: 250px;
+    th {
+      width: 100px;
+      height: 40px;
+      text-align: center;
+      margin: 0px;
     }
-    a {
+  }
+  ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    li {
       @include inline-block;
-      @include size(47px, 26px);
-      @include homeworks-sprite(search_button);
-    }
-    .scope-checkbox {
-      @include inline-block;
-      @include one-line(30px);
-      margin-left: 30px;
-      label {
-        margin-left: 10px;
+      width: 60px;
+      text-align: center;
+      cursor: pointer;
+      &.selected {
+        color: $efblue;
+        cursor: auto;
       }
     }
   }
 }
 
-#content-background {
-  width: 100%;
-  background-color: #EEEEEE;
-  #paper-top, #paper-bottom {
-    width: 100%;
-    height: 50px;
-    background-color: #EEEEEE;
-    .paginator {
-      width: 965px;
-      margin-left: auto;
-      margin-right: auto;
-      .pagination {
-        float: right;
-      }
-    }
+#left-part {
+  padding-top: 20px;
+  position: absolute;
+  top: 127px;
+  left: 15px;
+  bottom: 0px;
+  width: 270px;
+}
+
+#right-part {
+  position: absolute;
+  top: 127px;
+  bottom: 0px;
+  right: 0px;
+  left: 200px;
+  min-width: 800px;
+}
+
+#left-part {
+  .sub-folder {
+    margin-left: 16px;
   }
-  #paper {
-    margin-left: auto;
-    margin-right: auto;
-    width: 965px;
-    background-color: white;
-    .content-div {
-      position: relative;
-      background-color: white;
-      padding: 40px 80px 40px 80px;
-      border-bottom: 1px solid #DDDDDD;
-      .question-content-div {
-        font-size: 1.3em;
-        span {
-          white-space: pre-wrap;
-        }
-        .question-items p {
-          margin-left: 10px;
-        }
-        .question-answer {
-          margin-top: 10px;
-        }
-      }
-      table.line4 {
-        width: 100%;
-        tr {
-          width: 25%;
-        }
-      }
-      table.line2 {
-        width: 100%;
-        tr {
-          width: 50%;
-        }
-      }
-      .compose-operation {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        padding: 5px;
-        background-color: white;
-        .do-compose {
-          @include inline-block;
-          @include size(16px, 16px);
-          @include homeworks-sprite(add);
-        }
-      }
-      .compose-status {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        padding: 5px;
-        background-color: white;
-        z-index: 99;
-        .composed {
-          @include inline-block;
-          @include size(16px, 16px);
-          @include homeworks-sprite(added);
-        }
+  .caret-wrapper {
+    position: absolute;
+    height: 30px;
+    width: 10px;
+    @include inline-block;
+  }
+  %caret {
+    @include inline-block;
+    position: absolute;
+    border-width: 6px;
+    border-style: solid;
+  }
+  b.open {
+    @extend %caret;
+    top: 8px;
+    border-color: black transparent transparent transparent;
+  }
+  b.closed {
+    @extend %caret;
+    top: 4px;
+    left: 2px;
+    border-color: transparent transparent transparent black;
+  }
+  .root {
+    display: none;
+  }
+  .icon {
+    margin-left: 15px;
+    @include inline-block;
+  }
+  .name-node {
+    position: relative;
+    &.selected {
+      span {
+        color: #D54937;
       }
     }
+    &:hover {
+    background-color: #EEEEEE;
+    }
+    cursor: pointer;
   }
 }

@@ -11,6 +11,59 @@ class Structure
   has_and_belongs_to_many :children, class_name: "Structure", inverse_of: :parents
   has_and_belongs_to_many :parents, class_name: "Structure", inverse_of: :children
 
+  def structure_tree(cur_chp = -1, cur_sec = -1, cur_sub = -1)
+    tree = [ ]
+    name = self.name
+    case self.type
+    when "chapter"
+      name = "第#{cur_chp}章 #{self.name}"
+    when "section"
+      name = "#{cur_chp}.#{cur_sec} #{self.name}"
+    when "subsection"
+      name = "#{cur_chp}.#{cur_sec}.#{cur_sub} #{self.name}"
+    end
+    tree = {
+      id: self.id.to_s,
+      name: name,
+      children: []
+    }
+    collection = self.children.asc(:created_at)
+    collection.each_with_index do |n, i|
+      cur_chp = i + 1 if n.type == "chapter"
+      cur_sec = i + 1 if n.type == "section"
+      cur_sub = i + 1 if n.type == "subsection"
+      tree[:children] << n.structure_tree(cur_chp, cur_sec, cur_sub)
+    end
+    tree
+  end
+
+  def self.editions
+    self.where(type: "edition").asc(:created_at)
+  end
+
+  def books
+    self.children.asc(:created_at)
+    
+  end
+
+  def self.default_edition(edition_id)
+    e = Structure.where(type: "edition", id: edition_id).first
+    if e.present?
+      e
+    else
+      self.where(type: "edition", name: "人教A版").first
+    end
+  end
+
+  def default_book(book_id)
+    b = self.children.where(type: "book", id: book_id)
+    if b.present?
+      b
+    else
+      self.children.asc(:created_at).first
+    end
+  end
+
   def self.import
     cur_edition = nil
     cur_book = nil

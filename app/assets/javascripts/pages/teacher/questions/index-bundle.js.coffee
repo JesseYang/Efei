@@ -1,13 +1,21 @@
 #= require 'utility/ajax'
+#= require 'ui/widgets/folder_tree'
 #= require "extensions/page_notification"
 $ ->
-  if window.scope == "personal"
-    $("#personal").attr("checked", true)
-  else if window.scope == "public"
-    $("#public").attr("checked", true)
-  else
-    $("#personal").attr("checked", true)
-    $("#public").attr("checked", true)
+
+  refresh_structure = (book_id) ->
+    $.getJSON "/teacher/structures/#{book_id}", (data) ->
+      if data.success
+        tree = $("#left-part #root-folder").folder_tree(
+          content: data.tree
+          root_folder_id: data.root_folder_id
+          click_name_fun: undefined
+        )
+        tree.folder_tree("open_folder", data.root_folder_id)
+      else
+        $.page_notification "服务器出错"
+
+  refresh_structure(window.book_id)
 
   if window.show_compose == "true"
     $(".content-div").hover (->
@@ -15,8 +23,6 @@ $ ->
     ), (->
       $(this).find(".compose-operation").addClass "hide"
     )
-
-  console.log window.compose_qid_str
 
   $(".content-div").each ->
     qid = $(this).attr("data-question-id")

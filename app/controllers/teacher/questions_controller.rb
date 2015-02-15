@@ -1,7 +1,12 @@
 # encoding: utf-8
 class Teacher::QuestionsController < Teacher::ApplicationController
   def index
-    @scope = params[:scope] || "personal"
+    @editions = Structure.editions
+    @current_edition = Structure.default_edition(cookies[:edition_id])
+    @books = @current_edition.books
+    @current_book = @current_edition.default_book(cookies[:book_id])
+
+
     @questions = current_user.questions.page(params[:page] || 0).per(10)
   end
 
