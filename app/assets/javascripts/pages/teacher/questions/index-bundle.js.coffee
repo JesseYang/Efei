@@ -1,11 +1,31 @@
 #= require 'utility/ajax'
 #= require 'ui/widgets/folder_tree'
+#= require "./_templates/books_ul"
 #= require "extensions/page_notification"
 $ ->
+
+  tree = null
 
   refresh_structure = (book_id) ->
     $.getJSON "/teacher/structures/#{book_id}", (data) ->
       if data.success
+        tree.folder_tree("destroy") if tree != null
+        tree = $("#left-part #root-folder").folder_tree(
+          content: data.tree
+          root_folder_id: data.root_folder_id
+          click_name_fun: undefined
+        )
+        tree.folder_tree("open_folder", data.root_folder_id)
+      else
+        $.page_notification "服务器出错"
+
+  refresh_books = (edition_id) ->
+    $.getJSON "/teacher/structures/#{edition_id}", (data) ->
+      if data.success
+        books_ul = $(HandlebarsTemplates["books_ul"]({ books: data.books}))
+        $("#books-wrapper").empty()
+        $("#books-wrapper").append(books_ul)
+        tree.folder_tree("destroy") if tree != null
         tree = $("#left-part #root-folder").folder_tree(
           content: data.tree
           root_folder_id: data.root_folder_id
@@ -16,6 +36,21 @@ $ ->
         $.page_notification "服务器出错"
 
   refresh_structure(window.book_id)
+
+  $(".edition-ele").click ->
+    return if $(this).hasClass("selected")
+    edition_id = $(this).attr("data-id")
+    $(".edition-ele").removeClass("selected")
+    $(this).addClass("selected")
+    refresh_books(edition_id)
+
+  $("body").on "click", ".book-ele", (event) ->
+    ele = $(event.target)
+    return if ele.hasClass("selected")
+    book_id = ele.attr("data-id")
+    $(".book-ele").removeClass("selected")
+    ele.addClass("selected")
+    refresh_structure(book_id)
 
   if window.show_compose == "true"
     $(".content-div").hover (->

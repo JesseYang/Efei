@@ -14,16 +14,16 @@
             %ul.edition-ul
               - @editions.each do |e|
                 - if e == @current_edition
-                  %li.edition-ele{data: {id: e.id.to_s}}.selected= e.name
+                  %li.edition-ele.selected{data: {id: e.id.to_s}}= e.name
                 - else
-                  %li.edition-ele{data: {id: e.id.to_s}= e.name
+                  %li.edition-ele{data: {id: e.id.to_s}}= e.name
         %tr
           %th 教材选择
-          %td
+          %td#books-wrapper
             %ul.book-ul
               - @books.each do |b|
                 - if b == @current_book
-                  %li.book-ele{data: {id: b.id.to_s}}.selected= b.name
+                  %li.book-ele.selected{data: {id: b.id.to_s}}= b.name
                 - else
                   %li.book-ele{data: {id: b.id.to_s}}= b.name
       .book-select

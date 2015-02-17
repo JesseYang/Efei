@@ -120,6 +120,7 @@
       this.select_folder $(name_node).closest(".folder-node").data("folderid")
 
     open_folder: (folder_id) ->
+      return if folder_id == null || folder_id == undefined
       folder = this._find_folder_by_id(folder_id)
       folder.children(".children").removeClass("hide")
       this.open_folder folder.parent().closest(".folder-node").data("folderid") if folder.data("folderid") != this.options.root_folder_id

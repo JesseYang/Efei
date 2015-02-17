@@ -3,6 +3,8 @@ require 'httparty'
 require 'rqrcode_png'
 require 'open-uri'
 require 'string'
+require 'Magick'
+include Magick
 class Question
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -13,8 +15,10 @@ class Question
   field :preview, type: Boolean, default: true
   field :answer, type: Integer
   field :answer_content, type: Array, default: []
-  field :inline_images, type: Array, default: []
   field :image_path, type: String, default: "http://dev.efei.org/public/download/"
+  field :difficulty, type: Integer
+  field :external_site, type: String
+  field :external_id, type: String
   belongs_to :homework
   belongs_to :compose
   belongs_to :user
@@ -33,9 +37,9 @@ class Question
 
   before_destroy do |doc|
     # delete all images files
-    doc.inline_images.each do |e|
-      File.delete("#{IMAGE_DIR}/#{e}") if File.exist?("#{IMAGE_DIR}/#{e}")
-    end
+    # doc.inline_images.each do |e|
+    #   File.delete("#{IMAGE_DIR}/#{e}") if File.exist?("#{IMAGE_DIR}/#{e}")
+    # end
   end
 
 
@@ -94,5 +98,50 @@ class Question
     response = Homework.post("/Generate.aspx",
       :body => {data: data.to_json} )
     return response.body
+  end
+
+  def import_external_1_questions
+    type_hash = {
+      "选择题" => "choice",
+      "填空题" => "blank",
+      "解答题" => "analysis"
+    }
+    Material.where(imported: false).each do |m|
+      next if m.dangerous
+      type = type_hash[m.type]
+      m.content.each do |line|
+        eles = line.split("$$").each do |e|
+          if e.start_with?("equ_")
+            image_id = SecureRandom.uuid
+            tex = e[4..-1]
+            File.open("public/question_images/#{image_id}.gif", "wb") do |fo|
+              fo.write open(URI.escape("http://tex.efei.org/cgi-bin/mathtex.cgi?#{tex}")).read
+            end
+            image = ImageList.new("public/question_images/#{image_id}.gif")
+            width = image.page.width
+            height = image.page.height
+            "fig_#{image_id}*gif*#{width}*#{height}"
+          elsif e.start_with?("img_")
+            image_id = SecureRandom.uuid
+            tmp, image_type, filename = f.split(/\*|_/)
+            FileUtils.mv("public/material_images/#{filename}.#{image_type}", "public/question_images/#{image_id}.#{image_type}")
+            image = ImageList.new("public/question_images/#{image_id}.#{image_type}")
+            width = image.page.width
+            height = image.page.height
+            "fig_#{image_id}*#{image_type}*#{width}*#{height}"
+          else
+            e
+          end
+        end
+        eles.join("$$")
+      end
+      q = Question.create(
+        subject: m.subject,
+        type: type,
+        external_site: "kuailexue.com",
+        external_id: m.external_id
+      )
+      m.update_attribute(:imported, true)
+    end
   end
 end

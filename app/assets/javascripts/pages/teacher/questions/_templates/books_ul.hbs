@@ -1,0 +1,9 @@
+<ul class="book-ul">
+  {{#each books}}
+    {{#ifCond selected "false"}}
+      <li class="book-ele" data-id={{book_id}}>{{book_name}}</li>
+    {{else}}
+      <li class="book-ele selected" data-id={{book_id}}>{{book_name}}</li>
+    {{/ifCond}}
+  {{/each}}
+</ul>

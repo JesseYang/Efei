@@ -12,6 +12,7 @@ gem 'httparty', '~> 0.13.3'
 gem 'httmultiparty', '~> 0.3.16'
 gem 'sidekiq', '~> 3.2.6'
 gem 'passenger', '~> 4.0.53'
+gem 'rmagick', '~> 2.13.4'
 
 # Gems used only for assets and not required
 # in production environments by default.

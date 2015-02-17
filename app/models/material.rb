@@ -15,6 +15,7 @@ class Material
   field :category, type: String
   field :dangerous, type: Boolean
   field :choice_without_items, type: Boolean, default: false
+  field :imported, type: Boolean, default: false
 
   index({ external_id: 1 }, { unique: true, name: "external_id_index" })
 
@@ -121,7 +122,7 @@ class Material
         next
       elsif e.name == "span" && e.attr("class").to_s.include?("MathJax")
         next
-      elsif e.name == "script" && e.children[0].name == "#cdata-section"
+      elsif e.name == "script" && e.children[0].present? && e.children[0].name == "#cdata-section"
         r = e.children[0].text.scan(/^\\begin\{split\}(.+)\\end\{split\}$/)
         if r.blank?
           equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
