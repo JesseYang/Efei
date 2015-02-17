@@ -3,7 +3,7 @@ class Student::QuestionsController < Student::ApplicationController
 
   def show
     q = Question.where(id: params[:id]).first
-    render_with_auth_key ErrCode.ret_false(ErrCode::QUESTION_NOT_EXIST) and return if q.nil?
+    render_with_auth_key ErrCode.ret_false(ErrCode::QUESTION_NOT_EXIST) and return if q.nil? || q.homework.nil?
     if current_user.present?
       note = current_user.notes.where(question_id: params[:id]).first
       render_with_auth_key({ success: true, note_id: note.id.to_s }) and return if note.present?

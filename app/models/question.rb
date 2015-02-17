@@ -14,7 +14,7 @@ class Question
   field :answer, type: Integer
   field :answer_content, type: Array, default: []
   field :inline_images, type: Array, default: []
-  field :image_path, type: String, default: "http://dev.efei.org/public/download/"
+  field :image_path, type: String, default: "http://dev.image.efei.org/public/download/"
   belongs_to :homework
   belongs_to :compose
   belongs_to :user
