@@ -15,7 +15,7 @@ class Question
   field :preview, type: Boolean, default: true
   field :answer, type: Integer
   field :answer_content, type: Array, default: []
-  field :image_path, type: String, default: "http://dev.efei.org/public/download/"
+  field :image_path, type: String, default: "http://dev.image.efei.org/public/download/"
   field :difficulty, type: Integer
   field :external_site, type: String
   field :external_id, type: String
