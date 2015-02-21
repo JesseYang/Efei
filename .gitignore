@@ -24,5 +24,6 @@
 /config/mongoid.yml
 /.idea
 /public/external_images
+/public/materials
 /public/material_images
 /public/question_images
