@@ -43,7 +43,7 @@
                 %a{href: "/users/sign_in"} 登录
               .ef-dropdown-item
                 %a{href: "/users/sign_up"} 注册
-      .compose-indicator.pull-right.hide
+      .compose-indicator.pull-right.hide{data: {toggle: "tooltip"}, title: @compose_homework_name}
         %span 正在选题：
         %span.compose-question-number= @compose.questions.length
 - content_for :app_content do
