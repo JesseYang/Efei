@@ -121,6 +121,31 @@
           }
         }
       }
+      .compose-operation {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 5px;
+        background-color: white;
+        .do-compose {
+          @include inline-block;
+          @include size(64px, 64px);
+          @include homeworks-sprite(add);
+        }
+      }
+      .compose-status {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 5px;
+        background-color: white;
+        z-index: 99;
+        .composed {
+          @include inline-block;
+          @include size(64px, 64px);
+          @include homeworks-sprite(added);
+        }
+      }
     }
   }
 }

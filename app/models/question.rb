@@ -115,7 +115,7 @@ class Question
     difficulty_ary = [-1, 0, 0, 1, 2, 2]
     Material.where(imported: false).each do |m|
       next if m.dangerous
-      next if m.type == "choice" && m.choice_without_items
+      next if m.type == "选择题" && m.choice_without_items
       next if Question.where(external_site: "kuailexue.com", external_id: m.external_id).first.present?
       problem = false
       type = type_hash[m.type]
