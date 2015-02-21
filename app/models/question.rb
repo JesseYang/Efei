@@ -163,7 +163,7 @@ class Question
         items: items,
         answer: answer,
         answer_content: answer_content,
-        image_path: "/question_images/",
+        image_path: "#{Rails.application.config.server_host}/question_images/",
         difficulty: difficulty,
         subject: 2
       )
