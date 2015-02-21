@@ -1,6 +1,7 @@
 #= require 'utility/ajax'
 #= require 'ui/widgets/folder_tree'
 #= require "./_templates/books_ul"
+#= require "utility/_templates/paginator_mini"
 #= require "extensions/page_notification"
 $ ->
 
@@ -16,6 +17,23 @@ $ ->
           click_name_fun: undefined
         )
         tree.folder_tree("open_folder", data.root_folder_id)
+      else
+        $.page_notification "服务器出错"
+
+  redirect_point = (point_id) ->
+    window.location.href = "/teacher/questions?type=zhuanxiang&point_id=#{point_id}"
+
+  refresh_point = (root_point_id) ->
+    $.getJSON "/teacher/points/#{root_point_id}", (data) ->
+      if data.success
+        tree.folder_tree("destroy") if tree != null
+        tree = $("#left-part #root-folder").folder_tree(
+          content: data.tree
+          root_folder_id: data.root_folder_id
+          click_name_fun: redirect_point
+        )
+        tree.folder_tree("open_folder", data.root_folder_id)
+        tree.folder_tree("select_folder", window.point_id)
       else
         $.page_notification "服务器出错"
 
@@ -35,7 +53,33 @@ $ ->
       else
         $.page_notification "服务器出错"
 
-  refresh_structure(window.book_id)
+  ###
+  refresh_questions = (point_id, page, per_page) ->
+    $.getJSON "/teacher/questions/point_list?point_id=#{point_id}&page=#{page}&per_page=#{per_page}", (data) ->
+      if data.success
+        # render paginator and data table
+        paginator_mini = $(HandlebarsTemplates["paginator_mini"](data.questions))
+        $("#question-paginator-wrapper").empty()
+        $("#question-paginator-wrapper").append(paginator_mini)
+      else
+        $.page_notification "服务器出错"
+
+  $("body").on "click", ".paginator-link", (event) ->
+    ele = $(event.target).closest(".paginator-link")
+    page = ele.attr("data-page")
+    per_page = ele.attr("data-per-page")
+    refresh_questions(window.point_id, page, per_page)
+    false
+  ###
+
+  if window.type == "tongbu"
+    refresh_structure(window.book_id)
+  else if window.type == "zhuanxiang"
+    refresh_point(window.root_point_id)
+    # refresh_questions(window.point_id, 1, 10)
+
+
+
 
   $(".edition-ele").click ->
     return if $(this).hasClass("selected")
@@ -43,6 +87,10 @@ $ ->
     $(".edition-ele").removeClass("selected")
     $(this).addClass("selected")
     refresh_books(edition_id)
+
+  $(".root-point-ele").click ->
+    point_id = $(this).attr("data-id")
+    window.location.href = "/teacher/questions?type=zhuanxiang&point_id=#{point_id}"
 
   $("body").on "click", ".book-ele", (event) ->
     ele = $(event.target)

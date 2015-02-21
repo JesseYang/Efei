@@ -4,7 +4,7 @@ class Student::NotesController < Student::ApplicationController
 
   def create
     begin
-      note = current_user.add_note(params[:question_id], params[:summary].to_s, params[:tag].to_s, params[:topics].to_s)
+      note = current_user.add_note(params[:question_id], params[:homework_id], params[:summary].to_s, params[:tag].to_s, params[:topics].to_s)
       new_teacher = note.check_teacher(current_user)
       retval = { note: note, note_update_time: current_user.note_update_time }
       retval[:teacher] = new_teacher.teacher_info_for_student(true) if new_teacher.present?
@@ -16,7 +16,7 @@ class Student::NotesController < Student::ApplicationController
 
   def batch
     begin
-      notes = params[:question_ids].map { |qid| current_user.add_note(qid) }
+      notes = params[:question_ids].each_with_index.map { |qid, i| current_user.add_note(qid, (params[:homeworks_ids] || [])[i]) }
       new_teachers = notes.map { |n| n.check_teacher(current_user) }
       new_teachers = new_teachers.select { |e| !e.nil? } .uniq
       retval = { note_ids: notes.map { |e| e.id.to_s }, note_update_time: current_user.note_update_time }

@@ -139,6 +139,26 @@ class ApplicationController < ActionController::Base
     params[:per_page].to_i == 0 ? 10 : params[:per_page].to_i
   end
 
+  def auto_paginate_ajax(value, page_ajax, per_page_ajax)
+    retval = {}
+    retval['current_page'] = page_ajax
+    retval['per_page'] = per_page_ajax
+    retval["previous_page"] = (page_ajax - 1 > 0 ? page_ajax - 1 : 1)
+
+    count = value.count
+    value = value.page(retval["current_page"]).per(retval["per_page"])
+    retval["data"] = value
+
+    retval["start_number"] = (retval["current_page"] - 1) * retval["per_page"]
+    retval["end_number"] = retval["current_page"] * retval["per_page"]
+
+    retval["total_page"] = ( count / per_page_ajax.to_f ).ceil
+    retval["total_page"] = retval["total_page"] == 0 ? 1 : retval["total_page"]
+    retval["total_number"] = count
+    retval["next_page"] = (page_ajax + 1 <= retval["total_page"] ? page_ajax + 1: retval["total_page"])
+    retval 
+  end
+
   def auto_paginate(value, count = nil)
     retval = {}
     retval["current_page"] = page

@@ -2,7 +2,7 @@
 # require 'RMagick'
 
 class String
-  CF = 1.3
+  CF = 1
 
   def is_mobile?
     !self.match(/1\d{10}/).nil?
@@ -16,7 +16,7 @@ class String
     length = 0
     self.split('$$').each do |f|
       if f.start_with?("equ_") || f.start_with?("math_") || f.start_with?("fig_")
-        image_type, filename, width, height = f.split(/\*|_/)
+        image_type, filename, file_type, width, height = f.split(/\*|_/)
         length += width.to_i / 8
       else
         length += f.length
@@ -42,12 +42,13 @@ class String
     result
   end
 
-  def render_question
+  def render_question(image_path = Rails.application.config.word_host + "/public/download")
+    image_path ||= Rails.application.config.word_host + "/public/download"
     result = ""
     self.split('$$').each do |f|
       if f.start_with?("equ_") || f.start_with?("math_") || f.start_with?("fig_")
         image_type, filename, filetype, width, height = f.split(/\*|_/)
-        result += "<img src='#{Rails.application.config.word_host}/public/download/#{filename}.#{filetype}' width='#{width.to_f * CF}' height='#{height.to_f * CF}'></img>"
+        result += "<img src='#{image_path}/#{filename}.#{filetype}' width='#{width.to_f * CF}' height='#{height.to_f * CF}'></img>"
       elsif f.start_with?("sub_")
         result += "<sub>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</sub>"
       elsif f.start_with?("sup_")

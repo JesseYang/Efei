@@ -54,8 +54,8 @@ module UserComponents::Student
     self.notes.map { |e| [e.id.to_s, e.updated_at.to_i] }
   end
 
-  def add_note(qid, summary = "", tag = "", topics = "")
-    note = self.notes.where(question_id: qid).first
+  def add_note(qid, hid, summary = "", tag = "", topics = "")
+    note = self.notes.where(question_id: qid, homework_id: hid).first
     if note.present?
       note.update_note(summary, tag, topics)
     else
@@ -92,6 +92,7 @@ module UserComponents::Student
       next if n.blank?
       note = {
         "type" => n.type,
+        "image_path" => n.image_path
         "content" => n.content,
         "items" => n.items
       }

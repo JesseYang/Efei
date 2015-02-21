@@ -25,6 +25,7 @@ class Note
   field :tag, type: String
   belongs_to :user
   belongs_to :question
+  belongs_to :homework
   has_and_belongs_to_many :topics
 
   def update_note(summary, tag, topics)
@@ -50,8 +51,9 @@ class Note
       topic_str: self.topics.map { |e| e.name } .join(',') })
   end
 
-  def self.create_new(qid, summary, tag, topics)
+  def self.create_new(qid, hid, summary, tag, topics)
     q = Question.find(qid)
+    h = Homework.where(id: hid).first
     n = Note.create(subject: q.homework.subject,
       type: q.type,
       content: q.content,
@@ -65,6 +67,7 @@ class Note
       summary: summary,
       tag: tag)
     q.notes << n
+    h.notes << n if h.present?
     topics.split(',').each do |e|
       next if e.blank?
       t = Topic.find_or_create(e, q.homework.subject)

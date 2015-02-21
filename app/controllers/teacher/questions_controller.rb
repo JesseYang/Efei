@@ -1,13 +1,25 @@
 # encoding: utf-8
 class Teacher::QuestionsController < Teacher::ApplicationController
+  def point_list
+    p = Point.find(params[:point_id])
+    @questions = auto_paginate_ajax(p.questions, params[:page].to_i || 1, 10)
+    render_json questions: @questions and return
+  end
+
   def index
-    @editions = Structure.editions
-    @current_edition = Structure.default_edition(cookies[:edition_id])
-    @books = @current_edition.books
-    @current_book = @current_edition.default_book(cookies[:book_id])
-
-
-    @questions = current_user.questions.page(params[:page] || 0).per(10)
+    @type = %w{tongbu zhuanxiang zonghe} .include?(params[:type]) ? params[:type] : "tongbu"
+    if @type == "tongbu"
+      @editions = Structure.editions
+      @current_edition = Structure.default_edition(cookies[:edition_id])
+      @books = @current_edition.books
+      @current_book = @current_edition.default_book(cookies[:book_id])
+    elsif @type == "zhuanxiang"
+      @root_points = Point.points(0)
+      @current_point = Point.where(id: params[:point_id]).first || @root_points[0]
+      @current_root_point = @current_point.root_point
+      @questions = auto_paginate @current_point.questions
+    else
+    end
   end
 
   def update

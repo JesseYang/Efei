@@ -7,10 +7,9 @@ class Homework < Node
   # no, now, and later
   field :answer_time_type, type: String, default: "no"
   field :answer_time, type: Integer
-  has_many :questions, dependent: :destroy
+  has_and_belongs_to_many :questions, class_name: "Question", inverse_of: :homeworks
   has_one :compose
-  # belongs_to :user, class_name: "User", inverse_of: :homeworks
-  # belongs_to :folder, class_name: "Folder", inverse_of: :homeworks
+  has_many :notes
 
   include HTTParty
   base_uri Rails.application.config.word_host
@@ -72,8 +71,8 @@ class Homework < Node
   def generate(qr_code)
     questions = []
     self.questions_in_order.each do |q|
-      link = MongoidShortener.generate(q.id.to_s)
-      questions << {"type" => q.type, "content" => q.content, "items" => q.items, "link" => link}
+      link = MongoidShortener.generate("#{self.id.to_s},#{q.id.to_s}")
+      questions << {"type" => q.type, "image_path" => q.image_path, "content" => q.content, "items" => q.items, "link" => link}
     end
     data = {
       "questions" => questions,
@@ -82,6 +81,7 @@ class Homework < Node
       "doc_type" => "word",
       "qr_code" => qr_code
     }
+    binding.pry
     response = Homework.post("/Generate.aspx",
       :body => {data: data.to_json} )
     return response.body

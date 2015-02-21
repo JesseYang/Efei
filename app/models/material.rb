@@ -23,11 +23,13 @@ class Material
   @@chn = false
   @@img_save_folder = "public/material_images/"
   @@domain = "http://kuailexue.com"
+  @name = ""
 
   def self.parse
     rom = ["", "I. ", "II. ", "III. ", "IV. ", "V. ", "VI. "]
     Dir["public/materials/*"].each do |path|
       name = path.split("/")[-1]
+      @name = name
       next if name.start_with?("done")
       category = name.split('_')[0]
       f = File.open(path)

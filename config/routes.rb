@@ -32,6 +32,9 @@ Rails.application.routes.draw do
 
   namespace :teacher do
 
+    resources :points do
+    end
+
     resources :structures do
     end
 
@@ -113,6 +116,9 @@ Rails.application.routes.draw do
     end
 
     resources :questions do
+      collection do
+        get :point_list
+      end
       member do
         get :ensure_qr_code
         get :stat

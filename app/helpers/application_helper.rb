@@ -27,6 +27,10 @@ module ApplicationHelper
     end
   end
 
+  def tiku_type
+    { "同步练习" => 0, "专项练习" => 1, "综合套题" => 2}
+  end
+
   def note_type_search
     { "全部类型" => 0, "不懂" => 1, "不会" => 2, "不对" => 3, "典型题" => 4 }
   end
