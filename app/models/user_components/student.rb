@@ -92,7 +92,7 @@ module UserComponents::Student
       next if n.blank?
       note = {
         "type" => n.type,
-        "image_path" => n.image_path
+        "image_path" => n.image_path,
         "content" => n.content,
         "items" => n.items
       }
