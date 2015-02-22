@@ -8,5 +8,6 @@ class Teacher::ApplicationController < ApplicationController
     @compose_qid_str = ( @compose.questions || [] ).map { |e| e.id.to_s }.join(',')
     @show_compose = @compose.homework.present?
     @compose_homework_name = @show_compose ? @compose.homework.name.to_s : ""
+    @included_qid_str = @show_compose ? @compose.homework.q_ids.join(',') : ""
   end
 end

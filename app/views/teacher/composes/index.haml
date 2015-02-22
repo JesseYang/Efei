@@ -33,7 +33,7 @@
           .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
             .question-content-div
               .question-content
-                = render :partial => "partials/question_content", locals: { content: q.content }
+                = render :partial => "partials/question_content", locals: { content: q.content, image_path: q.image_path }
               - if q.type == "choice"
                 .question-items{data: {"question-answer" => q.answer}}
                   - if q.item_len < 8
@@ -42,33 +42,33 @@
                         - q.items.each_with_index do |item, index|
                           %td
                             %label= d2c(index) + ". "
-                            %span.item-content= item.render_question.html_safe
+                            %span.item-content= item.render_question(q.image_path).html_safe
                   - elsif q.item_len < 16
                     %table.line2
                       %tr
                         - q.items[0..1].each_with_index do |item, index|
                           %td
                             %label= d2c(index) + ". "
-                            %span.item-content= item.render_question.html_safe
+                            %span.item-content= item.render_question(q.image_path).html_safe
                       %tr
                         - q.items[2..3].each_with_index do |item, index|
                           %td
                             %label= d2c(index + 2) + ". "
-                            %span.item-content= item.render_question.html_safe
+                            %span.item-content= item.render_question(q.image_path).html_safe
                   - else
                     %table.line1
                       - q.items.each_with_index do |item, index|
                         %tr
                           %td
                             %label= d2c(index) + ". "
-                            %span.item-content= item.render_question.html_safe
+                            %span.item-content= item.render_question(q.image_path).html_safe
               - if q.answer_content.present? || q.answer.present?
                 .question-answer
                   %strong.answer-label 解答:
                   - if q.answer.present?
                     %span= d2c(q.answer)
                 .question-answer-content
-                  = render :partial => "partials/question_content", locals: { content: q.answer_content }
+                  = render :partial => "partials/question_content", locals: { content: q.answer_content, image_path: q.image_path }
             .question-operation-div.hide
               .btn-group.right{data: { qid: q.id.to_s }}
                 = link_to "删除", "javascript:void(0);", :class => 'btn btn-default btn-sm remove-compose-question'

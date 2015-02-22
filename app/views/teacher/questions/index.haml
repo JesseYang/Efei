@@ -110,6 +110,8 @@
                     .question-answer-content
                       = render :partial => "partials/question_content", locals: { content: q.answer_content, image_path: q.image_path }
                 .compose-operation.hide
-                  %a.do-compose{href: "javascript:void(0);"}
+                  %a.do-compose{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "选择试题"}
                 .compose-status.hide
-                  %a.composed{href: "javascript:void(0);"}
+                  %a.composed{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "取消选择"}
+                .include-status.hide
+                  %a.included{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "作业中已有该题"}
