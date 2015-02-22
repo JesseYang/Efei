@@ -1,0 +1,26 @@
+- content_for :head do
+  :javascript
+
+- content_for :teacher_content do
+  %table
+    %tr
+      %th 重点
+      %th 链接
+      %th 类型
+      %th 难度
+      %th 知识点
+    - @materials.each_with_index do |e, i|
+      %tr
+        %td
+          - if e.dangerous
+            %span.red YES
+          - else
+            %span NO
+        %td
+          = link_to "链接", "/teacher/materials/#{e.id.to_s}"
+        %td
+          %span= e.type
+        %td
+          %span= e.difficulty
+        %td
+          %span= e.tags.map { |e| e[:text] } .join(',')

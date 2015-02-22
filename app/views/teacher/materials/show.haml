@@ -4,6 +4,8 @@
 - content_for :teacher_content do
   %p
     = link_to "返回", "/teacher/materials?category=#{@material.category}"
+    = link_to "编辑", "/teacher/materials/#{@material.id.to_s}?type=edit"
+    = link_to "预览", "/teacher/materials/#{@material.id.to_s}?preview=true"
   %p
     %strong 知识点：
     %span= @material.tags.map { |e| e["text"] } .join(', ')
@@ -11,15 +13,50 @@
     %strong 难度：
     %span= @material.difficulty
   %strong 题目：
-  - @material.content.each do |e|
-    %p= e.render_material.html_safe
-  - if @material.type == "选择题"
-    - @material.items.each do |e|
-      %p= e.map { | ee| ee.render_material} .join .html_safe
-  %strong 答案：
-  - @material.answer.each do |e|
-    %p= e.render_material.html_safe
-  - if @material.answer_content.present?
-    %strong 解析：
-    - @material.answer_content.each do |e|
+  - if @type == "edit"
+    = form_tag(teacher_material_path(@material), id: "password-form", method: "put", multipart: true) do
+      .form-group
+        = label_tag :content, "题干"
+        = text_area_tag :content, @material.content.join("\n"), {rows: @material.content.length*2, style: "width: 100%"}
+      - if @material.type == "选择题"
+        = label_tag :items, "选项"
+        - @material.items.each_with_index do |e, i|
+          = text_area_tag "items_#{i.to_s}".to_sym, e.join("\n"), {rows: e.length*2, style: "width: 100%"}
+      .form-group
+        = label_tag :answer, "答案"
+        = text_area_tag :answer, (@material.answer || []).join("\n"), {rows: (@material.answer || []).length*2, style: "width: 100%"}
+      .form-group
+        = label_tag :answer_content, "解析"
+        = text_area_tag :answer_content, (@material.answer_content || []).join("\n"), {rows: (@material.answer_content || []).length*2, style: "width: 100%"}
+        = submit_tag "提交", class: "btn btn-primary"
+  - elsif @preview == "true"
+    - @material.content_preview.each do |e|
       %p= e.render_material.html_safe
+    - if @material.type == "选择题"
+      - @material.items_preview.each do |e|
+        %p= e.map { | ee| ee.render_material} .join .html_safe
+    %strong 答案：
+    - @material.answer_preview.each do |e|
+      %p= e.render_material.html_safe
+    - if @material.answer_content_preview.present?
+      %strong 解析：
+      - @material.answer_content_preview.each do |e|
+        %p= e.render_material.html_safe
+    = form_tag(confirm_teacher_material_path(@material), id: "password-form", method: "post", multipart: true) do
+      = submit_tag "确认", class: "btn btn-danger"
+  - else
+    - @material.content.each do |e|
+      %p= e.render_material.html_safe
+    - if @material.type == "选择题"
+      - @material.items.each do |e|
+        %p= e.map { | ee| ee.render_material} .join .html_safe
+    %strong 答案：
+    - @material.answer.each do |e|
+      %p= e.render_material.html_safe
+    - if @material.answer_content.present?
+      %strong 解析：
+      - @material.answer_content.each do |e|
+        %p= e.render_material.html_safe
+    - if @material.content_old.present?
+      = form_tag(recover_teacher_material_path(@material), id: "password-form", method: "post", multipart: true) do
+        = submit_tag "恢复", class: "btn btn-danger"

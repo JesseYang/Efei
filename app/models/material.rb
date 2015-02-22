@@ -8,13 +8,22 @@ class Material
   field :type, type: String
   field :difficulty, type: Integer
   field :content, type: Array, default: []
+  field :content_old, type: Array, default: []
+  field :content_preview, type: Array, default:[]
   field :items, type: Array, default: []
+  field :items_old, type: Array, default: []
+  field :items_preview, type: Array, default: []
   field :answer, type: Array, default: []
+  field :answer_old, type: Array, default: []
+  field :answer_preview, type: Array, default: []
   field :answer_content, type: Array, default: []
+  field :answer_content_old, type: Array, default: []
+  field :answer_content_preview, type: Array, default: []
   field :tags, type: Array, default: []
   field :category, type: String
   field :dangerous, type: Boolean
   field :choice_without_items, type: Boolean, default: false
+  field :paper, type: Boolean, default: false
   field :imported, type: Boolean, default: false
 
   index({ external_id: 1 }, { unique: true, name: "external_id_index" })
@@ -25,9 +34,9 @@ class Material
   @@domain = "http://kuailexue.com"
   @name = ""
 
-  def self.parse
+  def self.parse(dir = "public/materials/*")
     rom = ["", "I. ", "II. ", "III. ", "IV. ", "V. ", "VI. "]
-    Dir["public/materials/*"].each do |path|
+    Dir[dir].each do |path|
       name = path.split("/")[-1]
       @name = name
       next if name.start_with?("done")

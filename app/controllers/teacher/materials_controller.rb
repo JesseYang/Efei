@@ -10,7 +10,66 @@ class Teacher::MaterialsController < Teacher::ApplicationController
     end
   end
 
+  def list
+    @materials = Material.where(dangerous: true)
+  end
+
   def show
+    @type = params[:type]
+    @preview = params[:preview]
     @material = Material.find(params[:id])
+  end
+
+  def confirm
+    @material = Material.find(params[:id])
+    @material.content_old = @material.content
+    @material.items_old = @material.items
+    @material.answer_old = @material.answer
+    @material.answer_content_old = @material.answer_content
+
+    @material.content = @material.content_preview
+    @material.items = @material.items_preview
+    @material.answer = @material.answer_preview
+    @material.answer_content = @material.answer_content_preview
+
+    @material.dangerous = false
+
+    @material.save
+
+    redirect_to teacher_material_path(id: @material.id.to_s) and return
+  end
+
+  def recover
+    @material = Material.find(params[:id])
+    @material.content = @material.content_old
+    @material.items = @material.items_old
+    @material.answer = @material.answer_old
+    @material.answer_content = @material.answer_content_old
+
+    @material.content_old = []
+
+    @material.dangerous = true
+
+    @material.save
+    
+    redirect_to teacher_material_path(id: @material.id.to_s) and return
+  end
+
+  def update
+    @material = Material.find(params[:id])
+    @material.content_preview = params[:content].split("\r\n")
+    @material.answer_preview = params[:answer].split("\r\n")
+    @material.answer_content_preview = params[:answer_content].split("\r\n")
+    if @material.items.present? && @material.items[0].present?
+      @material.items_preview = [params[:items_0].split("\r\n"),
+        params[:items_1].split("\r\n"),
+        params[:items_2].split("\r\n"),
+        params[:items_3].split("\r\n")]
+    end
+    @material.save
+    logger.info "AAAAAAAAAAAAAAAAAAAA"
+    logger.info params.inspect
+    logger.info "AAAAAAAAAAAAAAAAAAAA"
+    redirect_to teacher_material_path(id: @material.id.to_s, preview: true) and return
   end
 end

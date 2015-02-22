@@ -39,6 +39,13 @@ Rails.application.routes.draw do
     end
 
     resources :materials do
+      collection do
+        get :list
+      end
+      member do
+        post :confirm
+        post :recover
+      end
     end
 
     resources :resources do

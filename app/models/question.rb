@@ -99,81 +99,85 @@ class Question
     return response.body
   end
 
+  @@type_hash = {
+    "选择题" => "choice",
+    "填空题" => "blank",
+    "解答题" => "analysis"
+  }
+  @@item_hash = {
+    "A" => 0,
+    "B" => 1,
+    "C" => 2,
+    "D" => 3,
+  }
+  @@difficulty_ary = [-1, 0, 0, 1, 2, 2]
   def self.import_material_questions
-    type_hash = {
-      "选择题" => "choice",
-      "填空题" => "blank",
-      "解答题" => "analysis"
-    }
-    item_hash = {
-      "A" => 0,
-      "B" => 1,
-      "C" => 2,
-      "D" => 3,
-    }
-    difficulty_ary = [-1, 0, 0, 1, 2, 2]
     ms = Material.where(imported: false).to_a
     ms.each do |m|
-      next if m.dangerous
-      next if m.type == "选择题" && m.choice_without_items
-      next if Question.where(external_site: "kuailexue.com", external_id: m.external_id).first.present?
-      problem = false
-      type = type_hash[m.type]
-      content = m.content.map do |line|
-        Question.process_material_line(line)
-      end
-      if content.include? "dangerous"
-        m.update_attribute :dangerous, true
-        next
-      end
-      answer_content = []
-      if type == "choice"
-        items = m.items.each_with_index.map do |e, i|
-          if e.length > 1
-            problem = true
-            break
-          end
-          item_content = e[0].scan(/[ABCD]．(.+)/)[0][0]
-          Question.process_material_line(item_content)
-        end
-        if items.include? "dangerous"
-          m.update_attribute :dangerous, true
-          next
-        end
-        answer = item_hash[m.answer[0]]
-      else
-        answer_content += (m.answer || []).map do |line|
-          Question.process_material_line(line)
-        end
-      end
-      answer_content += (m.answer_content || []).map do |line|
-        Question.process_material_line(line)
-      end
-      if answer_content.include? "dangerous" || problem
-        m.update_attribute :dangerous, true
-        next
-      end
-      difficulty = difficulty_ary[m.difficulty]
-      q = Question.create(
-        subject: m.subject,
-        type: type,
-        external_site: "kuailexue.com",
-        external_id: m.external_id,
-        content: content,
-        items: items,
-        answer: answer,
-        answer_content: answer_content,
-        image_path: "#{Rails.application.config.server_host}/question_images/",
-        difficulty: difficulty,
-        subject: 2
-      )
-      m.tags.each do |t|
-        p = ::Point.where(name: t["text"]).first
-        next if p.blank?
-        p.push_question(q)
-      end
-      m.update_attribute(:imported, true)
+      Question.import_material_question(m)
     end
+  end
+
+  def self.import_material_question(m)
+    return if m.dangerous
+    return if m.type == "选择题" && m.choice_without_items
+    return if Question.where(external_site: "kuailexue.com", external_id: m.external_id).first.present?
+    problem = false
+    type = @@type_hash[m.type]
+    content = m.content.map do |line|
+      Question.process_material_line(line)
+    end
+    if content.include? "dangerous"
+      m.update_attribute :dangerous, true
+      return
+    end
+    answer_content = []
+    if type == "choice"
+      items = m.items.each_with_index.map do |e, i|
+        if e.length > 1
+          problem = true
+          break
+        end
+        item_content = e[0].scan(/[ABCD]．(.+)/)[0][0]
+        Question.process_material_line(item_content)
+      end
+      if items.include? "dangerous"
+        m.update_attribute :dangerous, true
+        return
+      end
+      answer = @@item_hash[m.answer[0]]
+    else
+      answer_content += (m.answer || []).map do |line|
+        Question.process_material_line(line)
+      end
+    end
+    answer_content += (m.answer_content || []).map do |line|
+      Question.process_material_line(line)
+    end
+    if answer_content.include? "dangerous" || problem
+      m.update_attribute :dangerous, true
+      return
+    end
+    difficulty = @@difficulty_ary[m.difficulty]
+    q = Question.create(
+      subject: m.subject,
+      type: type,
+      external_site: "kuailexue.com",
+      external_id: m.external_id,
+      content: content,
+      items: items,
+      answer: answer,
+      answer_content: answer_content,
+      image_path: "#{Rails.application.config.server_host}/question_images/",
+      difficulty: difficulty,
+      subject: 2
+    )
+    m.tags.each do |t|
+      p = ::Point.where(name: t["text"]).first
+      next if p.blank?
+      p.push_question(q)
+    end
+    m.update_attribute(:imported, true)
   end
 
   def self.process_material_line(line)
