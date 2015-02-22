@@ -147,7 +147,6 @@ class Homework < Node
           q = Question.create(type: "text", content: title)
           h.add_question(q)
         end
-        part.
       end
     end
   end
