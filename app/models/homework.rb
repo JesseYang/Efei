@@ -25,6 +25,12 @@ class Homework < Node
     self.q_ids.map { |e| Question.find(e) }
   end
 
+  def add_question(question)
+    self.q_ids << q.id.to_s
+    self.questions << q
+    self.save
+  end
+
   def add_questions(questions)
     questions.each do |q|
       self.q_ids << q.id.to_s
@@ -121,5 +127,28 @@ class Homework < Node
 
   def last_update_time
     self.updated_at.today? ? self.updated_at.strftime("%H点%M分") : self.updated_at.strftime("%Y年%m月%d日")
+  end
+
+  def self.parse_exam
+    Dir["public/papers/*"].each do |path|
+      name = path.split("/")[-1]
+      @name = name
+      next if name.start_with?("done")
+      f = File.open(path)
+      c = f.read
+      f.close
+      p = Nokogiri::HTML(c)
+      name = p.css("h1").text
+      h = Homework.create(name: name)
+      parts = p.css(".part")
+      parts.each do |part|
+        title = part.css(".part_title").text
+        if title.present?
+          q = Question.create(type: "text", content: title)
+          h.add_question(q)
+        end
+        part.
+      end
+    end
   end
 end

@@ -19,7 +19,6 @@ class Question
   field :external_id, type: String
   has_and_belongs_to_many :homeworks, class_name: "Homework", inverse_of: :questions
   has_and_belongs_to_many :composes, class_name: "Compose", inverse_of: :questions
-  belongs_to :user
   has_many :notes
 
   has_and_belongs_to_many :points, class_name: "Point", inverse_of: :questions
@@ -113,7 +112,8 @@ class Question
       "D" => 3,
     }
     difficulty_ary = [-1, 0, 0, 1, 2, 2]
-    Material.where(imported: false).each do |m|
+    ms = Material.where(imported: false).to_a
+    ms.each do |m|
       next if m.dangerous
       next if m.type == "选择题" && m.choice_without_items
       next if Question.where(external_site: "kuailexue.com", external_id: m.external_id).first.present?

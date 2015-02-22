@@ -9,7 +9,6 @@ module UserComponents::Teacher
     field :admin, type: Boolean, default: false
 
     has_many :nodes, class_name: "Node", inverse_of: :user
-    has_many :questions, class_name: "Question", inverse_of: :user
     has_one :compose, class_name: "Compose", inverse_of: :user
     # has_many :homeworks, class_name: "Homework", inverse_of: :user
     # has_many :slides, class_name: "Homework", inverse_of: :user
