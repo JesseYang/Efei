@@ -28,7 +28,7 @@ class Teacher::ComposesController < Teacher::ApplicationController
 
   def add
     current_user.compose.add_question(params[:question_id])
-    render_json({ question_number: current_user.compose.questions.length }) and return
+    render_json({ question_number: User.find(current_user.id).compose.questions.length }) and return
   end
 
   def remove

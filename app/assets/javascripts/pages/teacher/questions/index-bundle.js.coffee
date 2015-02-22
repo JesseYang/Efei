@@ -109,7 +109,6 @@ $ ->
 
   $(".content-div").each ->
     qid = $(this).attr("data-question-id")
-    console.log qid
     if window.compose_qid_str.indexOf(qid) != -1
       $(this).find(".compose-status").removeClass("hide")
 

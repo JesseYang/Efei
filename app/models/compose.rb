@@ -6,11 +6,10 @@ class Compose
   belongs_to :user
   belongs_to :homework
   has_and_belongs_to_many :questions, class_name: "Question", inverse_of: :composes
-  has_many :questions
 
   def add_question(question_id)
   	question = Question.find(question_id)
-  	self.questions << question
+  	self.questions.push(question)
   end
 
   def remove_question(question_id)
