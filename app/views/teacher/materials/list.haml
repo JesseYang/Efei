@@ -4,6 +4,7 @@
 - content_for :teacher_content do
   %table
     %tr
+      %th 编号
       %th 重点
       %th 链接
       %th 类型
@@ -11,6 +12,8 @@
       %th 知识点
     - @materials.each_with_index do |e, i|
       %tr
+        %td
+          %span= "#{i+1}"
         %td
           - if e.dangerous
             %span.red YES
