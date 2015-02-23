@@ -188,7 +188,7 @@ class Material
       end
       if included == true
         ms << m
-        break
+        next
       end
 
       if m.items.present?
@@ -207,7 +207,7 @@ class Material
         end
         if included == true
           ms << m
-          break
+          next
         end
       end
 
@@ -223,7 +223,7 @@ class Material
       end
       if included == true
         ms << m
-        break
+        next
       end
 
       (m.answer_content || []).each do |line|
@@ -238,9 +238,8 @@ class Material
       end
       if included == true
         ms << m
-        break
+        next
       end
-
     end
     ms
   end
