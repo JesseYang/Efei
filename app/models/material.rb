@@ -186,7 +186,7 @@ class Material
           equs = r[0][0].split("\\\\")
           equs.each do |e|
             # equ = e.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
-            equ = e.children[0].text
+            equ = e
             return true if equ.include?("∴") || equ.include?("或") || equ.include?("且") || equ.include?("即")
             @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
             content << "$$equ_#{equ}$$"
