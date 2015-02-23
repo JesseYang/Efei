@@ -26,6 +26,8 @@ class Material
   field :paper, type: Boolean, default: false
   field :imported, type: Boolean, default: false
 
+  field :check, type: Boolean, default: false
+
   index({ external_id: 1 }, { unique: true, name: "external_id_index" })
 
 
@@ -162,5 +164,19 @@ class Material
     end
     content << cur_text
     content
+  end
+
+  def self.check
+    materials = Material.all.to_a
+    materials.each_with_index do |m, i|
+      if i % 100 == 0
+        puts i
+      end
+      check = false
+      str = m.content.join + (m.answer || []).join + (m.answer_content || []).join + ((m.items || []).map { |e| e.join }).join
+      if str.frag.include?("\\ or\\ ") || str.include?("\\ and\\ ") || str.include?("\\therefore")
+        m.update_attribute :check, true
+      end
+    end
   end
 end
