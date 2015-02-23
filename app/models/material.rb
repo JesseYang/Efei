@@ -106,7 +106,7 @@ class Material
             answer_ele = answer_nodes.map { |e| e.css(".dd").first } 
             answer = []
             answer_ele.each_with_index do |e, i|
-              ret += self.parse_content(e, rom[i+1])
+              ret = self.parse_content(e, rom[i+1])
               if ret == true
                 m = Material.where(external_id: external_id).first
                 m.update_attribute(:check, true) if m.present?
