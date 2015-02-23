@@ -175,11 +175,11 @@ class Material
   def self.select_prime
     ms = Material.all.select do |m|
       str = m.content.join + (m.answer || []).join + (m.answer_content || []).join + ((m.items || []).map { |e| e.join }).join
-      str.include?("′")
+      str.include?("①")
     end
   end
 
-  def repalce_prime
+  def replace_cricle
     self.content.map! do |e|
       e.gsub("′", "'")
     end
