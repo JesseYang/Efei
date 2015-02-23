@@ -38,10 +38,13 @@ class Material
 
   def self.parse(dir = "public/materials/*")
     rom = ["", "I. ", "II. ", "III. ", "IV. ", "V. ", "VI. "]
+    ii = 0
     Dir[dir].each do |path|
+      ii += 1
+      puts ii
       name = path.split("/")[-1]
       @name = name
-      next if name.start_with?("done")
+      # next if name.start_with?("done")
       category = name.split('_')[0]
       f = File.open(path)
       c = f.read
@@ -57,14 +60,27 @@ class Material
           choice_without_items = false
           external_id = q_ele.attr("data-id")
           next if external_id == "null" || external_id.nil?
-          next if Material.where(external_id: external_id).first.present?
+          # next if Material.where(external_id: external_id).first.present?
           content = []
           q_ele.css("stem").each_with_index do |s, i|
-            content += self.parse_content(s, rom[i])
+            ret = self.parse_content(s, rom[i])
+            if ret == true
+              m = Material.where(external_id: external_id).first
+              m.update_attribute(check: true) if m.present?
+              break
+            end
+            content += ret
           end
+          next if ret == true
           if type == "选择题"
             if q_ele.css("opts").first.present?
-              items = self.parse_options(q_ele.css("opts").first)
+              ret = self.parse_options(q_ele.css("opts").first)
+              if ret == true
+                m = Material.where(external_id: external_id).first
+                m.update_attribute(check: true) if m.present?
+                next
+              end
+              items = ret
             else
               choice_without_items = true
             end
@@ -78,32 +94,52 @@ class Material
           answer_nodes = q_ele.css(".answer")
           if answer_nodes.length == 1
             answer_ele = answer_nodes.css(".dd").first
-            answer = self.parse_content(answer_ele)
+            ret = self.parse_content(answer_ele)
+            if ret == true
+              m = Material.where(external_id: external_id).first
+              m.update_attribute(check: true) if m.present?
+              next
+            end
+            answer = ret
           else
             answer_ele = answer_nodes.map { |e| e.css(".dd").first } 
             answer = []
             answer_ele.each_with_index do |e, i|
-              answer += self.parse_content(e, rom[i+1])
+              ret += self.parse_content(e, rom[i+1])
+              if ret == true
+                m = Material.where(external_id: external_id).first
+                m.update_attribute(check: true) if m.present?
+                break
+              end
+              answer += ret
             end
+            next if ret == true
           end
           answer_content_part = q_ele.css(".exp").first
           if answer_content_part.present?
             answer_content_ele = answer_content_part.css(".dd").first
-            answer_content = self.parse_content(answer_content_ele)
+            ret = self.parse_content(answer_content_ele)
+            if ret == true
+              m = Material.where(external_id: external_id).first
+              m.update_attribute(check: true) if m.present?
+              next
+            end
+            answer_content = ret
           end
-          Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn, choice_without_items: choice_without_items)
+          # Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn, choice_without_items: choice_without_items)
           @@chn = false
         end
       end
-      new_name = "done_#{name}"
-      new_path = ( path.split("/")[0..-2] + [new_name] ).join("/")
-      File.rename(path, new_path)
+      # new_name = "done_#{name}"
+      # new_path = ( path.split("/")[0..-2] + [new_name] ).join("/")
+      # File.rename(path, new_path)
     end
   end
 
   def self.parse_options(options)
     items = options.xpath("opt").map do |opt|
-      self.parse_content(opt)
+      ret = self.parse_content(opt)
+      return true if ret == true
     end
   end
 
@@ -140,6 +176,7 @@ class Material
         if r.blank?
           # equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
           equ = e.children[0].text
+          return true if equ.include?("∴") || equ.include?("或") || equ.include?("且") || equ.include?("即")
           @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
           cur_text += "$$equ_#{equ}$$"
         else
@@ -149,12 +186,15 @@ class Material
           equs.each do |e|
             # equ = e.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
             equ = e.children[0].text
+            return true if equ.include?("∴") || equ.include?("或") || equ.include?("且") || equ.include?("即")
             @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
             content << "$$equ_#{equ}$$"
           end
         end
       elsif e.children.length > 0
-        cur_text += self.parse_content(e).join
+        ret = self.parse_content(e)
+        return true if ret == true
+        cur_text += ret.join
       else
         cur_text += e.text
       end
