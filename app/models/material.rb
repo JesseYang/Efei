@@ -57,6 +57,7 @@ class Material
         part_body = e.css(".part_body").first
         q_ele_ary = part_body.xpath("div")
         q_ele_ary.each do |q_ele|
+          ret = false
           choice_without_items = false
           external_id = q_ele.attr("data-id")
           next if external_id == "null" || external_id.nil?
