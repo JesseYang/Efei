@@ -67,7 +67,7 @@ class Material
             ret = self.parse_content(s, rom[i])
             if ret == true
               m = Material.where(external_id: external_id).first
-              m.update_attribute(check: true) if m.present?
+              m.update_attribute(:check, true) if m.present?
               break
             end
             content += ret
@@ -78,7 +78,7 @@ class Material
               ret = self.parse_options(q_ele.css("opts").first)
               if ret == true
                 m = Material.where(external_id: external_id).first
-                m.update_attribute(check: true) if m.present?
+                m.update_attribute(:check, true) if m.present?
                 next
               end
               items = ret
@@ -98,7 +98,7 @@ class Material
             ret = self.parse_content(answer_ele)
             if ret == true
               m = Material.where(external_id: external_id).first
-              m.update_attribute(check: true) if m.present?
+              m.update_attribute(:check, true) if m.present?
               next
             end
             answer = ret
@@ -109,7 +109,7 @@ class Material
               ret += self.parse_content(e, rom[i+1])
               if ret == true
                 m = Material.where(external_id: external_id).first
-                m.update_attribute(check: true) if m.present?
+                m.update_attribute(:check, true) if m.present?
                 break
               end
               answer += ret
@@ -122,7 +122,7 @@ class Material
             ret = self.parse_content(answer_content_ele)
             if ret == true
               m = Material.where(external_id: external_id).first
-              m.update_attribute(check: true) if m.present?
+              m.update_attribute(:check, true) if m.present?
               next
             end
             answer_content = ret
