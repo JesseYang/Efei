@@ -172,17 +172,10 @@ class Material
     content
   end
 
-  def self.check
-    materials = Material.all.to_a
-    materials.each_with_index do |m, i|
-      if i % 100 == 0
-        puts i
-      end
-      check = false
+  def self.select_prime
+    Material.all.select do |m|
       str = m.content.join + (m.answer || []).join + (m.answer_content || []).join + ((m.items || []).map { |e| e.join }).join
-      if str.include?("'")
-        m.update_attribute :check, true
-      end
+      str.include?("′")
     end
   end
 end
