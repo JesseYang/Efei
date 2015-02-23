@@ -92,9 +92,10 @@ class Material
             answer_content_ele = answer_content_part.css(".dd").first
             answer_content = self.parse_content(answer_content_ele)
           end
+          m.destroy
           Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn, choice_without_items: choice_without_items, check: true)
           q = Question.where(external_id: external_id).first
-          q.destroy
+          q.destroy if q.present?
           @@chn = false
         end
       end
