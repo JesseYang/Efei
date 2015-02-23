@@ -174,7 +174,7 @@ class Material
       end
       check = false
       str = m.content.join + (m.answer || []).join + (m.answer_content || []).join + ((m.items || []).map { |e| e.join }).join
-      if str.frag.include?("\\ or\\ ") || str.include?("\\ and\\ ") || str.include?("\\therefore")
+      if str.include?("\\ or\\ ") || str.include?("\\ and\\ ") || str.include?("\\therefore")
         m.update_attribute :check, true
       end
     end
