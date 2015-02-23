@@ -11,7 +11,11 @@ class Teacher::MaterialsController < Teacher::ApplicationController
   end
 
   def list
-    @materials = Material.where(dangerous: true)
+    if params[:check] == "true"
+      @materials = Material.where(check: true)
+    else
+      @materials = Material.where(dangerous: true)
+    end
   end
 
   def show
