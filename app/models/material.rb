@@ -195,8 +195,8 @@ class Material
             @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
             content << "$$equ_#{equ}$$"
           end
-=end
         end
+=end
       elsif e.children.length > 0
         ret = self.parse_content(e)
         return true if ret == true
