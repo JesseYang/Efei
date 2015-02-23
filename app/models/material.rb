@@ -138,7 +138,8 @@ class Material
       elsif e.name == "script" && e.children[0].present? && e.children[0].name == "#cdata-section"
         r = e.children[0].text.scan(/^\\begin\{split\}(.+)\\end\{split\}$/)
         if r.blank?
-          equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
+          # equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
+          equ = e.children[0].text
           @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
           cur_text += "$$equ_#{equ}$$"
         else
@@ -146,7 +147,8 @@ class Material
           cur_text = ""
           equs = r[0][0].split("\\\\")
           equs.each do |e|
-            equ = e.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
+            # equ = e.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
+            equ = e.children[0].text
             @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
             content << "$$equ_#{equ}$$"
           end
@@ -164,19 +166,5 @@ class Material
     end
     content << cur_text
     content
-  end
-
-  def self.check
-    materials = Material.all.to_a
-    materials.each_with_index do |m, i|
-      if i % 100 == 0
-        puts i
-      end
-      check = false
-      str = m.content.join + (m.answer || []).join + (m.answer_content || []).join + ((m.items || []).map { |e| e.join }).join
-      if str.include?("\\ or\\ ") || str.include?("\\ and\\ ") || str.include?("\\therefore")
-        m.update_attribute :check, true
-      end
-    end
   end
 end
