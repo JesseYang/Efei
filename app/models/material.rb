@@ -174,12 +174,16 @@ class Material
         next
       elsif e.name == "script" && e.children[0].present? && e.children[0].name == "#cdata-section"
         r = e.children[0].text.scan(/^\\begin\{split\}(.+)\\end\{split\}$/)
-        if r.blank?
-          # equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
-          equ = e.children[0].text
-          return true if equ.include?("∴") || equ.include?("或") || equ.include?("且") || equ.include?("即")
-          @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
-          cur_text += "$$equ_#{equ}$$"
+        if r.present?
+          return true
+        end
+        # if r.blank?
+        # equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
+        equ = e.children[0].text
+        return true if equ.include?("∴") || equ.include?("或") || equ.include?("且") || equ.include?("即")
+        @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
+        cur_text += "$$equ_#{equ}$$"
+=begin
         else
           content << cur_text if cur_text.present?
           cur_text = ""
@@ -191,6 +195,7 @@ class Material
             @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
             content << "$$equ_#{equ}$$"
           end
+=end
         end
       elsif e.children.length > 0
         ret = self.parse_content(e)
