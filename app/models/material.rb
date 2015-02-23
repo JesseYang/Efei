@@ -38,10 +38,7 @@ class Material
 
   def self.parse(dir = "public/materials/*")
     rom = ["", "I. ", "II. ", "III. ", "IV. ", "V. ", "VI. "]
-    ii = 0
     Dir[dir].each do |path|
-      ii += 1
-      puts ii
       name = path.split("/")[-1]
       @name = name
       # next if name.start_with?("done")
@@ -57,31 +54,18 @@ class Material
         part_body = e.css(".part_body").first
         q_ele_ary = part_body.xpath("div")
         q_ele_ary.each do |q_ele|
-          ret = false
           choice_without_items = false
           external_id = q_ele.attr("data-id")
           next if external_id == "null" || external_id.nil?
-          # next if Material.where(external_id: external_id).first.present?
+          m = Material.where(external_id: external_id).first
+          next if m.check != true
           content = []
           q_ele.css("stem").each_with_index do |s, i|
-            ret = self.parse_content(s, rom[i])
-            if ret == true
-              m = Material.where(external_id: external_id).first
-              m.update_attribute(:check, true) if m.present?
-              break
-            end
-            content += ret
+            content += self.parse_content(s, rom[i])
           end
-          next if ret == true
           if type == "选择题"
             if q_ele.css("opts").first.present?
-              ret = self.parse_options(q_ele.css("opts").first)
-              if ret == true
-                m = Material.where(external_id: external_id).first
-                m.update_attribute(:check, true) if m.present?
-                next
-              end
-              items = ret
+              items = self.parse_options(q_ele.css("opts").first)
             else
               choice_without_items = true
             end
@@ -95,39 +79,22 @@ class Material
           answer_nodes = q_ele.css(".answer")
           if answer_nodes.length == 1
             answer_ele = answer_nodes.css(".dd").first
-            ret = self.parse_content(answer_ele)
-            if ret == true
-              m = Material.where(external_id: external_id).first
-              m.update_attribute(:check, true) if m.present?
-              next
-            end
-            answer = ret
+            answer = self.parse_content(answer_ele)
           else
             answer_ele = answer_nodes.map { |e| e.css(".dd").first } 
             answer = []
             answer_ele.each_with_index do |e, i|
-              ret = self.parse_content(e, rom[i+1])
-              if ret == true
-                m = Material.where(external_id: external_id).first
-                m.update_attribute(:check, true) if m.present?
-                break
-              end
-              answer += ret
+              answer += self.parse_content(e, rom[i+1])
             end
-            next if ret == true
           end
           answer_content_part = q_ele.css(".exp").first
           if answer_content_part.present?
             answer_content_ele = answer_content_part.css(".dd").first
-            ret = self.parse_content(answer_content_ele)
-            if ret == true
-              m = Material.where(external_id: external_id).first
-              m.update_attribute(:check, true) if m.present?
-              next
-            end
-            answer_content = ret
+            answer_content = self.parse_content(answer_content_ele)
           end
-          # Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn, choice_without_items: choice_without_items)
+          Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn, choice_without_items: choice_without_items, check: true)
+          q = Question.where(external_id: external_id).first
+          q.destroy
           @@chn = false
         end
       end
@@ -139,8 +106,7 @@ class Material
 
   def self.parse_options(options)
     items = options.xpath("opt").map do |opt|
-      ret = self.parse_content(opt)
-      return true if ret == true
+      self.parse_content(opt)
     end
   end
 
@@ -174,16 +140,11 @@ class Material
         next
       elsif e.name == "script" && e.children[0].present? && e.children[0].name == "#cdata-section"
         r = e.children[0].text.scan(/^\\begin\{split\}(.+)\\end\{split\}$/)
-        if r.present?
-          return true
-        end
-        # if r.blank?
-        # equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
-        equ = e.children[0].text
-        return true if equ.include?("∴") || equ.include?("或") || equ.include?("且") || equ.include?("即")
-        @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
-        cur_text += "$$equ_#{equ}$$"
-=begin
+        if r.blank?
+          # equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
+          equ = e.children[0].text
+          @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
+          cur_text += "$$equ_#{equ}$$"
         else
           content << cur_text if cur_text.present?
           cur_text = ""
@@ -191,16 +152,12 @@ class Material
           equs.each do |e|
             # equ = e.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
             equ = e
-            return true if equ.include?("∴") || equ.include?("或") || equ.include?("且") || equ.include?("即")
             @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
             content << "$$equ_#{equ}$$"
           end
         end
-=end
       elsif e.children.length > 0
-        ret = self.parse_content(e)
-        return true if ret == true
-        cur_text += ret.join
+        cur_text += self.parse_content(e).join
       else
         cur_text += e.text
       end
@@ -212,5 +169,19 @@ class Material
     end
     content << cur_text
     content
+  end
+
+  def self.check
+    materials = Material.all.to_a
+    materials.each_with_index do |m, i|
+      if i % 100 == 0
+        puts i
+      end
+      check = false
+      str = m.content.join + (m.answer || []).join + (m.answer_content || []).join + ((m.items || []).map { |e| e.join }).join
+      if str.include?("'")
+        m.update_attribute :check, true
+      end
+    end
   end
 end
