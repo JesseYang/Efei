@@ -173,9 +173,33 @@ class Material
   end
 
   def self.select_prime
-    Material.all.select do |m|
+    ms = Material.all.select do |m|
       str = m.content.join + (m.answer || []).join + (m.answer_content || []).join + ((m.items || []).map { |e| e.join }).join
       str.include?("′")
     end
+  end
+
+  def repalce_prime
+    self.content.map! do |e|
+      e.gsub("′", "'")
+    end
+    if self.items.present?
+      self.items.map! do |item|
+        item.map! do |e|
+          e.gsub("′", "'")
+        end
+      end
+    end
+    if self.answer.present?
+      self.answer.map! do |e|
+        e.gsub("′", "'")
+      end
+    end
+    if self.answer_content.present?
+      self.answer_content.map! do |e|
+        e.gsub("′", "'")
+      end
+    end
+    self.save
   end
 end
