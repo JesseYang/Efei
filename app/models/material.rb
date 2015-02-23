@@ -172,34 +172,79 @@ class Material
     content
   end
 
-  def self.select_prime
-    ms = Material.all.select do |m|
-      str = m.content.join + (m.answer || []).join + (m.answer_content || []).join + ((m.items || []).map { |e| e.join }).join
-      str.include?("①")
+  def self.select_circle
+    ms = []
+    Material.all.select do |m|
+      included = false
+      m.content.each do |line|
+        line.split("$$").each do |frag|
+          next if !frag.start_with?("equ_")
+          if frag.include?("①") || frag.include?("②") || frag.include?("③") || frag.include?("④") || frag.include?("⑤") || frag.include?("⑥") || frag.include?("⑦") || frag.include?("⑧") || frag.include?("⑨") || frag.include?("⑩")
+            included = true
+            break
+          end
+        end
+        break if included == true
+      end
+      if included == true
+        ms << m
+        break
+      end
+
+      if m.items.present?
+        m.items.each do |item|
+          item.each do |line|
+            line.split("$$").each do |frag|
+              next if !frag.start_with?("equ_")
+              if frag.include?("①") || frag.include?("②") || frag.include?("③") || frag.include?("④") || frag.include?("⑤") || frag.include?("⑥") || frag.include?("⑦") || frag.include?("⑧") || frag.include?("⑨") || frag.include?("⑩")
+                included = true
+                break
+              end
+            end
+            break if included == true
+          end
+          break if included == true
+        end
+        if included == true
+          ms << m
+          break
+        end
+      end
+
+      (m.answer || []).each do |line|
+        line.split("$$").each do |frag|
+          next if !frag.start_with?("equ_")
+          if frag.include?("①") || frag.include?("②") || frag.include?("③") || frag.include?("④") || frag.include?("⑤") || frag.include?("⑥") || frag.include?("⑦") || frag.include?("⑧") || frag.include?("⑨") || frag.include?("⑩")
+            included = true
+            break
+          end
+        end
+        break if included == true
+      end
+      if included == true
+        ms << m
+        break
+      end
+
+      (m.answer_content || []).each do |line|
+        line.split("$$").each do |frag|
+          next if !frag.start_with?("equ_")
+          if frag.include?("①") || frag.include?("②") || frag.include?("③") || frag.include?("④") || frag.include?("⑤") || frag.include?("⑥") || frag.include?("⑦") || frag.include?("⑧") || frag.include?("⑨") || frag.include?("⑩")
+            included = true
+            break
+          end
+        end
+        break if included == true
+      end
+      if included == true
+        ms << m
+        break
+      end
+
     end
+    ms
   end
 
   def replace_cricle
-    self.content.map! do |e|
-      e.gsub("′", "'")
-    end
-    if self.items.present?
-      self.items.map! do |item|
-        item.map! do |e|
-          e.gsub("′", "'")
-        end
-      end
-    end
-    if self.answer.present?
-      self.answer.map! do |e|
-        e.gsub("′", "'")
-      end
-    end
-    if self.answer_content.present?
-      self.answer_content.map! do |e|
-        e.gsub("′", "'")
-      end
-    end
-    self.save
   end
 end
