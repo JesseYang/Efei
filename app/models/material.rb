@@ -26,8 +26,6 @@ class Material
   field :paper, type: Boolean, default: false
   field :imported, type: Boolean, default: false
 
-  field :check, type: Boolean, default: false
-
   index({ external_id: 1 }, { unique: true, name: "external_id_index" })
 
 
@@ -41,8 +39,8 @@ class Material
     Dir[dir].each do |path|
       name = path.split("/")[-1]
       @name = name
-      # next if name.start_with?("done")
-      category = name.split('_')[0]
+      next if name.start_with?("done")
+      # category = name.split('_')[0]
       f = File.open(path)
       c = f.read
       f.close
@@ -58,7 +56,7 @@ class Material
           external_id = q_ele.attr("data-id")
           next if external_id == "null" || external_id.nil?
           m = Material.where(external_id: external_id).first
-          next if m.check != true
+          next if m.present?
           content = []
           q_ele.css("stem").each_with_index do |s, i|
             content += self.parse_content(s, rom[i])
@@ -74,6 +72,7 @@ class Material
           q_ele.css(".q_tags").each do |t|
             tags += t.css("li").map { |e| { id: e.attr("tid"), text: e.text } }
           end
+          category = tags[0]
           tags.uniq!
           difficulty = q_ele.css(".diffculty").first.css("li").length
           answer_nodes = q_ele.css(".answer")
@@ -92,16 +91,13 @@ class Material
             answer_content_ele = answer_content_part.css(".dd").first
             answer_content = self.parse_content(answer_content_ele)
           end
-          m.destroy
-          Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn, choice_without_items: choice_without_items, check: true)
-          q = Question.where(external_id: external_id).first
-          q.destroy if q.present?
+          Material.create(external_id: external_id, subject: 2, type: type, difficulty: difficulty, content: content, items: items, tags: tags, answer: answer, answer_content: answer_content, category: category, dangerous: @@chn, choice_without_items: choice_without_items)
           @@chn = false
         end
       end
-      # new_name = "done_#{name}"
-      # new_path = ( path.split("/")[0..-2] + [new_name] ).join("/")
-      # File.rename(path, new_path)
+      new_name = "done_#{name}"
+      new_path = ( path.split("/")[0..-2] + [new_name] ).join("/")
+      File.rename(path, new_path)
     end
   end
 
@@ -142,8 +138,7 @@ class Material
       elsif e.name == "script" && e.children[0].present? && e.children[0].name == "#cdata-section"
         r = e.children[0].text.scan(/^\\begin\{split\}(.+)\\end\{split\}$/)
         if r.blank?
-          # equ = e.children[0].text.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
-          equ = e.children[0].text
+          equ = Material.replace_equ(e.children[0].text)
           @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
           cur_text += "$$equ_#{equ}$$"
         else
@@ -151,8 +146,7 @@ class Material
           cur_text = ""
           equs = r[0][0].split("\\\\")
           equs.each do |e|
-            # equ = e.gsub('∴', '\therefore').gsub("或", "\\ or\\ ").gsub("且", "\\ and\\ ").gsub("即", "\\therefore")
-            equ = e
+            equ = Material.replace_equ(e)
             @@chn = true if equ.scan(/[\u4e00-\u9fa5]/).present?
             content << "$$equ_#{equ}$$"
           end
@@ -170,6 +164,25 @@ class Material
     end
     content << cur_text
     content
+  end
+
+  def self.replace_equ(s)
+    s.gsub("①", "\\textcircled{1}")
+    .gsub("②", "\\textcircled{2}")
+    .gsub("③", "\\textcircled{3}")
+    .gsub("④", "\\textcircled{4}")
+    .gsub("⑤", "\\textcircled{5}")
+    .gsub("⑥", "\\textcircled{6}")
+    .gsub("⑦", "\\textcircled{7}")
+    .gsub("⑧", "\\textcircled{8}")
+    .gsub("⑨", "\\textcircled{9}")
+    .gsub("⑩", "\\textcircled{10}")
+    .gsub("′", "'")
+    .gsub("（", "(")
+    .gsub("）", ")")
+    .gsub("＋", "+")
+    .gsub("－", "-")
+    .gsub("＝", "=")
   end
 
   def self.select_circle
