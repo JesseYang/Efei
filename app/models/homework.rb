@@ -158,7 +158,7 @@ class Homework < Node
           materials << { type: "id", content: material.id.to_s }
         end
       end
-      h = Homework.create(name: h_name, subject: 2, type: "paper", materials: material_ids)
+      h = Homework.create(name: h_name, subject: 2, type: "paper", materials: materials)
       new_name = "#{name}_done"
       new_path = ( path.split("/")[0..-2] + [new_name] ).join("/")
       File.rename(path, new_path)
