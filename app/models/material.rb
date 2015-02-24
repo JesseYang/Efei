@@ -318,15 +318,15 @@ class Material
   end
 
   def self.replace_string(s)
-    s.gsub("①", "\\textcircled{1}").
-    .gsub("②", "\\textcircled{2}").
-    .gsub("③", "\\textcircled{3}").
-    .gsub("④", "\\textcircled{4}").
-    .gsub("⑤", "\\textcircled{5}").
-    .gsub("⑥", "\\textcircled{6}").
-    .gsub("⑦", "\\textcircled{7}").
-    .gsub("⑧", "\\textcircled{8}").
-    .gsub("⑨", "\\textcircled{9}").
+    s.gsub("①", "\\textcircled{1}")
+    .gsub("②", "\\textcircled{2}")
+    .gsub("③", "\\textcircled{3}")
+    .gsub("④", "\\textcircled{4}")
+    .gsub("⑤", "\\textcircled{5}")
+    .gsub("⑥", "\\textcircled{6}")
+    .gsub("⑦", "\\textcircled{7}")
+    .gsub("⑧", "\\textcircled{8}")
+    .gsub("⑨", "\\textcircled{9}")
     .gsub("⑩", "\\textcircled{10}")
   end
 end
