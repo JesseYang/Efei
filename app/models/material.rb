@@ -245,5 +245,88 @@ class Material
   end
 
   def replace_cricle
+    new_content = self.content.map do |line|
+      frags = line.split("$$").each do |frag|
+        if frag.start_with?("equ_")
+          Material.replace_string(frag)
+        else
+          frag
+        end
+      end
+      if line.end_with?("$$")
+        frag.join("$$") + "$$"
+      else
+        frag.join("$$")
+      end
+    end
+
+    if self.items.present?
+      new_items = self.items.map do |item|
+        new_item = item.map do |line|
+          frags = line.split("$$").each do |frag|
+            if frag.start_with?("equ_")
+              Material.replace_string(frag)
+            else
+              frag
+            end
+          end
+          if line.end_with?("$$")
+            frag.join("$$") + "$$"
+          else
+            frag.join("$$")
+          end
+        end
+        new_item
+      end
+    end
+
+    if self.answer.present?
+      new_answer = self.answer.map do |line|
+        frags = line.split("$$").each do |frag|
+          if frag.start_with?("equ_")
+            Material.replace_string(frag)
+          else
+            frag
+          end
+        end
+        if line.end_with?("$$")
+          frag.join("$$") + "$$"
+        else
+          frag.join("$$")
+        end
+      end
+    end
+
+    if self.answer_content.present?
+      new_answer_content = self.answer_content.map do |line|
+        frags = line.split("$$").each do |frag|
+          if frag.start_with?("equ_")
+            Material.replace_string(frag)
+          else
+            frag
+          end
+        end
+        if line.end_with?("$$")
+          frag.join("$$") + "$$"
+        else
+          frag.join("$$")
+        end
+      end
+    end
+
+    binding.pry
+  end
+
+  def self.replace_string(s)
+    s.gsub("①", "\\textcircled{1}").
+    .gsub("②", "\\textcircled{2}").
+    .gsub("③", "\\textcircled{3}").
+    .gsub("④", "\\textcircled{4}").
+    .gsub("⑤", "\\textcircled{5}").
+    .gsub("⑥", "\\textcircled{6}").
+    .gsub("⑦", "\\textcircled{7}").
+    .gsub("⑧", "\\textcircled{8}").
+    .gsub("⑨", "\\textcircled{9}").
+    .gsub("⑩", "\\textcircled{10}")
   end
 end
