@@ -12,8 +12,12 @@
     #book-bar
       #type-selector
         %p
-          %strong 类型选择
-        = select_tag :tiku_type, options_for_select(tiku_type, 0)
+          =link_to "同步练习", "/teacher/questions?type=tongbu"
+        %p
+          =link_to "专项练习", "/teacher/questions?type=zhuanxiang"
+        %p
+          =link_to "综合套题", "/teacher/questions?type=zonghe"
+          %strong 综合套题
       - if @type == "tongbu"
         %table
           %tr
