@@ -35,6 +35,10 @@ class String
         result += "<img src=\"/material_images/#{filename}.#{image_type}\"></img>"
       elsif f.start_with?("und_")
         result += "<u>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</u>"
+      elsif f.start_with?("sub_")
+        result += "<sub>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</sub>"
+      elsif f.start_with?("sup_")
+        result += "<sup>#{f[4..-1].gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</sup>"
       else
         result += "<span>#{f.gsub("<", "&lt;").gsub(">", "&gt;").gsub(" ", "&nbsp")}</span>"
       end
