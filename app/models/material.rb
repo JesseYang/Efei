@@ -246,7 +246,7 @@ class Material
 
   def replace_circle
     new_content = self.content.map do |line|
-      frags = line.split("$$").each do |frag|
+      frags = line.split("$$").map do |frag|
         if frag.start_with?("equ_")
           Material.replace_string(frag)
         else
@@ -263,7 +263,7 @@ class Material
     if self.items.present?
       new_items = self.items.map do |item|
         new_item = item.map do |line|
-          frags = line.split("$$").each do |frag|
+          frags = line.split("$$").map do |frag|
             if frag.start_with?("equ_")
               Material.replace_string(frag)
             else
@@ -282,7 +282,7 @@ class Material
 
     if self.answer.present?
       new_answer = self.answer.map do |line|
-        frags = line.split("$$").each do |frag|
+        frags = line.split("$$").map do |frag|
           if frag.start_with?("equ_")
             Material.replace_string(frag)
           else
@@ -299,7 +299,7 @@ class Material
 
     if self.answer_content.present?
       new_answer_content = self.answer_content.map do |line|
-        frags = line.split("$$").each do |frag|
+        frags = line.split("$$").map do |frag|
           if frag.start_with?("equ_")
             Material.replace_string(frag)
           else
