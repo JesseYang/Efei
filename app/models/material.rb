@@ -333,4 +333,8 @@ class Material
     .gsub("⑨", "\\textcircled{9}")
     .gsub("⑩", "\\textcircled{10}")
   end
+
+  def to_s
+    self.content.join + (self.items || []).map { |item| item.join } .join + (self.answer || []).join + (self.answer_content || []).join
+  end
 end
