@@ -314,7 +314,11 @@ class Material
       end
     end
 
-    binding.pry
+    self.content = new_content
+    self.items = new_items
+    self.answer = new_answer
+    self.answer_content = new_answer_content
+    self.save
   end
 
   def self.replace_string(s)
