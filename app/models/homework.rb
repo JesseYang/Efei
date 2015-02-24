@@ -163,4 +163,25 @@ class Homework < Node
       File.rename(path, new_path)
     end
   end
+
+  def import_exam_question
+    self.materials.each_with_index do |e, i|
+      next if self.q_ids[i].present?
+      if e["type"] == "text"
+        q = Question.create(type: "text", content: [e["content"]])
+        self.q_ids[i] = q.id.to_s
+        self.questions << q
+        self.save
+      else
+        m = Material.find(e["content"])
+        next if m.dangerous
+        Question.import_material_question(m)
+        q = Question.where(external_id: m.external_id).first
+        next if q.nil?
+        self.q_ids[i] = q.id.to_s
+        self.questions << q
+        self.save
+      end
+    end
+  end
 end
