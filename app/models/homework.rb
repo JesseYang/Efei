@@ -7,8 +7,7 @@ class Homework < Node
   field :q_ids, type: Array, default: []
   field :tag_set, type: String, default: "不懂,不会,不对,典型题"
   ### for "paper" homeworks
-  field :material_ids, type: Array, default: []
-  field :finished, type: Boolean, default: false
+  field :materials, type: Array, default: []
   ###
   # no, now, and later
   field :answer_time_type, type: String, default: "no"
@@ -138,7 +137,6 @@ class Homework < Node
   def self.parse_exam
     Dir["public/papers/*"].each do |path|
       name = path.split("/")[-1]
-      @name = name
       # starting with "done" means that the materials has been imported
       # ending with "done" means that the exam has been imported
       next if !name.start_with?("done") || name.end_with?("done")
@@ -146,49 +144,25 @@ class Homework < Node
       c = f.read
       f.close
       p = Nokogiri::HTML(c)
-      name = f.path.split("paper_")[-1]
-      questions = [ ]
-      material_ids = [ ]
+      h_name = f.path.split("paper_")[-1]
+      materials = [ ]
       parts = p.css("#parts")[0]
-      problem = false
       parts.children.each do |e|
         text = e.css(".part_header").text
-        questions << { type: "text", content: text }
+        materials << { type: "text", content: text }
         part_body = e.css(".part_body").first
         q_ele_ary = part_body.xpath("div")
         q_ele_ary.each do |q_ele|
-          problem = false
           external_id = q_ele.attr("data-id")
           material = Material.where(external_id: external_id).first
-          if material.nil?
-            problem = true
-            break
-          else
-            material_ids << material.id.to_s
-            Question.import_material_question(material)
-            q = Question.where(external_id: external_id).first
-            if q.nil?
-              problem = true
-            end
-          end
-          questions << { type: "question", content: q.id.to_s } if q.present?
-        end
-        break if problem
-      end
-      h = Homework.create(name: name, subject: 2, type: "paper", material_ids: material_ids)
-      next if problem
-      questions.each do |q|
-        if q[:type] == "text"
-          q = Question.create(type: "text", content: [q[:content]])
-          h.add_question(q)
-        else
-          h.add_question(Question.find(q[:content]))
+          materials << { type: "id", content: material.id.to_s }
         end
       end
-      h.update_attribute :finished, true
+      h = Homework.create(name: h_name, subject: 2, type: "paper", materials: material_ids)
       new_name = "#{name}_done"
       new_path = ( path.split("/")[0..-2] + [new_name] ).join("/")
       File.rename(path, new_path)
+      binding.pry
     end
   end
 end
