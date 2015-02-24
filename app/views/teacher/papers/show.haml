@@ -1,0 +1,33 @@
+- content_for :head do
+  :javascript
+
+- content_for :teacher_content do
+  %table
+    %tr
+      %th DANGEROUS
+      %th LINK
+      %th TYPE
+      %th DIFFICULTY
+      %th POINT
+    - @papers.each_with_index do |e, i|
+      %tr
+        - if e["type"] == "text"
+          %td
+          %td= e["content"]
+        %td
+        - else
+          - m = Material.find(e["content"])
+          %td
+            - if e.dangerous
+              %span.red YES
+            - else
+              %span NO
+          %td
+            = link_to "链接", "/teacher/materials/#{e['content']}"
+          %td
+            %span= m.type
+          %td
+            %span= m.difficulty
+          %td
+            %span= m.tags.map { |t| t[:text] } .join(',')
+

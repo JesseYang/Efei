@@ -38,6 +38,9 @@ Rails.application.routes.draw do
     resources :structures do
     end
 
+    resources :papers do
+    end
+
     resources :materials do
       collection do
         get :list

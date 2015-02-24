@@ -1,0 +1,14 @@
+- content_for :head do
+  :javascript
+
+- content_for :teacher_content do
+  %table
+    %tr
+      %th NUMBER
+      %th TITLE
+    - @papers.each_with_index do |e, i|
+      %tr
+        %td
+          %span= "#{i+1}"
+        %td
+          = link_to "#{e.name}", "/teacher/papers/#{e.id.to_s}"
