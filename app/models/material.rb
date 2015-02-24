@@ -337,4 +337,11 @@ class Material
   def to_s
     self.content.join + (self.items || []).map { |item| item.join } .join + (self.answer || []).join + (self.answer_content || []).join
   end
+
+  def equ_to_s
+    s = self.to_s
+    s.split("$$").select do |e|
+      e.start_with?("equ_")
+    end .join("$$")
+  end
 end
