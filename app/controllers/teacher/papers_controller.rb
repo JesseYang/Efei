@@ -2,7 +2,7 @@
 class Teacher::PapersController < Teacher::ApplicationController
 
   def index
-    @papers = Homework.where(type: "paper")
+    @papers = Homework.where(type: "paper").desc(:name)
   end
 
   def show

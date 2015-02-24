@@ -92,7 +92,6 @@ class Homework < Node
       "doc_type" => "word",
       "qr_code" => qr_code
     }
-    binding.pry
     response = Homework.post("/Generate.aspx",
       :body => {data: data.to_json} )
     return response.body
@@ -162,7 +161,6 @@ class Homework < Node
       new_name = "#{name}_done"
       new_path = ( path.split("/")[0..-2] + [new_name] ).join("/")
       File.rename(path, new_path)
-      binding.pry
     end
   end
 end

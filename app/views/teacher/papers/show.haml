@@ -9,16 +9,15 @@
       %th TYPE
       %th DIFFICULTY
       %th POINT
-    - @papers.each_with_index do |e, i|
+    - @paper.materials.each_with_index do |e, i|
       %tr
         - if e["type"] == "text"
           %td
           %td= e["content"]
-        %td
         - else
           - m = Material.find(e["content"])
           %td
-            - if e.dangerous
+            - if m.dangerous
               %span.red YES
             - else
               %span NO
