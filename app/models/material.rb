@@ -244,7 +244,7 @@ class Material
     ms
   end
 
-  def replace_cricle
+  def replace_circle
     new_content = self.content.map do |line|
       frags = line.split("$$").each do |frag|
         if frag.start_with?("equ_")
@@ -254,9 +254,9 @@ class Material
         end
       end
       if line.end_with?("$$")
-        frag.join("$$") + "$$"
+        frags.join("$$") + "$$"
       else
-        frag.join("$$")
+        frags.join("$$")
       end
     end
 
@@ -271,9 +271,9 @@ class Material
             end
           end
           if line.end_with?("$$")
-            frag.join("$$") + "$$"
+            frags.join("$$") + "$$"
           else
-            frag.join("$$")
+            frags.join("$$")
           end
         end
         new_item
@@ -290,9 +290,9 @@ class Material
           end
         end
         if line.end_with?("$$")
-          frag.join("$$") + "$$"
+          frags.join("$$") + "$$"
         else
-          frag.join("$$")
+          frags.join("$$")
         end
       end
     end
@@ -307,9 +307,9 @@ class Material
           end
         end
         if line.end_with?("$$")
-          frag.join("$$") + "$$"
+          frags.join("$$") + "$$"
         else
-          frag.join("$$")
+          frags.join("$$")
         end
       end
     end
