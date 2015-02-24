@@ -74,7 +74,11 @@ class Material
           end
           category = tags[0]
           tags.uniq!
-          difficulty = q_ele.css(".diffculty").first.css("li").length
+          if q_ele.css(".diffculty").first.nil?
+            difficulty = -1
+          else
+            difficulty = q_ele.css(".diffculty").first.css("li").length
+          end
           answer_nodes = q_ele.css(".answer")
           if answer_nodes.length == 1
             answer_ele = answer_nodes.css(".dd").first
