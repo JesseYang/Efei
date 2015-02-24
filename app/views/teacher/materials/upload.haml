@@ -1,0 +1,8 @@
+- content_for :head do
+  :javascript
+
+- content_for :teacher_content do
+  = form_tag(upload_image_teacher_materials_path, method: "post", multipart: true) do
+    = file_field_tag "image_file"
+    = submit_tag "创建"
+  %p= params[:filename]

@@ -44,6 +44,8 @@ Rails.application.routes.draw do
     resources :materials do
       collection do
         get :list
+        post :upload_image
+        get :upload
       end
       member do
         post :confirm

@@ -24,6 +24,17 @@ class Teacher::MaterialsController < Teacher::ApplicationController
     @material = Material.find(params[:id])
   end
 
+  def upload
+  end
+
+  def upload_image
+    material_image = MaterialImage.new
+    material_image.material_image = params[:image_file]
+    filetype = params[:image_file].original_filename.split(".")[-1]
+    material_image.store_material_image!
+    redirect_to action: :upload, filename: material_image.material_image.file.file
+  end
+
   def confirm
     @material = Material.find(params[:id])
     @material.content_old = @material.content
