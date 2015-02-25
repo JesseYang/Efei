@@ -14,7 +14,7 @@ class Teacher::PapersController < Teacher::ApplicationController
   end
 
   def list
-  	@papers = Homework.where(type: "paper")
+  	@papers = Homework.where(type: "paper", finished: true)
   	@papers = auto_paginate_ajax(@papers, params[:page] || 1, params[:per_page] || 10)
   	render_json({ papers: @papers }) and return
   end
