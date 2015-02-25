@@ -187,5 +187,8 @@ class Homework < Node
         self.save
       end
     end
+    if self.q_ids.length == self.materials.length && !self.q_ids.include?(nil)
+      self.update_attribute(:finished, true)
+    end
   end
 end
