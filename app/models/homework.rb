@@ -11,6 +11,7 @@ class Homework < Node
   field :year, type: Integer, default: 0
   field :province, type: String, default: ""
   field :paper_type, type: String, default: ""
+  field :finished, type: Boolean, default: false
   ###
   # no, now, and later
   field :answer_time_type, type: String, default: "no"
