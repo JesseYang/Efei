@@ -39,6 +39,12 @@ Rails.application.routes.draw do
     end
 
     resources :papers do
+      collection do
+        get :list
+      end
+      member do
+        get :show_one
+      end
     end
 
     resources :materials do

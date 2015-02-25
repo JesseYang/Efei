@@ -17,7 +17,6 @@
           =link_to "专项练习", "/teacher/questions?type=zhuanxiang"
         %p
           =link_to "综合套题", "/teacher/questions?type=zonghe"
-          %strong 综合套题
       - if @type == "tongbu"
         %table
           %tr
@@ -48,6 +47,17 @@
                     %li.root-point-ele.selected{data: {id: p.id.to_s}}= p.name
                   - else
                     %li.root-point-ele{data: {id: p.id.to_s}}= p.name
+      - elsif @type == "zonghe"
+        %ul.zonghe-filter-ul
+          %li
+            %label 年份
+            = select_tag :year, options_for_select(zonghe_year, 0)
+          %li
+            %label 省份
+            = select_tag :province, options_for_select(zonghe_province, 0)
+          %li
+            %label 类型
+            = select_tag :type, options_for_select(zonghe_type, 0)
     .clear-both
     #content-background
       - if @type == "tongbu"
@@ -119,3 +129,6 @@
                   %a.composed{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "取消选择"}
                 .include-status.hide
                   %a.included{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "作业中已有该题"}
+      - elsif @type == "zonghe"
+        #zonghe-paginator-wrapper
+        #paper-table-wrapper

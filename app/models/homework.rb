@@ -8,6 +8,9 @@ class Homework < Node
   field :tag_set, type: String, default: "不懂,不会,不对,典型题"
   ### for "paper" homeworks
   field :materials, type: Array, default: []
+  field :year, type: Integer, default: 0
+  field :province, type: String, default: ""
+  field :paper_type, type: String, default: ""
   ###
   # no, now, and later
   field :answer_time_type, type: String, default: "no"

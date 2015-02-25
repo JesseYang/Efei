@@ -140,6 +140,8 @@ class ApplicationController < ActionController::Base
   end
 
   def auto_paginate_ajax(value, page_ajax, per_page_ajax)
+    page_ajax = page_ajax.to_i
+    per_page_ajax = per_page_ajax.to_i
     retval = {}
     retval['current_page'] = page_ajax
     retval['per_page'] = per_page_ajax

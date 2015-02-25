@@ -53,6 +53,9 @@
       }
     }
   }
+  .zonghe-filter-ul {
+    @include inline-block;
+  }
 }
 
 #left-part {

@@ -1,6 +1,7 @@
 #= require 'utility/ajax'
 #= require 'ui/widgets/folder_tree'
 #= require "./_templates/books_ul"
+#= require "./_templates/paper_table"
 #= require "utility/_templates/paginator_mini"
 #= require "extensions/page_notification"
 $ ->
@@ -53,6 +54,25 @@ $ ->
       else
         $.page_notification "服务器出错"
 
+  refresh_papers = (page) ->
+    $.getJSON "/teacher/papers/list?page=#{page}", (data) ->
+      if data.success
+        # render paginator
+        paginator_mini = $(HandlebarsTemplates["paginator_mini"](data.papers))
+        $("#zonghe-paginator-wrapper").empty()
+        $("#zonghe-paginator-wrapper").append(paginator_mini)
+        # render table
+        paper_table = $(HandlebarsTemplates["paper_table"](data.papers))
+        $("#paper-table-wrapper").empty()
+        $("#paper-table-wrapper").append(paper_table)
+      else
+        $.page_notification "服务器出错"
+
+  $("body").on "click", ".paginator-link", (event) ->
+    ele = $(event.target).closest(".paginator-link")
+    page = ele.attr("data-page")
+    refresh_papers(page)
+    false
   ###
   refresh_questions = (point_id, page, per_page) ->
     $.getJSON "/teacher/questions/point_list?point_id=#{point_id}&page=#{page}&per_page=#{per_page}", (data) ->
@@ -76,10 +96,8 @@ $ ->
     refresh_structure(window.book_id)
   else if window.type == "zhuanxiang"
     refresh_point(window.root_point_id)
-    # refresh_questions(window.point_id, 1, 10)
-
-
-
+  else if window.type == "zonghe"
+    refresh_papers(1)
 
   $(".edition-ele").click ->
     return if $(this).hasClass("selected")
