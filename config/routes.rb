@@ -32,6 +32,9 @@ Rails.application.routes.draw do
 
   namespace :teacher do
 
+    resources :demos do
+    end
+
     resources :points do
     end
 

@@ -1,0 +1,20 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "icons/demos/*.png";
+
+#teacher-navbar {
+  display: none;
+}
+
+#question-wrapper {
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-top: 100px;
+  font-size: 1.3em;
+}
+
+#ok-btn {
+  float: right;
+  margin-right: 150px;
+}

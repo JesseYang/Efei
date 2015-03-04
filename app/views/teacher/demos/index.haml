@@ -1,0 +1,10 @@
+- content_for :head do
+  = stylesheet_link_tag "pages/teacher/demos/index-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/demos/index-bundle"
+  :javascript
+
+- content_for :teacher_content do
+  #question-wrapper
+    - @question.content.each do |line|
+      %p= line.render_question.html_safe
+  %a.btn-lg.btn-primary#ok-btn{href: "/teacher/demos/1"} 完成题目

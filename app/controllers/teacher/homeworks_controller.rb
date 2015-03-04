@@ -128,7 +128,6 @@ class Teacher::HomeworksController < Teacher::ApplicationController
       document.name = params[:homework_file].original_filename
       homework = document.parse_homework(params[:subject].to_i)
       current_user.nodes << homework
-      current_user.add_questions(homework)
       if current_user.folders.where(id: params[:folder_id]).first
         folder_id = params[:folder_id]
       else

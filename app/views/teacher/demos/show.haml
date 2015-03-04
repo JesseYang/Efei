@@ -1,0 +1,29 @@
+- content_for :head do
+  = stylesheet_link_tag "pages/teacher/demos/show-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/demos/show-bundle"
+  :javascript
+    window.next_order = "#{(@demo.try(:order).to_i + 1).to_s}"
+
+- content_for :teacher_content do
+  - if params[:id] == "-1"
+    #tip 系统正在根据你的回答为你准备下一道测试题目
+  - else
+    #content-part
+      #demo-content-wrapper
+        - @demo.content.each do |line|
+          %p= line.render_question.html_safe
+      %span.demo-figure.hide= @demo.figure
+      #demo-items-wrapper
+        - @demo.items.each_with_index do |item, i|
+          .item
+            %p
+              %i.icon.select
+              %span.content= item[:content].render_question.html_safe
+              %span.next.hide= item[:next].to_s
+              %span.figure.hide= item[:figure]
+    #demo-figure
+      - if @demo.figure.blank?
+        %img
+      - else
+        - info = @demo.figure.scan(/^\$\$fig_(.+)\*(.+)\*(.+)\*(.+)\$\$$/).first
+        %img{src: "http://dev.image.efei.org/public/download/#{info[0]}.#{info[1]}", width: info[2].to_i * 1.5, height: info[3].to_i * 1.5 }

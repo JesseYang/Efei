@@ -17,6 +17,9 @@ class Question
   field :difficulty, type: Integer
   field :external_site, type: String
   field :external_id, type: String
+
+  # for demo
+  field :demo, type: Boolean, default: false
   has_and_belongs_to_many :homeworks, class_name: "Homework", inverse_of: :questions
   has_and_belongs_to_many :composes, class_name: "Compose", inverse_of: :questions
   has_many :notes

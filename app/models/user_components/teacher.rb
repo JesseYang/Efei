@@ -43,12 +43,6 @@ module UserComponents::Teacher
     self.compose
   end
 
-  def add_questions(homework)
-    homework.questions.each do |q|
-      self.questions << q if !self.questions.include?(q)
-    end
-  end
-
   def add_to_class(class_id, student)
     return if self.has_student?(student)
     klass = self.classes.where(id: class_id).first || self.classes.where(default: true).first || self.classes.create(default: true, name: "其他")
