@@ -1,0 +1,94 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "welcome/*.png";
+
+#container {
+  width: 100%;
+  text-align: center;
+}
+
+.icon {
+  @include inline-block;
+}
+
+#logo-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  #efei-logo {
+    @include size(104px, 150px);
+    @include welcome-sprite(download);
+  }
+}
+
+.content-div {
+  position: relative;
+  background-color: white;
+  padding: 40px 80px 40px 80px;
+  border-bottom: 1px solid #DDDDDD;
+  .question-content-div {
+    span {
+      white-space: pre-wrap;
+    }
+    .question-items p {
+      margin-left: 10px;
+    }
+    .question-answer {
+      margin-top: 10px;
+    }
+  }
+  table.line4 {
+    width: 100%;
+    tr {
+      width: 25%;
+    }
+  }
+  table.line2 {
+    width: 100%;
+    tr {
+      width: 50%;
+    }
+  }
+  .question-operation-div {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    padding: 5px;
+    background-color: white;
+    .btn {
+      background-color: lighten(#E6E6E6, 5%);
+      &:hover {
+        background-color: #E6E6E6;
+        border-color: #E6E6E6;
+      }
+    }
+  }
+}
+
+#table-wrapper {
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    td {
+      width: 120px;
+    }
+    #ios-logo {
+      margin-left: auto;
+      margin-right: auto;
+      @include size(53px, 53px);
+      @include welcome-sprite(ios);
+    }
+    #android-logo {
+      margin-left: auto;
+      margin-right: auto;
+      @include size(53px, 53px);
+      @include welcome-sprite(android);
+    }
+  }
+}

@@ -1,0 +1,8 @@
+- content_for :app_head do
+  = stylesheet_link_tag "layouts/teacher-layout", :media => "all"
+  = javascript_include_tag "layouts/teacher-layout"
+  = yield :head
+- content_for :app_content do
+  = yield 
+
+= render :template => 'layouts/application'

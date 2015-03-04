@@ -325,6 +325,7 @@ $ ->
         content: "文件格式错误，请上传doc或者docx格式文件"
         delay: 2000
       return false
+    $("#uploadHomeworkModal .btn-primary").attr("disabled", "true")
     notification = $("<div />").appendTo("#uploadHomeworkModal") 
     notification.notification
       delay: 0
