@@ -59,16 +59,16 @@ class Question
       answer_content: (answer_content || []))
   end
 
-  def info_for_student
+  def info_for_student(homework)
     {
       _id: self.id.to_s,
-      subject: self.homework.subject,
+      subject: homework.subject,
       type: self.type,
       content: self.content,
       items: self.items,
       answer: self.answer,
       answer_content: self.answer_content,
-      tag_set: self.homework.tag_set,
+      tag_set: homework.tag_set,
       image_path: self.image_path
     }
   end
