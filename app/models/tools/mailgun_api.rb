@@ -8,6 +8,7 @@ class MailgunApi
   def self.reset_email(uid, email)
     @user = User.find(uid)
     @email = email
+    @name = @user.name.present? @user.name : ( @user.mobile.present? @user.mobile : @user.email )
     reset_email_info = "#{@user.id.to_s},#{email},#{Time.now.to_i}"
     @reset_email_link = "#{Rails.application.config.server_host}/account/registrations/reset_email?key=" + CGI::escape(Encryption.encrypt_reset_email_key(reset_email_info))
     data = {}
