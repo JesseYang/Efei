@@ -13,6 +13,5 @@ class Account::RegistrationsController < Account::ApplicationController
   def reset_email
     key_prime = CGI::unescape(params[:key])
     @retval = User.verify_email(key_prime)
-    render text: retval and return
   end
 end
