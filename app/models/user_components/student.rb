@@ -59,7 +59,7 @@ module UserComponents::Student
     if note.present?
       note.update_note(summary, tag, topics)
     else
-      note = Note.create_new(qid, summary, tag, topics)
+      note = Note.create_new(qid, hid, summary, tag, topics)
       self.notes << note
     end
     self.set_note_update_time(note.subject)

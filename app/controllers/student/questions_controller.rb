@@ -3,7 +3,7 @@ class Student::QuestionsController < Student::ApplicationController
 
   def show
     @q = Question.where(id: params[:id]).first
-    @h = Homework.where(id: params[:hid]).first
+    @h = Homework.where(id: params[:hid]).first || @q.homeworks.first
     if @q.nil? || @h.nil?
       respond_to do |format|
         format.json do
@@ -20,7 +20,7 @@ class Student::QuestionsController < Student::ApplicationController
     end
     respond_to do |format|
       format.json do
-        render_with_auth_key @q.info_for_student and return
+        render_with_auth_key @q.info_for_student(@h) and return
       end
       format.html do
         return

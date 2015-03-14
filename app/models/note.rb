@@ -8,10 +8,8 @@ class Note
   field :type, type: String
   field :content, type: Array, default: []
   field :items, type: Array, default: []
-  field :preview, type: Boolean, default: true
   field :answer, type: Integer, default: -1
   field :answer_content, type: Array, default: []
-  field :inline_images, type: Array, default: []
   field :image_path, type: String, default: "http://dev.efei.org/public/download/"
 
   field :question_str, type: String, default: ""
@@ -30,21 +28,17 @@ class Note
 
   def update_note(summary, tag, topics)
     q = Question.find(self.question_id)
-    self.update_attributes(subject: q.homework.subject,
-      type: q.type,
+    self.update_attributes(type: q.type,
       content: q.content,
       items: q.items,
-      preview: q.preview,
       answer: q.answer,
       answer_content: q.answer_content,
-      inline_images: q.inline_images,
-      tag_set: q.homework.tag_set,
       summary: summary,
       tag: tag)
     self.topics.clear
     topics.split(',').each do |e|
       next if e.blank?
-      t = Topic.find_or_create(e, q.homework.subject)
+      t = Topic.find_or_create(e, self.subject)
       t.notes << self if t.present?
     end
     self.update_attributes({question_str: self.content.join + items.join,
@@ -54,23 +48,21 @@ class Note
   def self.create_new(qid, hid, summary, tag, topics)
     q = Question.find(qid)
     h = Homework.where(id: hid).first
-    n = Note.create(subject: q.homework.subject,
+    n = Note.create(subject: h.subject,
       type: q.type,
       content: q.content,
       items: q.items,
-      preview: q.preview,
       answer: q.answer,
       answer_content: q.answer_content,
-      inline_images: q.inline_images,
       image_path: q.image_path,
-      tag_set: q.homework.tag_set,
+      tag_set: h.tag_set,
       summary: summary,
       tag: tag)
     q.notes << n
     h.notes << n if h.present?
     topics.split(',').each do |e|
       next if e.blank?
-      t = Topic.find_or_create(e, q.homework.subject)
+      t = Topic.find_or_create(e, h.subject)
       t.notes << n if t.present?
     end
     n.update_attributes({question_str: n.content.join + n.items.join,
@@ -79,7 +71,7 @@ class Note
   end
 
   def check_teacher(student)
-    t = self.question.homework.user
+    t = self.homework.user
     teachers = student.klasses.map { |e| e.teacher } .uniq
     if !teachers.include?(t)
       return t
