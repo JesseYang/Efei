@@ -59,7 +59,7 @@
 }
 
 #left-part {
-  padding-top: 50px;
+  padding-top: 30px;
   position: absolute;
   top: 142px;
   left: 5px;
@@ -74,19 +74,89 @@
   right: 0px;
   left: 200px;
   min-width: 800px;
-  #right-head {
-    margin: 10px 100px 10px 10px;
-    #question-paginator-wrapper {
+  .question-info-div {
+    .question-info-wrapper {
       float: right;
+      span {
+        margin-right: 10px;
+        padding: 3px 5px 3px 5px;
+        background-color: #DDD;
+      }
     }
+    margin-bottom: 5px;
+    margin-left: 3px;
+  }
+  .question-paginator-wrapper {
+    float: right;
+  }
+  .search-tip {
+    float: left;
+    height: 30px;
+    span {
+      line-height: 30px;
+    }
+  }
+  #right-top {
+    padding-left: 80px;
+    padding-right: 180px;
+    table {
+      border: 1px solid #DDD;
+      background: #F3F3F3;
+      width: 100%;
+      margin-top: 30px;
+      margin-bottom: 20px;
+      padding: 5px 20px;
+      tr {
+        height: 33px;
+        th {
+          padding-left: 20px;
+          width: 80px;
+          border-bottom: 1px dotted #CCC;
+        }
+        td {
+          border-bottom: 1px dotted #CCC;
+        }
+      }
+    }
+    ul {
+      list-style-type: none;
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 0;
+      li {
+        @include inline-block;
+        a {
+          text-decoration: none;
+          padding: 0 10px;
+          color: black;
+        }
+        span {
+          padding: 0 10px;
+          color: $efblue;
+        }
+      }
+    }
+  }
+  #right-head {
+    padding-left: 70px;
+    padding-right: 80px;
+    margin: 10px 100px 10px 10px;
+  }
+  #right-foot {
+    padding-left: 70px;
+    padding-right: 80px;
+    margin: 10px 100px 10px 10px;
   }
   #right-questions {
     margin-right: 100px;
     .content-div {
       position: relative;
       background-color: white;
-      padding: 40px 80px 40px 80px;
+      padding: 20px 80px 20px 80px;
       border-bottom: 1px solid #DDDDDD;
+      &:first-child {
+        border-top: 1px solid #DDDDDD;
+      }
       .question-content-div {
         span {
           white-space: pre-wrap;

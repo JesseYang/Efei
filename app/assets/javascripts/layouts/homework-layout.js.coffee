@@ -15,7 +15,7 @@ $ ->
         else
           $(".compose-indicator").removeClass("hide")
           $.page_notification("前往题库")
-          window.location.href = "/teacher/questions"
+          window.location.href = "/teacher/questions?type=zhuanxiang"
     )
 
   $("#title-wrapper").hover (->

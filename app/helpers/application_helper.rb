@@ -27,6 +27,28 @@ module ApplicationHelper
     end
   end
 
+  def difficulty_show(d)
+    case d
+    when 1
+      "中等"
+    when 2
+      "困难"
+    else
+      "简单"
+    end
+  end
+
+  def question_type_show(type)
+    case type
+    when "choice"
+      "选择题"
+    when "blank"
+      "填空题"
+    else
+      "解答题"
+    end
+  end
+
   def zonghe_year
     { "不限" => 0, "2014" => 2014, "2013" => 2013, "2012" => 2012, "2011" => 2011, "2010" => 2010 }
   end

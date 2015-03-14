@@ -3,6 +3,15 @@
 @import "compass/utilities/general/clearfix";
 @import "icons/homeworks/*.png";
 
+html {
+  background-color: #EEE;
+}
+
+.tip-p {
+  background-color: #EEE;
+  margin: 0px;
+}
+
 #compose-index {
   width: auto;
   margin-left: 0px;

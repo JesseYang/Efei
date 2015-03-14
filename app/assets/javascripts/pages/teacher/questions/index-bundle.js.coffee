@@ -79,8 +79,8 @@ $ ->
       if data.success
         # render paginator and data table
         paginator_mini = $(HandlebarsTemplates["paginator_mini"](data.questions))
-        $("#question-paginator-wrapper").empty()
-        $("#question-paginator-wrapper").append(paginator_mini)
+        $(".question-paginator-wrapper").empty()
+        $(".question-paginator-wrapper").append(paginator_mini)
       else
         $.page_notification "服务器出错"
 

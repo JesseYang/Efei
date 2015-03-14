@@ -353,6 +353,7 @@ $ ->
       newHomework()
 
   newHomework = ->
+    $("#newHomeworkModal .btn-primary").attr("disabled", "true")
     subject = $("#newHomeworkModal #subject").val()
     name = $("#newHomeworkModal .target").val()
     folder_id = $("#newHomeworkModal .folder-id").val()

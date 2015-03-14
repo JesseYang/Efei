@@ -11,11 +11,11 @@
   #question-index
     #book-bar
       #type-selector
-        %p
+        %p.hide
           =link_to "同步练习", "/teacher/questions?type=tongbu"
-        %p
+        %p.hide
           =link_to "专项练习", "/teacher/questions?type=zhuanxiang"
-        %p
+        %p.hide
           =link_to "综合套题", "/teacher/questions?type=zonghe"
       - if @type == "tongbu"
         %table
@@ -78,13 +78,70 @@
               %i.icon.folder-open
             .children.hide
         #right-part
+          #right-top
+            %table
+              %tr
+                %th 题型：
+                %td
+                  %ul
+                    %li
+                      - if @question_type == "all"
+                        %span.selected_span 全部
+                      - else
+                        %a.querilayer{ href: "?question_type=all&page=1" } 全部
+                    %li
+                      - if @question_type == "choice"
+                        %span.selected_span 选择题
+                      - else
+                        %a.querilayer{ href: "?question_type=choice&page=1" } 选择题
+                    %li
+                      - if @question_type == "blank"
+                        %span.selected_span 填空题
+                      - else
+                        %a.querilayer{ href: "?question_type=blank&page=1" } 填空题
+                    %li
+                      - if @question_type == "analysis"
+                        %span.selected_span 解答题
+                      - else
+                        %a.querilayer{ href: "?question_type=analysis&page=1" } 解答题
+              %tr
+                %th 难度：
+                %td
+                  %ul
+                    %li
+                      - if @difficulty == -1
+                        %span.selected_span 全部
+                      - else
+                        %a.querilayer{ href: "?difficulty=-1&page=1" } 全部
+                    %li
+                      - if @difficulty == 0
+                        %span.selected_span 简单
+                      - else
+                        %a.querilayer{ href: "?difficulty=0&page=1" } 简单
+                    %li
+                      - if @difficulty == 1
+                        %span.selected_span 中等
+                      - else
+                        %a.querilayer{ href: "?difficulty=1&page=1" } 中等
+                    %li
+                      - if @difficulty == 2
+                        %span.selected_span 困难
+                      - else
+                        %a.querilayer{ href: "?difficulty=2&page=1" } 困难
           #right-head
-            #question-paginator-wrapper
+            .search-tip
+              %span= "共搜索到#{@search_questions.length}道符合条件的题目"
+            .question-paginator-wrapper
               = paginator_mini @questions
-          .clear-both
+            .clear-both
           #right-questions
             - @questions["data"].each do |q|
               .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
+                .question-info-div
+                  .question-info-wrapper
+                    %span= "题型：" + question_type_show(q.type)
+                    %span= "难度：" + difficulty_show(q.difficulty)
+                  .clear-both
                 .question-content-div
                   .question-content
                     = render :partial => "partials/question_content", locals: { content: q.content, image_path: q.image_path }
@@ -129,6 +186,12 @@
                   %a.composed{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "取消选择"}
                 .include-status.hide
                   %a.included{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "作业中已有该题"}
+          #right-foot
+            .search-tip
+              %span= "共搜索到#{@search_questions.length}道符合条件的题目"
+            .question-paginator-wrapper
+              = paginator_mini @questions
+          .clear-both
       - elsif @type == "zonghe"
         #zonghe-paginator-wrapper
         #paper-table-wrapper

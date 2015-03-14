@@ -17,7 +17,12 @@ class Teacher::QuestionsController < Teacher::ApplicationController
       @root_points = Point.points(0)
       @current_point = Point.where(id: params[:point_id]).first || @root_points[0]
       @current_root_point = @current_point.root_point
-      @questions = auto_paginate @current_point.questions
+      @search_questions = @current_point.questions
+      @question_type = %w{ all choice blank analysis } .include?(params[:question_type].to_s) ? params[:question_type].to_s : "all"
+      @difficulty = %w{ -1 0 1 2 }.include?(params[:difficulty]) ? params[:difficulty].to_i : -1
+      @search_questions = @search_questions.where(type: @question_type) if @question_type != "all"
+      @search_questions = @search_questions.where(difficulty: @difficulty.to_i) if @difficulty != -1
+      @questions = auto_paginate @search_questions
     else
     end
   end
