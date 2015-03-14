@@ -131,8 +131,9 @@
           #right-head
             .search-tip
               %span= "共搜索到#{@search_questions.length}道符合条件的题目"
-            .question-paginator-wrapper
-              = paginator_mini @questions
+            - if @search_questions.length > 0
+              .question-paginator-wrapper
+                = paginator_mini @questions
             .clear-both
           #right-questions
             - @questions["data"].each do |q|
@@ -187,10 +188,11 @@
                 .include-status.hide
                   %a.included{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "作业中已有该题"}
           #right-foot
-            .search-tip
-              %span= "共搜索到#{@search_questions.length}道符合条件的题目"
-            .question-paginator-wrapper
-              = paginator_mini @questions
+            - if @search_questions.length > 0
+              .search-tip
+                %span= "共搜索到#{@search_questions.length}道符合条件的题目"
+              .question-paginator-wrapper
+                = paginator_mini @questions
           .clear-both
       - elsif @type == "zonghe"
         #zonghe-paginator-wrapper
