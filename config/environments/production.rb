@@ -96,5 +96,7 @@ Rails.application.configure do
 
   config.mailgun_api_key = "key-6o1gu03r0rslxbtbhczzt3912lrgdvk4"
 
+  config.email_expire_time = 86400
+
   config.expire_time = 3600
 end

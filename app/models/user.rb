@@ -140,10 +140,10 @@ class User
     return
   end
 
-  def verify_email(key)
+  def self.verify_email(key)
     info = Encryption.decrypt_reset_email_key(key)
     uid, email, time = *info.split(",")
-    u = User.where(uid: uid).first
+    u = User.where(id: uid).first
     return ErrCode.ret_false(ErrCode::WRONG_TOKEN) if u.blank?
     return ErrCode.ret_false(ErrCode::WRONG_TOKEN) if u.new_email != email
     return ErrCode.ret_false(ErrCode::EXPIRED) if Time.now.to_i - time.to_i > Rails.application.config.email_expire_time

@@ -38,7 +38,7 @@ class Note
     self.topics.clear
     topics.split(',').each do |e|
       next if e.blank?
-      t = Topic.find_or_create(e, q.homework.subject)
+      t = Topic.find_or_create(e, self.subject)
       t.notes << self if t.present?
     end
     self.update_attributes({question_str: self.content.join + items.join,

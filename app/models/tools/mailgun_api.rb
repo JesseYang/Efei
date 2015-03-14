@@ -10,6 +10,9 @@ class MailgunApi
     @email = email
     reset_email_info = "#{@user.id.to_s},#{email},#{Time.now.to_i}"
     @reset_email_link = "#{Rails.application.config.server_host}/account/registrations/reset_email?key=" + CGI::escape(Encryption.encrypt_reset_email_key(reset_email_info))
+    Rails.logger.info "AAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    Rails.logger.info @reset_email_link.inspect
+    Rails.logger.info "AAAAAAAAAAAAAAAAAAAAAAAAAAA"
     data = {}
     data[:domain] = @@email_domain
     data[:from] = @@email_from
@@ -22,9 +25,13 @@ class MailgunApi
     data[:html] = premailer.to_inline_css
     data[:text] = text_template.result(binding)
 
+    Rails.logger.info "AAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    Rails.logger.info data[:text].inspect
+    Rails.logger.info "AAAAAAAAAAAAAAAAAAAAAAAAAAA"
+
     data[:subject] = "修改登录邮箱"
-    data[:subject] += " --- to #{@user.email}" if Rails.env != "production"
-    data[:to] = Rails.env == "production" ? email : @@test_email
+    data[:subject] += " --- to #{email}" if Rails.env != "production"
+    data[:to] = Rails.env != "production" ? email : @@test_email
     self.send_message(data)
   end
 
