@@ -4,8 +4,8 @@
 
 .container
   .row
-    .col-sm-4.col-sm-offset-4.col-xs-10.col-xs-offset-1
+    #reset-email-tip.col-sm-4.col-sm-offset-4.col-xs-10.col-xs-offset-1
       - if @retval[:success]
         %p= "您的邮箱地址已经修改为 " + @@retval[:email]
       - else
-        %p= "链接错误或者过时"
+        %p= "抱歉，链接错误或者过时"
