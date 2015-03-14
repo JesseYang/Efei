@@ -75,6 +75,9 @@
   left: 200px;
   min-width: 800px;
   .question-info-div {
+    .question-report-wrapper {
+      float: left;
+    }
     .question-info-wrapper {
       float: right;
       span {
@@ -84,7 +87,6 @@
       }
     }
     margin-bottom: 5px;
-    margin-left: 3px;
   }
   .question-paginator-wrapper {
     float: right;

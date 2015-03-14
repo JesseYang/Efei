@@ -6,5 +6,6 @@ class Feedback
   field :content, type: String, default: ""
 
   belongs_to :user
+  belongs_to :question
 
 end

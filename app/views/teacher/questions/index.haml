@@ -139,6 +139,8 @@
             - @questions["data"].each do |q|
               .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
                 .question-info-div
+                  .question-report-wrapper.hide
+                    %a.report-bug{href: "javascript:void(0);"} 报错
                   .question-info-wrapper
                     %span= "题型：" + question_type_show(q.type)
                     %span= "难度：" + difficulty_show(q.difficulty)

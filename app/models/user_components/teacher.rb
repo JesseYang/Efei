@@ -96,4 +96,9 @@ module UserComponents::Teacher
   def create_class(name)
     self.classes.create(name: name)
   end
+
+  def create_question_feedback(qid)
+    q = Question.find(qid)
+    f = Feedback.create(user_id: self.id.to_s, question_id: q.id.to_s)
+  end
 end

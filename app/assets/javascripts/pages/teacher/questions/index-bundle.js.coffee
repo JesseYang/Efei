@@ -121,8 +121,24 @@ $ ->
   if window.show_compose == "true"
     $(".content-div").hover (->
       $(this).find(".compose-operation").removeClass "hide"
+      $(this).find(".question-report-wrapper").removeClass "hide"
     ), (->
       $(this).find(".compose-operation").addClass "hide"
+      $(this).find(".question-report-wrapper").addClass "hide"
+    )
+
+  $(".report-bug").click ->
+    question_id = $(this).closest(".content-div").attr("data-question-id")
+    $.postJSON(
+      '/teacher/feedbacks',
+      {
+        question_id: question_id
+      },
+      (retval) ->
+        if retval.success
+          $.page_notification("谢谢！报错请求提交成功")
+        else
+          $.page_notification("服务器错误，请稍后再试")
     )
 
   $(".content-div").each ->
