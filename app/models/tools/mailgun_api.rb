@@ -10,9 +10,6 @@ class MailgunApi
     @email = email
     reset_email_info = "#{@user.id.to_s},#{email},#{Time.now.to_i}"
     @reset_email_link = "#{Rails.application.config.server_host}/account/registrations/reset_email?key=" + CGI::escape(Encryption.encrypt_reset_email_key(reset_email_info))
-    Rails.logger.info "AAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    Rails.logger.info @reset_email_link.inspect
-    Rails.logger.info "AAAAAAAAAAAAAAAAAAAAAAAAAAA"
     data = {}
     data[:domain] = @@email_domain
     data[:from] = @@email_from
@@ -21,13 +18,9 @@ class MailgunApi
     text_template_file_name = "#{Rails.root}/app/views/user_mailer/reset_email.text.erb"
     html_template = ERB.new(File.new(html_template_file_name).read, nil, "%")
     text_template = ERB.new(File.new(text_template_file_name).read, nil, "%")
-    premailer = Premailer.new(html_template_file_name, :warn_level => Premailer::Warnings::SAFE)
+    premailer = Premailer.new(html_template.result(binding), :warn_level => Premailer::Warnings::SAFE, :with_html_string => true)
     data[:html] = premailer.to_inline_css
     data[:text] = text_template.result(binding)
-
-    Rails.logger.info "AAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    Rails.logger.info data[:text].inspect
-    Rails.logger.info "AAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
     data[:subject] = "修改登录邮箱"
     data[:subject] += " --- to #{email}" if Rails.env != "production"

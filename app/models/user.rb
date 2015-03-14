@@ -150,7 +150,7 @@ class User
     u.email = email
     u.new_email = nil
     u.save
-    return { success: ture, email: email }
+    return { success: true, email: email }
   end
 
   def change_mobile(mobile)
