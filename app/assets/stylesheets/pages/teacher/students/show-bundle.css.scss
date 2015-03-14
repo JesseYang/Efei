@@ -3,6 +3,10 @@
 @import "compass/utilities/general/clearfix";
 @import "icons/students/*.png";
 
+html {
+  background-color: #EEE;
+}
+
 #content-background {
   width: 100%;
   background-color: #EEEEEE;
