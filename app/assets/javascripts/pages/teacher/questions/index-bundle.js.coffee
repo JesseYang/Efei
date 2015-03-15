@@ -59,8 +59,10 @@ $ ->
       if data.success
         # render paginator
         paginator_mini = $(HandlebarsTemplates["paginator_mini"](data.papers))
-        $("#zonghe-paginator-wrapper").empty()
-        $("#zonghe-paginator-wrapper").append(paginator_mini)
+        $(".zonghe-paginator").empty()
+        $(".zonghe-paginator").append(paginator_mini)
+        $("#zonghe-paginator-wrapper .search-tip").empty()
+        $("#zonghe-paginator-wrapper .search-tip").append("<span>共搜索到" + data.papers.total_number + "份符合要求的试卷</span>")
         # render table
         paper_table = $(HandlebarsTemplates["paper_table"](data.papers))
         $("#paper-table-wrapper").empty()

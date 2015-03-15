@@ -50,13 +50,13 @@
       - elsif @type == "zonghe"
         %ul.zonghe-filter-ul
           %li
-            %label 年份
+            %label 年份：
             = select_tag :year, options_for_select(zonghe_year, 0)
           %li
-            %label 省份
+            %label 省份：
             = select_tag :province, options_for_select(zonghe_province, 0)
           %li
-            %label 类型
+            %label 类型：
             = select_tag :type, options_for_select(zonghe_type, 0)
     .clear-both
     #content-background
@@ -197,5 +197,8 @@
                 = paginator_mini @questions
           .clear-both
       - elsif @type == "zonghe"
-        #zonghe-paginator-wrapper
-        #paper-table-wrapper
+        #zonghe-paginator-wrapper.col-lg-8.col-lg-offset-2
+          .search-tip
+          .zonghe-paginator
+          .clear-both
+        #paper-table-wrapper.col-lg-8.col-lg-offset-2

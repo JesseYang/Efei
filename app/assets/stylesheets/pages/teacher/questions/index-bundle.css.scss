@@ -55,7 +55,33 @@
   }
   .zonghe-filter-ul {
     @include inline-block;
+    margin-top: 40px;
+    margin-left: 40px;
+    li {
+      margin-left: 40px;
+      label {
+        margin-right: 5px;
+      }
+    }
   }
+}
+
+#zonghe-paginator-wrapper {
+  margin-top: 20px;
+  .search-tip {
+    float: left;
+    height: 30px;
+    span {
+      line-height: 30px;
+    }
+  }
+  .zonghe-paginator {
+    float: right;
+  }
+}
+
+#paper-table-wrapper {
+  margin-top: 20px;
 }
 
 #left-part {
