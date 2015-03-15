@@ -5,11 +5,15 @@ $ ->
   if window.show_compose == "true"
     $(".content-div").hover (->
       $(this).find(".compose-operation").removeClass "hide"
-      $(this).find(".question-report-wrapper").removeClass "hide"
     ), (->
       $(this).find(".compose-operation").addClass "hide"
-      $(this).find(".question-report-wrapper").addClass "hide"
     )
+
+  $(".content-div").hover (->
+    $(this).find(".question-report-wrapper").removeClass "hide"
+  ), (->
+    $(this).find(".question-report-wrapper").addClass "hide"
+  )
 
   $(".report-bug").click ->
     question_id = $(this).closest(".content-div").attr("data-question-id")
