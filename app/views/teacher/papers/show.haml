@@ -64,34 +64,3 @@
             %a.composed{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "取消选择"}
           .include-status.hide
             %a.included{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "作业中已有该题"}
-
-
-  %p= @paper.name
-  %table
-    %tr
-      %th DANGEROUS
-      %th LINK
-      %th TYPE
-      %th DIFFICULTY
-      %th POINT
-    - @paper.materials.each_with_index do |e, i|
-      %tr
-        - if e["type"] == "text"
-          %td
-          %td= e["content"]
-        - else
-          - m = Material.find(e["content"])
-          %td
-            - if m.dangerous
-              %span.red YES
-            - else
-              %span NO
-          %td
-            = link_to "链接", "/teacher/materials/#{e['content']}"
-          %td
-            %span= m.type
-          %td
-            %span= m.difficulty
-          %td
-            %span= m.tags.map { |t| t[:text] } .join(',')
-
