@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
   layout :resolve_layout
-  before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :star, :set_basic_setting, :set_tag_set]
+  before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :star, :set_basic_setting, :set_tag_set, :reorder]
 
   def ensure_homework
     begin
@@ -163,5 +163,11 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     else
       "layouts/teacher"
     end
+  end
+
+  def reorder
+    @homework.q_ids = params[:question_id_ary]
+    @homework.save
+    render_json
   end
 end

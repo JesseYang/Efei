@@ -19,6 +19,35 @@ $ ->
     qid = $(this).closest(".btn-group").attr("data-qid")
     $("#insertModal").find("#question_id").val(qid)
 
+  reorder = ->
+    question_id_ary = [ ]
+    $(".content-div").each ->
+      qid = $(this).attr("data-question-id")
+      question_id_ary.push qid
+    console.log question_id_ary
+    $.putJSON "/teacher/homeworks/#{window.homework_id}/reorder", {question_id_ary: question_id_ary}, (data) ->
+      if !data.success
+        $.page_notification "操作失败，请刷新页面重试"
+
+
+  $(".move-up-btn").click ->
+    ele = $(this).closest(".content-div")
+    prev_content = ele.prev()
+    if !prev_content.hasClass("content-div")
+      return
+    ele = $(this).closest(".content-div").detach()
+    ele.insertBefore(prev_content)
+    reorder()
+
+  $(".move-down-btn").click ->
+    ele = $(this).closest(".content-div")
+    next_content = ele.next()
+    if !next_content.hasClass("content-div")
+      return
+    ele = $(this).closest(".content-div").detach()
+    ele.insertAfter(next_content)
+    reorder()
+
   $("#replaceModal form").submit ->
     if $("#replaceModal #replace_homework_file").val() == ""
       notification = $("<div />").appendTo("#replaceModal") 

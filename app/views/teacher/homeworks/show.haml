@@ -2,6 +2,7 @@
   = javascript_include_tag "pages/teacher/homeworks/show-bundle"
   = stylesheet_link_tag "pages/teacher/homeworks/show-bundle", :media => "all"
   :javascript
+    window.homework_id="#{@homework.id.to_s}"
 
 #content-background
   #paper-top
@@ -56,6 +57,8 @@
           .btn-group.right{data: { qid: q.id.to_s }}
             = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm replace-btn', data: {qid: q.id.to_s}
             = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm insert-btn', data: {qid: q.id.to_s}
+            = link_to "上移", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm move-up-btn'
+            = link_to "下移", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm move-down-btn'
             = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s }, :method => "delete", :class => 'btn btn-default btn-sm'
   #paper-bottom
 

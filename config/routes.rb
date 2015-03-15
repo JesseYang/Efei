@@ -130,6 +130,7 @@ Rails.application.routes.draw do
         put :set_basic_setting
         post :replace
         post :insert
+        put :reorder
       end
     end
 
