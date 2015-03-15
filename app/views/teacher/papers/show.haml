@@ -11,13 +11,14 @@
   #paper-content
     - @questions.each do |q|
       .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
-        .question-info-div
-          .question-report-wrapper.hide
-            %a.report-bug{href: "javascript:void(0);"} 报错
-          .question-info-wrapper
-            %span= "题型：" + question_type_show(q.type)
-            %span= "难度：" + difficulty_show(q.difficulty)
-          .clear-both
+        - if q.type != "text"
+          .question-info-div
+            .question-report-wrapper.hide
+              %a.report-bug{href: "javascript:void(0);"} 报错
+            .question-info-wrapper
+              %span= "题型：" + question_type_show(q.type)
+              %span= "难度：" + difficulty_show(q.difficulty)
+            .clear-both
         .question-content-div
           .question-content
             = render :partial => "partials/question_content", locals: { content: q.content, image_path: q.image_path }
@@ -56,12 +57,13 @@
                 %span= d2c(q.answer)
             .question-answer-content
               = render :partial => "partials/question_content", locals: { content: q.answer_content, image_path: q.image_path }
-        .compose-operation.hide
-          %a.do-compose{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "选择试题"}
-        .compose-status.hide
-          %a.composed{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "取消选择"}
-        .include-status.hide
-          %a.included{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "作业中已有该题"}
+        - if q.type != "text"
+          .compose-operation.hide
+            %a.do-compose{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "选择试题"}
+          .compose-status.hide
+            %a.composed{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "取消选择"}
+          .include-status.hide
+            %a.included{href: "javascript:void(0);", data: {toggle: "tooltip"}, title: "作业中已有该题"}
 
 
   %p= @paper.name
