@@ -84,6 +84,25 @@
   margin-top: 20px;
 }
 
+.paper-table {
+  width: 100%;
+  tr {
+    padding: 5px 0;
+  }
+  .paper-title {
+    width: 40%;
+  }
+  .paper-year {
+    width: 20%;
+  }
+  .paper-province {
+    width: 20%;
+  }
+  .paper-type {
+    width: 20%;
+  }
+}
+
 #left-part {
   padding-top: 30px;
   position: absolute;
