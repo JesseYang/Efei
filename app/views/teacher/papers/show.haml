@@ -20,7 +20,7 @@
               %span= "难度：" + difficulty_show(q.difficulty)
             .clear-both
         .question-content-div
-          .question-content
+          .question-content{class: q.type}
             = render :partial => "partials/question_content", locals: { content: q.content, image_path: q.image_path }
           - if q.type == "choice"
             .question-items{data: {"question-answer" => q.answer}}
