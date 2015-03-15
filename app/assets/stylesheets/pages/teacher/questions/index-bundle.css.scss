@@ -86,20 +86,25 @@
 
 .paper-table {
   width: 100%;
+  text-align: center;
   tr {
-    padding: 5px 0;
+    height: 30px;
   }
   .paper-title {
     width: 40%;
+    text-align: center;
   }
   .paper-year {
     width: 20%;
+    text-align: center;
   }
   .paper-province {
     width: 20%;
+    text-align: center;
   }
   .paper-type {
     width: 20%;
+    text-align: center;
   }
 }
 
