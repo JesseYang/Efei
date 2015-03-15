@@ -1,0 +1,145 @@
+@import 'jquery.qtip';
+@import 'utility';
+@import 'partials/question_variables';
+@import 'compass/css3';
+@import 'common';
+@import 'icons/homeworks/*.png';
+
+html {
+  background-color: #EEE;
+}
+
+
+#title-bar {
+  .icon {
+    margin-left: 15px;
+    @include size(20px, 20px);
+    @include inline-block;
+  }
+  width: auto;
+  height: 50px;
+  background: #FAFAFA;
+  @include box-shadow(gray 0px 0px 5px);
+  border-top: 1px solid #E5E5E5;
+  #wrapper {
+    width: 965px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #title-wrapper {
+    float: left;
+    width: 400px;
+    #title {
+      margin-top: 0;
+      margin-bottom: 0;
+      @include inline-block;
+      @include one-line(50px);
+      float: left;
+      font-size: 1.4em;
+    }
+  }
+}
+
+#paper-content {
+  margin-right: 100px;
+  .content-div {
+    position: relative;
+    background-color: white;
+    padding: 20px 80px 20px 80px;
+    border-bottom: 1px solid #DDDDDD;
+    margin: 0 auto;
+    &:first-child {
+      margin-top: 10px;
+    }
+    width: 960px;
+    .question-info-div {
+      .question-report-wrapper {
+        float: left;
+      }
+      .question-info-wrapper {
+        float: right;
+        span {
+          margin-right: 10px;
+          padding: 3px 5px 3px 5px;
+          background-color: #DDD;
+        }
+      }
+      margin-bottom: 5px;
+    }
+    .question-content-div {
+      span {
+        white-space: pre-wrap;
+      }
+      .question-items p {
+        margin-left: 10px;
+      }
+      .question-answer {
+        margin-top: 10px;
+      }
+    }
+    table.line4 {
+      width: 100%;
+      tr {
+        width: 25%;
+      }
+    }
+    table.line2 {
+      width: 100%;
+      tr {
+        width: 50%;
+      }
+    }
+    .question-operation-div {
+      position: absolute;
+      top: 20px;
+      right: 80px;
+      padding: 5px;
+      background-color: white;
+      .btn {
+        background-color: lighten(#E6E6E6, 5%);
+        &:hover {
+          background-color: #E6E6E6;
+          border-color: #E6E6E6;
+        }
+      }
+    }
+    .compose-operation {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 5px;
+      background-color: white;
+      .do-compose {
+        @include inline-block;
+        @include size(32px, 32px);
+        @include homeworks-sprite(add);
+      }
+    }
+    .compose-status {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 5px;
+      background-color: white;
+      z-index: 99;
+      .composed {
+        @include inline-block;
+        @include size(32px, 32px);
+        @include homeworks-sprite(added);
+      }
+    }
+    .include-status {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      padding: 5px;
+      background-color: white;
+      z-index: 99;
+      .included {
+        @include inline-block;
+        @include size(32px, 32px);
+        @include homeworks-sprite(included);
+      }
+    }
+  }
+}

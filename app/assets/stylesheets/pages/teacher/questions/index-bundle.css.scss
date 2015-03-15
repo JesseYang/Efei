@@ -6,6 +6,8 @@
 #book-bar {
   #type-selector {
     @include inline-block;
+    float: left;
+    margin-top: 20px;
     width: 120px;
     p {
       margin-left: 43px;
@@ -123,21 +125,6 @@
   bottom: 0px;
   right: 0px;
   left: 200px;
-  min-width: 800px;
-  .question-info-div {
-    .question-report-wrapper {
-      float: left;
-    }
-    .question-info-wrapper {
-      float: right;
-      span {
-        margin-right: 10px;
-        padding: 3px 5px 3px 5px;
-        background-color: #DDD;
-      }
-    }
-    margin-bottom: 5px;
-  }
   .question-paginator-wrapper {
     float: right;
   }
@@ -208,6 +195,21 @@
       border-bottom: 1px solid #DDDDDD;
       &:first-child {
         border-top: 1px solid #DDDDDD;
+      }
+      min-width: 800px;
+      .question-info-div {
+        .question-report-wrapper {
+          float: left;
+        }
+        .question-info-wrapper {
+          float: right;
+          span {
+            margin-right: 10px;
+            padding: 3px 5px 3px 5px;
+            background-color: #DDD;
+          }
+        }
+        margin-bottom: 5px;
       }
       .question-content-div {
         span {
