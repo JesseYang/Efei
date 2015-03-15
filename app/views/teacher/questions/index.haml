@@ -6,6 +6,9 @@
     window.book_id = "#{@current_book.present? ? @current_book.id.to_s : ''}"
     window.root_point_id = "#{@current_root_point.present? ? @current_root_point.id.to_s : ''}"
     window.point_id = "#{@current_point.present? ? @current_point.id.to_s : ''}"
+    window.paper_year = "@paper_year"
+    window.paper_province = "@paper_province"
+    window.paper_type = "@paper_type"
 
 - content_for :teacher_content do
   #question-index
@@ -51,13 +54,13 @@
         %ul.zonghe-filter-ul
           %li
             %label 年份：
-            = select_tag :year, options_for_select(zonghe_year, 0)
+            = select_tag :paper_year, options_for_select(zonghe_year, 0)
           %li
             %label 省份：
-            = select_tag :province, options_for_select(zonghe_province, 0)
+            = select_tag :paper_province, options_for_select(zonghe_province, 0)
           %li
             %label 类型：
-            = select_tag :type, options_for_select(zonghe_type, 0)
+            = select_tag :paper_type, options_for_select(zonghe_type, 0)
     .clear-both
     #content-background
       - if @type == "tongbu"

@@ -55,7 +55,7 @@ $ ->
         $.page_notification "服务器出错"
 
   refresh_papers = (page) ->
-    $.getJSON "/teacher/papers/list?page=#{page}", (data) ->
+    $.getJSON "/teacher/papers/list?page=#{page}&paper_year=#{window.paper_year}&paper_province=#{window.paper_province}&paper_type=#{window.paper_type}", (data) ->
       if data.success
         # render paginator
         paginator_mini = $(HandlebarsTemplates["paginator_mini"](data.papers))
@@ -75,6 +75,18 @@ $ ->
     page = ele.attr("data-page")
     refresh_papers(page)
     false
+
+  $("#paper_year").change ->
+    window.paper_year = $(this).val()
+    refresh_papers(1)
+
+  $("#paper_province").change ->
+    window.paper_province = $(this).val()
+    refresh_papers(1)
+
+  $("#paper_type").change ->
+    window.paper_type = $(this).val()
+    refresh_papers(1)
   ###
   refresh_questions = (point_id, page, per_page) ->
     $.getJSON "/teacher/questions/point_list?point_id=#{point_id}&page=#{page}&per_page=#{per_page}", (data) ->
