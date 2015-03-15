@@ -6,9 +6,9 @@
     window.book_id = "#{@current_book.present? ? @current_book.id.to_s : ''}"
     window.root_point_id = "#{@current_root_point.present? ? @current_root_point.id.to_s : ''}"
     window.point_id = "#{@current_point.present? ? @current_point.id.to_s : ''}"
-    window.paper_year = "@paper_year"
-    window.paper_province = "@paper_province"
-    window.paper_type = "@paper_type"
+    window.paper_year = "#{@paper_year}"
+    window.paper_province = "#{@paper_province}"
+    window.paper_type = "#{@paper_type}"
 
 - content_for :teacher_content do
   #question-index
