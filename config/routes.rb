@@ -46,6 +46,7 @@ Rails.application.routes.draw do
     resources :papers do
       collection do
         get :list
+        get :modify
       end
       member do
         get :show_one
