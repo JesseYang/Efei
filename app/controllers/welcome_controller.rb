@@ -23,7 +23,7 @@ class WelcomeController < ApplicationController
   end
 
   def app_version
-    render json: { android: "1.0", ios: "1.0" } and return
+    render json: { android: "1.0", ios: "1.0", android_url: "", ios_url: "" } and return
   end
 
   private

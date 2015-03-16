@@ -216,13 +216,13 @@ class Question
   end
 
   def scale_figures
-    return if self.scale_figure
+    return if self.scale_figure || self.external_site != "kuailexue.com"
     new_content = self.content.map do |line|
       frags = line.split("$$").map do |frag|
         if frag.start_with?("fig_")
           eles = frag.split("*")
-          eles[2] = eles[2] * 3 / 4.0
-          eles[3] = eles[3] * 3 / 4.0
+          eles[2] = eles[2].to_i * 3 / 4.0
+          eles[3] = eles[3].to_i * 3 / 4.0
           eles.join("*")
         else
           frag
@@ -240,8 +240,8 @@ class Question
         frags = item.split("$$").map do |frag|
           if frag.start_with?("fig_")
             eles = frag.split("*")
-            eles[2] = eles[2] * 3 / 4.0
-            eles[3] = eles[3] * 3 / 4.0
+            eles[2] = eles[2].to_i * 3 / 4.0
+            eles[3] = eles[3].to_i * 3 / 4.0
             eles.join("*")
           else
             frag
@@ -260,8 +260,8 @@ class Question
         frags = line.split("$$").map do |frag|
           if frag.start_with?("fig_")
             eles = frag.split("*")
-            eles[2] = eles[2] * 3 / 4.0
-            eles[3] = eles[3] * 3 / 4.0
+            eles[2] = eles[2].to_i * 3 / 4.0
+            eles[3] = eles[3].to_i * 3 / 4.0
             eles.join("*")
           else
             frag
@@ -275,11 +275,10 @@ class Question
       end
     end
 
-    binding.pry
-
     self.content = new_content
     self.items = new_items
-    self.answer_content = new_answer_content
+    self.answer_content = new_answer_content || []
+    self.scale_figure = true
     self.save
   end
 
