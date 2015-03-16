@@ -17,6 +17,7 @@ class Question
   field :difficulty, type: Integer
   field :external_site, type: String
   field :external_id, type: String
+  field :scale_figure, type: Boolean, default: false
 
   # for demo
   field :demo, type: Boolean, default: false
@@ -212,5 +213,81 @@ class Question
       end
     end
     eles.join("$$")
+  end
+
+  def scale_figures
+    return if self.scale_figure
+    new_content = self.content.map do |line|
+      frags = line.split("$$").map do |frag|
+        if frag.start_with?("fig_")
+          eles = frag.split("*")
+          eles[2] = eles[2] * 3 / 4.0
+          eles[3] = eles[3] * 3 / 4.0
+          eles.join("*")
+        else
+          frag
+        end
+      end
+      if line.end_with?("$$")
+        frags.join("$$") + "$$"
+      else
+        frags.join("$$")
+      end
+    end
+
+    if self.items.present?
+      new_items = self.items.map do |item|
+        frags = item.split("$$").map do |frag|
+          if frag.start_with?("fig_")
+            eles = frag.split("*")
+            eles[2] = eles[2] * 3 / 4.0
+            eles[3] = eles[3] * 3 / 4.0
+            eles.join("*")
+          else
+            frag
+          end
+        end
+        if item.end_with?("$$")
+          frags.join("$$") + "$$"
+        else
+          frags.join("$$")
+        end
+      end
+    end
+
+    if self.answer_content.present?
+      new_answer_content = self.answer_content.map do |line|
+        frags = line.split("$$").map do |frag|
+          if frag.start_with?("fig_")
+            eles = frag.split("*")
+            eles[2] = eles[2] * 3 / 4.0
+            eles[3] = eles[3] * 3 / 4.0
+            eles.join("*")
+          else
+            frag
+          end
+        end
+        if line.end_with?("$$")
+          frags.join("$$") + "$$"
+        else
+          frags.join("$$")
+        end
+      end
+    end
+
+    binding.pry
+
+    self.content = new_content
+    self.items = new_items
+    self.answer_content = new_answer_content
+    self.save
+  end
+
+  def self.scale_figures
+    qs = Question.where(external_site: "kuailexue.com")
+    qs.each do |q|
+      next if q.scale_figure
+      q.scale_figures
+    end
   end
 end
