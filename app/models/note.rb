@@ -65,7 +65,7 @@ class Note
       t = Topic.find_or_create(e, h.subject)
       t.notes << n if t.present?
     end
-    n.update_attributes({question_str: n.content.join + n.items.join,
+    n.update_attributes({question_str: n.content.join + (n.items || []).join,
       topic_str: n.topics.map { |e| e.name } .join(',') })
     n
   end
