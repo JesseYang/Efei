@@ -13,15 +13,17 @@ $ ->
   if window.type == "basic"
     $("#time_#{window.answer_time_type}").prop("checked", true)
     $("#datepicker").datepicker(
+      dateFormat: "yy-mm-dd"
       onSelect: (date) ->
         $("#time_later").prop("checked", true)
     )
-    $("#datepicker").datepicker("option", "dateFormat", "yy-mm-dd");
     if window.answer_time != ""
       $("#datepicker").datepicker("setDate", window.answer_time);
+    else
+      $("#datepicker").val("")
       
     $("input[name=time]").change ->
-      if this.value == "now"
+      if this.value == "now" || this.value == "no"
         $("#datepicker").val("")
   else
     check_tag_set_selection()
