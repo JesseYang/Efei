@@ -20,6 +20,9 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def stat
+
+    @notes = @homework.notes
+
     @classes = @current_user.classes.map do |e|
       [e.name.to_s, e.id.to_s]
     end
