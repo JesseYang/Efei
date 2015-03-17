@@ -33,7 +33,7 @@ module UserComponents::Student
       id: self.id.to_s,
       name: self.name.to_s,
       subject: self.subject,
-      school: self.school.name,
+      school: self.school.try(:name).to_s,
       desc: self.teacher_desc,
       avatar: ""
     }
