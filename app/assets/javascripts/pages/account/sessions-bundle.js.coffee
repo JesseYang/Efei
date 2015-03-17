@@ -2,6 +2,10 @@
 #= require "extensions/page_notification"
 $(document).ready ->
 
+  if window.role == "student"
+    $("#teacher-login").addClass("hide")
+    $("#student-login").removeClass("hide")
+
   $("#login-form").submit ->
     email_mobile = $("#email_mobile").val()
     password = $("#password").val()

@@ -6,6 +6,8 @@
 #= require "./_templates/folder_chain"
 $ ->
 
+  # introJs().start()
+
   # forbit the default right-click popup menu
   $("html").bind "contextmenu", ->
     false

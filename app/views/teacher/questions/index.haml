@@ -15,11 +15,11 @@
     #book-bar
       #type-selector
         %p.hide
-          =link_to "同步练习", "/teacher/questions?type=tongbu"
+          =link_to "同步练习", "/teacher/questions?type=tongbu", class: "nav-a tongbu-nav-a"
         %p
-          =link_to "专项练习", "/teacher/questions?type=zhuanxiang"
+          =link_to "专项练习", "/teacher/questions?type=zhuanxiang", class: "nav-a zhuanxiang-nav-a"
         %p
-          =link_to "综合套题", "/teacher/questions?type=zonghe"
+          =link_to "综合套题", "/teacher/questions?type=zonghe", class: "nav-a zonghe-nav-a"
       - if @type == "tongbu"
         %table
           %tr
