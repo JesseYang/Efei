@@ -53,9 +53,10 @@ class Teacher::QuestionsController < Teacher::ApplicationController
 
   def destroy
     question = Question.where(id: params[:id]).first
-    question.homework.delete_question_by_id(params[:id])
+    homework = Homework.where(id: params[:id]).first
+    homework.delete_question_by_id(params[:id])
     flash[:notice] = "删除题目成功"
-    redirect_to teacher_homework_path(question.homework)
+    redirect_to teacher_homework_path(homework)
   end
 
   def ensure_qr_code
