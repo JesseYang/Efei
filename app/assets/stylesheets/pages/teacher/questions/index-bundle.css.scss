@@ -4,6 +4,13 @@
 @import "icons/homeworks/*.png";
 
 #book-bar {
+  .nav-a {
+    padding: 5px;
+    &.selected {
+      background-color: $efblue;
+      color: white;
+    }
+  }
   #type-selector {
     @include inline-block;
     float: left;

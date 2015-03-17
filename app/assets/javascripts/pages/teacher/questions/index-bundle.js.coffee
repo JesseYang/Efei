@@ -7,6 +7,11 @@
 $ ->
   tree = null
 
+  if window.type == "zhuanxiang"
+    $(".zhuanxiang-nav-a").addClass("selected")
+  if window.type == "zonghe"
+    $(".zonghe-nav-a").addClass("selected")
+
   refresh_structure = (book_id) ->
     $.getJSON "/teacher/structures/#{book_id}", (data) ->
       if data.success
