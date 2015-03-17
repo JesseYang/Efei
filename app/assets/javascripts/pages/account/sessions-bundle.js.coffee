@@ -19,3 +19,11 @@ $(document).ready ->
           window.location.href = "/"
     )
     return false
+
+  $(".student-role").click ->
+    $("#teacher-login").addClass("hide")
+    $("#student-login").removeClass("hide")
+
+  $(".teacher-role").click ->
+    $("#teacher-login").removeClass("hide")
+    $("#student-login").addClass("hide")

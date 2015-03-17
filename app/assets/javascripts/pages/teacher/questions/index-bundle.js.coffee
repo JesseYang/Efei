@@ -5,7 +5,6 @@
 #= require "utility/_templates/paginator_mini"
 #= require "extensions/page_notification"
 $ ->
-
   tree = null
 
   refresh_structure = (book_id) ->

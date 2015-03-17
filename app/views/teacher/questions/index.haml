@@ -198,6 +198,7 @@
                 %span= "共搜索到#{@search_questions.length}道符合条件的题目"
               .question-paginator-wrapper
                 = paginator_mini @questions
+            .clear-both
           .clear-both
       - elsif @type == "zonghe"
         #zonghe-paginator-wrapper.col-lg-8.col-lg-offset-2
@@ -205,3 +206,5 @@
           .zonghe-paginator
           .clear-both
         #paper-table-wrapper.col-lg-8.col-lg-offset-2
+  
+  %a#scrollUp{ href: "#top", style: "display: none; position: fixed; z-index: 2147483647;" }
