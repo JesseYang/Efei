@@ -3,6 +3,7 @@
 #= require jquery_ujs
 #= require jquery-migrate-1.2.1.min
 #= require jquery.placeholder
+#= require jquery.scrollUp.min
 #= require bootstrap-sprockets
 #= require sugar.min
 #= require utility/querilayer
@@ -34,3 +35,13 @@ $ ->
   
   $("input").placeholder()
   $("textarea").placeholder()
+
+  $.scrollUp({
+      animation: 'fade'
+      activeOverlay: '#00FFFF'
+      scrollImg: {
+          active: true
+          type: 'background'
+          src: 'assets/top.png'
+      }
+  })
