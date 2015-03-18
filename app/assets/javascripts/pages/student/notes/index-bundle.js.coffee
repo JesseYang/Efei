@@ -62,10 +62,9 @@ $ ->
     summary_edit.removeClass("hide")
     summary_content = $(this).attr("data-summary")
     summary_edit.find(".summary-edit-textarea").val(summary_content)
-    summary_edit.find(".summary-edit-textarea").css('overflow', 'hidden').autogrow()
+    summary_edit.find(".summary-edit-textarea").autogrow()
 
-  $('.summary-edit-textarea').keyup (e) ->
-    $(this).css('overflow', 'hidden').autogrow()
+  $(this).autogrow()
 
   update_summary = (update, summary_part) ->
     if update
@@ -79,7 +78,7 @@ $ ->
             summary_part.find(".summary-para").text(data.summary)
             summary_part.find(".summary-wrapper").empty()
             summary_part.find(".summary-wrapper").attr("data-summary", data.summary)
-            if data.paras == []
+            if data.summary == ""
               summary_part.find(".summary-wrapper").addClass("no-summary")
               summary_part.find(".summary-wrapper").append("<p>未添加总结</p>")
             else

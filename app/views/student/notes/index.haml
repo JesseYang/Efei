@@ -68,32 +68,45 @@
                 .question-answer-content
                   = render :partial => "partials/question_content", locals: { content: n.answer_content, image_path: n.image_path }
           .op-part
-            .tag-part
-              - if n.tag == ""
-                %span.span-wrapper.no-tag
-                  %span.tag-content= "未设置标签"
-              - else
-                %span.span-wrapper
-                  %span.tag-content= n.tag
-              .tag-edit.hide
-                = select_tag :note_tag, options_for_select(ary2hash(n.tag_set.split(",")), 0)
-                %button.btn.btn-default.btn-sm.tag-ok 确 定
-                %button.btn.btn-default.btn-sm.tag-cancel 取 消
-              .clear-both
-            .topic-part
-              %input.topics{:name => "topics", :value => n.topic_str.to_s}/
-            .summary-part
-              - if n.summary.to_s == ""
-                .summary-wrapper.no-summary{data: {summary: n.summary}}
-                  %p= "未添加总结"
-              - else
-                .summary-wrapper{data: {summary: n.summary}}
-                  - n.summary.split("\n").each do |line|
-                    %p= line
-              .summary-edit.hide
-                =text_area_tag 'summary', nil, class: 'summary-edit-textarea'
-                %button.btn.btn-default.btn-sm.summary-ok 确 定
-                %button.btn.btn-default.btn-sm.summary-cancel 取 消
+            %table.note-table
+              %tr
+                %td.table-head
+                  %label 标签：
+                %td
+                  .tag-part
+                    - if n.tag == ""
+                      %span.span-wrapper.no-tag
+                        %span.tag-content= "未设置标签"
+                    - else
+                      %span.span-wrapper
+                        %span.tag-content= n.tag
+                    .tag-edit.hide
+                      = select_tag :note_tag, options_for_select(ary2hash(n.tag_set.split(",")), 0)
+                      %button.btn.btn-primary.btn-sm.tag-ok 确 定
+                      %button.btn.btn-default.btn-sm.tag-cancel 取 消
+                    .clear-both
+              %tr
+                %td.table-head
+                  %label 知识点：
+                %td
+                  .topic-part
+                    %input.topics{:name => "topics", :value => n.topic_str.to_s}/
+              %tr
+                %td.table-head
+                  %label 总结：
+                %td
+                  .summary-part
+                    - if n.summary.to_s == ""
+                      .summary-wrapper.no-summary{data: {summary: n.summary}}
+                        %p= "未添加总结"
+                    - else
+                      .summary-wrapper{data: {summary: n.summary}}
+                        - n.summary.split("\n").each do |line|
+                          %p= line
+                    .summary-edit.hide
+                      =text_area_tag 'summary', nil, class: 'summary-edit-textarea'
+                      %button.btn.btn-primary.btn-sm.summary-ok 确 定
+                      %button.btn.btn-default.btn-sm.summary-cancel 取 消
           .clear-both
     - if @search_notes.length > 0
       #foot-part

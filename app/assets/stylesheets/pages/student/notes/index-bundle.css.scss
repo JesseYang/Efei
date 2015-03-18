@@ -81,7 +81,7 @@
   }
   .content-div {
     float: left;
-    width: 70%;
+    width: 65%;
     position: relative;
     background-color: white;
     padding-right: 10px;
@@ -110,10 +110,10 @@
     }
   }
   .op-part {
-    width: 30%;
+    width: 35%;
     float: right;
     .tag-part {
-      padding: 5px 10px;
+      padding: 5px 10px 5px 6px;
     }
   }
 }
@@ -162,12 +162,22 @@
   }
 }
 
+.note-table {
+  label {
+    width: 60px;
+  }
+}
+
 .summary-part {
   .summary-wrapper {
     cursor: pointer;
   }
   .summary-edit-textarea {
     width: 100%;
+    margin-left: 5px;
+  }
+  .summary-ok {
+    margin-left: 5px;
   }
   .no-summary {
     color: #AAA;
