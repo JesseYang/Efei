@@ -6,14 +6,34 @@ $(document).ready ->
     $("#teacher-login").addClass("hide")
     $("#student-login").removeClass("hide")
 
-  $("#login-form").submit ->
-    email_mobile = $("#email_mobile").val()
-    password = $("#password").val()
+  $("#teacher-login-form").submit ->
+    email_mobile = $("#teacher_email_mobile").val()
+    password = $("#teacher_password").val()
     $.postJSON(
       '/account/sessions/',
       {
         email_mobile: email_mobile,
         password: password
+        role: "teacher"
+      },
+      (retval) ->
+        if !retval.success
+          $.page_notification(retval.message)
+        else
+          $.page_notification("登录成功，正在跳转")
+          window.location.href = "/"
+    )
+    return false
+
+  $("#student-login-form").submit ->
+    email_mobile = $("#student_email_mobile").val()
+    password = $("#student_password").val()
+    $.postJSON(
+      '/account/sessions/',
+      {
+        email_mobile: email_mobile,
+        password: password
+        role: "student"
       },
       (retval) ->
         if !retval.success

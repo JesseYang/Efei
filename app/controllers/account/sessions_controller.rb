@@ -23,6 +23,6 @@ class Account::SessionsController < Account::ApplicationController
 
   def sign_out
     refresh_session(nil)
-    redirect_to redirect_to_root and return
+    redirect_to redirect_to_root(params[:role]) and return
   end
 end

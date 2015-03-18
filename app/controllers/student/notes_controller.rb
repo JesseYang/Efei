@@ -34,7 +34,14 @@ class Student::NotesController < Student::ApplicationController
   end
 
   def index
-    render_with_auth_key({ notes: current_user.list_notes })
+    @notes = current_user.notes
+    respond_to do |format|
+      format.json do
+        render_with_auth_key({ notes: current_user.list_notes }) and return
+      end
+      format.html do
+      end
+    end
   end
 
   def list

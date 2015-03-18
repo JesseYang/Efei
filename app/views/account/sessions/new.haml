@@ -7,18 +7,16 @@
 .container
   .row
     #teacher-login.col-sm-4.col-sm-offset-4.col-xs-10.col-xs-offset-1
-      = form_tag(account_sessions_path, id: "login-form", method: "post", multipart: true) do
+      = form_tag(account_sessions_path, id: "teacher-login-form", method: "post", multipart: true) do
         = link_to "我是学生", "javascript:void(0)", class: 'user-role student-role'
         %fieldset
           %legend 教师登录
           .form-group
-            = label_tag :email_mobile, "邮箱"
-            = text_field_tag :email_mobile, params[:email_mobile], :autofocus => true, class: "form-control"
+            = label_tag :teacher_email_mobile, "邮箱"
+            = text_field_tag :teacher_email_mobile, params[:email_mobile], :autofocus => true, class: "form-control"
           .form-group
-            = label_tag :password, "密码"
-            = password_field_tag :password, "", class: "form-control"
-          .form-group.hide
-            = text_field_tag :role, "teacher"
+            = label_tag :teacher_password, "密码"
+            = password_field_tag :teacher_password, "", class: "form-control"
           .content
             .registrate.right
               = link_to "没有帐号，立即注册", new_account_registration_path + "?role=teacher"
@@ -26,22 +24,20 @@
               = link_to "忘记密码？", new_account_password_path
           = submit_tag "登录", class: "btn btn-primary login-btn"
     #student-login.col-sm-4.col-sm-offset-4.col-xs-10.col-xs-offset-1.hide
-      = form_tag(account_sessions_path, id: "login-form", method: "post", multipart: true) do
+      = form_tag(account_sessions_path, id: "student-login-form", method: "post", multipart: true) do
         = link_to "我是教师", "javascript:void(0);", class: 'user-role teacher-role'
         %fieldset
           %legend 学生登录
           .form-group
-            = label_tag :email_mobile, "邮箱或手机号"
-            = text_field_tag :email_mobile, params[:email_mobile], :autofocus => true, class: "form-control"
+            = label_tag :student_email_mobile, "邮箱或手机号"
+            = text_field_tag :student_email_mobile, params[:email_mobile], :autofocus => true, class: "form-control"
           .form-group
-            = label_tag :password, "密码"
-            = password_field_tag :password, "", class: "form-control"
-          .form-group.hide
-            = text_field_tag :role, "student"
+            = label_tag :student_password, "密码"
+            = password_field_tag :student_password, "", class: "form-control"
           .content
             .registrate.right
               = link_to "没有帐号，立即注册", new_account_registration_path + "?role=student"
             .forget-password.left
               = link_to "忘记密码？", new_account_password_path
           = submit_tag "登录", class: "btn btn-primary login-btn"
-          = link_to "APP下载", "/welcome/student_app", class: "student-app"
+          = link_to "手机APP下载", "/welcome/student_app", class: "student-app"

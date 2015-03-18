@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Student::QuestionsController < Student::ApplicationController
+  layout :resolve_layout
 
   def show
     @q = Question.where(id: params[:id]).first
@@ -25,6 +26,15 @@ class Student::QuestionsController < Student::ApplicationController
       format.html do
         return
       end
+    end
+  end
+
+  def resolve_layout
+    case action_name
+    when "show"
+      "layouts/application"
+    else
+      "layouts/student"
     end
   end
 end

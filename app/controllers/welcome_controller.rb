@@ -10,7 +10,7 @@ class WelcomeController < ApplicationController
     elsif current_user.present?
       redirect_to student_notes_path and return
     else
-      redirect_to new_account_session_path
+      redirect_to new_account_session_path + "?role=#{params[:role]}"
     end
   end
 

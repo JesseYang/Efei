@@ -3,7 +3,7 @@ class Student::ApplicationController < ApplicationController
   before_filter :student_init
 
   def student_init
-    refresh_session(params[:auth_key])
+    refresh_session(params[:auth_key] || cookies[:auth_key])
   end
 
   def require_student

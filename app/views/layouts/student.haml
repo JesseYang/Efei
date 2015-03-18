@@ -1,7 +1,39 @@
 - content_for :app_head do
-  = stylesheet_link_tag "layouts/teacher-layout", :media => "all"
-  = javascript_include_tag "layouts/teacher-layout"
+  = stylesheet_link_tag "layouts/student-layout", :media => "all"
+  = javascript_include_tag "layouts/student-layout"
   = yield :head
+- content_for :app_nav do
+  #student-navbar
+    .container-fluid
+      %a.brand{href: "/"} 易飞
+      %ul#student-nav
+        %li
+          %a{href: "/student/notes/"} 错题本
+        %li
+          %a{href: "/student/tests"} 在线测评
+        %li
+          %a{href: "#"} 使用指南
+      %ul.nav.pull-right
+        %li
+          - if user_signed_in?
+            %a.ef-dropdown-toggle{href: "#"}
+              = current_user.mobile || current_user.email
+              %b.caret
+            .ef-dropdown-menu.hide
+              .ef-dropdown-item
+                %a{href: "/student/settings/#{current_user.id.to_s}"} 个人设置
+              .ef-dropdown-item
+                %a{href: "/account/sessions/sign_out?role=student", data: {method: "delete"}, rel: "nofollow"} 退出
+          - else
+            %a.ef-dropdown-toggle{href: "#"}
+              帐号
+              %b.caret
+            .ef-dropdown-menu.hide
+              .ef-dropdown-item
+                %a{href: "/users/sign_in"} 登录
+              .ef-dropdown-item
+                %a{href: "/users/sign_up"} 注册
+
 - content_for :app_content do
   = yield 
 
