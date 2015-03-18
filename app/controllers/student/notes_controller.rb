@@ -34,7 +34,16 @@ class Student::NotesController < Student::ApplicationController
   end
 
   def index
-    @notes = current_user.notes
+    @subject = params[:subject].to_i
+    @time_period = params[:time_period].to_i
+    @keyword = params[:keyword]
+    @search_notes = current_user.notes
+    @search_notes = @search_notes.where(subject: @subject) if @subject != 0
+    @search_notes = @search_notes.where(:created_at.gt => Time.now.to_i - @time_period) if @time_period != 0
+    if @keyword != ""
+      @search_notes = @search_notes.any_of({summary: /#{@keyword}/}, {topic_str: /#{@keyword}/}, {tag: /#{@keyword}/})
+    end
+    @notes = auto_paginate @search_notes
     respond_to do |format|
       format.json do
         render_with_auth_key({ notes: current_user.list_notes }) and return
@@ -91,5 +100,24 @@ class Student::NotesController < Student::ApplicationController
       params[:email]
     )
     render_with_auth_key({ file_path: file_path })
+  end
+
+  def update_tag
+    n = current_user.notes.find(params[:id])
+    tag = n.tag_set.split(',')[params[:tag_index].to_i]
+    n.update_attribute(:tag, tag)
+    render_json({ tag: tag }) and return
+  end
+
+  def update_topic_str
+    n = current_user.notes.find(params[:id])
+    n.update_attribute(:topic_str, params[:topic_str])
+    render_json and return
+  end
+
+  def update_summary
+    n = current_user.notes.find(params[:id])
+    n.update_attribute(:summary, params[:summary])
+    render_json({summary: params[:summary], paras: params[:summary].split("\n")}) and return
   end
 end

@@ -108,14 +108,37 @@ module ApplicationHelper
     return text  
   end
 
+  def subject
+    {
+      "全部科目" => 0,
+      "语文" => 1,
+      "数学" => 2,
+      "英语" => 4,
+      "物理" => 8,
+      "化学" => 16,
+      "生物" => 32,
+      "历史" => 64,
+      "地理" => 128,
+      "政治" => 256,
+      "其他" => 512
+    }
+  end
+
   def time_period
     {
-      "全部时间" => Time.now.to_i,
-      "最近一天" => 1.days.to_i, 
-      "最近三天" => 3.days.to_i,
+      "全部时间" => 0,
       "最近一周" => 7.days.to_i,
-      "最近两周" => 2.weeks.to_i,
-      "最近一个月" => 1.months.to_i
+      "最近一个月" => 1.months.to_i,
+      "最近三个月" => 3.months.to_i,
+      "最近半年" => 6.months.to_i,
     }
+  end
+
+  def ary2hash(ary)
+    h = { }
+    ary.each_with_index do |e, i|
+      h[e.to_s] = i
+    end
+    h
   end
 end

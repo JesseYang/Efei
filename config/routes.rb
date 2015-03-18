@@ -184,6 +184,11 @@ Rails.application.routes.draw do
         post :batch
         get :list
       end
+      member do
+        put :update_tag
+        put :update_topic_str
+        put :update_summary
+      end
     end
     resources :questions do
       member do
@@ -212,6 +217,9 @@ Rails.application.routes.draw do
   resources :qrcodes do
   end
   resources :topics do
+    collection do
+      get :list
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
