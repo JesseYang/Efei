@@ -32,6 +32,7 @@ $ ->
   $(".span-wrapper").click ->
     $(this).addClass("hide")
     $(this).closest(".tag-part").find(".tag-edit").removeClass("hide")
+    $(this).closest(".tag-part").find("select").focus()
 
   update_tag = (update, tag_part) ->
     if update
@@ -56,6 +57,9 @@ $ ->
   $(".tag-cancel").click ->
     update_tag(false, $(this).closest(".tag-part"))
 
+  $(".tag-part select").focusout ->
+    update_tag(false, $(this).closest(".tag-part"))
+
   $(".summary-wrapper").click ->
     $(this).addClass("hide")
     summary_edit = $(this).closest(".summary-part").find(".summary-edit")
@@ -63,6 +67,7 @@ $ ->
     summary_content = $(this).attr("data-summary")
     summary_edit.find(".summary-edit-textarea").val(summary_content)
     summary_edit.find(".summary-edit-textarea").autogrow()
+    summary_edit.find(".summary-edit-textarea").focus()
 
   $(this).autogrow()
 
@@ -96,4 +101,7 @@ $ ->
     update_summary(true, $(this).closest(".summary-part"))
 
   $(".summary-cancel").click ->
+    update_summary(false, $(this).closest(".summary-part"))
+
+  $(".summary-edit-textarea").focusout ->
     update_summary(false, $(this).closest(".summary-part"))
