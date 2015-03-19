@@ -141,11 +141,13 @@ $ ->
     return r
 
   $(".export-link").click ->
+    $("#exportModal .export-note-number").text(window.note_number)
     $('#exportModal').modal('show')
     $("#exportModal").attr("data-note-id", "")
 
 
   $(".export-btn").click ->
+    $("#exportModal .export-note-number").text(1)
     $('#exportModal').modal('show')
     note_id = $(this).closest(".note-wrapper").attr("data-note-id")
     $("#exportModal").attr("data-note-id", note_id)

@@ -5,6 +5,7 @@
     window.subject="#{@subject}"
     window.time_period="#{@time_period}"
     window.keyword="#{@keyword}"
+    window.note_number="#{@search_notes.length}"
 
 #note-index
   #search-bar
@@ -137,6 +138,10 @@
           %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
           %h3 导出
         .modal-body
+          %p.export-spec
+            %span 您正在选择导出
+            %span.export-note-number
+            %span 道题目
           .checkbox
             = label_tag :include_answer do
               = check_box_tag :include_answer
