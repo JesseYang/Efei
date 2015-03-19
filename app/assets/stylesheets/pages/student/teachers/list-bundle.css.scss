@@ -1,0 +1,58 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "icons/notes/*.png";
+
+.student-teachers {
+  margin-top: 20px;
+  margin-left: 200px;
+}
+
+.tab-pane {
+  margin-top: 30px;
+}
+
+#my-teachers {
+  p {
+    margin-left: 20px;
+  }
+}
+
+#my-teachers-table {
+  width: 100%;
+  td, th {
+    height: 30px;
+  }
+  margin-left: 20px;
+}
+
+#new-teachers-table {
+  width: 100%;
+  td, th {
+    height: 30px;
+  }
+  margin-left: 40px;
+}
+
+#search-box {
+  padding: 10px;
+  margin-left: 20px;
+  #input-search {
+    @include one-line(26px);
+    width: 250px;
+  }
+  a {
+    @include inline-block;
+    @include size(47px, 26px);
+    @include notes-sprite(search_button);
+  }
+}
+
+#classes-list-wrapper {
+  ul {
+    list-style: none;
+    li {
+      height: 30px;
+    }
+  }
+}

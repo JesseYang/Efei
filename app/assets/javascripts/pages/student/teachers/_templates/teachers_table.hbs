@@ -1,0 +1,16 @@
+<table id="new-teachers-table">
+  {{#each teachers}}
+    <tr data-teacher-id={{id}}>
+      <td>{{name}}</td>
+      <td>{{school_name}}</td>
+      <td>{{subject}}</td>
+      <td>
+        {{#ifCond has "true"}}
+          <span>已添加</span>
+        {{else}}
+          <a href="javascript:void(0);" class="add-teacher-link">添加</a>
+        {{/ifCond}}
+      </td>
+    </tr>
+  {{/each}}
+</table>

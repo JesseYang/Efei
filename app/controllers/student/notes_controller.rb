@@ -37,7 +37,7 @@ class Student::NotesController < Student::ApplicationController
     @subject = params[:subject].to_i
     @time_period = params[:time_period].to_i
     @keyword = params[:keyword]
-    @search_notes = current_user.notes
+    @search_notes = current_user.notes.desc(:created_at)
     @search_notes = @search_notes.where(subject: @subject) if @subject != 0
     @search_notes = @search_notes.where(:created_at.gt => Time.now.to_i - @time_period) if @time_period != 0
     if @keyword != ""
@@ -86,9 +86,23 @@ class Student::NotesController < Student::ApplicationController
   def destroy
     begin
       current_user.rm_note(params[:id])
-      render_with_auth_key({ note_update_time: current_user.note_update_time })
+      respond_to do |format|
+        format.json do
+          render_with_auth_key({ note_update_time: current_user.note_update_time })
+        end
+        format.html do
+          redirect_to action: :index and return
+        end
+      end
     rescue Mongoid::Errors::InvalidFind, Mongoid::Errors::DocumentNotFound
-      render_with_auth_key ErrCode.ret_false(ErrCode::NOTE_NOT_EXIST)
+      respond_to do |format|
+        format.json do
+          render_with_auth_key ErrCode.ret_false(ErrCode::NOTE_NOT_EXIST)
+        end
+        format.html do
+          redirect_to action: :index and return
+        end
+      end
     end
   end
 
@@ -119,5 +133,29 @@ class Student::NotesController < Student::ApplicationController
     n = current_user.notes.find(params[:id])
     n.update_attribute(:summary, params[:summary])
     render_json({summary: params[:summary], paras: params[:summary].split("\n")}) and return
+  end
+
+  def web_export
+    if params[:note_id].present?
+      note_id_str = params[:note_id]
+    else
+      subject = params[:subject].to_i
+      time_period = params[:time_period].to_i
+      keyword = params[:keyword]
+      search_notes = current_user.notes.desc(:created_at)
+      search_notes = search_notes.where(subject: subject) if subject != 0
+      search_notes = search_notes.where(:created_at.gt => Time.now.to_i - time_period) if time_period != 0
+      if keyword != ""
+        search_notes = search_notes.any_of({summary: /#{keyword}/}, {topic_str: /#{keyword}/}, {tag: /#{keyword}/})
+      end
+      note_id_str = search_notes.map { |e| e.id.to_s } .join(',')
+    end
+    file_path = current_user.export_note(
+      note_id_str,
+      params[:has_answer].to_s == "true",
+      params[:has_note].to_s == "true",
+      ""
+    )
+    render_json({file_path: file_path}) and return
   end
 end

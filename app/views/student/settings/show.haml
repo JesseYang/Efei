@@ -1,0 +1,39 @@
+- content_for :head do
+  = javascript_include_tag "pages/student/settings-bundle"
+  = stylesheet_link_tag "pages/student/settings-bundle", :media => "all"
+  :javascript
+    window.type = "#{@type}"
+
+.student-settings
+  %ul#myTab.nav.nav-tabs{:role => "tablist"}
+    %li.active
+      %a{"data-toggle" => "tab", :href => "#home", :role => "tab"} 基本信息
+    %li
+      %a{"data-toggle" => "tab", :href => "#profile", :role => "tab"} 修改密码
+  #myTabContent.tab-content.row
+    #home.tab-pane.fade.active.in.col-lg-6
+      = form_tag(student_setting_path(current_user), method: "put", multipart: true, class: 'form-horizontal') do
+        .form-group
+          = label_tag :student_name, "姓名", class: "col-sm-2 control-label"
+          .col-sm-10
+            = text_field_tag "student[name]", current_user.name, autofocus: true, class: "form-control", placeholder: "姓名"
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            %button.btn.btn-primary{:type => "submit"} 保存
+    #profile.tab-pane.fade.col-lg-6
+      = form_tag(update_password_student_setting_path(current_user), method: "put", multipart: true, class: 'form-horizontal') do
+        .form-group
+          = label_tag :password, "当前密码", class: "col-sm-3 control-label"
+          .col-sm-9
+            = password_field_tag "password", "", autofocus: true, class: "form-control"
+        .form-group
+          = label_tag :new_password, "新密码", class: "col-sm-3 control-label"
+          .col-sm-9
+            = password_field_tag "new_password", "", autofocus: true, class: "form-control"
+        .form-group
+          = label_tag :new_password_confirmation, "新密码确认", class: "col-sm-3 control-label"
+          .col-sm-9
+            = password_field_tag "new_password_confirmation", "", autofocus: true, class: "form-control"
+        .form-group
+          .col-sm-offset-3.col-sm-9
+            %button.btn.btn-primary{:type => "submit"} 更新

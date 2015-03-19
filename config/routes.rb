@@ -176,11 +176,20 @@ Rails.application.routes.draw do
       end
     end
     resources :teachers do
+      collection do
+        get :list
+      end
+      member do
+        put :add_teacher
+        put :remove_teacher
+        get :list_classes
+      end
     end
     resources :notes do
       collection do
         get :note_update_time
         get :export
+        post :web_export
         post :batch
         get :list
       end
@@ -201,6 +210,11 @@ Rails.application.routes.draw do
       end
     end
     resources :topics do
+    end
+    resources :settings do
+      member do
+        put :update_password
+      end
     end
   end
 

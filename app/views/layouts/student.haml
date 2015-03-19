@@ -23,6 +23,8 @@
               .ef-dropdown-item
                 %a{href: "/student/settings/#{current_user.id.to_s}"} 个人设置
               .ef-dropdown-item
+                %a{href: "/student/teachers/list?scope=1"} 我的老师
+              .ef-dropdown-item
                 %a{href: "/account/sessions/sign_out?role=student", data: {method: "delete"}, rel: "nofollow"} 退出
           - else
             %a.ef-dropdown-toggle{href: "#"}

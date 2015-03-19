@@ -73,11 +73,26 @@
   margin-right: 100px;
   .note-wrapper {
     padding: 20px 20px 20px 20px;
+    position: relative;
     border-bottom: 1px solid #BBBBBB;
     &:first-child {
       border-top: 1px solid #BBBBBB;
     }
     min-width: 800px;
+  }
+  .note-operation-div {
+    position: absolute;
+    top: 20px;
+    right: 80px;
+    padding: 5px;
+    background-color: white;
+    .btn {
+      background-color: lighten(#E6E6E6, 5%);
+      &:hover {
+        background-color: #E6E6E6;
+        border-color: #E6E6E6;
+      }
+    }
   }
   .content-div {
     float: left;
@@ -109,7 +124,7 @@
       }
     }
   }
-  .op-part {
+  .user-note-part {
     width: 35%;
     float: right;
   }

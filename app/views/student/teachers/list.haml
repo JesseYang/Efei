@@ -1,0 +1,43 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/student/teachers/list-bundle"
+  = stylesheet_link_tag "pages/student/teachers/list-bundle", :media => "all"
+  :javascript
+
+.student-teachers
+  %ul#myTab.nav.nav-tabs{:role => "tablist"}
+    %li.active
+      %a{"data-toggle" => "tab", :href => "#my-teachers", :role => "tab"} 我的老师
+    %li
+      %a{"data-toggle" => "tab", :href => "#new-teachers", :role => "tab"} 添加老师
+  #myTabContent.tab-content.row
+    #my-teachers.tab-pane.fade.active.in.col-lg-6
+      - if @teachers.length == 0
+        %p 您还未添加教师
+      - else
+        %table#my-teachers-table
+          %tr
+            %th 姓名
+            %th 学校
+            %th 学科
+            %th
+          - @teachers.each do |t|
+            %tr
+              %td= t.name
+              %td= t.school.try(:name).to_s
+              %td= Subject::NAME[t.subject]
+              %td
+                = link_to "删除", { controller: "student/teachers", action: "remove_teacher", id: t._id.to_s }, :method => "put"
+    #new-teachers.tab-pane.fade.col-lg-6
+      #search-box
+        %input#input-search{:placeholder => "搜索教师姓名", :type => "text", :value => params[:keyword]}
+          %a#link-search{href: "javascript:void(0);"}
+      #new-teachers-table-wrapper
+
+#selectClassModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 选择班级
+      .modal-body
+        #classes-list-wrapper

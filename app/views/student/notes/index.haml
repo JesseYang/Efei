@@ -2,6 +2,9 @@
   = javascript_include_tag "pages/student/notes/index-bundle"
   = stylesheet_link_tag "pages/student/notes/index-bundle", :media => "all"
   :javascript
+    window.subject="#{@subject}"
+    window.time_period="#{@time_period}"
+    window.keyword="#{@keyword}"
 
 #note-index
   #search-bar
@@ -21,6 +24,7 @@
     #head-part
       .search-tip
         %span= "共搜索到#{@search_notes.length}道符合条件的题目"
+        %a{href: "javascript:void(0);", class: "export-link" } 导出
       - if @search_notes.length > 0
         .notes-paginator-wrapper
           = paginator_mini @notes
@@ -67,7 +71,7 @@
                     %span= d2c(n.answer)
                 .question-answer-content
                   = render :partial => "partials/question_content", locals: { content: n.answer_content, image_path: n.image_path }
-          .op-part
+          .user-note-part
             %table.note-table
               %tr
                 %td.table-head
@@ -107,12 +111,41 @@
                       =text_area_tag 'summary', nil, class: 'summary-edit-textarea'
                       %button.btn.btn-primary.btn-sm.summary-ok 确 定
                       %button.btn.btn-default.btn-sm.summary-cancel 取 消
+          
+          .note-operation-div.hide
+            .btn-group.right
+              = link_to "导出", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm export-btn'
+              = link_to "删除", { controller: "student/notes", action: "destroy", id: n.id.to_s }, :method => "delete", :class => 'btn btn-default btn-sm btn-delete-note'
+
           .clear-both
     - if @search_notes.length > 0
       #foot-part
         .search-tip
           %span= "共搜索到#{@search_notes.length}道符合条件的题目"
+          %a{href: "javascript:void(0);", class: "export-link" } 导出
         - if @search_notes.length > 0
           .notes-paginator-wrapper
             = paginator_mini @notes
         .clear-both
+
+
+#exportModal.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 导出
+        .modal-body
+          .checkbox
+            = label_tag :include_answer do
+              = check_box_tag :include_answer
+              包含答案
+          .checkbox
+            = label_tag :include_note do
+              = check_box_tag :include_note
+              包含笔记
+        .modal-footer
+          = submit_tag "确定", :class => 'btn-primary btn'
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+

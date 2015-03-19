@@ -72,6 +72,9 @@ class User
     end
     u.update_attribute(:teacher, true) if role == "teacher"
     u.update_attribute(:subject, subject.to_i) if role == "teacher"
+    if role == "teacher"
+      u.ensure_default_class
+    end
     return { success: true, auth_key: u.generate_auth_key }
   end
 
