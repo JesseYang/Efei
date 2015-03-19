@@ -51,7 +51,7 @@ module UserComponents::Student
   end
 
   def list_notes
-    self.notes.map { |e| [e.id.to_s, e.updated_at.to_i] }
+    self.notes.desc(:created_at).map { |e| [e.id.to_s, e.updated_at.to_i] }
   end
 
   def add_note(qid, hid, summary = "", tag = "", topics = "")
