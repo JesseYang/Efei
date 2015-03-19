@@ -20,8 +20,11 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def stat
-
     @notes = @homework.notes
+    @users = @notes.map { |e| e.user } .uniq
+
+    @students = @users.select { |e| @current_user.has_student?(e) }
+    @students_notes = @notes.select { |e| @students.include?(e.user) }
 
     @classes = @current_user.classes.map do |e|
       [e.name.to_s, e.id.to_s]

@@ -162,6 +162,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
           students[index] << n.user.name
         end
         students.map! { |e| e.join(", ") }
+        # demo data
         render_json({
           categories: ["不懂", "不会", "不对", "典型题"],
           series: [

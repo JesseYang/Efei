@@ -5,13 +5,13 @@
 #content-background
   #paper-top
   #paper
-    %p#homework-summary= "共有78人，102次收录了这份作业中的题目。其中35人，64次收录来自您的学生"
+    %p#homework-summary= "共有#{@users.length}人，#{@notes.length}次收录了这份作业中的题目。其中#{@students.length}人，#{@students_notes.length}次收录来自您的学生"
     - @homework.questions_in_order.each do |q|
       .content-div{data: {questionId: q.id.to_s, questionType: q.type}}
         .question-content-wrapper
           .question-content-div
             .question-content
-              = render :partial => "partials/question_content", locals: { content: q.content }
+              = render :partial => "partials/question_content", locals: { content: q.content, image_path: q.image_path }
             - if q.type == "choice"
               .question-items{data: {"question-answer" => q.answer}}
                 - if q.item_len < 8
@@ -43,11 +43,11 @@
             - if q.answer_content.present?
               %strong.answer-label 解答
               .question-answer
-                = render :partial => "partials/question_content", locals: { content: q.answer_content }
+                = render :partial => "partials/question_content", locals: { content: q.answer_content, image_path: q.image_path }
             - else
               %strong.answer-label.hide 解答
               .question-answer.hide
-                = render :partial => "partials/question_content", locals: { content: q.answer_content }
+                = render :partial => "partials/question_content", locals: { content: q.answer_content, image_path: q.image_path }
           %a.expand-link{ href: "javascript:void(0);", data: { "expand" => "false" } } 展开
       .stat-div{data: {questionId: q.id.to_s} }
         .tab-title
