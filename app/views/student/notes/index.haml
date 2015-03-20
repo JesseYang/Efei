@@ -79,7 +79,7 @@
             %table.note-table
               %tr
                 %td.table-head
-                  %span.strong 标签：
+                  %span.note-label.strong 标签：
                 %td
                   .tag-part
                     - if n.tag == ""
@@ -95,13 +95,13 @@
                     .clear-both
               %tr
                 %td.table-head
-                  %span.strong 知识点：
+                  %span.note-label.strong 知识点：
                 %td
                   .topic-part
                     %input.topics{:name => "topics", :value => n.topic_str.to_s}/
               %tr
                 %td.table-head
-                  %span.strong 总结：
+                  %span.note-label.strong 总结：
                 %td
                   .summary-part
                     - if n.summary.to_s == ""

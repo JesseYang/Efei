@@ -180,8 +180,9 @@
 }
 
 .note-table {
-  label {
+  .note-label {
     width: 60px;
+    @include inline-block;
   }
 }
 
