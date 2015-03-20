@@ -137,15 +137,6 @@
     margin-right: 20px;
   }
   position: relative;
-  .tag-edit-icon {
-    float: left;
-    @include size(16px, 16px);
-    @include inline-block;
-    cursor: pointer;
-    @include notes-sprite(tag_edit);
-    margin-top: 7px;
-    margin-left: 20px;
-  }
 }
 
 .topic-part {

@@ -115,11 +115,6 @@ $ ->
     else
       stat_div.find(".result-part .loading").removeClass("hide")
       stat_div.find(".result-part .no-target").addClass("hide")
-    console.log "AAAAAAAAAAAAAAAA"
-    console.log dom
-    console.log qid
-    console.log analyze_type
-    console.log class_id
     analyze(dom, target, qid, analyze_type, class_id)
 
   $(".tag-result").each ->

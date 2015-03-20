@@ -208,7 +208,7 @@ $ ->
 
   ######## Begin: new folder part ########
   $("#create-new-link").click ->
-    $("#create-dropdown-list").removeClass("hide")
+    $("#create-dropdown-list").toggleClass("hide")
     false
 
   $("#create-folder-link").click ->

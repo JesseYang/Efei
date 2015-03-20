@@ -2,6 +2,7 @@
 @import "compass/css3";
 @import "compass/utilities/general/clearfix";
 @import "icons/students/*.png";
+@import 'partials/question';
 
 html {
   background-color: #EEE;
@@ -40,53 +41,95 @@ html {
       }
     }
     #note-list {
-      .note-div {
-        position: relative;
+      .note-wrapper {
         background-color: white;
         padding: 30px 80px 30px 80px;
         border-top: 1px solid #DDDDDD;
-        table.line4 {
-          width: 100%;
-          tr {
-            width: 25%;
-          }
-        }
-        table.line2 {
-          width: 100%;
-          tr {
-            width: 50%;
-          }
-        }
-        .question-content-div {
-          height: auto;
-          overflow: hidden;
-          position: relative;
-          font-size: 1.3em;
-          span {
-            white-space: pre-wrap;
-          }
-          .question-items p {
-            margin-left: 10px;
-          }
-        }
-        .student-note-div {
-          margin-top: 10px;
-          color: #777777;
-          .note-title {
-            font-weight: bold;
-          }
-          .tag-topic-div {
-            @include clearfix;
-            margin-bottom: 10px;
-            .tag-div {
-              float: left;
-            }
-            .topic-div {
-              float: right;
-              margin-right: 20px;
-            }
-          }
-        }
+      }
+    }
+  }
+}
+
+.note-div {
+  float: left;
+  width: 65%;
+  position: relative;
+  padding-right: 10px;
+}
+.user-note-part {
+  width: 35%;
+  float: right;
+}
+
+.tag-part {
+  padding: 5px 10px 5px 5px;
+  .span-wrapper {
+    float: left;
+    background-color: yellow;
+    padding: 5px;
+    border: 1px solid #a5d24a;
+    @include border-radius(2px);
+    .tag-content {
+      color: #638421;
+    }
+    &.no-tag {
+      background-color: #DDD;
+      border: 1px solid #AAA;
+      .tag-content {
+        color: black;
+      }
+    }
+  }
+}
+
+.topic-part {
+  padding: 5px 10px 0px 5px;
+  height: auto;
+  .span-wrapper {
+    float: left;
+    background-color: #cde69c;
+    padding: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #a5d24a;
+    @include border-radius(2px);
+    .topic-content {
+      color: #638421;
+    }
+    &.no-topic {
+      background-color: #DDD;
+      border: 1px solid #AAA;
+      .topic-content {
+        color: black;
+      }
+    }
+  }
+}
+
+.note-table {
+  .note-label {
+    width: 60px;
+    @include inline-block;
+  }
+}
+
+.summary-part {
+  padding: 5px 10px 5px 5px;
+  p {
+    margin: 5px 5px 5px 0px;
+    line-height: 15px;
+  }
+  .span-wrapper {
+    float: left;
+    background-color: #cde69c;
+    padding: 5px;
+    border: 1px solid #a5d24a;
+    @include border-radius(2px);
+    &.no-summary {
+      background-color: #DDD;
+      border: 1px solid #AAA;
+      .summary-content {
+        color: black;
       }
     }
   }
