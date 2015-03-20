@@ -31,25 +31,25 @@ class Node
   end
 
   def self.list_homeworks
-    self.where(_type: Homework).map do |n|
+    self.where(_type: Homework).asc(:created_at).map do |n|
       n.info_for_table
     end
   end
 
   def self.list_slides
-    self.where(_type: Slide).map do |n|
+    self.where(_type: Slide).asc(:created_at).map do |n|
       n.info_for_table
     end
   end
 
   def self.list_starred
-    self.starred.map do |n|
+    self.starred.asc(:created_at).map do |n|
       n.info_for_table
     end
   end
 
   def self.search(keyword)
-    self.where(name: /#{keyword}/).map do |n|
+    self.where(name: /#{keyword}/).asc(:created_at).map do |n|
       n.info_for_table
     end
   end
