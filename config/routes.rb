@@ -4,8 +4,9 @@ Rails.application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq"
 
   match '/:unique_key' => 'mongoid_shortener/shortened_urls#translate', :via => :get, :constraints => { :unique_key => /~.+/ }
-  # match '/login' => 'account/sessions#new?role=student', :via => :get
   get '/login', to: 'account/sessions#new', role: "student"
+  get '/student_android_app_qr_code', to: 'qrcodes#student_android_app_qr_code'
+  get '/student_ios_app_qr_code', to: 'qrcodes#student_ios_app_qr_code'
 
   get "welcome/index"
   get "welcome/student_app"

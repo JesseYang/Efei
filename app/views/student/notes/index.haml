@@ -15,10 +15,10 @@
     #filter-wrapper
       %ul.notes-filter-ul
         %li
-          %label 科目：
+          %span.strong 科目：
           = select_tag :note_subject, options_for_select(subject, 0)
         %li
-          %label 添加时间：
+          %span.strong 添加时间：
           = select_tag :note_time, options_for_select(time_period, 0)
   .clear-both
   #content-background
@@ -79,7 +79,7 @@
             %table.note-table
               %tr
                 %td.table-head
-                  %label 标签：
+                  %span.strong 标签：
                 %td
                   .tag-part
                     - if n.tag == ""
@@ -95,13 +95,13 @@
                     .clear-both
               %tr
                 %td.table-head
-                  %label 知识点：
+                  %span.strong 知识点：
                 %td
                   .topic-part
                     %input.topics{:name => "topics", :value => n.topic_str.to_s}/
               %tr
                 %td.table-head
-                  %label 总结：
+                  %span.strong 总结：
                 %td
                   .summary-part
                     - if n.summary.to_s == ""

@@ -9,7 +9,19 @@ class QrcodesController < ApplicationController
     send_file "public/qr_code/#{params[:link]}.png", type: 'image/png'
   end
 
-  def app_qr_code
-  	
+  def student_android_app_qr_code
+    qr = RQRCode::QRCode.new("#{Rails.application.config.student_android_app_url}", :size => 5, :level => :h )
+    png = qr.to_img
+    temp_img_name = "public/qr_code/student_android_app_url.png"
+    png.resize(100, 100).save(temp_img_name)
+    send_file "public/qr_code/student_android_app_url.png", type: 'image/png'
+  end
+
+  def student_ios_app_qr_code
+    qr = RQRCode::QRCode.new("#{Rails.application.config.student_ios_app_url}", :size => 5, :level => :h )
+    png = qr.to_img
+    temp_img_name = "public/qr_code/student_ios_app_url.png"
+    png.resize(100, 100).save(temp_img_name)
+    send_file "public/qr_code/student_ios_app_url.png", type: 'image/png'
   end
 end

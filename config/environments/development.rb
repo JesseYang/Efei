@@ -41,6 +41,10 @@ Rails.application.configure do
   # student portal url
   config.student_portal_url = "http://dev.efei.org/login"
 
+  # student app url
+  config.student_android_app_url = "http://dev.efei.org/students/android_app"
+  config.student_ios_app_url = "http://dev.efei.org/students/ios_app"
+
   # word processing host name
   config.word_host = "http://dev.image.efei.org"
 

@@ -45,10 +45,10 @@ class Student::NotesController < Student::ApplicationController
     end
     @notes = auto_paginate @search_notes
     respond_to do |format|
+      format.html do
+      end
       format.json do
         render_with_auth_key({ notes: current_user.list_notes }) and return
-      end
-      format.html do
       end
     end
   end
