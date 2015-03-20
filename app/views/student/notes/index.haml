@@ -65,13 +65,16 @@
                           %td
                             %label= d2c(index) + ". "
                             %span.item-content= item.render_question(n.image_path).html_safe
-              - if n.answer_content.present? || n.answer.present?
+              - if (n.answer_content.present? || n.answer.present?) && (n.homework.answer_time_type == "now" || (n.homework.answer_time_type == "later" && n.homework.answer_time < Time.now.to_i))
                 .question-answer
                   %strong.answer-label 解答:
                   - if n.answer.present?
                     %span= d2c(n.answer)
                 .question-answer-content
                   = render :partial => "partials/question_content", locals: { content: n.answer_content, image_path: n.image_path }
+              - else
+                .question-answer
+                  %strong.answer-label 未上传答案或答案未公布
           .user-note-part
             %table.note-table
               %tr
@@ -145,7 +148,7 @@
           .checkbox
             = label_tag :include_answer do
               = check_box_tag :include_answer
-              包含答案
+              包含答案(仅当题目有答案且答案公布时)
           .checkbox
             = label_tag :include_note do
               = check_box_tag :include_note

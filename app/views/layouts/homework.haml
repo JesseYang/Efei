@@ -61,13 +61,14 @@
             /   = label_tag "doc_type_word", "word"
             /   = radio_button_tag 'doc_type', "pdf", false
             /   = label_tag "doc_type_pdf", "pdf"
-            %p.title-p
-              %span 是否包含二维码
-            %p.content-p
-              = radio_button_tag 'qr_code', "yes", true
-              = label_tag "qr_code_yes", "包含"
-              = radio_button_tag 'qr_code', "no", false
-              = label_tag "qr_code_no", "不包含"
+            .checkbox
+              = label_tag :include_app_qr_code do
+                = check_box_tag :include_app_qr_code
+                包含APP下载链接
+            .checkbox
+              = label_tag :include_question_qr_code do
+                = check_box_tag :include_question_qr_code
+                包含题目二维码
           .modal-footer
             = submit_tag "确定", :class => 'btn-primary btn'
             %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

@@ -83,18 +83,20 @@ class Homework < Node
     self.questions << q if !self.questions.include?(q)
   end
 
-  def generate(qr_code)
+  def generate(question_qr_code, app_qr_code)
     questions = []
     self.questions_in_order.each do |q|
       link = MongoidShortener.generate("#{self.id.to_s},#{q.id.to_s}")
       questions << {"type" => q.type, "image_path" => q.image_path, "content" => q.content, "items" => q.items, "link" => link}
     end
     data = {
+      "app_qr_code" => app_qr_code,
+      "student_portal_url" => Rails.application.config.student_portal_url,
       "questions" => questions,
       "name" => self.name,
       "qrcode_host" => Rails.application.config.server_host,
       "doc_type" => "word",
-      "qr_code" => qr_code
+      "qr_code" => question_qr_code
     }
     response = Homework.post("/Generate.aspx",
       :body => {data: data.to_json} )

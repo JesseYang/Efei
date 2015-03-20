@@ -79,6 +79,9 @@ Rails.application.configure do
   # host name
   config.server_host = "http://efei.org"
 
+  # student portal url
+  config.student_portal_url = "http://dev.efei.org/login"
+
   # word processing host name
   config.word_host = "http://image.efei.org"
 

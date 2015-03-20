@@ -8,4 +8,8 @@ class QrcodesController < ApplicationController
     # render :text => "/qr_code/#{params[:link]}.png" and return
     send_file "public/qr_code/#{params[:link]}.png", type: 'image/png'
   end
+
+  def app_qr_code
+  	
+  end
 end

@@ -110,8 +110,8 @@ class Student::NotesController < Student::ApplicationController
   def export
     file_path = current_user.export_note(
       params[:note_id_str],
-      params[:has_answer].to_s == "true",
-      params[:has_note].to_s == "true",
+      params[:has_answer].to_s == "true" || params[:has_answer].to_s == "1",
+      params[:has_note].to_s == "true" || params[:has_note].to_s == "1",
       params[:email]
     )
     render_with_auth_key({ file_path: file_path })
