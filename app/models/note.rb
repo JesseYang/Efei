@@ -82,4 +82,11 @@ class Note
   def item_len
     item_max_len = items.map { |e| e.item_length } .max
   end
+
+  def set_answer
+    if self.homework.answer_time_type == "no" || (self.homework.answer_time_type == "later" && Time.now.to_i < self.homework.answer_time)
+      self.answer = -1
+      self.answer_content = []
+    end
+  end
 end

@@ -49,17 +49,21 @@ class Teacher::HomeworksController < Teacher::ApplicationController
           @tag_set_id = tag_set.id.to_s
         end
       end
-
     end
   end
 
   def set_basic_setting
     @homework.update_attribute(:name, params[:name])
+    answer_time = Time.mktime(*(params[:answer_time].split('-'))).to_i if params[:answer_time_type] == "later"
+    if @homework.answer_time_type != params[:answer_time_type]
+      @homework.notes.each { |n| n.touch }
+    elsif params[:answer_time_type] == "later" && @homework.answer_time != answer_time
+      @homework.notes.each { |n| n.touch }
+    end
     if %w{no now later} .include? params[:answer_time_type]
       @homework.update_attribute(:answer_time_type, params[:answer_time_type])
     end
     if params[:answer_time_type] == "later"
-      answer_time = Time.mktime(*(params[:answer_time].split('-'))).to_i
       @homework.update_attribute(:answer_time, answer_time)
     end
     render_json

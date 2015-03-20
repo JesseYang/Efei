@@ -50,7 +50,7 @@ $ ->
   $('.topics').tagsInput({
    'height': 'auto'
    'interactive': true
-   'defaultText':'新知识点'
+   'defaultText':'添加'
    'onRemoveTag' : ->
       note_id = $(this).closest(".note-wrapper").attr("data-note-id")
       update_topic(note_id)

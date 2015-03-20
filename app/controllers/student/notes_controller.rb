@@ -69,6 +69,7 @@ class Student::NotesController < Student::ApplicationController
       note = current_user.notes.find(params[:id])
       note["last_update_time"] = note.updated_at.to_i
       note["create_time"] = note.created_at.to_i
+      note.set_answer
       render_with_auth_key({ note: note })
     rescue Mongoid::Errors::InvalidFind, Mongoid::Errors::DocumentNotFound
       render_with_auth_key ErrCode.ret_false(ErrCode::NOTE_NOT_EXIST)
