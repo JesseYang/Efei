@@ -4,6 +4,7 @@
 @import "compass/utilities/general/clearfix";
 @import "icons/notes/*.png";
 @import "/assets/jquery.tagsinput.css";
+@import 'partials/question';
 
 #note-index {
   width: auto;
@@ -104,29 +105,6 @@
     position: relative;
     background-color: white;
     padding-right: 10px;
-    .question-content-div {
-      span {
-        white-space: pre-wrap;
-      }
-      .question-items p {
-        margin-left: 10px;
-      }
-      .question-answer {
-        margin-top: 10px;
-      }
-    }
-    table.line4 {
-      width: 100%;
-      tr {
-        width: 25%;
-      }
-    }
-    table.line2 {
-      width: 100%;
-      tr {
-        width: 50%;
-      }
-    }
   }
   .user-note-part {
     width: 35%;

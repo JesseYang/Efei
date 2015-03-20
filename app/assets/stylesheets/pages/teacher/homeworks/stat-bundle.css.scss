@@ -1,6 +1,7 @@
 @import 'common';
 @import 'compass/css3';
 @import "icons/homeworks/*.png";
+@import 'partials/question';
 
 html {
   background-color: #EEE;
@@ -35,29 +36,10 @@ html {
         height: 60px;
         overflow: hidden;
       }
-      table.line4 {
-        width: 100%;
-        tr {
-          width: 25%;
-        }
-      }
-      table.line2 {
-        width: 100%;
-        tr {
-          width: 50%;
-        }
-      }
       .question-content-div {
         height: auto;
         overflow: hidden;
         position: relative;
-        // font-size: 1.3em;
-        span {
-          white-space: pre-wrap;
-        }
-        .question-items p {
-          margin-left: 10px;
-        }
       }
       .expand-link {
         padding: 5px 5px 0 5px;

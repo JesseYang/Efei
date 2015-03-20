@@ -1,6 +1,6 @@
 @import 'jquery.qtip';
 @import 'utility';
-@import 'partials/question_variables';
+@import 'partials/question';
 @import 'compass/css3';
 @import 'common';
 @import 'icons/homeworks/*.png';
@@ -32,29 +32,6 @@ html {
       background-color: white;
       padding: 40px 80px 40px 80px;
       border-bottom: 1px solid #DDDDDD;
-      .question-content-div {
-        span {
-          white-space: pre-wrap;
-        }
-        .question-items p {
-          margin-left: 10px;
-        }
-        .question-answer {
-          margin-top: 10px;
-        }
-      }
-      table.line4 {
-        width: 100%;
-        tr {
-          width: 25%;
-        }
-      }
-      table.line2 {
-        width: 100%;
-        tr {
-          width: 50%;
-        }
-      }
       .question-operation-div {
         position: absolute;
         top: 20px;

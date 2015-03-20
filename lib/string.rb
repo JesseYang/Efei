@@ -2,7 +2,7 @@
 # require 'RMagick'
 
 class String
-  CF = 1
+  CF = 1.2
 
   def is_mobile?
     !self.match(/1\d{10}/).nil?

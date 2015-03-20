@@ -1,0 +1,27 @@
+@import 'partials/question_variables';
+
+.question-content-div {
+  span {
+    // font-size: 1.2em;
+    font-size: 17px;
+    white-space: pre-wrap;
+  }
+  .question-items p {
+    margin-left: 10px;
+  }
+  .question-answer {
+    margin-top: 10px;
+  }
+}
+table.line4 {
+  width: 100%;
+  tr {
+    width: 25%;
+  }
+}
+table.line2 {
+  width: 100%;
+  tr {
+    width: 50%;
+  }
+}

@@ -2,6 +2,7 @@
 @import "compass/css3";
 @import "compass/utilities/general/clearfix";
 @import "icons/homeworks/*.png";
+@import 'partials/question';
 
 #book-bar {
   .nav-a {
@@ -218,29 +219,6 @@
           }
         }
         margin-bottom: 5px;
-      }
-      .question-content-div {
-        span {
-          white-space: pre-wrap;
-        }
-        .question-items p {
-          margin-left: 10px;
-        }
-        .question-answer {
-          margin-top: 10px;
-        }
-      }
-      table.line4 {
-        width: 100%;
-        tr {
-          width: 25%;
-        }
-      }
-      table.line2 {
-        width: 100%;
-        tr {
-          width: 50%;
-        }
       }
       .question-operation-div {
         position: absolute;

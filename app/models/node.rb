@@ -19,7 +19,7 @@ class Node
   end
 
   def list_children
-    self.children.map do |n|
+    self.children.asc(:created_at).map do |n|
       n.info_for_table
     end
   end
