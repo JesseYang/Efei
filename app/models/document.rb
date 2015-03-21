@@ -7,6 +7,7 @@ class Document
   mount_uploader :document, DocumentUploader
 
   include HTTMultiParty
+  default_timeout 600;
   base_uri Rails.application.config.word_host
   format  :json
 

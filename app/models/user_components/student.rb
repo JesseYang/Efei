@@ -54,6 +54,16 @@ module UserComponents::Student
     self.notes.desc(:created_at).map { |e| [e.id.to_s, e.updated_at.to_i] }
   end
 
+  def add_note_without_update(qid, hid)
+    note = self.notes.where(question_id: qid, homework_id: hid).first
+    if !note.blank?
+      note = Note.create_new(qid, hid, summary, tag, topics)
+      self.notes << note
+    end
+    self.set_note_update_time(note.subject)
+    return note
+  end
+
   def add_note(qid, hid, summary = "", tag = "", topics = "")
     note = self.notes.where(question_id: qid, homework_id: hid).first
     if note.present?
