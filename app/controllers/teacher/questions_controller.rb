@@ -118,7 +118,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
   end
 
   def stat
-    qid = Question.find(params[:id])
+    qid = params[:id]
     notes = []
     if params[:analyze_type] == "compare"
       params[:class_id].split(',').each do |cid|
@@ -136,7 +136,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         notes << temp_notes
       end
     else
-      if params[:class_id] = "-1"
+      if params[:class_id] == "-1"
         students = current_user.classes.map { |e| e.students } .flatten .uniq
       else
         klass = current_user.classes.find(params[:class_id])
@@ -154,6 +154,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         data = [ ]
         students = [ ]
         notes.each do |n|
+          next if n.tag.blank?
           categories << n.tag if !categories.include? n.tag
           index = categories.index(n.tag)
           data[index] ||= 0
@@ -162,6 +163,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
           students[index] << n.user.name
         end
         students.map! { |e| e.join(", ") }
+=begin
         # demo data
         render_json({
           categories: ["不懂", "不会", "不对", "典型题"],
@@ -176,13 +178,18 @@ class Teacher::QuestionsController < Teacher::ApplicationController
             "卞红巧, 蔡坤",
             "郑永军, 周风, 周娟娟, 周鹿屏"]
         }) and return
-=begin
-        render_json({
-          categories: categories,
-          data: data,
-          students: students
-        }) and return
 =end
+        retval = {
+          categories: categories,
+          series: [
+            {
+              name: "选择人数",
+              data: data
+            }
+          ],
+          students: students
+        }
+        render_json(retval) and return
       else
         render_json({
           categories: ["不懂", "不会", "不对", "典型题"],
@@ -218,6 +225,8 @@ class Teacher::QuestionsController < Teacher::ApplicationController
           end
         end
         students.map! { |e| e.join(", ") }
+=begin
+        # demo data
         render_json({
           categories: ["三角函数", "辅助角公式", "诱导公式"],
           series: [
@@ -230,13 +239,17 @@ class Teacher::QuestionsController < Teacher::ApplicationController
             "袁刚, 章丽丽, 卞红巧, 白玉芬, 仓春莲, 仓红, 陈超云, 陈高, 陈国祥, 陈宏柳, 张德梅, 张芳, 张红芳, 张珊珊, 赵勇, 赵哲明",
             "郑永军, 周风, 周娟娟, 周鹿屏, 蔡坤"]
         }) and return
-=begin
+=end
         render_json({
           categories: categories,
-          data: data,
+          series: [
+            {
+              name: "选择人数",
+              data: data
+            }
+          ],
           students: students
         }) and return
-=end
       else
         render_json({
           categories: ["三角函数", "辅助角公式", "诱导公式"],
@@ -258,13 +271,14 @@ class Teacher::QuestionsController < Teacher::ApplicationController
     when "summary"
       summary = [ ]
       notes.each do |n|
+        next if n.summary.blank?
         summary << { student_id: n.user.id.to_s, student_name: n.user.name, summary: n.summary }
       end
-=begin
       render_json({
         summary: summary
       }) and return
-=end
+=begin
+      # demo data
       render_json({
         summary: [
           { student_id: "", student_name: "陈金娣", summary: "诱导公式背错了"},
@@ -293,6 +307,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
           { student_id: "", student_name: "蔡坤", summary: ""}
         ]
       }) and return
+=end
     end
   end
 end

@@ -6,42 +6,58 @@
 $ ->
 
   analyze = (dom, target, qid, analyze_type, class_id) ->
+    note_text = 
+      summary: "总结"
+      tag: "标签"
+      topic: "知识点"
     $.getJSON "/teacher/questions/#{qid}/stat?analyze_type=#{analyze_type}&class_id=#{class_id}&target=#{target}", (data) ->
       if data.success
         # refresh the data in the dom
         if target == "summary"
-          summary_result = $(HandlebarsTemplates["summary_result"](data))
-          dom.empty()
-          dom.append(summary_result)
+          if data.summary.length == 0
+            dom.find(".no-result-tip").removeClass("hide")
+            dom.find(".no-result-tip span").text("没有学生对这道题目添加" + note_text[target])
+            dom.find(".summary-content").empty()
+          else
+            summary_result = $(HandlebarsTemplates["summary_result"](data))
+            dom.find(".no-result-tip").addClass("hide")
+            dom.find(".summary-content").empty()
+            dom.find(".summary-content").append(summary_result)
         else if analyze_type == "single"
-          dom.find(".result-figure").highcharts
-            chart:
-              type: "column"
-              height: 250
-              width: 498
-            title:
-              text: null
-            xAxis:
-              categories: data.categories
-            yAxis:
-              min: 0
+          if data.categories.length == 0
+            dom.find(".no-result-tip").removeClass("hide")
+            dom.find(".no-result-tip span").text("没有学生对这道题目添加" + note_text[target])
+            dom.find(".result-figure").empty()
+          else
+            dom.find(".no-result-tip").addClass("hide")
+            dom.find(".result-figure").highcharts
+              chart:
+                type: "column"
+                height: 250
+                width: 498
               title:
                 text: null
-            credits:
-              enabled: false
-            tooltip:
-              headerFormat: "<span style=\"font-size:10px\">{point.key}</span><table>"
-              pointFormat: "<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td>" + "<td style=\"padding:0\"><b>{point.y:0f}</b></td></tr>"
-              footerFormat: "</table>"
-              shared: true
-              useHTML: true
-            series: data.series
-            plotOptions:
-              series:
-                point:
-                  events:
-                    click: ->
-                      dom.find(".result-text p").text("选择\"" + data.categories[@x] + "\"的同学：" + data.students[@x])
+              xAxis:
+                categories: data.categories
+              yAxis:
+                min: 0
+                title:
+                  text: null
+              credits:
+                enabled: false
+              tooltip:
+                headerFormat: "<span style=\"font-size:10px\">{point.key}</span><table>"
+                pointFormat: "<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td>" + "<td style=\"padding:0\"><b>{point.y:0f}</b></td></tr>"
+                footerFormat: "</table>"
+                shared: true
+                useHTML: true
+              series: data.series
+              plotOptions:
+                series:
+                  point:
+                    events:
+                      click: ->
+                        dom.find(".result-text p").text("选择\"" + data.categories[@x] + "\"的同学：" + data.students[@x])
         else if analyze_type == "compare"
           dom.find(".result-figure").highcharts
             chart:

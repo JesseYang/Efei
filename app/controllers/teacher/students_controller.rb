@@ -45,6 +45,19 @@ class Teacher::StudentsController < Teacher::ApplicationController
         topic_series_data[index] += 1
       end
     end
+    i = tag_categories.index("")
+    if i != -1
+      tag_categories.delete("")
+      tag_categories << "未选择标签"
+      d = tag_series_data.delete_at(i)
+      tag_series_data << d
+    end
+    if topic_categories.length > 8
+      topic_categories = topic_categories[0..6] + ["其他"]
+      topic_series_data = topic_series_data[0..6] + [topic_series_data[7..-1].sum]
+    end
+=begin
+    # demo data
     @tag_stat = {
       tag_categories: ["不懂", "不会", "不对", "典型题"],
       tag_series: [
@@ -59,7 +72,7 @@ class Teacher::StudentsController < Teacher::ApplicationController
         data: [15, 8, 20]
       ]
     }
-=begin
+=end
     @tag_stat = {
       tag_categories: tag_categories,
       tag_series: [
@@ -74,7 +87,6 @@ class Teacher::StudentsController < Teacher::ApplicationController
         data: topic_series_data
       ]
     }
-=end
     render_json({tag_stat: @tag_stat, topic_stat: @topic_stat}) and return
   end
 
