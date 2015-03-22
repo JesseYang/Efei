@@ -59,34 +59,40 @@ $ ->
                       click: ->
                         dom.find(".result-text p").text("选择\"" + data.categories[@x] + "\"的同学：" + data.students[@x])
         else if analyze_type == "compare"
-          dom.find(".result-figure").highcharts
-            chart:
-              type: "column"
-              height: 250
-              width: 498
-            title:
-              text: null
-            xAxis:
-              categories: data.categories
-            yAxis:
-              min: 0
+          if data.categories.length == 0
+            dom.find(".no-result-tip").removeClass("hide")
+            dom.find(".no-result-tip span").text("没有学生对这道题目添加" + note_text[target])
+            dom.find(".result-figure").empty()
+          else
+            dom.find(".no-result-tip").addClass("hide")
+            dom.find(".result-figure").highcharts
+              chart:
+                type: "column"
+                height: 250
+                width: 498
               title:
                 text: null
-            credits:
-              enabled: false
-            tooltip:
-              headerFormat: "<span style=\"font-size:10px\">{point.key}</span><table>"
-              pointFormat: "<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td>" + "<td style=\"padding:0\"><b>{point.y:0f}</b></td></tr>"
-              footerFormat: "</table>"
-              shared: true
-              useHTML: true
-            series: data.series
-            plotOptions:
-              series:
-                point:
-                  events:
-                    click: ->
-                      dom.find(".result-text p").text("选择\"" + data.categories[@x] + "\"的同学：" + data.students[@x])
+              xAxis:
+                categories: data.categories
+              yAxis:
+                min: 0
+                title:
+                  text: null
+              credits:
+                enabled: false
+              tooltip:
+                headerFormat: "<span style=\"font-size:10px\">{point.key}</span><table>"
+                pointFormat: "<tr><td style=\"color:{series.color};padding:0\">{series.name}: </td>" + "<td style=\"padding:0\"><b>{point.y:0f}</b></td></tr>"
+                footerFormat: "</table>"
+                shared: true
+                useHTML: true
+              series: data.series
+              plotOptions:
+                series:
+                  point:
+                    events:
+                      click: ->
+                        dom.find(".result-text p").text("选择\"" + data.categories[@x] + "\"的同学：" + data.students[@x])
         dom.closest(".result-part").find(".loading").addClass("hide")
         dom.closest(".result-part").find(".no-target").addClass("hide")
         dom.removeClass("hide")

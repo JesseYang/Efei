@@ -191,6 +191,33 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         }
         render_json(retval) and return
       else
+        categories = [ ]
+        series = params[:class_id].split(',').map do |cid|
+          if cid == "-1"
+            klass_name = "全体学生"
+          else
+            klass_name = current_user.classes.find(cid).name
+          end
+          {
+            name: klass_name,
+            data:[ ]
+          }
+        end
+        notes.each_with_index do |class_notes, c_index|
+          class_notes.each do |n|
+            next if n.tag.blank?
+            categories << n.tag if !categories.include? n.tag
+            index = categories.index(n.tag)
+            series[c_index][:data][index] ||= 0
+            series[c_index][:data][index] += 1
+          end
+        end
+        render_json({
+          categories: categories,
+          series: series
+        }) and return
+=begin
+        # demo data
         render_json({
           categories: ["不懂", "不会", "不对", "典型题"],
           series: [
@@ -202,12 +229,9 @@ class Teacher::QuestionsController < Teacher::ApplicationController
               name: "高一（2)班",
               data: [5, 7, 8, 4]
             }
-          ],
-          students: ["白玉芬, 仓春莲, 仓红, 陈超云, 陈高, 陈国祥, 陈宏柳, 陈金娣, 陈丽丽, 陈平",
-            "袁刚, 章丽丽, 张德梅, 张芳, 张红芳, 张珊珊, 赵勇, 赵哲明",
-            "卞红巧, 蔡坤",
-            "郑永军, 周风, 周娟娟, 周鹿屏"]
+          ]
         }) and return
+=end
       end
     when "topic"
       if params[:analyze_type] == "single"
@@ -251,6 +275,32 @@ class Teacher::QuestionsController < Teacher::ApplicationController
           students: students
         }) and return
       else
+        categories = [ ]
+        series = params[:class_id].split(',').map do |cid|
+          if cid == "-1"
+            klass_name = "全体学生"
+          else
+            klass_name = current_user.classes.find(cid).name
+          end
+          {
+            name: klass_name,
+            data:[ ]
+          }
+        end
+        notes.each_with_index do |class_notes, c_index|
+          class_notes.each do |n|
+            n.topic_str.split(',').each do |t|
+              categories << t if !categories.include? t
+              index = categories.index(t)
+              series[c_index][:data][index] ||= 0
+              series[c_index][:data][index] += 1
+            end
+          end
+        end
+        render_json({
+          categories: categories,
+          series: series
+        }) and return
         render_json({
           categories: ["三角函数", "辅助角公式", "诱导公式"],
           series: [
@@ -262,10 +312,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
               name: "高一（2)班",
               data: [5, 9, 10]
             }
-          ],
-          students: ["陈金娣, 陈丽丽, 陈平",
-            "袁刚, 章丽丽, 卞红巧, 白玉芬, 仓春莲, 仓红, 陈超云, 陈高, 陈国祥, 陈宏柳, 张德梅, 张芳, 张红芳, 张珊珊, 赵勇, 赵哲明",
-            "郑永军, 周风, 周娟娟, 周鹿屏, 蔡坤"]
+          ]
         }) and return
       end
     when "summary"
