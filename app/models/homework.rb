@@ -98,9 +98,6 @@ class Homework < Node
       "doc_type" => "word",
       "qr_code" => question_qr_code
     }
-    Rails.logger.info "AAAAAAAAAAAA"
-    Rails.logger.info data.to_json
-    Rails.logger.info "AAAAAAAAAAAA"
     response = Homework.post("/Generate.aspx",
       :body => {data: data.to_json} )
     return response.body

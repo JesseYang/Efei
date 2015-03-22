@@ -90,8 +90,10 @@ class Question
 
   def generate
     questions = []
-    questions << {"type" => self.type, "content" => self.content, "items" => self.items}
+    questions << {"type" => self.type, "image_path" => self.image_path, "content" => self.content, "items" => self.items}
     data = {
+      "app_qr_code" => false,
+      "student_portal_url" => Rails.application.config.student_portal_url,
       "questions" => questions,
       "name" => "题目",
       "qrcode_host" => Rails.application.config.server_host,
