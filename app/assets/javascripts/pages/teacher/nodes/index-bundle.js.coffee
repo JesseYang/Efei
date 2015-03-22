@@ -7,7 +7,6 @@
 $ ->
 
   $(".page-guide").click ->
-    $("#create-dropdown-list").removeClass("hide")
     introJs().start()
 
   # forbit the default right-click popup menu

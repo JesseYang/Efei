@@ -112,14 +112,13 @@ class Teacher::HomeworksController < Teacher::ApplicationController
 
   def insert
     homework = Homework.find(params[:id])
-    # begin
+    begin
       document = Document.new
       document.document = params[:insert_homework_file]
       document.store_document!
       document.insert_question(homework, params[:question_id])
       flash[:notice] = "已完成题目插入"
       redirect_to action: :show, id: homework.id.to_s
-=begin
     rescue Exception => e
       if e.message == "wrong filetype"
         flash[:error] = "文件损坏，解析失败"
@@ -132,7 +131,6 @@ class Teacher::HomeworksController < Teacher::ApplicationController
         redirect_to action: :show, id: homework.id.to_s
       end
     end
-=end
   end
 
   def create

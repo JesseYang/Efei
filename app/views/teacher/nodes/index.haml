@@ -10,15 +10,15 @@
 - content_for :teacher_content do
   #homework-index
     #search-bar
-      #folder-wrapper
-      #search-box
+      #folder-wrapper{ data: { step: "3", intro: "文件夹导航栏，试试点击文件夹名直接导航 :-)"} }
+      #search-box{ data: { step: "5", intro: "文件及文件夹搜索框。"} }
         %input#input-search{:placeholder => "文件夹或文档名称", :type => "text", :value => params[:keyword]}
           %a#link-search{href: "javascript:void(0);"}
     .clear-both
     #main-part
       #left-part
         #new-button
-          %a#create-new-link{ data: { intro: '点击在当前文件夹下创建新文件夹或者作业。'} }
+          %a#create-new-link{ data: { step: "1", intro: "在当前文件夹下创建新文件夹或者作业。"} }
           #create-dropdown-list.hide.ef-dropdown-menu
             .ef-dropdown-item
               %a#create-folder-link 新建文件夹
@@ -30,7 +30,7 @@
               %a#new-homework-link 新建作业
         %ul
           %li
-            .folder-node#root-folder
+            .folder-node#root-folder{ data: { step: "2", intro: "管理我的文件夹，试试鼠标右键操作 :-)"} }
               .name-node.root
                 %span.caret-wrapper
                   %b.open
@@ -69,7 +69,7 @@
                 %i.icon.trash
                 %span 已删除
       #right-part
-        #table-wrapper
+        #table-wrapper{ data: { step: "4", intro: "当前文件夹下的内容列表。"} }
 
   #newFolderModal.modal.fade
     .modal-dialog
