@@ -56,7 +56,7 @@ module UserComponents::Student
 
   def add_note_without_update(qid, hid)
     note = self.notes.where(question_id: qid, homework_id: hid).first
-    if !note.blank?
+    if note.blank?
       note = Note.create_new(qid, hid, summary, tag, topics)
       self.notes << note
     end
