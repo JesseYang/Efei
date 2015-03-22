@@ -63,7 +63,7 @@ $ ->
     notification = $("<div />").appendTo("#replaceModal") 
     notification.notification
       delay: 0
-      content: "正在替换作业，请稍候"
+      content: "正在替换题目，请稍候"
 
   $("#insertModal form").submit ->
     if $("#insertModal #insert_homework_file").val() == ""
@@ -80,7 +80,7 @@ $ ->
     notification = $("<div />").appendTo("#insertModal") 
     notification.notification
       delay: 0
-      content: "正在替换作业，请稍候"
+      content: "正在插入题目，请稍候"
 
   replaceIntervalFunc = ->
     $('#replace-homework-name').html $('#replace_homework_file').val()

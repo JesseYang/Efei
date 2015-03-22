@@ -56,7 +56,7 @@ class Homework < Node
   end
 
   def insert_questions(before_question_id, questions)
-    index = self.q.q_ids.index(before_question_id) + 1
+    index = self.q_ids.index(before_question_id) + 1
     questions.reverse.each do |q|
       self.q_ids.insert(index, q.id.to_s)
       self.questions << q

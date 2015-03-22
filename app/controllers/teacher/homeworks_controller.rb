@@ -17,9 +17,11 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def show
+    @title = @homework.name + "-编辑"
   end
 
   def stat
+    @title = @homework.name + "-统计"
     @notes = @homework.notes
     @users = @notes.map { |e| e.user } .uniq
 
@@ -33,6 +35,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def settings
+    @title = @homework.name + "-设置"
     @type = %w{basic export tag} .include?(params[:type]) ? params[:type] : "basic"
     case @type
     when "basic"
@@ -109,13 +112,14 @@ class Teacher::HomeworksController < Teacher::ApplicationController
 
   def insert
     homework = Homework.find(params[:id])
-    begin
+    # begin
       document = Document.new
       document.document = params[:insert_homework_file]
       document.store_document!
       document.insert_question(homework, params[:question_id])
       flash[:notice] = "已完成题目插入"
       redirect_to action: :show, id: homework.id.to_s
+=begin
     rescue Exception => e
       if e.message == "wrong filetype"
         flash[:error] = "文件损坏，解析失败"
@@ -128,6 +132,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
         redirect_to action: :show, id: homework.id.to_s
       end
     end
+=end
   end
 
   def create

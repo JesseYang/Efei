@@ -7,6 +7,7 @@ class Teacher::PapersController < Teacher::ApplicationController
 
   def show
     @paper = Homework.find(params[:id])
+    @title = @paper.name
     @questions = @paper.q_ids.map { |e| Question.find(e) }
   end
 

@@ -13,6 +13,7 @@ class Teacher::StudentsController < Teacher::ApplicationController
   end
 
   def index
+    @title = "学生管理"
     current_user.ensure_default_class
     @classes = @current_user.classes.asc(:default)
     @cid = params[:cid]
@@ -21,6 +22,7 @@ class Teacher::StudentsController < Teacher::ApplicationController
 
   def show
     @student = User.find(params[:id])
+    @title = @student.name + "的错题本"
     @notes = @student.notes.where(subject: current_user.subject)
     @subject = Subject::NAME[current_user.subject]
   end

@@ -2,6 +2,7 @@
 class Teacher::SettingsController < Teacher::ApplicationController
 
   def show
+    @title = "个人设置"
     @type = params[:type].present? ? params[:type] : "update"
   end
 

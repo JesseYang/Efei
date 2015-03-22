@@ -9,11 +9,13 @@ class Teacher::QuestionsController < Teacher::ApplicationController
   def index
     @type = %w{tongbu zhuanxiang zonghe} .include?(params[:type]) ? params[:type] : "tongbu"
     if @type == "tongbu"
+      @title = "在线题库-同步练习"
       @editions = Structure.editions
       @current_edition = Structure.default_edition(cookies[:edition_id])
       @books = @current_edition.books
       @current_book = @current_edition.default_book(cookies[:book_id])
     elsif @type == "zhuanxiang"
+      @title = "在线题库-专项练习"
       @root_points = Point.points(0)
       @current_point = Point.where(id: params[:point_id]).first || @root_points[0]
       @current_root_point = @current_point.root_point
@@ -24,6 +26,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
       @search_questions = @search_questions.where(difficulty: @difficulty.to_i) if @difficulty != -1
       @questions = auto_paginate @search_questions
     else
+      @title = "在线题库-综合套题"
     end
   end
 

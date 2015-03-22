@@ -11,6 +11,7 @@ class Teacher::NodesController < Teacher::ApplicationController
   end
 
   def index
+    @title = "文件夹"
     @type = params[:type].blank? ? "folder" : params[:type]
     @root_folder_id = current_user.root_folder.id
     if !%w{folder recent trash search all_homeworks all_slides starred workbook}.include?(@type)

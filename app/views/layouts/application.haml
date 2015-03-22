@@ -1,7 +1,7 @@
 !!!
 %html
   %head
-    %title= @title || "易飞网"
+    %title= @title.present? ? "易飞网-#{@title}" : "易飞网"
     %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}/
     %meta{"http-qeuiv" => "X-UA-Compatible", content: "IE=edge"}/
     = stylesheet_link_tag "application", :media => "all"
