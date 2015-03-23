@@ -1,4 +1,9 @@
 class Account::RegistrationsController < Account::ApplicationController
+
+  def new
+    @role = params[:role] || "teacher"
+  end
+
   def create
     retval = User.create_new_user(params[:invite_code], params[:email_mobile].to_s, params[:password], params[:name], params[:role], params[:subject])
     refresh_session retval[:auth_key] if retval[:success]
