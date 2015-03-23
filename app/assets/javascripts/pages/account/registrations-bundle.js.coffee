@@ -7,11 +7,19 @@ $(document).ready ->
     $("#student-regi").removeClass("hide")
 
   $("#teacher-regi-form").submit ->
-    email_mobile = $("#email_mobile").val()
-    password = $("#password").val()
-    name = $("#name").val()
-    subject = $("#subject").val()
-    invite_code = $("#invite_code").val()
+    email_mobile = $("#teacher_email_mobile").val().trim()
+    verify = !!email_mobile.match(/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)
+    if !verify
+      $.page_notification("请输入正确的邮箱地址")
+      return false
+    password = $("#teacher_password").val().trim()
+    if password.length < 6
+      $.page_notification("请输入至少6位密码")
+    name = $("#teacher_name").val().trim()
+    if name == ""
+      $.page_notification("请输入真实姓名")
+    subject = $("#teacher_subject").val()
+    invite_code = $("#teacher_invite_code").val().trim()
     $.postJSON(
       '/account/registrations/',
       {
@@ -33,9 +41,17 @@ $(document).ready ->
     return false
 
   $("#student-regi-form").submit ->
-    email_mobile = $("#email_mobile").val()
-    password = $("#password").val()
-    name = $("#name").val()
+    email_mobile = $("#student_email_mobile").val().trim()
+    verify = !!email_mobile.match(/^1[0-9]{10}$/)
+    if !verify
+      $.page_notification("请输入正确的11位手机号")
+      return false
+    password = $("#student_password").val().trim()
+    if password.length < 6
+      $.page_notification("请输入至少6位密码")
+    name = $("#student_name").val().trim()
+    if name == ""
+      $.page_notification("请输入真实姓名")
     $.postJSON(
       '/account/registrations/',
       {

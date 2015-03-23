@@ -22,107 +22,112 @@
           = select_tag :note_time, options_for_select(time_period, 0)
   .clear-both
   #content-background
-    #head-part
-      .search-tip
-        %span= "共搜索到#{@search_notes.length}道符合条件的题目"
-        %a{href: "javascript:void(0);", class: "export-link" } 导出
-      - if @search_notes.length > 0
-        .notes-paginator-wrapper
-          = paginator_mini @notes
-      .clear-both
-    #notes-part
-      - @notes["data"].each do |n|
-        .note-wrapper{data: {"note-id" => n.id.to_s, "note-type" => n.type}}
-          .content-div
-            .question-content-div
-              .question-content
-                = render :partial => "partials/question_content", locals: { content: n.content, image_path: n.image_path }
-              - if n.type == "choice"
-                .question-items{data: {"question-answer" => n.answer}}
-                  - if n.item_len < 8
-                    %table.line4
-                      %tr
-                        - n.items.each_with_index do |item, index|
-                          %td
-                            %label= d2c(index) + ". "
-                            %span.item-content= item.render_question(n.image_path).html_safe
-                  - elsif n.item_len < 16
-                    %table.line2
-                      %tr
-                        - n.items[0..1].each_with_index do |item, index|
-                          %td
-                            %label= d2c(index) + ". "
-                            %span.item-content= item.render_question(n.image_path).html_safe
-                      %tr
-                        - n.items[2..3].each_with_index do |item, index|
-                          %td
-                            %label= d2c(index + 2) + ". "
-                            %span.item-content= item.render_question(n.image_path).html_safe
-                  - else
-                    %table.line1
-                      - n.items.each_with_index do |item, index|
+    - if @search_notes.length == 0
+      #no-note-tip
+        %span= "未搜索到符合条件的题目，点击"
+        =link_to "这里", "/welcome/student_app"
+        %span= "下载学生端手机APP"
+    - else
+      #head-part
+        .search-tip
+          %span= "共搜索到#{@search_notes.length}道符合条件的题目"
+          %a{href: "javascript:void(0);", class: "export-link" } 导出
+        - if @search_notes.length > 0
+          .notes-paginator-wrapper
+            = paginator_mini @notes
+        .clear-both
+      #notes-part
+        - @notes["data"].each do |n|
+          .note-wrapper{data: {"note-id" => n.id.to_s, "note-type" => n.type}}
+            .content-div
+              .question-content-div
+                .question-content
+                  = render :partial => "partials/question_content", locals: { content: n.content, image_path: n.image_path }
+                - if n.type == "choice"
+                  .question-items{data: {"question-answer" => n.answer}}
+                    - if n.item_len < 8
+                      %table.line4
                         %tr
-                          %td
-                            %label= d2c(index) + ". "
-                            %span.item-content= item.render_question(n.image_path).html_safe
-              - if (n.answer_content.present? || n.answer.present?) && (n.homework.answer_time_type == "now" || (n.homework.answer_time_type == "later" && n.homework.answer_time < Time.now.to_i))
-                .question-answer
-                  %strong.answer-label 解答:
-                  - if n.answer.present?
-                    %span= d2c(n.answer)
-                .question-answer-content
-                  = render :partial => "partials/question_content", locals: { content: n.answer_content, image_path: n.image_path }
-              - else
-                .question-answer
-                  %strong.answer-label 未上传答案或答案未公布
-          .user-note-part
-            %table.note-table
-              %tr
-                %td.table-head
-                  %span.note-label.strong 标签：
-                %td
-                  .tag-part
-                    - if n.tag == ""
-                      %span.span-wrapper.no-tag
-                        %span.tag-content= "未设置标签"
+                          - n.items.each_with_index do |item, index|
+                            %td
+                              %label= d2c(index) + ". "
+                              %span.item-content= item.render_question(n.image_path).html_safe
+                    - elsif n.item_len < 16
+                      %table.line2
+                        %tr
+                          - n.items[0..1].each_with_index do |item, index|
+                            %td
+                              %label= d2c(index) + ". "
+                              %span.item-content= item.render_question(n.image_path).html_safe
+                        %tr
+                          - n.items[2..3].each_with_index do |item, index|
+                            %td
+                              %label= d2c(index + 2) + ". "
+                              %span.item-content= item.render_question(n.image_path).html_safe
                     - else
-                      %span.span-wrapper
-                        %span.tag-content= n.tag
-                    .tag-edit.hide
-                      = select_tag :note_tag, options_for_select(ary2hash(n.tag_set.split(",")), 0)
-                      %button.btn.btn-primary.btn-sm.tag-ok 确 定
-                      %button.btn.btn-default.btn-sm.tag-cancel 取 消
-                    .clear-both
-              %tr
-                %td.table-head
-                  %span.note-label.strong 知识点：
-                %td
-                  .topic-part
-                    %input.topics{:name => "topics", :value => n.topic_str.to_s}/
-              %tr
-                %td.table-head
-                  %span.note-label.strong 总结：
-                %td
-                  .summary-part
-                    - if n.summary.to_s == ""
-                      .summary-wrapper.no-summary{data: {summary: n.summary}}
-                        %p= "未添加总结"
-                    - else
-                      .summary-wrapper{data: {summary: n.summary}}
-                        - n.summary.split("\n").each do |line|
-                          %p= line
-                    .summary-edit.hide
-                      =text_area_tag 'summary', nil, class: 'summary-edit-textarea'
-                      %button.btn.btn-primary.btn-sm.summary-ok 确 定
-                      %button.btn.btn-default.btn-sm.summary-cancel 取 消
-          
-          .note-operation-div.hide
-            .btn-group.right
-              = link_to "导出", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm export-btn'
-              = link_to "删除", { controller: "student/notes", action: "destroy", id: n.id.to_s }, :method => "delete", :class => 'btn btn-default btn-sm btn-delete-note'
+                      %table.line1
+                        - n.items.each_with_index do |item, index|
+                          %tr
+                            %td
+                              %label= d2c(index) + ". "
+                              %span.item-content= item.render_question(n.image_path).html_safe
+                - if (n.answer_content.present? || n.answer.present?) && (n.homework.answer_time_type == "now" || (n.homework.answer_time_type == "later" && n.homework.answer_time < Time.now.to_i))
+                  .question-answer
+                    %strong.answer-label 解答:
+                    - if n.answer.present?
+                      %span= d2c(n.answer)
+                  .question-answer-content
+                    = render :partial => "partials/question_content", locals: { content: n.answer_content, image_path: n.image_path }
+                - else
+                  .question-answer
+                    %strong.answer-label 未上传答案或答案未公布
+            .user-note-part
+              %table.note-table
+                %tr
+                  %td.table-head
+                    %span.note-label.strong 标签：
+                  %td
+                    .tag-part
+                      - if n.tag == ""
+                        %span.span-wrapper.no-tag
+                          %span.tag-content= "未设置标签"
+                      - else
+                        %span.span-wrapper
+                          %span.tag-content= n.tag
+                      .tag-edit.hide
+                        = select_tag :note_tag, options_for_select(ary2hash(n.tag_set.split(",")), 0)
+                        %button.btn.btn-primary.btn-sm.tag-ok 确 定
+                        %button.btn.btn-default.btn-sm.tag-cancel 取 消
+                      .clear-both
+                %tr
+                  %td.table-head
+                    %span.note-label.strong 知识点：
+                  %td
+                    .topic-part
+                      %input.topics{:name => "topics", :value => n.topic_str.to_s}/
+                %tr
+                  %td.table-head
+                    %span.note-label.strong 总结：
+                  %td
+                    .summary-part
+                      - if n.summary.to_s == ""
+                        .summary-wrapper.no-summary{data: {summary: n.summary}}
+                          %p= "未添加总结"
+                      - else
+                        .summary-wrapper{data: {summary: n.summary}}
+                          - n.summary.split("\n").each do |line|
+                            %p= line
+                      .summary-edit.hide
+                        =text_area_tag 'summary', nil, class: 'summary-edit-textarea'
+                        %button.btn.btn-primary.btn-sm.summary-ok 确 定
+                        %button.btn.btn-default.btn-sm.summary-cancel 取 消
+            
+            .note-operation-div.hide
+              .btn-group.right
+                = link_to "导出", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm export-btn'
+                = link_to "删除", { controller: "student/notes", action: "destroy", id: n.id.to_s }, :method => "delete", :class => 'btn btn-default btn-sm btn-delete-note'
 
-          .clear-both
-    - if @search_notes.length > 0
+            .clear-both
       #foot-part
         .search-tip
           %span= "共搜索到#{@search_notes.length}道符合条件的题目"
