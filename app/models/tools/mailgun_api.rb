@@ -25,7 +25,7 @@ class MailgunApi
 
     data[:subject] = "修改登录邮箱"
     data[:subject] += " --- to #{email}" if Rails.env != "production"
-    data[:to] = Rails.env != "production" ? email : @@test_email
+    data[:to] = Rails.env == "production" ? email : @@test_email
     self.send_message(data)
   end
 
