@@ -60,7 +60,7 @@ class User
     if role == "teacher"
       i = InviteCode.where(code: invite_code, used: false).first
       return ErrCode.ret_false(ErrCode::WRONG_INVITE_CODE) if i.blank?
-      i.update_attribute(:used, false)
+      i.update_attribute(:used, true)
     end
     return ErrCode.ret_false(ErrCode::BLANK_EMAIL_MOBILE) if email_mobile.blank?
     u = User.where(email: email_mobile).first || User.where(mobile: email_mobile).first

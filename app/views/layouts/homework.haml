@@ -63,11 +63,11 @@
             /   = label_tag "doc_type_pdf", "pdf"
             .checkbox
               = label_tag :include_app_qr_code do
-                = check_box_tag :include_app_qr_code
+                = check_box_tag :include_app_qr_code, 1, true
                 包含APP下载链接
             .checkbox
               = label_tag :include_question_qr_code do
-                = check_box_tag :include_question_qr_code
+                = check_box_tag :include_question_qr_code, 1, true
                 包含题目二维码
           .modal-footer
             = submit_tag "确定", :class => 'btn-primary btn'
