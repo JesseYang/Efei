@@ -80,6 +80,7 @@ class Student::NotesController < Student::ApplicationController
   def update
     begin
       note = current_user.update_note(params[:id], params[:summary], params[:tag].to_s, params[:topics].to_s)
+      note.set_answer
       render_with_auth_key({ note: note, note_update_time: current_user.note_update_time })
     rescue Mongoid::Errors::InvalidFind, Mongoid::Errors::DocumentNotFound
       render_with_auth_key ErrCode.ret_false(ErrCode::NOTE_NOT_EXIST)
