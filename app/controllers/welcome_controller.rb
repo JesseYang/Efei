@@ -23,7 +23,7 @@ class WelcomeController < ApplicationController
   end
 
   def app_version
-    retval = { success: true, android: "1.1", ios: "1.0", android_url: "", ios_url: "" }
+    retval = { success: true, android: "1.0", ios: "1.0", android_url: "", ios_url: "" }
     retval[:auth_key] = current_user.generate_auth_key if current_user.present?
     render json: retval and return
   end
