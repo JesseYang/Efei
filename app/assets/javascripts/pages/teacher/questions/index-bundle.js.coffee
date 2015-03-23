@@ -5,6 +5,10 @@
 #= require "utility/_templates/paginator_mini"
 #= require "extensions/page_notification"
 $ ->
+
+  $(".page-guide").click ->
+    introJs().start()
+
   tree = null
 
   if window.type == "zhuanxiang"

@@ -13,7 +13,7 @@
 - content_for :teacher_content do
   #question-index
     #book-bar
-      #type-selector
+      #type-selector{ data: { step: "1", intro: "在线题库包括“专项练习”和“综合套题”两部分，在这里点击切换。"} }
         %p.hide
           =link_to "同步练习", "/teacher/questions?type=tongbu", class: "nav-a tongbu-nav-a"
         %p
@@ -41,7 +41,7 @@
                   - else
                     %li.book-ele{data: {id: b.id.to_s}}= b.name
       - elsif @type == "zhuanxiang"
-        %table
+        %table{ data: { step: "2", intro: "“专项练习”题目分为17个模块，点击这里切换模块。"} }
           %tr
             %td
               %ul.root-point-ul
@@ -51,7 +51,7 @@
                   - else
                     %li.root-point-ele{data: {id: p.id.to_s}}= p.name
       - elsif @type == "zonghe"
-        %ul.zonghe-filter-ul
+        %ul.zonghe-filter-ul{ data: { step: "2", intro: "可以通过年份、省份、及类型（真题或者模拟）对套题进行筛选。"} }
           %li
             %label 年份：
             = select_tag :paper_year, options_for_select(zonghe_year, 0)
@@ -74,7 +74,7 @@
         #right-part
       - elsif @type == "zhuanxiang"
         #left-part
-          .folder-node#root-folder
+          .folder-node#root-folder{ data: { step: "3", intro: "根据知识点对题目进行更细致的分类，便于查找。"} }
             .name-node.root
               %span.caret-wrapper
                 %b.open
@@ -82,7 +82,7 @@
             .children.hide
         #right-part
           #right-top
-            %table
+            %table{ data: { step: "4", intro: "通过题目类型和难度进行筛选。"} }
               %tr
                 %th 题型：
                 %td
