@@ -6,6 +6,7 @@ class Student::NotesController < Student::ApplicationController
     begin
       note = current_user.add_note(params[:question_id], params[:homework_id], params[:summary].to_s, params[:tag].to_s, params[:topics].to_s)
       new_teacher = note.check_teacher(current_user)
+      note.set_answer
       retval = { note: note, note_update_time: current_user.note_update_time }
       retval[:teacher] = new_teacher.teacher_info_for_student(true) if new_teacher.present?
       render_with_auth_key retval

@@ -75,6 +75,11 @@ class Question
         answer: self.answer,
         answer_content: self.answer_content
       })
+    else
+      info.merge({
+        answer: -1,
+        answer_content: []
+      })
     end
     info
   end
