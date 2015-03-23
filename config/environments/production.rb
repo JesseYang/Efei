@@ -77,22 +77,22 @@ Rails.application.configure do
   # config.active_record.dump_schema_after_migration = false
 
   # host name
-  config.server_host = "http://efei.org"
+  config.server_host = "http://portal.efei.org"
 
   # student portal url
-  config.student_portal_url = "http://dev.efei.org/login"
+  config.student_portal_url = "http://portal.efei.org/login"
 
   # word processing host name
-  config.word_host = "http://image.efei.org"
+  config.word_host = "http://dev.image.efei.org"
 
   # slide parsing host name
   config.slides_host = "http://dev.image.efei.org"
 
   # image convertion url
-  config.convert_image_url = "http://image.efei.org"
+  config.convert_image_url = "http://dev.image.efei.org"
 
   # converted image download url
-  config.image_download_url = "http://image.efei.org/download"
+  config.image_download_url = "http://dev.image.efei.org/download"
 
   # directory to save image files
   config.image_dir = "public/uploads/documents/images/"
