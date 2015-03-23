@@ -61,17 +61,22 @@ class Question
   end
 
   def info_for_student(homework)
-    {
+    info = {
       _id: self.id.to_s,
       subject: homework.subject,
       type: self.type,
       content: self.content,
       items: self.items,
-      answer: self.answer,
-      answer_content: self.answer_content,
       tag_set: homework.tag_set,
       image_path: self.image_path
     }
+    if homework.answer_time_type == "now" || (homework.answer_time_type == "later" && homework.answer_time < Time.now.to_i)
+      info.merge({
+        answer: self.answer,
+        answer_content: self.answer_content
+      })
+    end
+    info
   end
 
   def generate_qr_code
