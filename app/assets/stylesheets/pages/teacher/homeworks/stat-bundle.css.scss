@@ -96,7 +96,7 @@ html {
           float: left;
           position: relative;
           .loading {
-            background-image: url(/assets/loading.gif);
+            background-image: image-url("loading.gif");
             @include size(32px, 32px);
             @include inline-block;
             position: absolute;

@@ -43,6 +43,6 @@ $ ->
       scrollImg: {
           active: true
           type: 'background'
-          src: 'assets/top.png'
+          src: "image-url('top.png')"
       }
   })
