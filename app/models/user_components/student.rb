@@ -104,13 +104,15 @@ module UserComponents::Student
         "type" => n.type,
         "image_path" => n.image_path,
         "content" => n.content,
-        "items" => n.items
+        "items" => n.items,
+        "has_answer" => has_answer,
+        "has_note" => has_note
       }
-      if has_answer.to_s == "true"
+      if has_answer
         if (n.homework.answer_time_type == "now" || (n.homework.answer_time_type == "later" && n.homework.answer_time < Time.now.to_i))
-          note.merge!({ "answer" => n.answer || -1, "answer_content" => n.answer_content })
+          note.merge!({ "answer" => n.answer || -1, "answer_content" => n.answer_content || [] })
         else
-          note.merge!({ "answer_not_ready" => true })
+          note.merge!({ "answer" => -1, "answer_content" => [] })
         end
       end
       if has_note.to_s == "true"
