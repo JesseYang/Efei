@@ -91,8 +91,8 @@ class Note
   end
 
   def change_image_path
-    if self.image_path.include?("dev.efei.org")
-      new_image_path = self.image_path.gsub("dev.efei.org", "portal.efei.org")
+    if self.image_path.include?("portal.efei.org")
+      new_image_path = self.image_path.gsub("portal.efei.org", "efei.org")
       self.update_attribute(:image_path, new_image_path)
     end
   end
