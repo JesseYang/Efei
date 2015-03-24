@@ -1,3 +1,4 @@
+#= require json2
 #= require jquery
 #= require jquery-ui
 #= require jquery_ujs

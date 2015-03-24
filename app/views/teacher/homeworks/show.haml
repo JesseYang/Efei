@@ -8,11 +8,14 @@
   #paper-top
   #paper
     - if @homework.questions_in_order.length == 0
-      %p.tip-p 作业中没有题目
-      %p.tip-p
-        %span 您可以前往
-        %a.compose-link{href: "javascript:void(0);"} 在线题库
-        %span 选题
+      .page-spec-wrapper
+        .page-spec
+          %p 作业中没有题目，您可以通过以下方式选择题目：
+          %ul
+            %li
+              %a.compose-link-zhuanxiang{href: "javascript:void(0);"} 前往专项练习题库
+            %li
+              %a.compose-link-zonghe{href: "javascript:void(0);"} 前往综合套题题库
     - @homework.questions_in_order.each do |q|
       .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
         .question-content-div

@@ -3,19 +3,27 @@ $ ->
   edit_title = false
 
   $(".compose-link").click ->
+    go_compose("zhuanxiang")
+
+  $(".compose-link-zhuanxiang").click ->
+    go_compose("zhuanxiang")
+
+  $(".compose-link-zonghe").click ->
+    go_compose("zonghe")
+
+  go_compose = (type) ->
     $.postJSON(
       '/teacher/composes/',
       {
         homework_id: window.homework_id
       },
       (retval) ->
-        console.log retval
         if !retval.success
           $.page_notification(retval.message)
         else
           $(".compose-indicator").removeClass("hide")
           $.page_notification("前往题库")
-          window.location.href = "/teacher/questions?type=zhuanxiang"
+          window.location.href = "/teacher/questions?type=#{type}"
     )
 
   $("#title-wrapper").hover (->
