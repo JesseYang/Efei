@@ -71,7 +71,7 @@
                             %td
                               %label= d2c(index) + ". "
                               %span.item-content= item.render_question(n.image_path).html_safe
-                - if (n.answer_content.present? || n.answer.present?) && (n.homework.answer_time_type == "now" || (n.homework.answer_time_type == "later" && n.homework.answer_time < Time.now.to_i))
+                - if (n.answer_content.present? || n.answer.present?) && (n.homework.blank? || n.homework.answer_time_type == "now" || (n.homework.answer_time_type == "later" && n.homework.answer_time < Time.now.to_i))
                   .question-answer
                     %strong.answer-label 解答:
                     - if n.answer.present?
