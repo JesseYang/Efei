@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get '/student_android_app_qr_code', to: 'qrcodes#student_android_app_qr_code'
   get '/student_ios_app_qr_code', to: 'qrcodes#student_ios_app_qr_code'
 
+  get '/students/android_app', to: '/Efei.apk'
+
   get "welcome/index"
   get "welcome/student_app"
   get "welcome/app_download"
