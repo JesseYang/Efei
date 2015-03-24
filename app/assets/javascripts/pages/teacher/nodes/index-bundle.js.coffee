@@ -212,10 +212,9 @@ $ ->
     $("#create-dropdown-list").toggleClass("hide")
     false
 
-  $("#create-folder-link").click ->
+  $("body").on "click", ".create-folder-link", (event) ->
     $('#newFolderModal').modal("show")
     $('#newFolderModal').attr("data-folderid", window.folder_id)
-
 
   $("body").click ->
     $("#create-dropdown-list").addClass("hide")
@@ -311,7 +310,7 @@ $ ->
     $('#uploadHomeworkModal').modal('show')
     $("#uploadHomeworkModal #folder_id").val(data.id)
 
-  $("#upload-doc-link").on "click", (event) ->
+  $("body").on "click", ".upload-doc-link", (event) ->
     folder_id = tree.folder_tree("get_selected_folder_id") || window.root_folder_id
     $('#uploadHomeworkModal').modal('show')
     $("#uploadHomeworkModal #folder_id").val(folder_id)
@@ -342,7 +341,7 @@ $ ->
     $('#newHomeworkModal').modal("show")
     $('#newHomeworkModal .folder_id').val(data.id)
 
-  $("#new-homework-link").on "click", (event) ->
+  $("body").on "click", ".new-homework-link", (event) ->
     folder_id = tree.folder_tree("get_selected_folder_id") || window.root_folder_id
     $("#newHomeworkModal").modal('show')
     $("#newHomeworkModal .folder-id").val(folder_id)

@@ -24,9 +24,23 @@
   #content-background
     - if @search_notes.length == 0
       #no-note-tip
-        %span= "未搜索到符合条件的题目，点击"
-        =link_to "这里", "/welcome/student_app"
-        %span= "下载学生端手机APP"
+        - if @condition == true
+          %p= "未搜索到符合条件的题目"
+        - else
+          %p= "你的错题本中还没有题目。"
+        %br
+        %p= "扫描下载易飞学生端手机APP："
+        %table
+          %tr
+            %td
+              =image_tag("/qr_code/student_android_app_url.png", height: 100, width: 100)
+            %td
+              =image_tag("/qr_code/student_ios_app_url.png", height: 100, width: 100)
+          %tr
+            %td
+              %span Android 客户端
+            %td
+              %span iOS 客户端
     - else
       #head-part
         .search-tip

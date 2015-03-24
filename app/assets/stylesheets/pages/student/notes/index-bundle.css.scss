@@ -59,7 +59,21 @@
   }
 }
 
-#head-part, #foot-part, #no-note-tip {
+#no-note-tip {
+  p {
+    font-size: 1.2em;
+  }
+  margin-top: 50px;
+  margin-left: 200px;
+  table {
+    td {
+      width: 200px;
+    }
+    text-align: center;
+  }
+}
+
+#head-part, #foot-part {
   margin: 10px 100px 10px 100px;
   .search-tip {
     float: left;

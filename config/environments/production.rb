@@ -77,10 +77,14 @@ Rails.application.configure do
   # config.active_record.dump_schema_after_migration = false
 
   # host name
-  config.server_host = "http://portal.efei.org"
+  config.server_host = "http://efei.org"
 
   # student portal url
-  config.student_portal_url = "http://portal.efei.org/login"
+  config.student_portal_url = "http://efei.org/login"
+
+  # student app url
+  config.student_android_app_url = "http://efei.org/students/android_app"
+  config.student_ios_app_url = "http://efei.org/students/ios_app"
 
   # word processing host name
   config.word_host = "http://dev.image.efei.org"

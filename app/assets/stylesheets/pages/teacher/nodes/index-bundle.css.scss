@@ -125,7 +125,15 @@
     margin-right: 50px;
     .tips {
       margin-top: 30px;
-
+      .page-spec {
+        @include inline-block;
+        margin-top: 50px;
+        margin-left: 100px;
+        font-size: 1.2em;
+        li {
+          line-height: 30px;
+        }
+      }
     }
   }
   table {

@@ -20,13 +20,13 @@
         #new-button
           %a#create-new-link{ data: { step: "1", intro: "在当前文件夹下创建新文件夹或者作业。"} }
           #create-dropdown-list.hide.ef-dropdown-menu
-            .ef-dropdown-item
+            .ef-dropdown-item.create-folder-link
               %a#create-folder-link 新建文件夹
             / .ef-dropdown-item
             /  %a#upload-slides-link 上传课件
-            .ef-dropdown-item
+            .ef-dropdown-item.upload-doc-link
               %a#upload-doc-link 上传作业
-            .ef-dropdown-item
+            .ef-dropdown-item.new-homework-link
               %a#new-homework-link 新建作业
         %ul
           %li

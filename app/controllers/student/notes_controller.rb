@@ -44,6 +44,7 @@ class Student::NotesController < Student::ApplicationController
     if @keyword != ""
       @search_notes = @search_notes.any_of({summary: /#{@keyword}/}, {topic_str: /#{@keyword}/}, {tag: /#{@keyword}/})
     end
+    @condition = @subject != 0 || @time_period != 0 || @keyword != ""
     @notes = auto_paginate @search_notes
     respond_to do |format|
       format.html do
