@@ -22,6 +22,14 @@ class WelcomeController < ApplicationController
     
   end
 
+  def student_android_app_download
+    send_file "public/Efei.apk"
+  end
+
+  def student_ios_app_download
+
+  end
+
   def app_version
     retval = { success: true, android: "1.0", ios: "1.0", android_url: "", ios_url: "" }
     retval[:auth_key] = current_user.generate_auth_key if current_user.present?
