@@ -52,7 +52,7 @@ class Note
       type: q.type,
       content: q.content,
       items: q.items,
-      answer: q.answer,
+      answer: q.answer || -1,
       answer_content: q.answer_content,
       image_path: q.image_path,
       tag_set: h.tag_set,
