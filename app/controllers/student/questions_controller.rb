@@ -4,7 +4,7 @@ class Student::QuestionsController < Student::ApplicationController
 
   def show
     @q = Question.where(id: params[:id]).first
-    @h = Homework.where(id: params[:hid]).first || @q.homeworks.first
+    @h = Homework.where(id: params[:homework_id]).first || @q.homeworks.first
     if @q.nil? || @h.nil?
       respond_to do |format|
         format.json do

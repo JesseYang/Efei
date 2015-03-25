@@ -6,7 +6,7 @@ class Teacher::HelpController < Teacher::ApplicationController
   end
 
   def quick_guide
-    
+    @title = "快速上手指南"
   end
 
   def homework_manage
