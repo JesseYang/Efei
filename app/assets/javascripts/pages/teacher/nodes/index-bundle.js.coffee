@@ -584,10 +584,6 @@ $ ->
           class: "upload-homework"
         }
         {
-          text: "上传课件"
-          class: "upload-slide"
-        }
-        {
           text: "新建作业"
           class: "new-homework"
         }
@@ -612,10 +608,6 @@ $ ->
         {
           text: "上传作业"
           class: "upload-homework"
-        }
-        {
-          text: "上传课件"
-          class: "upload-slide"
         }
         {
           text: "新建作业"
@@ -704,10 +696,6 @@ $ ->
         {
           text: "上传作业"
           class: "upload-homework"
-        }
-        {
-          text: "上传课件"
-          class: "upload-slide"
         }
         {
           text: "新建作业"

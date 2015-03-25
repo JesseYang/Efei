@@ -37,6 +37,16 @@ Rails.application.routes.draw do
   end
 
   namespace :teacher do
+    resources :help do
+      collection do
+        get :quick_guide
+        get :homework_manage
+        get :folder_manage
+        get :class_manage
+        get :stat_check
+      end
+    end
+
     resources :feedbacks do
     end
 

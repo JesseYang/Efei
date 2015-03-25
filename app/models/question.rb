@@ -71,12 +71,12 @@ class Question
       image_path: self.image_path
     }
     if homework.answer_time_type == "now" || (homework.answer_time_type == "later" && homework.answer_time < Time.now.to_i)
-      info.merge({
+      info.merge!({
         answer: self.answer,
         answer_content: self.answer_content
       })
     else
-      info.merge({
+      info.merge!({
         answer: -1,
         answer_content: []
       })

@@ -1,0 +1,36 @@
+- content_for :head do
+  = stylesheet_link_tag "pages/teacher/help-bundle", :media => "all"
+  = javascript_include_tag "pages/teacher/help-bundle"
+  :javascript
+
+- content_for :teacher_content do
+  #guide-wrapper
+    %p.title 使用指南
+    #guide-tree-wrapper
+      %ul#guide-tree
+        %li.guide-tree-li
+          %a{href: "/teacher/help/quick_guide"} 快速上手指南
+          %ul.guide-sub-tree
+            %li.guide-sub-tree-li
+              %a{href: "javascript:void(0);"} 易飞简介
+            %li.guide-sub-tree-li
+              %a{href: "javascript:void(0);"} 使用流程
+        %li.guide-tree-li
+          %a{href: "/teacher/help/homework_manage"} 作业创建及编辑
+          %ul.guide-sub-tree
+            %li.guide-sub-tree-li
+              %a{href: "javascript:void(0);"} 创建作业的几种方式
+            %li.guide-sub-tree-li
+              %a{href: "javascript:void(0);"} 上传作业格式要求
+            %li.guide-sub-tree-li
+              %a{href: "javascript:void(0);"} 如何从在线题库中选题
+            %li.guide-sub-tree-li
+              %a{href: "javascript:void(0);"} 作业的的编辑及设置
+            %li.guide-sub-tree-li
+              %a{href: "javascript:void(0);"} 导出作业
+        %li.guide-tree-li
+          %a{href: "/teacher/help/folder_manage"} 云盘组织及使用
+        %li.guide-tree-li
+          %a{href: "/teacher/help/class_manage"} 班级和学生管理
+        %li.guide-tree-li
+          %a{href: "/teacher/help/stat_check"} 统计数据查看
