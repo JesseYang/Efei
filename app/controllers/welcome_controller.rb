@@ -23,7 +23,7 @@ class WelcomeController < ApplicationController
   end
 
   def student_android_app_download
-    send_file "public/Efei.apk"
+    send_file "public/Efei.apk", type: "application/vnd.android.package-archive"
   end
 
   def student_ios_app_download
