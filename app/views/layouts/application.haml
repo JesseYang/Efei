@@ -12,11 +12,11 @@
     :javascript
       window.flash = "#{@flash.present? ? @flash : (flash.map { |name, msg| msg }).join(', ')}"
   %body
-    / #browser
-    /   %span.m10 您的浏览器版本较低，部分功能可能无法使用，推荐您下载最新版本的浏览器
-    /   %a.m10.chrome{ href: "http://down.tech.sina.com.cn/content/40975.html", target: "_blank", title: '点击下载谷歌浏览器'}
-    /   %a.m10.firefox{ href: "http://www.firefox.com.cn/download/", target: "_blank", title: '点击下载火狐浏览器'}
-    /   %a.m10.ie{ href: "http://info.msn.com.cn/ie9/", target: "_blank", title: '点击下载IE9浏览器'}
+    #browser
+      %span.m10 您的浏览器版本较低，部分功能可能无法使用，推荐您下载最新版本的浏览器
+      %a.m10.chrome{ href: "http://down.tech.sina.com.cn/content/40975.html", target: "_blank", title: '点击下载谷歌浏览器'}
+      %a.m10.firefox{ href: "http://www.firefox.com.cn/download/", target: "_blank", title: '点击下载火狐浏览器'}
+      %a.m10.ie{ href: "http://info.msn.com.cn/ie9/", target: "_blank", title: '点击下载IE9浏览器'}
     = yield :app_nav
     = yield :app_content
 

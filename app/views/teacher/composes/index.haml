@@ -30,11 +30,14 @@
       #paper-top
       #paper
         - if @questions.length == 0
-          %p.tip-p 您还未选择任何题目
-          %p.tip-p
-            %span 您可以前往
-            %a{href: "/teacher/questions?type=zhuanxiang"} 在线题库
-            %span 选题
+          .page-spec-wrapper
+            .page-spec
+              %p 您还未选择任何题目，您可以通过以下方式选择题目：
+              %ul
+                %li
+                  %a{href: "/teacher/questions?type=zhuanxiang"} 前往专项练习题库
+                %li
+                  %a{href: "/teacher/questions?type=zonghe"} 前往综合套题题库
         - @questions.each do |q|
           .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
             .question-content-div

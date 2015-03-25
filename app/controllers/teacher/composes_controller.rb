@@ -5,7 +5,7 @@ class Teacher::ComposesController < Teacher::ApplicationController
 
   def ensure_compose
     if current_user.compose.blank? || current_user.compose.homework.blank?
-      render_json ErrCode.ret_false(ErrCode::COMPOSE_NOT_EXIST) and return
+      redirect_to teacher_nodes_path and return
     end
   end
 

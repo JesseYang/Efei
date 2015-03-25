@@ -23,7 +23,7 @@ module Concerns::Trashable
 
   def set_children_in_trash
     self.update_attribute :in_trash, true
-    self.homeworks.each do |e|
+    self.children.each do |e|
       next if e.deleted_at.present?
       e.update_attribute :in_trash, true
     end
@@ -35,7 +35,7 @@ module Concerns::Trashable
 
   def set_children_out_trash
     self.update_attribute :in_trash, false
-    self.homeworks.each do |e|
+    self.children.each do |e|
       next if e.deleted_at.present?
       e.update_attribute :in_trash, false
     end
