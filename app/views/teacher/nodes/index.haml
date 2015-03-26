@@ -160,6 +160,7 @@
               = file_field_tag "homework_file", { class: "hide", accept: ".docx,.doc" }
               = label_tag :file, "上传作业文件"
               %a#browser-homework-click{href: "javascript:void(0);"}
+              %a{href: "/teacher/help/homework_manage#upload-word-standard", target: "_blank"} 查看格式要求
               %p#homework-name
           .modal-footer
             = submit_tag "创建", :class => 'btn-primary btn'

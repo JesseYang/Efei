@@ -39,4 +39,22 @@
   .para-sub-list {
     padding-left: 20px;
   }
+  table {
+    .third {
+      width: 33%;
+      padding: 5px;
+    }
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  .wrapper {
+    ul {
+      float: left;
+      width: 35%;
+    }
+    img {
+      float: right;
+      width: 65%;
+    }
+  }
 }

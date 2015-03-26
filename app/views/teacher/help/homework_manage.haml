@@ -8,27 +8,27 @@
     %p.title 作业创建及编辑
     %p.para 易飞网提供灵活的作业创建方式，既支持教师将自己平时收集的作业题目上传导入，同时也完全免费地提供高质量的题库供教师浏览选择，针对学校和机构用户，易飞网还免费提供练习册录入服务，使教师能够轻松将传统纸质练习册转换成电子版练习册。强大的作业编辑功能使教师能够快速生成个性化的练习作业。教师使用一键下载功能可以将作业导出成word文档并打印成试卷。
     %p.sub-title 作业的创建
-    %p.para 教师可以在云端平台文件夹管理页的以下几个位置创建作业：
+    %p.para#create-homework-way 教师可以在云端平台文件夹管理页的以下几个位置创建作业：
     %table
       %tr
-        %td
-        %td
-        %td
-        %td
+        %td.third
+          =image_tag("/guide_images/create_homework_1.png", width: 270)
+        %td.third
+          =image_tag("/guide_images/create_homework_2.png", width: 270)
+        %td.third
+          =image_tag("/guide_images/create_homework_3.png", width: 270)
       %tr
-        %td
+        %td.third
           %span 点击左侧红色的新建按钮创建，新建的作业将出现在当前页面展示的文件夹内
-        %td
-          %span 在文件夹及作业列表区域，
+        %td.third
+          %span 在文件夹内容区，
           %strong 右键
           %span 点击文件夹创建，新建的作业将出现在右键点击的文件夹内
-        %td
+        %td.third
           %span 在左侧文件夹树，
           %strong 右键
           %span 点击文件夹创建，新建的作业将出现在右键点击的文件夹内
-        %td
-          %span 在空白文件夹内，根据页面上的提示直接创建，新建作业将出现的该空白文件夹内
-    %p 两种创建作业凡是的具体介绍如下：
+    %p 两种创建作业方式的具体介绍如下：
     %ul.para-list
       %li
         %p.para 上传word文档：教师可以直接将word格式的文档上传至易飞云端平台，平台能够智能地解析word文档中的内容，将其中的题目逐一抽取并存储。通过这种方式，教师可以迅速将以前积累的或是从其他地方搜集到的题目导入到易飞平台，便于使用平台的各项功能。为了能够更好地解析题目内容，教师所上传的word文档需要遵循一定的格式规范，详细信息请点击这里查看。通过上传word文档创建作业的具体操作方式为：
@@ -36,14 +36,14 @@
           %li
             %p.para
               %span 通过
-              %a{href: "javascript:void(0);"} 一种方式
+              %a{href: "#create-homework-way"} 一种方式
               %span 选择上传作业
           %li
             %p.para 点击“选择”按钮，从本地文件夹选择格式为doc或者docx的作业文档，并点击“创建”按钮
           %li
             %p.para
               %span 等待服务器解析word文档并创建完毕，浏览器将自动跳转至新作业页面。教师可以继续
-              %a{href: "javascript:void(0)"} 从在线题库中选题
+              %a{href: "#compose"} 从在线题库中选题
               %span 丰富作业内容
       %li
         %p.para 创建空白作业：具体操作方式为：
@@ -51,37 +51,40 @@
           %li
             %p.para
               %span 通过
-              %a{href: "javascript:void(0);"} 一种方式
+              %a{href: "#create-homework-way"} 一种方式
               %span 选择新建作业
           %li
             %p.para 填写作业名称，并点击“确定”按钮
           %li
             %p.para
               %span 服务器将创建新的空白作业并跳转至新作业页面，教师可以
-              %a{href: "javascript:void(0)"} 从在线题库中选题
+              %a{href: "#compose"} 从在线题库中选题
               %span 丰富作业内容题目之间至少用一个回车（空行）分割
-    %p.sub-title 上传word文档的格式要求
+    %p.sub-title#upload-word-standard 上传word文档的格式要求
     %p.para 为使易飞云端能更准确地解析word文档中的题目内容，教师需要按照一定的格式规范对word文档进行整理，具体规范标准如下：
-    %ul.para-list
-      %li
-        %p 不要在题目之前加序号
-      %li
-        %p 一道题目内不要有空行
-      %li
-        %p 若有答案，必须紧跟题目，以“解：”开始
-      %li
-        %p 题目之间至少用一个回车（空行）分割
-      %li
-        %p 所有图片的文字环绕形式设置为“嵌入型”
-      %li
-        %p 所有表格要以图片形式呈现（建议截图）
-      %li
-        %p 支持mathtype和图片类型的公式
+    .wrapper
+      %ul.para-list
+        %li
+          %p 不要在题目之前加序号
+        %li
+          %p 一道题目内不要有空行
+        %li
+          %p 若有答案，必须紧跟题目，以“解：”开始
+        %li
+          %p 题目之间至少用一个回车（空行）分割
+        %li
+          %p 所有图片的文字环绕形式设置为“嵌入型”
+        %li
+          %p 所有表格要以图片形式呈现（建议截图）
+        %li
+          %p 支持mathtype和图片类型的公式
+      =image_tag("/guide_images/word_standard.jpg")
+      .clear-both
     %p.para
       %span 您可以点击
       %a{href: "javascript:void(0)"} 这里
       %span 下载示例参考
-    %p.sub-title 如何从在线题库中选题
+    %p.sub-title#compose 如何从在线题库中选题
     %p.para 教师可以从易飞提供的在线题库中选择题目补充作业内容，具体方式为：
     %ul.para-list
       %li
