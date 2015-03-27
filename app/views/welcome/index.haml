@@ -1,6 +1,55 @@
 - content_for :app_head do
-  = javascript_include_tag "pages/welcome-bundle"
-  = stylesheet_link_tag "pages/welcome-bundle", :media => "all"
+  = javascript_include_tag "pages/welcome/index-bundle"
+  = stylesheet_link_tag "pages/welcome/index-bundle", :media => "all"
+
+#site-top-bar
+  .left-part
+    %span.mobile-number 131-4103-9472
+    %span.work-time 周一至周日 8:00~20:00
+#efei-nav-bar
+  .logo.left-part
+    %a{href="javascript:void(0);"}
+      =image_tag{src: "/logo.png"}
+    %span 易飞网
+  .nav-menu.right-part
+    %ul
+      %li
+        %a{href: "javascript:void(0);"} 首页
+      %li
+        %a{href: "javascript:void(0);"} 产品及服务
+      %li
+        %a{href: "/account/sessions/new"} 登录系统
+      %li
+        %a{href: "javascript:void(0);"} 联系我们
+#big-photo
+#vision-part
+  %h2 我们的愿景
+  #vision-para 易飞网是一支年轻而富有朝气的团队，成员分别来自互联网行业和基础教育行业，基于互联网、移动互联网以及大数据技术，研发高效优质的教育产品，为老师、同学和家长提供有价值的在线教育服务，为中国的基础教育事 业贡献自己的一份力量，并与之一同成长！
+#product-part
+  .production
+    .prod-icon
+    .prod-content
+      %h3 教师云盘
+      .prod-disc 为教师提供线上作业管理平台
+      .more
+        %a{href: "javascript:void(0);"} 更多
+  .production
+    .prod-icon
+    .prod-content
+      %h3 错题收集
+      .prod-disc 使同学通过手机扫描二维码的方式方便地收集日常作业中的错题和重点题
+      .more
+        %a{href: "javascript:void(0);"} 更多
+  .production
+    .prod-icon
+    .prod-content
+      %h3 在线测评
+      .prod-disc 通过精选题目和问卷设计精准定位同学的知识漏洞，形成有价值的学习状况分析报告
+      .more
+        %a{href: "javascript:void(0);"} 更多
+#copyright-part
+
+
 
 .jumbotron
   .container

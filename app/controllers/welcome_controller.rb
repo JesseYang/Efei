@@ -39,11 +39,14 @@ class WelcomeController < ApplicationController
   private
 
   def resolve_layout
+    'layouts/welcome'
+=begin
     case action_name
     when "index"
       'layouts/index'
     when "student_app", "app_download"
       'layouts/welcome'
     end
+=end
   end
 end
