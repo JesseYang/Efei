@@ -7,7 +7,7 @@
   #guide-wrapper
     %p.title 作业创建及编辑
     %p.para 易飞网提供灵活的作业创建方式，既支持教师将自己平时收集的作业题目上传导入，同时也完全免费地提供高质量的题库供教师浏览选择，针对学校和机构用户，易飞网还免费提供练习册录入服务，使教师能够轻松将传统纸质练习册转换成电子版练习册。强大的作业编辑功能使教师能够快速生成个性化的练习作业。教师使用一键下载功能可以将作业导出成word文档并打印成试卷。
-    %p.sub-title 作业的创建
+    %p.sub-title#homework-creation 创建作业的几种方式
     %p.para#create-homework-way 教师可以在云端平台文件夹管理页的以下几个位置创建作业：
     %table
       %tr
@@ -79,11 +79,11 @@
         %li
           %p 支持mathtype和图片类型的公式
       =image_tag("/guide_images/word_standard.jpg")
+      %p.para
+        %span 您可以点击
+        %a{href: "javascript:void(0)"} 这里
+        %span 下载示例参考
       .clear-both
-    %p.para
-      %span 您可以点击
-      %a{href: "javascript:void(0)"} 这里
-      %span 下载示例参考
     %p.sub-title#compose 如何从在线题库中选题
     %p.para 教师可以从易飞提供的在线题库中选择题目补充作业内容，具体方式为：
     %ul.para-list
@@ -110,5 +110,29 @@
             %p.para 放弃选题结果，放弃之后，选题结束，作业中没有添加题目
           %li
             %p.para 清空选题结果，清空之后，教师可以继续到在线题库为该份作业选题
-    %p.sub-title 作业的编辑及设置
-    %p.sub-title 作业导出下载
+    %p.sub-title#homework-edit 作业的编辑及设置
+    %p.para 教师可以对作业进行以下编辑和设置操作
+    %ul.para-list
+      %li
+        %p.para 修改作业标题：
+        %table
+          %tr
+            %td
+            %td
+          %tr
+            %td 鼠标移动至作业标题，点击其右侧的编辑图标
+            %td 在设置页面基本设置部分修改作业标题
+      %li
+        %p.para 设置作业的答案发布时间
+      %li
+        %p.para 设置作业的标签集合
+      %li
+        %p.para 若干针对题目的操作，具体包括：
+        %ul.para-sub-list
+          %li
+            %p.para 替换题目：若教师发现某道题目有错误或者希望将其替换掉，可以在word文档中编辑新题目，并通过上传word文档的 方式将就题目替换掉。
+            %p.para 插入题目：当教师想向作业中插入若干道自己编辑的题目，可以在word文档中将题目编辑好，并通过上传word文档的 方式将新题目插入。
+            %p.para 移动题目在作业中的位置。
+            %p.para 删除题目。
+    %p.sub-title#homework-export 作业导出下载
+    %p.para 教师可以将作业以word文档的形式下载导出

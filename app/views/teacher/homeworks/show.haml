@@ -83,6 +83,7 @@
             = file_field_tag "replace_homework_file", { class: "hide", accept: ".docx,.doc" }
             %span 2、上传修改后的题目
             %a#browser-replace-homework-click{href: "javascript:void(0);"}
+            %a{href: "/teacher/help/homework_manage#upload-word-standard", target: "_blank"} 查看格式要求
             %p#replace-homework-name
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
@@ -104,6 +105,7 @@
             = file_field_tag "insert_homework_file", { class: "hide", accept: ".docx,.doc" }
             %span 上传要插入的题目
             %a#browser-insert-homework-click{href: "javascript:void(0);"}
+            %a{href: "/teacher/help/homework_manage#upload-word-standard", target: "_blank"} 查看格式要求
             %p#insert-homework-name
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
