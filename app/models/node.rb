@@ -7,6 +7,7 @@ class Node
   field :name, type: String
   belongs_to :user, class_name: "User", inverse_of: :slides
   belongs_to :parent, class_name: "Folder", inverse_of: :children
+  has_many :shares, class_name: "Share", inverse_of: :node
 
   def last_update_time
     self.updated_at.today? ? self.updated_at.strftime("%H点%M分") : self.updated_at.strftime("%Y年%m月%d日")
@@ -63,6 +64,7 @@ class Node
       starred: self.starred,
     }
     node[:subject] = Subject::NAME[self.subject] if self._type != "Folder"
+    node[:owner] = self._type == "Share" ? self.node.user.name : "我"
     node
   end
 end

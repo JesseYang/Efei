@@ -24,7 +24,7 @@
             <i class="icon folder" />
             <a href="/teacher/nodes?folder_id={{id}}" class="doc-title node-link">{{name}}</a>
           </td>
-          <td>我</td>
+          <td>{{owner}}</td>
           <td>{{last_update_time}}</td>
           <td>
             {{#ifCond ../../type "trash"}}
@@ -65,7 +65,7 @@
             <a href="javascript:void(0);" class="doc-title node-link">{{name}}</a>
             <span class="subject">[{{subject}}]</span>
           </td>
-          <td>我</td>
+          <td>{{owner}}</td>
           <td>{{last_update_time}}</td>
           <td>
             {{#ifCond ../../type "trash"}}
@@ -88,9 +88,46 @@
               <a href="javascript:void(0);" title="删除">
                 <i class="icon remove" />
               </a>
+              <a href="javascript:void(0);" title="共享">
+                <i class="icon share" />
+              </a>
             {{/ifCond}}
           </td>
         </tr>
+      {{/ifCond}}
+      {{#ifCond node_type "Share"}}
+        <tr class="record homework-tr" data-type={{node_type}} data-id={{id}} data-name={{name}}>
+          <td>
+            <a href="javascript:void(0);" class="star-link">
+              {{#ifCond starred true}}
+                <i class="icon starred" />
+              {{/ifCond}}
+              {{#ifCond starred false}}
+                <i class="icon star-empty" />
+              {{/ifCond}}
+            </a>
+          </td>
+          <td>
+            <i class="icon word" />
+            <a href="javascript:void(0);" class="doc-title node-link">{{name}}</a>
+            <span class="subject">[{{subject}}]</span>
+          </td>
+          <td>{{owner}}</td>
+          <td>{{last_update_time}}</td>
+          <td>
+            <a href="javascript:void(0);" title="编辑">
+              <i class="icon edit" />
+            </a>
+            <a href="javascript:void(0);" title="统计">
+              <i class="icon stat" />
+            </a>
+            <a href="javascript:void(0);" title="移动">
+              <i class="icon move" />
+            </a>
+            <a href="javascript:void(0);" title="删除">
+              <i class="icon remove" />
+            </a>
+          </td>
       {{/ifCond}}
       {{#ifCond node_type "Slide"}}
         <tr class="record slide-tr" data-type={{node_type}} data-id={{id}} data-name={{name}}>
@@ -109,7 +146,7 @@
             <a href="javascript:void(0);" class="doc-title node-link">{{name}}</a>
             <span class="subject">[{{subject}}]</span>
           </td>
-          <td>我</td>
+          <td>{{owner}}</td>
           <td>{{last_update_time}}</td>
           <td>
             {{#ifCond ../../type "trash"}}

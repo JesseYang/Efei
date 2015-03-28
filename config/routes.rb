@@ -131,6 +131,13 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :shares do
+      member do
+        get :stat
+        get :settings
+      end
+    end
+
     resources :homeworks do
       collection do
         post :create_blank
@@ -141,7 +148,7 @@ Rails.application.routes.draw do
         get :settings
         get :export
         put :share
-        put :share_all
+        get :share_info
         put :set_tag_set
         put :set_basic_setting
         post :replace
@@ -153,6 +160,10 @@ Rails.application.routes.draw do
     resources :settings do
       member do
         put :update_password
+      end
+      collection do
+        get :colleague_info
+        get :teacher_info
       end
     end
 

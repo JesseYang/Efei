@@ -12,46 +12,62 @@
   #content-container
     #left-float-menus
       %ul.left-menus
-        %li.not-last-li
-          %a{href: settings_teacher_homework_path(params[:id]) + "?type=basic"}
-            - if @type == "basic"
-              %i.icon.basic-setting-selected
-              %span.span-selected 基本设置
-            - else
-              %i.icon.basic-setting
-              %span.span-not-selected 基本设置
-        / %li.not-last-li
-        /   %a{href: settings_teacher_homework_path(params[:id]) + "?type=export"}
-        /     %i.icon.export-setting
-        /     %span 导出格式
-        %li
-          %a{href: settings_teacher_homework_path(params[:id]) + "?type=tag"}
-            - if @type == "tag"
-              %i.icon.tag-setting-selected
-              %span.span-selected 标签设置
-            - else
-              %i.icon.tag-setting
-              %span.span-not-selected 标签设置
+        - if @share.blank?
+          %li.not-last-li
+            %a{href: settings_teacher_homework_path(params[:id]) + "?type=basic"}
+              - if @type == "basic"
+                %i.icon.basic-setting-selected
+                %span.span-selected 基本设置
+              - else
+                %i.icon.basic-setting
+                %span.span-not-selected 基本设置
+          %li
+            %a{href: settings_teacher_homework_path(params[:id]) + "?type=tag"}
+              - if @type == "tag"
+                %i.icon.tag-setting-selected
+                %span.span-selected 标签设置
+              - else
+                %i.icon.tag-setting
+                %span.span-not-selected 标签设置
+        - else
+          %li.not-last-li
+            %a{href: settings_teacher_share_path(params[:id]) + "?type=basic"}
+              - if @type == "basic"
+                %i.icon.basic-setting-selected
+                %span.span-selected 基本设置
+              - else
+                %i.icon.basic-setting
+                %span.span-not-selected 基本设置
+          %li
+            %a{href: settings_teacher_share_path(params[:id]) + "?type=tag"}
+              - if @type == "tag"
+                %i.icon.tag-setting-selected
+                %span.span-selected 标签设置
+              - else
+                %i.icon.tag-setting
+                %span.span-not-selected 标签设置
     #right-part
       #setting-form
+        - if @editable == false
+          %span.uneditable-tip 作业的所有者没有向您共享编辑权限
         %form
           - case @type
           - when "basic"
             %h2 标题
             #title-edit-wrapper
-              %input{:maxlength => "24", :name => "p-title", :type => "text", :value => @homework.name}/
+              %input{:maxlength => "24", :name => "p-title", :type => "text", :value => @homework.name, :disabled => !@editable}/
             %h2 答案公布时间
             #answer-time-wrapper
               #no-answer
-                = radio_button_tag(:time, "no")
+                = radio_button_tag(:time, "no", false, :disabled => !@editable)
                 = label_tag(:time_no, "不公布答案")
               #now-answer
-                = radio_button_tag(:time, "now")
+                = radio_button_tag(:time, "now", false, :disabled => !@editable)
                 = label_tag(:time_now, "现在公布")
               #later-answer
-                = radio_button_tag(:time, "later")
+                = radio_button_tag(:time, "later", false, :disabled => !@editable)
                 = label_tag(:time_later, "指定时间公布")
-                %input#datepicker{:type => "text", value: "2015-2-1"}/
+                %input#datepicker{:type => "text", value: "2015-2-1", :disabled => !@editable}/
           - when "export"
           - when "tag"
             #tag-setting-wrapper
@@ -60,23 +76,24 @@
               %ul.tag-set-ul
                 - TagSet.where(default: true).each do |ts|
                   %li{data: {default: "true"}}
-                    = radio_button_tag(:tag_set, ts.id.to_s)
+                    = radio_button_tag(:tag_set, ts.id.to_s, false, disabled: !@editable)
                     = label_tag("tag_set_#{ts.id.to_s}", ts.tags.join(", "))
                     %span.tips 系统自带
                 - @tag_sets.each do |ts|
                   %li{data: {id: ts.id.to_s}}
-                    = radio_button_tag(:tag_set, ts.id.to_s)
+                    = radio_button_tag(:tag_set, ts.id.to_s, false, disabled: !@editable)
                     = label_tag("tag_set_#{ts.id.to_s}", ts.tags.join(", "))
                     .tag-set-operation.hide
                       %a.remove-tag-set-link{href: "javascript:void(0);"}
                         %i.icon.remove-tag-set
                       %a.edit-tag-set-link{href: "javascript:void(0);"}
                         %i.icon.edit-tag-set
-              #new-tagset
-                %a{href: "javascript:void(0);"} 新的标签设置
+              - if @editable
+                #new-tagset
+                  %a{href: "javascript:void(0);"} 新的标签设置
 
       #submit-btn
-        %a.btn.btn-primary{href: "javascript:void(0);"} 确定
+        %a.btn.btn-primary{href: "javascript:void(0);", disabled: !@editable} 确定
 
 
   #newTagSetModal.modal.fade

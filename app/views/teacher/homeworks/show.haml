@@ -10,12 +10,15 @@
     - if @homework.questions_in_order.length == 0
       .page-spec-wrapper
         .page-spec
-          %p 作业中没有题目，您可以通过以下方式选择题目：
-          %ul
-            %li
-              %a.compose-link-zhuanxiang{href: "javascript:void(0);"} 前往专项练习题库
-            %li
-              %a.compose-link-zonghe{href: "javascript:void(0);"} 前往综合套题题库
+          - if @editable
+            %p 作业中没有题目，您可以通过以下方式选择题目：
+            %ul
+              %li
+                %a.compose-link-zhuanxiang{href: "javascript:void(0);"} 前往专项练习题库
+              %li
+                %a.compose-link-zonghe{href: "javascript:void(0);"} 前往综合套题题库
+          - else
+            %p 作业中没有题目
     - @homework.questions_in_order.each do |q|
       .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
         .question-content-div
@@ -56,13 +59,14 @@
                 %span= d2c(q.answer)
             .question-answer-content
               = render :partial => "partials/question_content", locals: { content: q.answer_content, image_path: q.image_path }
-        .question-operation-div.hide
-          .btn-group.right{data: { qid: q.id.to_s }}
-            = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm replace-btn', data: {qid: q.id.to_s}
-            = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm insert-btn', data: {qid: q.id.to_s}
-            = link_to "上移", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm move-up-btn'
-            = link_to "下移", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm move-down-btn'
-            = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s, homework_id: @homework.id.to_s }, :method => "delete", :class => 'btn btn-default btn-sm'
+        - if @editable
+          .question-operation-div.hide
+            .btn-group.right{data: { qid: q.id.to_s }}
+              = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm replace-btn', data: {qid: q.id.to_s}
+              = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm insert-btn', data: {qid: q.id.to_s}
+              = link_to "上移", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm move-up-btn'
+              = link_to "下移", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm move-down-btn'
+              = link_to "删除", { controller: "teacher/questions", action: "destroy", id: q.id.to_s, homework_id: @homework.id.to_s }, :method => "delete", :class => 'btn btn-default btn-sm'
   #paper-bottom
 
 #replaceModal.modal.fade

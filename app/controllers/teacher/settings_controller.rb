@@ -29,4 +29,28 @@ class Teacher::SettingsController < Teacher::ApplicationController
       redirect_to action: :show, type: "update_password" and return
     end
   end
+
+  def colleague_info
+    retval = [ ] if current_user.school.blank?
+    retval = current_user.school.teachers.any_of( {name: /#{params[:term]}/}, {email: /#{params[:term]}/} ).select do |e|
+      e.id.to_s != current_user.id.to_s
+    end .map do |e|
+      "#{e.name}(#{e.email})"
+    end
+    retval = [ "没有搜索到同事" ] if retval.blank?
+    render json: retval and return
+  end
+
+  def teacher_info
+    info = params[:info]
+    list = params[:list].split(',')
+    ret = info.scan(/[（\(](.*)[\)）]/)
+    if ret.blank?
+      render_json and return
+    else
+      u = User.where(email: ret[0][0]).first
+      render_json and return if u.blank? || list.include?(u.id.to_s)
+      render_json({id: u.id.to_s, name: u.name.to_s}) and return
+    end
+  end
 end

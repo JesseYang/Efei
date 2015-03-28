@@ -4,7 +4,15 @@
 #= require "extensions/page_notification"
 #= require "./_templates/index_table"
 #= require "./_templates/folder_chain"
+#= require "./_templates/sharer_list"
+#= require "./_templates/sharer_item"
 $ ->
+  $("#share-input").autocomplete(
+    source: "/teacher/settings/colleague_info"
+    # source: ["111", "222", "333", "123"]
+  )
+  $("#share-input").attr('autocomplete', 'on')
+
 
   $(".page-guide").click ->
     introJs().start()
@@ -169,6 +177,9 @@ $ ->
     else if data.type == "Slide"
       $.page_notification "正在打开课件", 0
       window.location.href = "/teacher/slides/#{data.id}"
+    else if data.type == "Share"
+      $.page_notification "正在打开作业", 0
+      window.location.href = "/teacher/shares/#{data.id}"
 
   $("body").on "click", "tr.record a .open", (event) ->
     open_doc_from_table($(event.target))
@@ -192,6 +203,9 @@ $ ->
     else if node_type == "Slide"
       $.page_notification "正在打开电子课件", 0
       window.location.href = "/teacher/slides/" + id
+    else if node_type == "Share"
+      $.page_notification "正在打开作业", 0
+      window.location.href = "/teacher/shares/" + id
     false
   ######## End: open part ########
 
@@ -373,6 +387,86 @@ $ ->
         $("#newHomeworkModal").modal("hide")
   ######## End: create homework part ########
 
+  ######## Begin: share part ########
+  $("body").on "click", "tr.record a .share", (event) ->
+    tr = $(event.target).closest("tr")
+    node_type = tr.attr("data-type")
+    return if node_type != "Homework"
+    name = tr.attr("data-name")
+    id = tr.attr("data-id")
+    show_share_modal(node_type, id, name)
+
+  show_share_modal = (node_type, id, name) ->
+    $("#shareModal").modal("show")
+    $("#shareModal").attr("data-type", node_type)
+    $("#shareModal").attr("data-id", id)
+    $("#shareModal").find('.target-name').text(name)
+    $("#shareModal").find("#share-input").val("")
+    $.getJSON "/teacher/homeworks/#{id}/share_info", (data) ->
+      if data.success
+        sharer_list_data = { sharer: data.share_info }
+        sharer_list = $(HandlebarsTemplates["sharer_list"](sharer_list_data))
+        $("#sharer-list").empty()
+        $("#sharer-list").append(sharer_list)
+      else
+        $.page_notification "服务器出错"
+
+  $("body").on "click", "#shareModal .editable", (event) ->
+    li = $(event.target).closest("li")
+    cur_editable = li.attr("data-editable")
+    if cur_editable == "true"
+      li.attr("data-editable", "false")
+      li.find(".editable").text("不可编辑")
+    else
+      li.attr("data-editable", "true")
+      li.find(".editable").text("可编辑")
+
+  $("body").on "click", "#shareModal .close-link", (event) ->
+    li = $(event.target).closest("li")
+    li.remove()
+
+  add_colleague = (info) ->
+    cur_list = [ ]
+    $("#shareModal ul li").each ->
+      cur_list.push($(this).attr("data-id"))
+    cur_list_str = cur_list.join(',')
+    $.getJSON "/teacher/settings/teacher_info?info=#{info}&list=#{cur_list_str}", (data) ->
+      if data.success
+        if data.id != undefined
+          sharer_item = $(HandlebarsTemplates["sharer_item"](data))
+          $(".sharer-list").append(sharer_item)
+      else
+        $.page_notification "服务器出错"
+
+  $("#share-input").autocomplete(
+    select: (event, ui) ->
+      value = ui.item.value
+      add_colleague(value)
+      $("#share-input").val("")
+      false
+  )
+
+  $("#shareModal .ok").click ->
+    modal = $("#shareModal")
+    id = modal.attr("data-id")
+    teachers = [ ]
+    $("#shareModal ul li").each ->
+      teacher = {
+        id: $(this).attr("data-id")
+        editable: $(this).attr("data-editable")
+      }
+      teachers.push(teacher)
+    $.putJSON '/teacher/homeworks/' + id + "/share",
+      {
+        teachers: teachers
+      }, (data) ->
+        if data.success
+          modal.modal("hide")
+          $.page_notification "完成共享设置"
+        else
+          $.page_notification "操作失败，请刷新页面重试"
+        modal.modal("hide")
+  ######### End: share part #########
 
   ######## Begin: move part ########
   $("body").on "click", ".popup-menu .move", (event) ->
@@ -495,6 +589,20 @@ $ ->
         window.location = "/teacher/nodes?folder_id=" + data.parent_id
       else
         $.page_notification "操作失败，请刷新页面重试"
+
+  $("body").on "click", "*[data-pagetype=trash] a.node-link", (event) ->
+    $("#recoverModal").modal('show')
+    id = $(event.target).closest("tr").attr("data-id")
+    $("#recoverModal").attr("data-id", id)
+    event.preventDefault()
+
+  $("#recoverModal .ok").click ->
+    id = $("#recoverModal").attr("data-id")
+    $.putJSON "/teacher/nodes/#{id}/recover", { }, (data) ->
+      if data.success
+        window.location = "/teacher/nodes?folder_id=" + data.parent_id
+      else
+        $.page_notification "操作失败，请刷新页面重试"
   ######## End: recover part ########
 
   ######## Begin: other redirect part ########
@@ -556,21 +664,8 @@ $ ->
           icon.removeClass("starred")
       else
         $.page_notification "操作失败，请刷新页面重试"
+  ######## End: add/remove star part ########
 
-
-  $("body").on "click", "*[data-pagetype=trash] a.node-link", (event) ->
-    $("#recoverModal").modal('show')
-    id = $(event.target).closest("tr").attr("data-id")
-    $("#recoverModal").attr("data-id", id)
-    event.preventDefault()
-
-  $("#recoverModal .ok").click ->
-    id = $("#recoverModal").attr("data-id")
-    $.putJSON "/teacher/nodes/#{id}/recover", { }, (data) ->
-      if data.success
-        window.location = "/teacher/nodes?folder_id=" + data.parent_id
-      else
-        $.page_notification "操作失败，请刷新页面重试"
 
   generate_popup_menu = (id, node_type, page_type) ->
     if node_type == "root"

@@ -1,0 +1,13 @@
+<ul class=sharer-list>
+  {{#each sharer}}
+    <li data-id={{id}} data-editable={{editable}}>
+      <span class=teacher-name>{{name}}</span>
+      {{#ifCond editable true}}
+        <a class=editable href="javascript:void(0);">可编辑</span>
+      {{else}}
+        <a class=editable href="javascript:void(0);">不可编辑</span>
+      {{/ifCond}}
+      <a class=close-link href="javascript:void(0);">×</a>
+    </li>
+  {{/each}}
+</ul>

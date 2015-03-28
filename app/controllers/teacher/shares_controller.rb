@@ -1,12 +1,13 @@
 # encoding: utf-8
-class Teacher::HomeworksController < Teacher::ApplicationController
+class Teacher::SharesController < Teacher::ApplicationController
   layout :resolve_layout
   before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :star, :set_basic_setting, :set_tag_set, :reorder, :share, :share_info]
 
   def ensure_homework
     begin
-      @homework = Homework.find(params[:id])
-      @editable = true
+      @share = Share.find(params[:id])
+      @editable = @share.editable
+      @homework = @share.node
     rescue
       respond_to do |format|
         format.html
@@ -19,11 +20,12 @@ class Teacher::HomeworksController < Teacher::ApplicationController
 
   def show
     @title = @homework.name + "-编辑"
+    render "teacher/homeworks/show"
   end
 
   def stat
     @title = @homework.name + "-统计"
-    @notes = @homework.notes
+    @notes = @share.notes
     @users = @notes.map { |e| e.user } .uniq
 
     @students = @users.select { |e| @current_user.has_student?(e) }
@@ -33,6 +35,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
       [e.name.to_s, e.id.to_s]
     end
     @classes.insert(0, ["全体学生", "-1"])
+    render "teacher/homeworks/stat"
   end
 
   def settings
@@ -54,6 +57,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
         end
       end
     end
+    render "teacher/homeworks/settings"
   end
 
   def set_basic_setting
@@ -134,42 +138,6 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     end
   end
 
-  def create
-    begin
-      document = Document.new
-      document.document = params[:homework_file]
-      document.store_document!
-      document.name = params[:homework_file].original_filename
-      homework = document.parse_homework(params[:subject].to_i)
-      current_user.nodes << homework
-      if current_user.folders.where(id: params[:folder_id]).first
-        folder_id = params[:folder_id]
-      else
-        folder_id = current_user.root_folder.id
-      end
-      homework.update_attribute :parent_id, folder_id
-      redirect_to action: :show, id: homework.id.to_s
-    rescue Exception => e
-      if e.message == "wrong filetype"
-        flash[:error] = "文件损坏，解析失败"
-        redirect_to teacher_nodes_path
-      elsif e.message == "no content"
-        flash[:error] = "文件中没有有效内容"
-        redirect_to teacher_nodes_path
-      else
-        flash[:error] = "服务器错误，请重试"
-        redirect_to teacher_nodes_path
-      end
-    end
-  end
-
-  def create_blank
-    homework = Homework.create(name: params[:name], subject: params[:subject].to_i)
-    current_user.nodes << homework
-    homework.update_attribute :parent_id, params[:parent_id]
-    render_json({ homework_id: homework.id.to_s }) and return
-  end
-
   def resolve_layout
     case action_name
     when "show", "stat", "settings"
@@ -177,45 +145,5 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     else
       "layouts/teacher"
     end
-  end
-
-  def reorder
-    @homework.q_ids = params[:question_id_ary]
-    @homework.save
-    render_json
-  end
-
-  def share
-    before_teacher_ids = @homework.shares.map { |e| e.sharer.id.to_s }
-    (params[:teachers] || []).each do |e|
-      teacher_id = before_teacher_ids.delete(e["id"])
-      if teacher_id.nil?
-        s = Share.create(editable: e["editable"].to_s == "true")
-        s.node_id = @homework.id
-        s.parent_id = User.find(e["id"]).root_folder.id
-        s.sharer_id = e["id"]
-        s.save
-      else
-        s = @homework.shares.where(sharer_id: teacher_id).first
-        s.editable = e["editable"].to_s == "true"
-        s.save
-      end
-    end
-    @homework.shares.select do |e|
-      before_teacher_ids.include? e.sharer.id.to_s
-    end .each { |e| e.destroy }
-    render_json
-  end
-
-  def share_info
-    share_info = @homework.shares.map do |e|
-      sharer = User.find(e.sharer_id)
-      {
-        editable: e.editable,
-        id: sharer.id.to_s,
-        name: sharer.name
-      }
-    end
-    render_json({share_info: share_info}) and return
   end
 end

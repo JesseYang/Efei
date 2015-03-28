@@ -24,6 +24,7 @@ class Note
   belongs_to :user
   belongs_to :question
   belongs_to :homework
+  belongs_to :share
   has_and_belongs_to_many :topics
 
   def update_note(summary, tag, topics)

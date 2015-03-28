@@ -3,13 +3,22 @@ $ ->
   edit_title = false
 
   $(".compose-link").click ->
-    go_compose("zhuanxiang")
+    if window.editable == "true"
+      go_compose("zhuanxiang")
+    else
+      $.page_notification("作业的所有者没有向您共享编辑权限，无法选题")
 
   $(".compose-link-zhuanxiang").click ->
-    go_compose("zhuanxiang")
+    if window.editable == "true"
+      go_compose("zhuanxiang")
+    else
+      $.page_notification("作业的所有者没有向您共享编辑权限，无法选题")
 
   $(".compose-link-zonghe").click ->
-    go_compose("zonghe")
+    if window.editable == "true"
+      go_compose("zonghe")
+    else
+      $.page_notification("作业的所有者没有向您共享编辑权限，无法选题")
 
   go_compose = (type) ->
     $.postJSON(
