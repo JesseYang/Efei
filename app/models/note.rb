@@ -48,7 +48,7 @@ class Note
 
   def self.create_new(qid, hid, summary, tag, topics)
     q = Question.find(qid)
-    h = Homework.where(id: hid).first
+    h = Homework.where(id: hid).first || Share.where(id: hid).first
     n = Note.create(subject: h.subject,
       type: q.type,
       content: q.content,

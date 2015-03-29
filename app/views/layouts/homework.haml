@@ -2,7 +2,9 @@
   = stylesheet_link_tag "layouts/homework-layout", :media => "all"
   = javascript_include_tag "layouts/homework-layout"
   :javascript
+    window.type = "#{@share.present? ? "share" : "homework"}"
     window.homework_id = "#{@homework.id.to_s}"
+    window.share_id = "#{@share.present? ? @share.id.to_s : ''}"
     window.parent_id = "#{@homework.parent.id.to_s}"
     window.editable = "#{@share.present? ? @editable : true}"
 - content_for :teacher_content do

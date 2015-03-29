@@ -135,6 +135,7 @@ Rails.application.routes.draw do
       member do
         get :stat
         get :settings
+        get :generate
       end
     end
 

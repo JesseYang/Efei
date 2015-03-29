@@ -88,7 +88,8 @@ class Teacher::SharesController < Teacher::ApplicationController
   end
 
   def generate
-    download_url = "#{Rails.application.config.word_host}/#{@homework.generate(params[:question_qr_code].to_s == 'true', params[:app_qr_code].to_s == "true")}"
+    file_name = @homework.generate(params[:question_qr_code].to_s == 'true', params[:app_qr_code].to_s == "true", @share.id.to_s)
+    download_url = "#{Rails.application.config.word_host}/#{file_name}"
     render_json({ download_url: download_url })
   end
 

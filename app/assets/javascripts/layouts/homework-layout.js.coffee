@@ -100,7 +100,12 @@ $ ->
     download_notification.notification
       content: "正在生成"
       delay: 0
-    $.getJSON "/teacher/homeworks/#{window.homework_id}/generate?app_qr_code=#{app_qr_code}&question_qr_code=#{question_qr_code}", (data) ->
+
+    data_url =
+      share: "/teacher/shares/#{window.share_id}/generate"
+      homework: "/teacher/homeworks/#{window.homework_id}/generate"
+
+    $.getJSON data_url[window.type] + "?app_qr_code=#{app_qr_code}&question_qr_code=#{question_qr_code}", (data) ->
       if data.success
         download_notification.notification("set_delay", 1)
         notification = $("<div />").appendTo("#downloadModal") 
