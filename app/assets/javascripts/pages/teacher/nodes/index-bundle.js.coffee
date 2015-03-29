@@ -150,7 +150,10 @@ $ ->
   rename = (modal) ->
     type = modal.attr("data-type")
     id = modal.attr("data-id")
-    name = modal.find(".target").val()
+    name = $.trim(modal.find(".target").val())
+    if name == ""
+      $.page_notification "请输入文件夹名称"
+      return false
     $.putJSON "/teacher/nodes/#{id}/rename", {name: name}, (data) ->
       if data.success
         tree.folder_tree("rename_folder", id, name) if type == "Folder"
@@ -265,17 +268,20 @@ $ ->
 
   $("#newFolderModal .ok").click ->
     parent_id = $(this).closest("#newFolderModal").attr("data-folderid")
-    name = $(this).closest("#newFolderModal").find(".target").val()
+    name = $.trim($(this).closest("#newFolderModal").find(".target").val())
     new_folder(parent_id, name)
 
   $("#newFolderModal .target").keydown (event) ->
     code = event.which
     if code == 13
       parent_id = $(this).closest("#newFolderModal").attr("data-folderid")
-      name = $(this).closest("#newFolderModal").find(".target").val()
+      name = $.trim($(this).closest("#newFolderModal").find(".target").val())
       new_folder(parent_id, name)
 
   new_folder = (parent_id, name) ->
+    if name == ""
+      $.page_notification "请输入文件夹名称"
+      return false
     $.postJSON '/teacher/folders',
       {
         parent_id: parent_id 
@@ -388,9 +394,12 @@ $ ->
       newHomework()
 
   newHomework = ->
+    name = $.trim($("#newHomeworkModal .target").val())
+    if name == ""
+      $.page_notification "请输入作业标题"
+      return false
     $("#newHomeworkModal .btn-primary").attr("disabled", "true")
     subject = $("#newHomeworkModal #subject").val()
-    name = $("#newHomeworkModal .target").val()
     folder_id = $("#newHomeworkModal .folder-id").val()
     $.postJSON '/teacher/homeworks/create_blank',
       {
@@ -568,12 +577,14 @@ $ ->
     $.deleteJSON "/teacher/nodes/" + id + "/delete", {}, (data) ->
       if data.success
         if node_type == "Folder"
-          parent_id = tree.folder_tree("get_parent_id", id)
-          tree.folder_tree("remove_folder", id)
           $(".popup-menu").remove()
           if window.folder_id == id
+            parent_id = tree.folder_tree("get_parent_id", id)
             window.location.href = "/teacher/nodes?folder_id=" + parent_id
+          else if tree.folder_tree("is_ancestor", id, window.folder_id)
+            window.location.href = "/teacher/nodes?folder_id=" + window.root_folder_id
           else
+            tree.folder_tree("remove_folder", id)
             refresh_homework_table_and_folder_chain()
         else
           $(".popup-menu").remove()

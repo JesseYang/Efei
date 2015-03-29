@@ -99,6 +99,15 @@
       this.refresh_caret(old_parent_id)
       this.refresh_caret(parent_id)
 
+    is_ancestor: (folder_id_1, folder_id_2) ->
+      folder = this._find_folder_by_id(folder_id_1)
+      retval = false
+      folder.find(".folder-node").each ->
+        if $(this).attr("data-folderid") == folder_id_2
+          retval = true
+          return
+      retval
+
     remove_folder: (folder_id) ->
       folder = this._find_folder_by_id(folder_id)
       parent_id = folder.parent().closest(".folder-node").data("folderid")
