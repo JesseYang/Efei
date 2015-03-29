@@ -52,4 +52,7 @@
   i.stat {
     @include homeworks-sprite(stat_popup);
   }
+  i.share {
+    @include homeworks-sprite(share_popup);
+  }
 }

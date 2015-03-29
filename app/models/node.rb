@@ -26,7 +26,7 @@ class Node
   end
 
   def self.list_recent(amount = 20)
-    self.where(:_type.in => [Homework, Slide]).desc(:updated_at).limit(amount).map do |n|
+    self.where(:_type.in => [Homework, Share, Slide]).desc(:updated_at).limit(amount).map do |n|
       n.info_for_table
     end
   end
@@ -72,5 +72,15 @@ class Node
     node[:subject] = Subject::NAME[self.subject] if self._type != "Folder"
     node[:owner] = self._type == "Share" ? self.find_node.user.name : "我"
     node
+  end
+
+  def destroy_with_children
+    if self.is_a? Folder
+      self.children.unscoped.each do |e|
+        e.destroy_with_children
+      end
+    end
+    self.shares.unscoped.destroy_all
+    self.destroy
   end
 end

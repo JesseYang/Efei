@@ -10,7 +10,7 @@ module Concerns::Trashable
  
   module ClassMethods
     def trashed
-      self.unscoped.where(:deleted_at.ne => nil)
+      self.where(:deleted_at.ne => nil)
     end
   end
  
@@ -19,13 +19,28 @@ module Concerns::Trashable
     if self.is_a? Folder
       self.set_children_in_trash
     end
+    self.set_shares_in_trash
+  end
+
+  def set_shares_in_trash
+    self.shares.unscoped.each do |e|
+      next if e.deleted_at.present?
+      e.update_attribute :in_trash, true
+    end
+  end
+
+  def set_shares_out_trash
+    self.shares.unscoped.each do |e|
+      next if e.deleted_at.present?
+      e.update_attribute :in_trash, false
+    end
   end
 
   def set_children_in_trash
-    self.update_attribute :in_trash, true
     self.children.unscoped.each do |e|
       next if e.deleted_at.present?
       e.update_attribute :in_trash, true
+      e.set_shares_in_trash
     end
     self.children.unscoped.each do |e|
       next if e.deleted_at.present?
@@ -34,10 +49,10 @@ module Concerns::Trashable
   end
 
   def set_children_out_trash
-    self.update_attribute :in_trash, false
     self.children.unscoped.each do |e|
       next if e.deleted_at.present?
       e.update_attribute :in_trash, false
+      e.set_shares_out_trash
     end
     self.children.unscoped.each do |e|
       next if e.deleted_at.present?
@@ -50,5 +65,6 @@ module Concerns::Trashable
     if self.is_a? Folder
       self.set_children_out_trash
     end
+    self.set_shares_out_trash
   end
 end

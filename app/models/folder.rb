@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Folder < Node
   field :is_root, type: Boolean, default: false
-  has_many :children, class_name: "Node", inverse_of: :parent, dependent: :destroy
+  has_many :children, class_name: "Node", inverse_of: :parent
   # has_many :homeworks, class_name: "Homework", inverse_of: :folder, dependent: :destroy
   # has_many :slides, class_name: "Slide", inverse_of: :folder, dependent: :destroy
   # has_many :children, class_name: "Folder", inverse_of: :parent, dependent: :destroy

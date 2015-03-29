@@ -193,6 +193,7 @@ class Teacher::HomeworksController < Teacher::ApplicationController
         trashed_share = Share.unscoped.where(user_id: e["id"], node_id: @homework.id).first
         if trashed_share.present?
           trashed_share.update_attribute(:in_trash, false)
+          trashed_share.update_attribute(:deleted_at, nil)
           trashed_share.update_attribute(:editable, e["editable"].to_s == "true")
           trashed_share.update_attribute(:parent_id, User.find(e["id"]).root_folder.id) if trashed_share.parent.nil?
         else

@@ -192,6 +192,8 @@ $ ->
     open_doc_from_table($(event.target))
 
   open_doc_from_table = (node) ->
+    if node.closest("table").attr("data-pagetype") == "trash"
+      return false
     tr = node.closest("tr")
     id = tr.attr("data-id")
     node_type = tr.attr("data-type")
@@ -412,6 +414,11 @@ $ ->
     name = tr.attr("data-name")
     id = tr.attr("data-id")
     show_share_modal(node_type, id, name)
+
+  $("body").on "click", ".popup-menu .share", (event) ->
+    data = popup_menu.popup_menu("option")
+    $('.popup-menu').remove()
+    show_share_modal(data.type, data.id, data.name)
 
   show_share_modal = (node_type, id, name) ->
     $("#shareModal").modal("show")
@@ -711,7 +718,7 @@ $ ->
           class: "destroy"
         }
       ]
-    if page_type == "recent" || page_type == "search" || page_type == "all_homeworks" || page_type == "all_slides" || page_type == "starred"
+    if page_type == "recent" || page_type == "search" || page_type == "all_homeworks" || page_type == "all_slides" || page_type == "all_shares" || page_type == "starred"
       return [
         {
           text: "新建文件夹"
@@ -773,6 +780,10 @@ $ ->
           text: "删除"
           class: "delete"
         }
+        {
+          text: "共享"
+          class: "share"
+        }
       ] if node_type == "Homework"
       return [
         {
@@ -799,6 +810,31 @@ $ ->
           class: "delete"
         }
       ] if node_type == "Slide"
+      return [
+        {
+          text: "编辑"
+          class: "edit"
+        }
+        {
+          text: "统计"
+          class: "stat"
+        }
+        {
+          hr: true
+        }
+        {
+          text: "打开所在文件夹"
+          class: "open-parent"
+        }
+        {
+          text: "移动"
+          class: "move"
+        }
+        {
+          text: "删除"
+          class: "delete"
+        }
+      ] if node_type == "Share"
     if page_type == "folder"
       return [
         {
@@ -852,6 +888,10 @@ $ ->
         {
           text: "删除"
           class: "delete"
+        }
+        {
+          text: "共享"
+          class: "share"
         }
       ] if node_type == "Homework"
       return [

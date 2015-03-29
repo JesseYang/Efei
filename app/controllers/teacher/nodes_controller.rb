@@ -64,7 +64,7 @@ class Teacher::NodesController < Teacher::ApplicationController
 
   def destroy
     @node = current_user.nodes.trashed.find(params[:id])
-    @node.destroy
+    @node.destroy_with_children
     render_json
   end
 
