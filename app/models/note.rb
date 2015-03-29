@@ -76,7 +76,7 @@ class Note
   end
 
   def check_teacher(student)
-    t = self.homework.present? self.homework.user : self.share.sharer
+    t = self.homework.present? ? self.homework.user : self.share.sharer
     teachers = student.klasses.map { |e| e.teacher } .uniq
     if !teachers.include?(t)
       return t
