@@ -9,7 +9,11 @@
   #title-bar
     #wrapper
       #title-wrapper
-        %h2#title= truncate_u(@homework.name, 10)
+        - if @editable
+          %h2#title= truncate_u(@homework.name, 10)
+        - else
+          %h2#title= truncate_u(@homework.name, 10)
+          %span.uneditable-tip 没有编辑权限
         - if @editable
           .title-edit.hide
             %input.form-control{type: "text", value: @homework.name}/

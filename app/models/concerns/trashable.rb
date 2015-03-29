@@ -23,25 +23,25 @@ module Concerns::Trashable
 
   def set_children_in_trash
     self.update_attribute :in_trash, true
-    self.children.each do |e|
+    self.children.unscoped.each do |e|
       next if e.deleted_at.present?
       e.update_attribute :in_trash, true
     end
-    self.children.each do |e|
+    self.children.unscoped.each do |e|
       next if e.deleted_at.present?
-      e.set_children_in_trash
+      e.set_children_in_trash if e.is_a? Folder
     end
   end
 
   def set_children_out_trash
     self.update_attribute :in_trash, false
-    self.children.each do |e|
+    self.children.unscoped.each do |e|
       next if e.deleted_at.present?
       e.update_attribute :in_trash, false
     end
-    self.children.each do |e|
+    self.children.unscoped.each do |e|
       next if e.deleted_at.present?
-      e.set_children_out_trash
+      e.set_children_out_trash if e.is_a? Folder
     end
   end
  

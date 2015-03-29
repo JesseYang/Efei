@@ -211,14 +211,30 @@ $ ->
 
   ######## Begin: stat part ########
   $("body").on "click", ".popup-menu .stat", (event) ->
-    open_stat(popup_menu.popup_menu("option").id)
+    open_stat_from_popup_menu()
+
+  open_stat_from_popup_menu = ->
+    data = popup_menu.popup_menu("option")
+    if data.type == "Homework"
+      $.page_notification "正在打开统计结果"
+      window.location.href = "/teacher/homeworks/#{data.id}/stat"
+    else if data.type == "Share"
+      $.page_notification "正在打开统计结果"
+      window.location.href = "/teacher/shares/#{data.id}/stat"
 
   $("body").on "click", "tr.record a .stat", (event) ->
-    open_stat($(event.target).closest("tr").attr("data-id"))
+    open_stat_from_table($(event.target))
 
-  open_stat = (id) ->
-    $.page_notification "正在打开统计结果"
-    window.location.href = "/teacher/homeworks/#{id}/stat"
+  open_stat_from_table = (node) ->
+    tr = node.closest("tr")
+    id = tr.attr("data-id")
+    node_type = tr.attr("data-type")
+    if node_type == "Homework"
+      $.page_notification "正在打开统计结果"
+      window.location.href = "/teacher/homeworks/#{id}/stat"
+    else if node_type == "Share"
+      $.page_notification "正在打开统计结果"
+      window.location.href = "/teacher/shares/#{id}/stat"
   ######## End: stat part ########
 
   ######## Begin: new folder part ########
@@ -858,3 +874,24 @@ $ ->
           class: "delete"
         }
       ] if node_type == "Slide"
+      return [
+        {
+          text: "编辑"
+          class: "edit"
+        }
+        {
+          text: "统计"
+          class: "stat"
+        }
+        {
+          hr: true
+        }
+        {
+          text: "移动"
+          class: "move"
+        }
+        {
+          text: "删除"
+          class: "delete"
+        }
+      ] if node_type == "Share"

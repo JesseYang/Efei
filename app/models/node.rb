@@ -64,7 +64,7 @@ class Node
       starred: self.starred,
     }
     node[:subject] = Subject::NAME[self.subject] if self._type != "Folder"
-    node[:owner] = self._type == "Share" ? self.node.user.name : "我"
+    node[:owner] = self._type == "Share" ? self.find_node.user.name : "我"
     node
   end
 end

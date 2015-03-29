@@ -115,18 +115,27 @@
           <td>{{owner}}</td>
           <td>{{last_update_time}}</td>
           <td>
-            <a href="javascript:void(0);" title="编辑">
-              <i class="icon edit" />
-            </a>
-            <a href="javascript:void(0);" title="统计">
-              <i class="icon stat" />
-            </a>
-            <a href="javascript:void(0);" title="移动">
-              <i class="icon move" />
-            </a>
-            <a href="javascript:void(0);" title="删除">
-              <i class="icon remove" />
-            </a>
+            {{#ifCond ../../type "trash"}}
+              <a href="javascript:void(0);" title="还原">
+                <i class="icon recover" />
+              </a>
+              <a href="javascript:void(0);" title="彻底删除">
+                <i class="icon destroy" />
+              </a>
+            {{else}}
+              <a href="javascript:void(0);" title="编辑">
+                <i class="icon edit" />
+              </a>
+              <a href="javascript:void(0);" title="统计">
+                <i class="icon stat" />
+              </a>
+              <a href="javascript:void(0);" title="移动">
+                <i class="icon move" />
+              </a>
+              <a href="javascript:void(0);" title="删除">
+                <i class="icon remove" />
+              </a>
+            {{/ifCond}}
           </td>
       {{/ifCond}}
       {{#ifCond node_type "Slide"}}

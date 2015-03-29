@@ -8,10 +8,15 @@ class Share < Node
   has_many :notes
 
   def subject
-  	self.node.subject
+    self.find_node.subject
   end
 
   def name
-  	self.node.name
+    self.find_node.name
+  end
+
+  def find_node
+    self.node || Node.unscoped.find(self.node_id)
+    
   end
 end
