@@ -15,8 +15,11 @@ class Share < Node
     self.find_node.name
   end
 
+  def tag_set
+    self.find_node.tag_set
+  end
+
   def find_node
     self.node || Node.unscoped.find(self.node_id)
-    
   end
 end
