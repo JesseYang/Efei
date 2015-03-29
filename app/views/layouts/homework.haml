@@ -7,6 +7,7 @@
     window.share_id = "#{@share.present? ? @share.id.to_s : ''}"
     window.parent_id = "#{@homework.parent.id.to_s}"
     window.editable = "#{@share.present? ? @editable : true}"
+    window.document_id = "#{@share.present? ? @share.id.to_s : @homework.id.to_s}"
 - content_for :teacher_content do
   #title-bar
     #wrapper

@@ -14,7 +14,7 @@ class Teacher::NodesController < Teacher::ApplicationController
     @title = "文件夹"
     @type = params[:type].blank? ? "folder" : params[:type]
     @root_folder_id = current_user.root_folder.id
-    if !%w{folder recent trash search all_homeworks all_slides starred workbook}.include?(@type)
+    if !%w{folder recent trash search all_homeworks all_slides all_shares starred workbook}.include?(@type)
       redirect_to teacher_nodes_path(folder_id: @root_folder_id, type: "folder") and return
     end
 
@@ -33,6 +33,7 @@ class Teacher::NodesController < Teacher::ApplicationController
       end
     when "all_homeworks"
     when "all_slides"
+    when "all_shares"
     when "starred"
     when "workbook"
     end
@@ -87,6 +88,11 @@ class Teacher::NodesController < Teacher::ApplicationController
   # ajax
   def trash
     @nodes = current_user.nodes.list_trash
+    render_json({ nodes: @nodes })
+  end
+
+  def all_shares
+    @nodes = current_user.nodes.list_shares
     render_json({ nodes: @nodes })
   end
 

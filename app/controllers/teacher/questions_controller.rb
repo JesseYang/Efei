@@ -133,7 +133,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         end
         temp_notes = []
         students.each do |s|
-          n = s.notes.where(question_id: qid).first
+          n = params[:type] == "share" ? s.notes.where(question_id: qid, share_id: params[:document_id]).first : s.notes.where(question_id: qid, homework_id: params[:document_id]).first
           temp_notes << n if n.present?
         end
         notes << temp_notes
@@ -146,7 +146,7 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         students = klass.students
       end
       students.each do |s|
-        n = s.notes.where(question_id: qid).first
+        n = params[:type] == "share" ? s.notes.where(question_id: qid, share_id: params[:document_id]).first : s.notes.where(question_id: qid, homework_id: params[:document_id]).first
         notes << n if n.present?
       end
     end

@@ -186,11 +186,11 @@ class Teacher::HomeworksController < Teacher::ApplicationController
   end
 
   def share
-    before_teacher_ids = @homework.shares.map { |e| e.sharer.id.to_s }
+    before_teacher_ids = @homework.shares.map { |e| e.user.id.to_s }
     (params[:teachers] || []).each do |e|
       teacher_id = before_teacher_ids.delete(e["id"])
       if teacher_id.nil?
-        trashed_share = Share.unscoped.where(sharer_id: e["id"], node_id: @homework.id).first
+        trashed_share = Share.unscoped.where(user_id: e["id"], node_id: @homework.id).first
         if trashed_share.present?
           trashed_share.update_attribute(:in_trash, false)
           trashed_share.update_attribute(:editable, e["editable"].to_s == "true")
@@ -199,27 +199,27 @@ class Teacher::HomeworksController < Teacher::ApplicationController
           s = Share.create(editable: e["editable"].to_s == "true")
           s.node_id = @homework.id
           s.parent_id = User.find(e["id"]).root_folder.id
-          s.sharer_id = e["id"]
+          s.user_id = e["id"]
           s.save
         end
       else
-        s = @homework.shares.where(sharer_id: teacher_id).first
+        s = @homework.shares.where(user_id: teacher_id).first
         s.update_attribute(:editable, e["editable"].to_s == "true")
       end
     end
     @homework.shares.select do |e|
-      before_teacher_ids.include? e.sharer.id.to_s
+      before_teacher_ids.include? e.user.id.to_s
     end .each { |e| e.destroy }
     render_json
   end
 
   def share_info
     share_info = @homework.shares.map do |e|
-      sharer = User.find(e.sharer_id)
+      user = User.find(e.user_id)
       {
         editable: e.editable,
-        id: sharer.id.to_s,
-        name: sharer.name
+        id: user.id.to_s,
+        name: user.name
       }
     end
     render_json({share_info: share_info}) and return

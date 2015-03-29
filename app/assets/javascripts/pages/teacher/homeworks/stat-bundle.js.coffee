@@ -10,7 +10,7 @@ $ ->
       summary: "总结"
       tag: "标签"
       topic: "知识点"
-    $.getJSON "/teacher/questions/#{qid}/stat?analyze_type=#{analyze_type}&class_id=#{class_id}&target=#{target}", (data) ->
+    $.getJSON "/teacher/questions/#{qid}/stat?type=#{window.type}&document_id=#{window.document_id}&analyze_type=#{analyze_type}&class_id=#{class_id}&target=#{target}", (data) ->
       if data.success
         # refresh the data in the dom
         if target == "summary"

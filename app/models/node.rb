@@ -5,7 +5,7 @@ class Node
   include Concerns::Trashable
   include Concerns::Starred
   field :name, type: String
-  belongs_to :user, class_name: "User", inverse_of: :slides
+  belongs_to :user, class_name: "User", inverse_of: :nodes
   belongs_to :parent, class_name: "Folder", inverse_of: :children
   has_many :shares, class_name: "Share", inverse_of: :node
 
@@ -32,7 +32,13 @@ class Node
   end
 
   def self.list_homeworks
-    self.where(_type: Homework).asc(:created_at).map do |n|
+    self.where(:_type.in => [Homework, Share]).asc(:created_at).map do |n|
+      n.info_for_table
+    end
+  end
+
+  def self.list_shares
+    self.where(_type: Share).asc(:created_at).map do |n|
       n.info_for_table
     end
   end

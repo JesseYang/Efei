@@ -53,6 +53,7 @@ $ ->
 
     data_url =
       folder: "/teacher/nodes/#{window.folder_id}/list_children"
+      all_shares: "/teacher/nodes/all_shares"
       trash: "/teacher/nodes/trash"
       recent: "/teacher/nodes/recent"
       starred: "/teacher/nodes/starred"
@@ -622,7 +623,7 @@ $ ->
   ######## End: recover part ########
 
   ######## Begin: other redirect part ########
-  $.each ["trash", "recent", "workbook", "starred", "all_homeworks", "all_slides"], (i, v) ->
+  $.each ["trash", "recent", "workbook", "starred", "all_homeworks", "all_slides", "all_shares"], (i, v) ->
     $(".#{v}").click ->
       window.location = "/teacher/nodes?type=#{v}"
   ######## End: other redirect part ########

@@ -123,6 +123,7 @@ Rails.application.routes.draw do
       collection do
         get :starred
         get :trash
+        get :all_shares
         get :search
         get :recent
         get :all_homeworks

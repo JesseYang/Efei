@@ -52,6 +52,9 @@ b.closed {
   .workbook {
     @include homeworks-sprite(book);
   }
+  .share {
+    @include homeworks-sprite(share);
+  }
   .starred {
     @include homeworks-sprite(starred);
   }
@@ -71,11 +74,17 @@ b.closed {
     .folder-closed {
       @include homeworks-sprite(folder_closed_selected);
     }
+    .word {
+      @include homeworks-sprite(word_selected);
+    }
     .recent {
       @include homeworks-sprite(clock_selected);
     }
     .workbook {
       @include homeworks-sprite(book_selected);
+    }
+    .share {
+      @include homeworks-sprite(share_selected);
     }
     .starred {
       @include homeworks-sprite(starred_selected);
