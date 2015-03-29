@@ -75,12 +75,8 @@ class Note
     self.homework || self.share.node
   end
 
-  def fake_homework
-    self.homework || self.share
-  end
-
   def check_teacher(student)
-    t = self.fake_homework.user
+    t = self.homework.present? self.homework.user : self.share.sharer
     teachers = student.klasses.map { |e| e.teacher } .uniq
     if !teachers.include?(t)
       return t
