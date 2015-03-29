@@ -109,7 +109,7 @@ module UserComponents::Student
         "has_note" => has_note
       }
       if has_answer
-        if (n.homework.answer_time_type == "now" || (n.homework.answer_time_type == "later" && n.homework.answer_time < Time.now.to_i))
+        if (n.real_homework.answer_time_type == "now" || (n.real_homework.answer_time_type == "later" && n.real_homework.answer_time < Time.now.to_i))
           note.merge!({ "answer" => n.answer || -1, "answer_content" => n.answer_content || [] })
         else
           note.merge!({ "answer" => -1, "answer_content" => [] })

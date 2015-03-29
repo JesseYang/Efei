@@ -71,8 +71,12 @@ class Note
     n
   end
 
+  def real_homework
+    self.homework || self.share.node
+  end
+
   def check_teacher(student)
-    t = self.homework.user
+    t = self.real_homework.user
     teachers = student.klasses.map { |e| e.teacher } .uniq
     if !teachers.include?(t)
       return t
@@ -85,7 +89,7 @@ class Note
   end
 
   def set_answer
-    if self.homework.answer_time_type == "no" || (self.homework.answer_time_type == "later" && Time.now.to_i < self.homework.answer_time)
+    if self.real_homework.answer_time_type == "no" || (self.real_homework.answer_time_type == "later" && Time.now.to_i < self.real_homework.answer_time)
       self.answer = -1
       self.answer_content = []
     end
