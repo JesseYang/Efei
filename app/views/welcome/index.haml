@@ -2,80 +2,17 @@
   = javascript_include_tag "pages/welcome/index-bundle"
   = stylesheet_link_tag "pages/welcome/index-bundle", :media => "all"
 
-#site-top-bar
-  .left-part
-    %span.mobile-number 131-4103-9472
-    %span.work-time 周一至周日 8:00~20:00
-#efei-nav-bar
-  .logo.left-part
-    %a{href="javascript:void(0);"}
-      =image_tag{src: "/logo.png"}
-    %span 易飞网
-  .nav-menu.right-part
-    %ul
-      %li
-        %a{href: "javascript:void(0);"} 首页
-      %li
-        %a{href: "javascript:void(0);"} 产品及服务
-      %li
-        %a{href: "/account/sessions/new"} 登录系统
-      %li
-        %a{href: "javascript:void(0);"} 联系我们
-#big-photo
-#vision-part
-  %h2 我们的愿景
-  #vision-para 易飞网是一支年轻而富有朝气的团队，成员分别来自互联网行业和基础教育行业，基于互联网、移动互联网以及大数据技术，研发高效优质的教育产品，为老师、同学和家长提供有价值的在线教育服务，为中国的基础教育事 业贡献自己的一份力量，并与之一同成长！
-#product-part
-  .production
-    .prod-icon
-    .prod-content
-      %h3 教师云盘
-      .prod-disc 为教师提供线上作业管理平台
-      .more
-        %a{href: "javascript:void(0);"} 更多
-  .production
-    .prod-icon
-    .prod-content
-      %h3 错题收集
-      .prod-disc 使同学通过手机扫描二维码的方式方便地收集日常作业中的错题和重点题
-      .more
-        %a{href: "javascript:void(0);"} 更多
-  .production
-    .prod-icon
-    .prod-content
-      %h3 在线测评
-      .prod-disc 通过精选题目和问卷设计精准定位同学的知识漏洞，形成有价值的学习状况分析报告
-      .more
-        %a{href: "javascript:void(0);"} 更多
-#copyright-part
 
-
-
-.jumbotron
-  .container
-    %h1 让成绩一飞冲天
-    %p 易飞网帮助教师为题目加上二维码。同学只要轻轻一扫，就可以轻松收集错题典型题，告别繁琐的手抄错题本。
-    %p
-      %a.btn.btn-primary.btn-lg{:role => "button"} 更多 »
-
-.container
-  / Example row of columns
-  .row
-    .col-md-4
-      %h2 快速添加二维码
-      %p 教师只需要将word版的作业按照一定的格式稍加处理和上传，系统就可以自动解析word并录入题目，并且为教师提供每道题目均添加了二维码的word作业供下载。
-      %p
-        %a.btn.btn-default{:href => "#", :role => "button"} View details »
-    .col-md-4
-      %h2 轻轻一扫，错题尽收
-      %p 同学用手机中的任意一款扫码软件扫描作业中的题目二维码，即可将该题目收集为错题或者典型题，同时还可以为题目做笔记、记录知识点。从此告别手抄错题本。
-      %p
-        %a.btn.btn-default{:href => "#", :role => "button"} View details »
-    .col-md-4
-      %h2 便捷导出再练习
-      %p 同学可以一句知识点、添加时间、题目内容等多条件对收录题目进行检索查询，可以将题目导出成word文档下载打印再练习。
-      %p
-        %a.btn.btn-default{:href => "#", :role => "button"} View details »
-  %hr/
-  %footer
-    %p © Company 2014
+#top-bar
+  =link_to "", "javascript:void(0);", :class => 'logo-image'
+  #login-btn-wrapper
+    %a.login-btn.btn.btn-success{href: new_account_session_path} 登录
+    %a.registrate-btn.btn.btn-success{href: new_account_registration_path} 注册 
+#logo-wrapper
+  #logo-image
+#title-wrapper
+  %span#title 易飞网
+#desc-wrapper
+  %span#desc 中小学教师云平台
+#slogan-wrapper
+  %span#slogan 为题目加上二维码，让成绩驶入快车道
