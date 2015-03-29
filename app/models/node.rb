@@ -71,6 +71,11 @@ class Node
     }
     node[:subject] = Subject::NAME[self.subject] if self._type != "Folder"
     node[:owner] = self._type == "Share" ? self.find_node.user.name : "我"
+    if self._type == "Share"
+      node[:authority] = self.editable ? "可编辑" : "不可编辑"
+    else
+      node[:authority] = "可编辑"
+    end
     node
   end
 

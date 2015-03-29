@@ -4,6 +4,7 @@
       <th class=column-star></th>
       <th class=column-title>标题</th>
       <th class=column-owner>所有者</th>
+      <th class=column-authority>权限</th>
       <th class=column-update-time>上次修改时间</th>
       <th class=column-operation>操作</th>
     </tr>
@@ -25,6 +26,7 @@
             <a href="/teacher/nodes?folder_id={{id}}" class="doc-title node-link">{{name}}</a>
           </td>
           <td>{{owner}}</td>
+          <td>{{authority}}</td>
           <td>{{last_update_time}}</td>
           <td>
             {{#ifCond ../../type "trash"}}
@@ -66,6 +68,7 @@
             <span class="subject">[{{subject}}]</span>
           </td>
           <td>{{owner}}</td>
+          <td>{{authority}}</td>
           <td>{{last_update_time}}</td>
           <td>
             {{#ifCond ../../type "trash"}}
@@ -113,6 +116,7 @@
             <span class="subject">[{{subject}}]</span>
           </td>
           <td>{{owner}}</td>
+          <td>{{authority}}</td>
           <td>{{last_update_time}}</td>
           <td>
             {{#ifCond ../../type "trash"}}
@@ -156,6 +160,7 @@
             <span class="subject">[{{subject}}]</span>
           </td>
           <td>{{owner}}</td>
+          <td>{{authority}}</td>
           <td>{{last_update_time}}</td>
           <td>
             {{#ifCond ../../type "trash"}}
