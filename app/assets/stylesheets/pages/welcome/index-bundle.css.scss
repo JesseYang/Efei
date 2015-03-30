@@ -185,7 +185,7 @@
       }
     }
     #ios_qr_code {
-      background-image: image-url("/qr_code/student_ios_app_url.png");
+      background-image: image-url("/qr_code/student_ios_app_url-200.png");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
@@ -193,7 +193,7 @@
       @include size(200px, 200px);
     }
     #android_qr_code {
-      background-image: image-url("/qr_code/student_android_app_url.png");
+      background-image: image-url("/qr_code/student_android_app_url-200.png");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center center;
