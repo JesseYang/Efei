@@ -107,7 +107,7 @@ class ApplicationController < ActionController::Base
 
   def redirect_to_root(role = "teacher")
     if current_user.blank?
-      root_path + "?role=#{role}"
+      "/redirect" + "?role=#{role}"
     # elsif current_user.try(:school_admin)
     #  school_admin_teachers_path
     elsif current_user.try(:teacher)

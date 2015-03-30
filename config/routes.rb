@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   get '/students/android_app', to: 'welcome#student_android_app_download'
   get '/students/ios_app', to: 'welcome#student_ios_app_download'
+  get '/redirect', to: 'welcome#redirect'
 
   get "welcome/index"
   get "welcome/student_app"

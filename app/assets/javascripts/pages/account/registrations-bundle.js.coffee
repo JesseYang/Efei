@@ -36,7 +36,7 @@ $(document).ready ->
           $.page_notification(retval.message)
         else
           $.page_notification("注册成功，正在跳转")
-          window.location.href = "/"
+          window.location.href = "/redirect"
     )
     return false
 
@@ -66,7 +66,7 @@ $(document).ready ->
           $.page_notification(retval.message)
         else
           $.page_notification("注册成功，正在跳转")
-          window.location.href = "/"
+          window.location.href = "/redirect"
     )
     return false
 
