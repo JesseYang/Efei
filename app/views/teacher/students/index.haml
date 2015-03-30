@@ -8,10 +8,10 @@
 - content_for :teacher_content do
   #student-index
     #left-part
-      .all-students
+      .all-students{ data: { step: "1", intro: "点击查看我的所有学生"} }
         .class-link-wrapper
           %a.student-link{ href: teacher_students_path } 所有学生
-      %ul#class-list
+      %ul#class-list{ data: { step: "2", intro: "点击查看不同分组及班级的学生"} }
         - @classes[0..-2].each do |c|
           %li
             .class-link-wrapper
@@ -20,19 +20,18 @@
         %li
           .class-link-wrapper
             %a.student-link{href: "javascript:void(0);", data: {id: @classes[-1].id.to_s}}= @classes[-1].name
-        %li
-          .new-class-wrapper
-            %a.new-class{href: "javascript:void(0);"} 新建分组
+      .new-class-wrapper{ data: { step: "3", intro: "创建新的分组或者班级"} }
+        %a.new-class{href: "javascript:void(0);"} 新建分组
     #right-part
       #summary
         %span.class_name
         %span.students_number
-        #search-box
+        #search-box{ data: { step: "4", intro: "在我的所有学生中搜索"} }
           %input#input-search{:placeholder => "姓名、邮箱或者手机号", :type => "text", :value => params[:keyword]}
             %span
-              / %button#btn-search.btn.btn-default.btn-sm{:type => "button"} 搜索
               %a#link-search{:type => "button"}
       #table-wrapper
+    .clear-both
 
   #newClassModal.modal.fade
     .modal-dialog

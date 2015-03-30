@@ -12,10 +12,8 @@
   #title-bar
     #wrapper
       #title-wrapper
-        - if @editable
-          %h2#title= truncate_u(@homework.name, 10)
-        - else
-          %h2#title= truncate_u(@homework.name, 10)
+        %h2#title{ data: { step: "1", intro: "作业标题"} }= truncate_u(@homework.name, 10)
+        - if !@editable
           %span.uneditable-tip 没有编辑权限
         - if @editable
           .title-edit.hide
@@ -26,27 +24,27 @@
       #operation-wrapper
         - if @share.blank?
           %ul
-            %li
+            %li{ data: { step: "7", intro: "前往在线题库为本份作业添加题目"} }
               %a.compose-link{href: "javascript:void(0);"}
                 %i.icon.compose
                 %span 选题
-            %li
+            %li{ data: { step: "6", intro: "以word格式导出作业"} }
               %a.download-link{href: "javascript:void(0);"}
                 %i.icon.download
                 %span 下载
-            %li
+            %li{ data: { step: "5", intro: "作业设置页面：设置答案公布时间、作业标签"} }
               %a{href: settings_teacher_homework_path(@homework)}
                 %i.icon.setting
                 %span 设置
-            %li
+            %li{ data: { step: "4", intro: "作业统计页面：查看同学记录作业错题统计数据"} }
               %a{href: stat_teacher_homework_path(@homework)}
                 %i.icon.stat
                 %span 统计
-            %li
+            %li{ data: { step: "3", intro: "作业编辑页面：插入、替换、删除题目，调整题目顺序"} }
               %a{href: teacher_homework_path(@homework)}
                 %i.icon.edit
                 %span 编辑
-            %li
+            %li{ data: { step: "2", intro: "返回文件夹"} }
               %a{href: teacher_nodes_path + "?folder_id=" + @homework.parent.id.to_s}
                 %i.icon.return
                 %span 返回

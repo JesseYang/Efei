@@ -4,6 +4,8 @@
 #= require "./_templates/students_table"
 #= require "./_templates/class_select_list"
 $ ->
+  $(".page-guide").click ->
+    introJs().start()
 
   refresh_students_table = ->
     notification = $.page_notification("正在加载", 0)
@@ -175,15 +177,18 @@ $ ->
     $("#newClassModal").modal("show")
 
   $("#newClassModal .ok").click ->
-    name = $("#newClassModal .target").val()
+    name = $("#newClassModal .target").val().trim()
     create_class(name)
 
   $("#newClassModal .target").keydown (event) ->
     code = event.which
     if code == 13
-      create_class($(this).val())
+      create_class($(this).val().trim())
 
   create_class = (name) ->
+    if name == ""
+      $.page_notification "请输入班级或分组名称"
+      return false
     $.postJSON '/teacher/klasses',
       {
         name: name

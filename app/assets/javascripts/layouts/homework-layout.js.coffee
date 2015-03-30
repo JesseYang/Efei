@@ -2,6 +2,9 @@
 $ ->
   edit_title = false
 
+  $(".page-guide").click ->
+    introJs().start()
+
   $(".compose-link").click ->
     if window.editable == "true"
       go_compose("zhuanxiang")
