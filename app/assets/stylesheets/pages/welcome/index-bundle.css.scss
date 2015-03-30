@@ -1,6 +1,7 @@
 @import 'common';
 @import "compass/css3";
 @import "compass/utilities/general/clearfix";
+@import "welcome/*.png";
 
 
 #top-bar {
@@ -58,18 +59,124 @@
   }
 }
 
-#slogan-wrapper {
-  padding-top: 10px;
-  text-align: center;
-  #slogan {
+#student-part {
+  #left-part {
+    width: 35%;
+    float: left;
+    position: relative;
+    #mobile {
+      float: right;
+      margin-right: 80px;
+      margin-top: 60px;
+      @include size(281px, 556px);
+      @include welcome-sprite(mobile);
+    }
+    #screenshots {
+      width: 240px;
+      position: absolute;
+      top: 124px;
+      right: 98px;
+      overflow: auto;
+      li {
+        list-style: none;
+        list-style-type: none;
+        float: left;
+      }
+      ul {
+        list-style: none;
+        list-style-type: none;
+        padding-left: 0px;
+      }
+      #pic1 {
+        @include size(240px, 426px);
+        @include welcome-sprite(pic1);
+      }
+      #pic2 {
+        @include size(240px, 426px);
+        @include welcome-sprite(pic2);
+      }
+      #pic3 {
+        @include size(240px, 426px);
+        @include welcome-sprite(pic3);
+      }
+    }
+  }
+  .icon {
     @include inline-block;
-    font-size: 1.2em;
-    color: #999;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #right-part {
+    width: 65%;
+    float: left;
+    #logo-wrapper {
+      margin-bottom: 20px;
+      #efei-logo {
+        @include size(364px, 146px);
+        @include welcome-sprite(logo);
+      }
+    }
+    #ios_qr_code {
+      background-image: image-url("/qr_code/student_ios_app_url.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      @include inline-block;
+      @include size(200px, 200px);
+    }
+    #android_qr_code {
+      background-image: image-url("/qr_code/student_android_app_url.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
+      @include inline-block;
+      @include size(200px, 200px);
+    }
+    #spec {
+      margin-top: 150px;
+      margin-bottom: 30px;
+      width: 100%;
+      text-align: center;
+      font-size: 1.5em;
+    }
+    table {
+      width: 100%;
+      text-align: center;
+    }
+    #ios-link-wrapper {
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      #ios-link {
+        @include size(300px, 65px);
+        @include welcome-sprite(ios_btn);
+      }
+    }
+    #android-link-wrapper {
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      #android-link {
+        @include size(300px, 65px);
+        @include welcome-sprite(android_btn);
+      }
+    }
   }
 }
 
 #bottom-bar {
-  margin-top: 200px;
+  margin-top: 50px;
   height: 100px;
   background: #FAFAFA;
+  #beian {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    color: #888;
+    width: 200px;
+    text-align: center;
+    padding-top: 30px;
+  }
 }
