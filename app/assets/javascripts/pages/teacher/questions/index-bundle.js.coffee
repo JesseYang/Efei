@@ -5,6 +5,10 @@
 #= require "utility/_templates/paginator_mini"
 #= require "extensions/page_notification"
 $ ->
+  guide = $.cookie(window.user_email + "questions")
+  if guide != "true"
+    $.cookie(window.user_email + "questions", "true")
+    introJs().start()
 
   $(".page-guide").click ->
     introJs().start()

@@ -1,5 +1,10 @@
 #= require 'utility/ajax'
 $ ->
+  guide = $.cookie(window.user_email + "homework")
+  if guide != "true"
+    $.cookie(window.user_email + "homework", "true")
+    introJs().start()
+
   edit_title = false
 
   $(".page-guide").click ->

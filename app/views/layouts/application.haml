@@ -11,6 +11,7 @@
     = csrf_meta_tags
     :javascript
       window.flash = "#{@flash.present? ? @flash : (flash.map { |name, msg| msg }).join(', ')}"
+      window.user_email = "#{current_user.try(:email) || ""}"
   %body
     #browser
       %span.m10 您的浏览器版本较低，部分功能可能无法使用，推荐您下载最新版本的浏览器

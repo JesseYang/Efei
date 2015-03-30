@@ -7,11 +7,15 @@
 #= require "./_templates/sharer_list"
 #= require "./_templates/sharer_item"
 $ ->
+  guide = $.cookie(window.user_email + "nodes-index")
+  if guide != "true"
+    $.cookie(window.user_email + "nodes-index", "true")
+    introJs().start()
+
   $("#share-input").autocomplete(
     source: "/teacher/settings/colleague_info"
   )
   $("#share-input").attr('autocomplete', 'on')
-
 
   $(".page-guide").click ->
     introJs().start()

@@ -5,6 +5,7 @@
 #= require jquery-migrate-1.2.1.min
 #= require jquery.placeholder
 #= require jquery.scrollUp.min
+#= require jquery.cookie
 #= require intro
 #= require bootstrap-sprockets
 #= require sugar.min

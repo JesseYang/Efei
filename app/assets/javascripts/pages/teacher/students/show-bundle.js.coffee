@@ -1,6 +1,7 @@
 #= require 'utility/ajax'
 #= require highcharts
 $ ->
+  $(".page-guide").closest("li").hide()
   $.getJSON "/teacher/students/#{window.student_id}/stat", (data) ->
     if data.success
       $("#tag-stat").highcharts

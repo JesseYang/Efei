@@ -4,6 +4,11 @@
 #= require "./_templates/students_table"
 #= require "./_templates/class_select_list"
 $ ->
+  guide = $.cookie(window.user_email + "students-index")
+  if guide != "true"
+    $.cookie(window.user_email + "students-index", "true")
+    introJs().start()
+
   $(".page-guide").click ->
     introJs().start()
 
