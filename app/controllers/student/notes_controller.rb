@@ -37,14 +37,14 @@ class Student::NotesController < Student::ApplicationController
   def index
     @subject = params[:subject].to_i
     @time_period = params[:time_period].to_i
-    @keyword = params[:keyword]
+    @keyword = params[:keyword].to_s
     @search_notes = current_user.notes.desc(:created_at)
     @search_notes = @search_notes.where(subject: @subject) if @subject != 0
     @search_notes = @search_notes.where(:created_at.gt => Time.now.to_i - @time_period) if @time_period != 0
     if @keyword != ""
       @search_notes = @search_notes.any_of({summary: /#{@keyword}/}, {topic_str: /#{@keyword}/}, {tag: /#{@keyword}/})
     end
-    @condition = @subject != 0 || @time_period != 0 || @keyword != ""
+    @condition = (@subject != 0 || @time_period != 0 || @keyword != "")
     @notes = auto_paginate @search_notes
     respond_to do |format|
       format.html do

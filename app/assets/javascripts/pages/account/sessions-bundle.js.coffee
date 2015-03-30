@@ -7,8 +7,11 @@ $(document).ready ->
     $("#student-login").removeClass("hide")
 
   $("#teacher-login-form").submit ->
-    email_mobile = $("#teacher_email_mobile").val()
-    password = $("#teacher_password").val()
+    email_mobile = $("#teacher_email_mobile").val().trim()
+    password = $("#teacher_password").val().trim()
+    if password == ""
+      $.page_notification("请输入密码")
+      return false
     $.postJSON(
       '/account/sessions/',
       {
@@ -26,8 +29,11 @@ $(document).ready ->
     return false
 
   $("#student-login-form").submit ->
-    email_mobile = $("#student_email_mobile").val()
-    password = $("#student_password").val()
+    email_mobile = $("#student_email_mobile").val().trim()
+    password = $("#student_password").val().trim()
+    if password == ""
+      $.page_notification("请输入密码")
+      return false
     $.postJSON(
       '/account/sessions/',
       {

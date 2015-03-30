@@ -20,9 +20,11 @@ $(document).ready ->
     password = $("#teacher_password").val().trim()
     if password.length < 6
       $.page_notification("请输入至少6位密码")
+      return false
     name = $("#teacher_name").val().trim()
     if name == ""
       $.page_notification("请输入真实姓名")
+      return false
     subject = $("#teacher_subject").val()
     school_name = $("#teacher_school").val().trim()
     invite_code = $("#teacher_invite_code").val().trim()
@@ -56,9 +58,11 @@ $(document).ready ->
     password = $("#student_password").val().trim()
     if password.length < 6
       $.page_notification("请输入至少6位密码")
+      return false
     name = $("#student_name").val().trim()
     if name == ""
       $.page_notification("请输入真实姓名")
+      return false
     $.postJSON(
       '/account/registrations/',
       {
