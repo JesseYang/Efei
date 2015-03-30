@@ -6,8 +6,11 @@
 #top-bar
   =link_to "", "javascript:void(0);", :class => 'logo-image'
   #login-btn-wrapper
-    %a.login-btn.btn.btn-success{href: new_account_session_path} 登录
-    %a.registrate-btn.btn.btn-success{href: new_account_registration_path} 注册 
+    - if current_user.present?
+      %a.login-btn.btn.btn-success{href: new_account_session_path} 云端平台
+    - else
+      %a.login-btn.btn.btn-success{href: new_account_session_path} 登录
+      %a.registrate-btn.btn.btn-success{href: new_account_registration_path} 注册 
 #logo-wrapper
   #logo-image
 #title-wrapper

@@ -1,6 +1,11 @@
 class Account::SessionsController < Account::ApplicationController
 
   def new
+    if current_user.try(:teacher)
+      redirect_to teacher_nodes_path and return
+    elsif current_user.present?
+      redirect_to student_notes_path and return
+    end
     @role = params[:role] || "teacher"
   end
 
