@@ -9,7 +9,7 @@
 $ ->
   guide = $.cookie(window.user_email + "nodes-index")
   if guide != "true"
-    $.cookie(window.user_email + "nodes-index", "true")
+    $.cookie(window.user_email + "nodes-index", "true", { expires: 20*365 })
     introJs().start()
 
   $("#share-input").autocomplete(

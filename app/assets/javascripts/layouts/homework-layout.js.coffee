@@ -2,7 +2,7 @@
 $ ->
   guide = $.cookie(window.user_email + "homework")
   if guide != "true"
-    $.cookie(window.user_email + "homework", "true")
+    $.cookie(window.user_email + "homework", "true", { expires: 20*365 })
     introJs().start()
 
   edit_title = false

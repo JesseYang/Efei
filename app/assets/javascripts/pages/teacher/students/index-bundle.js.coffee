@@ -6,7 +6,7 @@
 $ ->
   guide = $.cookie(window.user_email + "students-index")
   if guide != "true"
-    $.cookie(window.user_email + "students-index", "true")
+    $.cookie(window.user_email + "students-index", "true", { expires: 20*365 })
     introJs().start()
 
   $(".page-guide").click ->
