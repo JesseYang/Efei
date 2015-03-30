@@ -10,7 +10,7 @@ class Account::RegistrationsController < Account::ApplicationController
   end
 
   def create
-    retval = User.create_new_user(params[:invite_code], params[:email_mobile].to_s, params[:password], params[:name], params[:role], params[:subject])
+    retval = User.create_new_user(params[:invite_code], params[:email_mobile].to_s, params[:password], params[:name], params[:school_name], params[:role], params[:subject])
     refresh_session retval[:auth_key] if retval[:success]
     respond_to do |format|
       format.html

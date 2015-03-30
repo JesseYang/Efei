@@ -2,6 +2,11 @@
 #= require "extensions/page_notification"
 $(document).ready ->
 
+  $("#teacher_school").autocomplete(
+    source: "/schools"
+  )
+  $("#teacher_school").attr('autocomplete', 'on')
+
   if window.role == "student"
     $("#teacher-regi").addClass("hide")
     $("#student-regi").removeClass("hide")
@@ -19,6 +24,7 @@ $(document).ready ->
     if name == ""
       $.page_notification("请输入真实姓名")
     subject = $("#teacher_subject").val()
+    school_name = $("#teacher_school").val().trim()
     invite_code = $("#teacher_invite_code").val().trim()
     $.postJSON(
       '/account/registrations/',
@@ -28,6 +34,7 @@ $(document).ready ->
         name: name
         role: "teacher"
         subject: subject
+        school_name: school_name
         invite_code: invite_code
       },
       (retval) ->

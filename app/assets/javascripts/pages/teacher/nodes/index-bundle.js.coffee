@@ -9,7 +9,6 @@
 $ ->
   $("#share-input").autocomplete(
     source: "/teacher/settings/colleague_info"
-    # source: ["111", "222", "333", "123"]
   )
   $("#share-input").attr('autocomplete', 'on')
 

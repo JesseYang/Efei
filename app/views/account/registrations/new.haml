@@ -21,6 +21,9 @@
             = label_tag :teacher_name, "姓名"
             = text_field_tag :teacher_name, "", class: "form-control"
           .form-group
+            = label_tag :teacher_school, "学校"
+            = text_field_tag :teacher_school, "", class: "form-control"
+          .form-group
             = label_tag :teacher_subject, "学科"
             = select_tag :teacher_subject, options_for_select(Subject::CODE, 2), class: "form-control"
           .form-group

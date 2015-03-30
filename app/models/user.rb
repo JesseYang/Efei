@@ -55,7 +55,7 @@ class User
     Encryption.encrypt_auth_key(info)
   end
 
-  def self.create_new_user(invite_code, email_mobile, password, name, role="student", subject=2)
+  def self.create_new_user(invite_code, email_mobile, password, name, school_name, role="student", subject=2)
     role ||= "student"
     if role == "teacher"
       i = InviteCode.where(code: invite_code, used: false).first
@@ -70,9 +70,13 @@ class User
     else
       u = User.create(invite_code: invite_code, email: email_mobile, password: Encryption.encrypt_password(password), name: name)
     end
-    u.update_attribute(:teacher, true) if role == "teacher"
-    u.update_attribute(:subject, subject.to_i) if role == "teacher"
     if role == "teacher"
+      u.update_attribute(:teacher, true)
+      u.update_attribute(:subject, subject.to_i)
+      if school_name.present?
+        s = School.where(name: school_name).first || School.create(name: school_name)
+        u.update_attribute(:school_id, s.id.to_s)
+      end
       u.ensure_default_class
     end
     return { success: true, auth_key: u.generate_auth_key }

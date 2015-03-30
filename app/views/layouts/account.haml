@@ -4,6 +4,8 @@
   = yield :head
   :javascript
 - content_for :app_content do
+  #top-bar
+    =link_to "", "/", :class => 'logo-image'
   = yield
 
 = render :template => 'layouts/application'
