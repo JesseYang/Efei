@@ -12,15 +12,15 @@
           %h2#title= "为《" + truncate_u(current_user.compose.homework.name, 10) + "》选题"
         #operation-wrapper
           %ul
-            %li
+            %li{ data: { step: "3", intro: "清空当前选择题目，重新开始选题"} }
               %a.clear-link{href: "javascript:void(0);"}
                 %i.icon.clear
                 %span 清空
-            %li
+            %li{ data: { step: "2", intro: "放弃当前选择题目，结束选题"} }
               %a.cancel-link{href: "javascript:void(0);"}
                 %i.icon.cancel
                 %span 放弃
-            %li
+            %li{ data: { step: "1", intro: "确认将当前选择的题目加入到作业中"} }
               %a.confirm-link{href: "javascript:void(0)"}
                 %i.icon.confirm
                 %span 确认

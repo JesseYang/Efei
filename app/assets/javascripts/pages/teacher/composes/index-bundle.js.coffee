@@ -1,6 +1,13 @@
 #= require 'utility/ajax'
 #= require "extensions/page_notification"
 $ ->
+  guide = $.cookie(window.user_email + "compose")
+  if guide != "true"
+    $.cookie(window.user_email + "compose", "true", { expires: 20*365 })
+    introJs().start()
+
+  $(".page-guide").click ->
+    introJs().start()
 
   $(".content-div").hover (->
     $(this).find(".question-operation-div").removeClass "hide"
