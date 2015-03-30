@@ -8,7 +8,17 @@ class Student::ApplicationController < ApplicationController
 
   def require_student
     if current_user.blank?
-      render json: ErrCode.ret_false(ErrCode::REQUIRE_SIGNIN)
+      respond_to do |format|
+        format.json do
+          render json: ErrCode.ret_false(ErrCode::REQUIRE_SIGNIN)
+        end
+        format.html do
+          redirect_to '/login' and return
+        end
+      end
+    end
+    if current_user.teacher
+      redirect_to "/redirect" and return
     end
   end
 

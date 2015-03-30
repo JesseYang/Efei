@@ -72,7 +72,7 @@ class Note
   end
 
   def real_homework
-    self.homework || self.share.node
+    self.homework || self.share.try(:node)
   end
 
   def check_teacher(student)
@@ -89,6 +89,7 @@ class Note
   end
 
   def set_answer
+    return if self.real_homework.blank?
     if self.real_homework.answer_time_type == "no" || (self.real_homework.answer_time_type == "later" && Time.now.to_i < self.real_homework.answer_time)
       self.answer = -1
       self.answer_content = []

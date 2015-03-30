@@ -109,7 +109,7 @@ module UserComponents::Student
         "has_note" => has_note
       }
       if has_answer
-        if (n.real_homework.answer_time_type == "now" || (n.real_homework.answer_time_type == "later" && n.real_homework.answer_time < Time.now.to_i))
+        if n.real_homework.blank? || (n.real_homework.answer_time_type == "now" || (n.real_homework.answer_time_type == "later" && n.real_homework.answer_time < Time.now.to_i))
           note.merge!({ "answer" => n.answer || -1, "answer_content" => n.answer_content || [] })
         else
           note.merge!({ "answer" => -1, "answer_content" => [] })
@@ -120,9 +120,6 @@ module UserComponents::Student
       end
       notes << note
     end
-    Rails.logger.info "AAAAAAAAAAAAAAAA"
-    Rails.logger.info notes.to_json
-    Rails.logger.info "AAAAAAAAAAAAAAAA"
     response = User.post("/ExportNote.aspx",
       :body => {notes: notes.to_json} )
     filepath = response.body
