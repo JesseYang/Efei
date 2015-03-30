@@ -63,6 +63,7 @@
 #teacher-part {
   background: #FAFAFA;
   #teacher-left-part {
+    float: left;
     width: 40%;
     ul {
       padding-top: 50px;
@@ -81,6 +82,48 @@
   }
   #teacher-right-part {
     width: 60%;
+    float: left;
+    position: relative;
+    #pc {
+      float: left;
+      margin-left: 70px;
+      margin-top: 30px;
+      @include size(507px, 350px);
+      @include welcome-sprite(pc);
+    }
+    #pc-screenshots {
+      width: 463px;
+      position: absolute;
+      top: 51px;
+      right: 204px;
+      overflow: auto;
+      li {
+        list-style: none;
+        list-style-type: none;
+        float: left;
+      }
+      ul {
+        list-style: none;
+        list-style-type: none;
+        padding-left: 0px;
+      }
+      #pc_pic1 {
+        @include size(463px, 262px);
+        @include welcome-sprite(pc_pic1);
+      }
+      #pc_pic2 {
+        @include size(463px, 262px);
+        @include welcome-sprite(pc_pic2);
+      }
+      #pc_pic3 {
+        @include size(463px, 262px);
+        @include welcome-sprite(pc_pic3);
+      }
+      #pc_pic4 {
+        @include size(463px, 262px);
+        @include welcome-sprite(pc_pic4);
+      }
+    }
   }
 }
 
