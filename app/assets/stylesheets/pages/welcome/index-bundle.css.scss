@@ -57,10 +57,35 @@
     @include inline-block;
     font-size: 2em;
   }
+  padding-bottom: 50px;
+}
+
+#teacher-part {
+  background: #FAFAFA;
+  #teacher-left-part {
+    width: 40%;
+    ul {
+      padding-top: 50px;
+      padding-bottom: 50px;
+      font-size: 2em;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      text-align: center;
+      width: 300px;
+      li {
+        line-height: 60px;
+        height: 60px;
+      }
+    }
+  }
+  #teacher-right-part {
+    width: 60%;
+  }
 }
 
 #student-part {
-  #left-part {
+  #student-left-part {
     width: 35%;
     float: left;
     position: relative;
@@ -106,7 +131,7 @@
     margin-left: auto;
     margin-right: auto;
   }
-  #right-part {
+  #student-right-part {
     width: 65%;
     float: left;
     #logo-wrapper {
@@ -137,7 +162,7 @@
       margin-bottom: 30px;
       width: 100%;
       text-align: center;
-      font-size: 1.5em;
+      font-size: 2em;
     }
     table {
       width: 100%;
@@ -169,7 +194,7 @@
 #bottom-bar {
   margin-top: 50px;
   height: 100px;
-  background: #FAFAFA;
+  background: #E5E5E5;
   #beian {
     display: block;
     margin-left: auto;
