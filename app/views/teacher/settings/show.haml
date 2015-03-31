@@ -23,9 +23,9 @@
             .col-sm-10
               = select_tag "teacher[subject]", options_for_select(Subject::CODE, current_user.subject), class: "form-control"
           .form-group
-            = label_tag :teacher_subject, "学校", class: "col-sm-2 control-label"
+            = label_tag :teacher_school, "学校", class: "col-sm-2 control-label"
             .col-sm-10
-              %span{class: "form-control"}= current_user.school.try(:name).to_s
+              = text_field_tag "teacher[school]", current_user.school.try(:name).to_s, class: "form-control", placeholder: "学校"
           .form-group
             .col-sm-offset-2.col-sm-10
               %button.btn.btn-primary{:type => "submit"} 保存

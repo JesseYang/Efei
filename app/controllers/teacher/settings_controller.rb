@@ -8,6 +8,10 @@ class Teacher::SettingsController < Teacher::ApplicationController
 
   def update
     current_user.update_attributes({name: params[:teacher]["name"], subject: params[:teacher]["subject"].to_i})
+    if params[:teacher]["school"].present?
+      s = School.where(name: params[:teacher]["school"]).first || School.create(name: params[:teacher]["school"])
+      current_user.update_attribute(:school_id, s.id.to_s)
+    end
     flash[:notice] = "更新成功"
     redirect_to action: :show, type: "update" and return
   end
