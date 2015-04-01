@@ -182,7 +182,7 @@ class Homework < Node
       else
         m = Material.find(e["content"])
         next if m.dangerous
-        Question.import_material_question(m)
+        # Question.import_material_question(m)
         q = Question.where(external_id: m.external_id).first
         next if q.nil?
         self.q_ids[i] = q.id.to_s
@@ -193,5 +193,27 @@ class Homework < Node
     if self.q_ids.length == self.materials.length && !self.q_ids.include?(nil)
       self.update_attribute(:finished, true)
     end
+  end
+
+  def extract_exam_info
+    return if self.type != "paper"
+    if self.name.include?("二模") || self.name.include?("一模")
+      self.paper_type = "高考模拟"
+    else
+      self.paper_type = "高考真题"
+    end
+    %w{2010 2011 2012 2013 2014} .each do |year|
+      if self.name.include? year
+        self.year = year.to_i
+        break
+      end
+    end
+    %w{江西 陕西 重庆 安徽 北京 山东 四川 江苏 广东 辽宁 福建 浙江 上海 天津 湖南 湖北} .each do |province|
+      if self.name.include? province
+        self.province = province
+      end
+    end
+    self.province = "全国" if self.province.blank?
+    self.save
   end
 end

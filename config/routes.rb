@@ -70,6 +70,7 @@ Rails.application.routes.draw do
       end
       member do
         get :show_one
+        get :show_questions
       end
     end
 
@@ -183,6 +184,7 @@ Rails.application.routes.draw do
         post :replace
         post :insert
         get :export
+        put :update_info
       end
     end
 

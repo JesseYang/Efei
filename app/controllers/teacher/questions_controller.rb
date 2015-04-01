@@ -30,6 +30,15 @@ class Teacher::QuestionsController < Teacher::ApplicationController
     end
   end
 
+  def update_info
+    question = Question.where(id: params[:id]).first
+    render_json and return if question.blank?
+    question.type = params[:question_type]
+    question.difficulty = params[:question_difficult].to_i
+    question.save
+    render_json and return
+  end
+
   def update
     @question = Question.find(params[:id])
     @question.update_content(params[:question_content], params[:question_answer])

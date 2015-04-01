@@ -12,6 +12,12 @@ class Teacher::PapersController < Teacher::ApplicationController
   end
 
   def show_one
+    redirect_to action: :show and return if current_user.email != "liaoshuang@bj80.com"
+    @paper = Homework.find(params[:id])
+  end
+
+  def show_questions
+    redirect_to action: :show and return if current_user.email != "liaoshuang@bj80.com"
     @paper = Homework.find(params[:id])
   end
 
