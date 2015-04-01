@@ -103,6 +103,7 @@ $ ->
     # doc_type = $("#downloadModal input:radio[name='doc_type']:checked").val()
     app_qr_code = $("#downloadModal #include_app_qr_code").prop("checked")
     question_qr_code = $("#downloadModal #include_question_qr_code").prop("checked")
+    with_number = $("#downloadModal #with_number").prop("checked")
 
     download_notification = $("<div />").appendTo("#downloadModal") 
     download_notification.notification
@@ -113,7 +114,7 @@ $ ->
       share: "/teacher/shares/#{window.share_id}/generate"
       homework: "/teacher/homeworks/#{window.homework_id}/generate"
 
-    $.getJSON data_url[window.type] + "?app_qr_code=#{app_qr_code}&question_qr_code=#{question_qr_code}", (data) ->
+    $.getJSON data_url[window.type] + "?with_number=#{with_number}&app_qr_code=#{app_qr_code}&question_qr_code=#{question_qr_code}", (data) ->
       if data.success
         download_notification.notification("set_delay", 1)
         notification = $("<div />").appendTo("#downloadModal") 

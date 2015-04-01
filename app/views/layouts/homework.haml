@@ -99,6 +99,10 @@
               = label_tag :include_question_qr_code do
                 = check_box_tag :include_question_qr_code, 1, true
                 包含题目二维码
+            .checkbox
+              = label_tag :with_number do
+                = check_box_tag :with_number, 1, true
+                为题目添加序号
           .modal-footer
             = submit_tag "确定", :class => 'btn-primary btn'
             %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

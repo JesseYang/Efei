@@ -83,7 +83,7 @@ class Homework < Node
     self.questions << q if !self.questions.include?(q)
   end
 
-  def generate(question_qr_code, app_qr_code, share_id = "")
+  def generate(question_qr_code, app_qr_code, with_number, share_id = "")
     questions = []
     doc_id = share_id.present? ? share_id : self.id.to_s
     self.questions_in_order.each do |q|
@@ -91,6 +91,7 @@ class Homework < Node
       questions << {"type" => q.type, "image_path" => q.image_path, "content" => q.content, "items" => q.items, "link" => link}
     end
     data = {
+      "with_number" => with_number,
       "app_qr_code" => app_qr_code,
       "student_portal_url" => Rails.application.config.student_portal_url,
       "questions" => questions,
