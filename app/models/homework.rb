@@ -83,14 +83,17 @@ class Homework < Node
     self.questions << q if !self.questions.include?(q)
   end
 
-  def generate(question_qr_code, app_qr_code, with_number, share_id = "")
+  def generate(question_qr_code, app_qr_code, with_number, with_answer, share_id = "")
     questions = []
     doc_id = share_id.present? ? share_id : self.id.to_s
     self.questions_in_order.each do |q|
       link = MongoidShortener.generate("#{doc_id},#{q.id.to_s}")
-      questions << {"type" => q.type, "image_path" => q.image_path, "content" => q.content, "items" => q.items, "link" => link}
+      question = {"type" => q.type, "image_path" => q.image_path, "content" => q.content, "items" => q.items, "link" => link}
+      question.merge!({ "answer" => q.answer || -1, "answer_content" => q.answer_content || [] }) if with_answer
+      questions << question
     end
     data = {
+      "with_answer" => with_answer,
       "with_number" => with_number,
       "app_qr_code" => app_qr_code,
       "student_portal_url" => Rails.application.config.student_portal_url,

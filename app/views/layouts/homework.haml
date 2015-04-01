@@ -103,6 +103,10 @@
               = label_tag :with_number do
                 = check_box_tag :with_number, 1, true
                 为题目添加序号
+            .checkbox
+              = label_tag :with_answer do
+                = check_box_tag :with_answer, 1, true
+                包含题目答案
           .modal-footer
             = submit_tag "确定", :class => 'btn-primary btn'
             %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
