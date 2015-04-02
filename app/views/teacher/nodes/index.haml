@@ -225,6 +225,6 @@
           - else
             %p 共享机制只适用于同一学校或者机构内的教师，您的帐号未加入任何学校或者机构。
         .modal-footer
-          %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+          %a.btn.btn-primary.ok{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 确定
           - if current_user.school.present?
             %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

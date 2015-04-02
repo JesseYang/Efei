@@ -1,4 +1,6 @@
 #= require 'utility/ajax'
+#= require "../pages/teacher/nodes/_templates/sharer_list"
+#= require "../pages/teacher/nodes/_templates/sharer_item"
 $ ->
   guide = $.cookie(window.user_email + "homework")
   if guide != "true"
@@ -159,3 +161,83 @@ $ ->
       more_dropdown = false
     true
 
+  ######## Begin: share part ########
+  $(".share-link").click ->
+    show_share_modal()
+
+  $("#share-input").autocomplete(
+    source: "/teacher/settings/colleague_info"
+  )
+  $("#share-input").attr('autocomplete', 'on')
+
+  show_share_modal = ->
+    $("#shareModal").modal("show")
+    $("#shareModal").attr("data-type", "Homework")
+    $("#shareModal").attr("data-id", window.homework_id)
+    $("#shareModal").find('.target-name').text(window.homework_name)
+    $("#shareModal").find("#share-input").val("")
+    $.getJSON "/teacher/homeworks/#{window.homework_id}/share_info", (data) ->
+      if data.success
+        sharer_list_data = { sharer: data.share_info }
+        sharer_list = $(HandlebarsTemplates["sharer_list"](sharer_list_data))
+        $("#sharer-list").empty()
+        $("#sharer-list").append(sharer_list)
+      else
+        $.page_notification "服务器出错"
+
+  $("body").on "click", "#shareModal .editable", (event) ->
+    li = $(event.target).closest("li")
+    cur_editable = li.attr("data-editable")
+    if cur_editable == "true"
+      li.attr("data-editable", "false")
+      li.find(".editable").text("不可编辑")
+    else
+      li.attr("data-editable", "true")
+      li.find(".editable").text("可编辑")
+
+  $("body").on "click", "#shareModal .close-link", (event) ->
+    li = $(event.target).closest("li")
+    li.remove()
+
+  add_colleague = (info) ->
+    cur_list = [ ]
+    $("#shareModal ul li").each ->
+      cur_list.push($(this).attr("data-id"))
+    cur_list_str = cur_list.join(',')
+    $.getJSON "/teacher/settings/teacher_info?info=#{info}&list=#{cur_list_str}", (data) ->
+      if data.success
+        if data.id != undefined
+          sharer_item = $(HandlebarsTemplates["sharer_item"](data))
+          $(".sharer-list").append(sharer_item)
+      else
+        $.page_notification "服务器出错"
+
+  $("#share-input").autocomplete(
+    select: (event, ui) ->
+      value = ui.item.value
+      add_colleague(value)
+      $("#share-input").val("")
+      false
+  )
+
+  $("#shareModal .ok").click ->
+    modal = $("#shareModal")
+    id = modal.attr("data-id")
+    teachers = [ ]
+    $("#shareModal ul li").each ->
+      teacher = {
+        id: $(this).attr("data-id")
+        editable: $(this).attr("data-editable")
+      }
+      teachers.push(teacher)
+    $.putJSON '/teacher/homeworks/' + id + "/share",
+      {
+        teachers: teachers
+      }, (data) ->
+        if data.success
+          modal.modal("hide")
+          $.page_notification "完成共享设置"
+        else
+          $.page_notification "操作失败，请刷新页面重试"
+        modal.modal("hide")
+  ######### End: share part #########

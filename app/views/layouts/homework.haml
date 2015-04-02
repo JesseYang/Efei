@@ -4,6 +4,7 @@
   :javascript
     window.type = "#{@share.present? ? "share" : "homework"}"
     window.homework_id = "#{@homework.id.to_s}"
+    window.homework_name = "#{@homework.name.to_s}"
     window.share_id = "#{@share.present? ? @share.id.to_s : ''}"
     window.parent_id = "#{@homework.parent.id.to_s}"
     window.editable = "#{@share.present? ? @editable : true}"
@@ -85,6 +86,9 @@
             %a 复制作业
           .ef-dropdown-item.delete-link
             %a 删除作业
+          - if @share.blank?
+            .ef-dropdown-item.share-link
+              %a 共享设置
   = yield
 
   #downloadModal.modal.fade
@@ -120,6 +124,31 @@
                 包含题目答案
           .modal-footer
             = submit_tag "确定", :class => 'btn-primary btn'
+            %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+
+  #shareModal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 共享
+        .modal-body
+          - if current_user.school.present?
+            %p
+              %span 将
+              %span.bold.target-name
+              %span 共享给
+              %span= current_user.school.try(:name)
+              %span 的同事
+            #sharer-list
+              %ul.sharer-list
+            %span 新增共享对象
+            %input#share-input{:placeholder => "输入姓名或邮箱地址并从下拉列表中选择", :type => "text"}
+          - else
+            %p 共享机制只适用于同一学校或者机构内的教师，您的帐号未加入任何学校或者机构。
+        .modal-footer
+          %a.btn.btn-primary.ok{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 确定
+          - if current_user.school.present?
             %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
 
 = render :template => 'layouts/teacher'
