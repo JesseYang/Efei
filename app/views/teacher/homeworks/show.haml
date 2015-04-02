@@ -3,6 +3,7 @@
   = stylesheet_link_tag "pages/teacher/homeworks/show-bundle", :media => "all"
   :javascript
     window.homework_id="#{@homework.id.to_s}"
+    window.scroll="#{params[:scroll].to_s}"
 
 #content-background
   #paper-top
@@ -19,7 +20,10 @@
                 %a.compose-link-zonghe{href: "javascript:void(0);"} 前往综合套题题库
           - else
             %p 作业中没有题目
-    - @homework.questions_in_order.each do |q|
+    - @homework.questions_in_order.each_with_index do |q, i|
+      - if i != 0
+        .question-separator
+          %span.combine-questions.hide ------- 双击此处合并前后两道题目 -------
       .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
         .question-content-div
           .question-content
@@ -114,3 +118,15 @@
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "完成", :class => 'btn-primary btn'
+
+#combineModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 合并题目
+      .modal-body
+        %p 合并后的题目会代替之前的两道题目，请确认是否执行合并操作。
+      .modal-footer
+        %a.btn.btn-danger.ok{href: "#", "aria-hidden" => "true"} 确定
+        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

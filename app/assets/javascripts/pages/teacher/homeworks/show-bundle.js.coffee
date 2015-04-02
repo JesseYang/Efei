@@ -9,11 +9,51 @@ $ ->
       scrollTop: ele.offset().top
     })
 
+  if window.scroll != ""
+    scroll_to_question(window.scroll)
+
   $(".content-div").hover (->
     $(this).find(".question-operation-div").removeClass "hide"
   ), (->
     $(this).find(".question-operation-div").addClass "hide"
   )
+
+  $(".question-separator").hover (->
+    $(this).find(".combine-questions").removeClass "hide"
+  ), (->
+    $(this).find(".combine-questions").addClass "hide"
+  )
+
+  $(".combine-questions").dblclick ->
+    separator = $(this).closest(".question-separator")
+    prev_q_ele = separator.prev()
+    next_q_ele = separator.next()
+    q_id_1 = prev_q_ele.attr("data-question-id")
+    q_id_2 = next_q_ele.attr("data-question-id")
+    $("#combineModal").modal("show")
+    $("#combineModal").attr("data-q-id-1", q_id_1)
+    $("#combineModal").attr("data-q-id-2", q_id_2)
+
+  combine_questions = ->
+    q_id_1 = $("#combineModal").attr("data-q-id-1")
+    q_id_2 = $("#combineModal").attr("data-q-id-2")
+    $.putJSON(
+      "/teacher/homeworks/#{window.homework_id}/combine_questions",
+      {
+        q_id_1: q_id_1
+        q_id_2: q_id_2
+      },
+      (data) ->
+        if data.success
+          $.page_notification("合并完毕，正在刷新")
+          window.location.href = "/teacher/homeworks/#{window.homework_id}?scroll=#{data.question_id}"
+        else
+          $.page_notification("服务器出错，请刷新重试")
+    )
+
+  $("#combineModal .ok").click ->
+    combine_questions()
+    $("#combineModal").modal("hide")
 
   $(".replace-btn").click ->
     $("#replaceModal").modal("show")

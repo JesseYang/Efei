@@ -162,6 +162,7 @@ Rails.application.routes.draw do
         post :insert
         put :reorder
         post :copy
+        put :combine_questions
       end
     end
 

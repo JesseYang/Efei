@@ -102,6 +102,24 @@ class Homework < Node
     self.questions << q if !self.questions.include?(q)
   end
 
+  def combine_questions(q_id_1, q_id_2)
+    i1 = self.q_ids.index(q_id_1)
+    i2 = self.q_ids.index(q_id_2)
+    return false if i2 == -1 || i1 == -1 || i2 - i1 != 1
+    q1 = Question.find(q_id_1)
+    q2 = Question.find(q_id_2)
+    cache = q1.cache + q2.cache
+    q = Document.extract_one_question(self.subject, cache)
+    self.questions.delete(q1)
+    self.questions.delete(q2)
+    self.questions << q
+    self.q_ids.insert(i1, q.id.to_s)
+    self.q_ids.delete(q_id_1)
+    self.q_ids.delete(q_id_2)
+    self.save
+    q.id.to_s
+  end
+
   def generate(question_qr_code, app_qr_code, with_number, with_answer, share_id = "")
     questions = []
     doc_id = share_id.present? ? share_id : self.id.to_s

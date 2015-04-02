@@ -9,6 +9,20 @@ html {
   background-color: #EEE;
 }
 
+.question-separator {
+  background-color: #EEE;
+  height: 30px;
+  text-align: center;
+  .combine-questions {
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    color: #888;
+    line-height: 30px;
+  }
+}
+
 .page-spec-wrapper {
   background-color: #EEE;
   .page-spec {

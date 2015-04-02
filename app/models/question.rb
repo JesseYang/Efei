@@ -18,6 +18,7 @@ class Question
   field :external_site, type: String
   field :external_id, type: String
   field :scale_figure, type: Boolean, default: false
+  field :raw_cache, type: Array, default: []
 
   # for demo
   field :demo, type: Boolean, default: false
@@ -45,17 +46,26 @@ class Question
     # end
   end
 
+  def cache
+    if self.raw_cache.present?
+      self.raw_cache
+    else
+      self.content + self.items + ["解答:"] + self.answer_content
+    end
+  end
 
-  def self.create_choice_question(content, items, answer, answer_content)
+  def self.create_choice_question(raw_cache, content, items, answer, answer_content)
     question = self.create(type: "choice",
+      raw_cache: raw_cache,
       content: content,
       items: items,
       answer: answer,
       answer_content: (answer_content || []))
   end
 
-  def self.create_analysis_question(content, answer_content)
+  def self.create_analysis_question(raw_cache, content, answer_content)
     question = self.create(type: "analysis",
+      raw_cache: raw_cache,
       content: content,
       answer_content: (answer_content || []))
   end

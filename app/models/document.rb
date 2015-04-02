@@ -159,6 +159,10 @@ class Document
   end
 
   def extract_one_question(subject, cache)
+    Document.extract_one_question(subject, cache)
+  end
+
+  def self.extract_one_question(subject, cache)
     # 1. separate answer and question if there is answer
     answer_index = cache.index do |e|
       e.class == String && e.strip.match(/^[解|答|案|析]{1,2}[\:|：|\.| ].*/)
@@ -215,17 +219,17 @@ class Document
       end
     end
     # 3. parse the answer
-    answer, answer_content = *extract_answer(a_part_text, q_type)
+    answer, answer_content = *Document.extract_answer(a_part_text, q_type)
     # create the question object
     if q_type == "choice"
-      q = Question.create_choice_question(content, items, answer, answer_content)
+      q = Question.create_choice_question(cache, content, items, answer, answer_content)
     else
-      q = Question.create_analysis_question(content, answer_content)
+      q = Question.create_analysis_question(cache, content, answer_content)
     end
     q
   end
 
-  def extract_answer(a_part, q_type)
+  def self.extract_answer(a_part, q_type)
     if a_part.present?
       if q_type == "choice" && a_part[0].class == String
         answer = 0 if a_part[0].match(/^(解|答|案|析){1,2}[\:|：|\.| ]\s*A.?/)

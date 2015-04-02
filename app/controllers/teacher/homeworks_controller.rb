@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
   layout :resolve_layout
-  before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :export, :generate, :star, :set_basic_setting, :set_tag_set, :reorder, :share, :share_info, :copy]
+  before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :export, :generate, :star, :set_basic_setting, :set_tag_set, :reorder, :share, :share_info, :copy, :combine_questions]
 
   def ensure_homework
     begin
@@ -138,6 +138,11 @@ class Teacher::HomeworksController < Teacher::ApplicationController
     folder = Folder.find(params[:folder_id])
     new_homework = @homework.copy(current_user, folder)
     render_json({new_homework_id: new_homework.id.to_s})
+  end
+
+  def combine_questions
+    q_id = @homework.combine_questions(params[:q_id_1], params[:q_id_2])
+    render_json({question_id: q_id}) and return
   end
 
   def create
