@@ -161,6 +161,7 @@ Rails.application.routes.draw do
         post :replace
         post :insert
         put :reorder
+        post :copy
       end
     end
 

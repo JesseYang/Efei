@@ -59,6 +59,13 @@ html {
   }
 }
 
+.btn-disable {
+  color: #888;
+  &:hover {
+    color: #888;
+  }
+}
+
 
 #browser-replace-homework-click, #browser-insert-homework-click {
   text-decoration: none;

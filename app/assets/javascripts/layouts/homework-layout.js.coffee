@@ -6,6 +6,7 @@ $ ->
     introJs().start()
 
   edit_title = false
+  more_dropdown = false
 
   $(".page-guide").click ->
     introJs().start()
@@ -125,3 +126,36 @@ $ ->
       else
         $.page_notification "服务器出错"
     false
+
+  $(".more-link").click ->
+    $("#more-dropdown-list").toggleClass("hide")
+    more_dropdown = !$("#more-dropdown-list").hasClass("hide")
+    false
+
+  $(".copy-link").click ->
+    $.page_notification("正在复制，请稍等")
+    $.postJSON "/teacher/homeworks/#{window.homework_id}/copy", {
+      folder_id: window.parent_id
+    }, (data) ->
+      if data.success
+        $.page_notification "复制成功，正在跳转"
+        window.location = "/teacher/homeworks/#{data.new_homework_id}"
+      else
+        $.page_notification "操作失败，请刷新页面重试"
+    false
+
+  $(".delete-link").click ->
+    $.deleteJSON "/teacher/nodes/#{window.document_id}/delete", {}, (data) ->
+      if data.success
+        $.page_notification "删除成功，正在跳转"
+        window.location = "/teacher/nodes?folder_id=#{window.parent_id}"
+      else
+        $.page_notification "操作失败，请刷新页面重试"
+    false
+
+  $("body").click ->
+    if more_dropdown
+      $(".ef-dropdown-menu").addClass("hide")
+      more_dropdown = false
+    true
+

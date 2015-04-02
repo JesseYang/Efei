@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Teacher::HomeworksController < Teacher::ApplicationController
   layout :resolve_layout
-  before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :star, :set_basic_setting, :set_tag_set, :reorder, :share, :share_info]
+  before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :export, :generate, :star, :set_basic_setting, :set_tag_set, :reorder, :share, :share_info, :copy]
 
   def ensure_homework
     begin
@@ -132,6 +132,12 @@ class Teacher::HomeworksController < Teacher::ApplicationController
         redirect_to action: :show, id: homework.id.to_s
       end
     end
+  end
+
+  def copy
+    folder = Folder.find(params[:folder_id])
+    new_homework = @homework.copy(current_user, folder)
+    render_json({new_homework_id: new_homework.id.to_s})
   end
 
   def create

@@ -2,6 +2,13 @@
 #= require "extensions/page_notification"
 
 $ ->
+
+  scroll_to_question = (question_id) ->
+    ele = $("*[data-question-id=" + question_id + "]");
+    $('html, body').animate({
+      scrollTop: ele.offset().top
+    })
+
   $(".content-div").hover (->
     $(this).find(".question-operation-div").removeClass "hide"
   ), (->
@@ -37,6 +44,7 @@ $ ->
       return
     ele = $(this).closest(".content-div").detach()
     ele.insertBefore(prev_content)
+    scroll_to_question(ele.attr("data-question-id"))
     reorder()
 
   $(".move-down-btn").click ->
@@ -46,6 +54,7 @@ $ ->
       return
     ele = $(this).closest(".content-div").detach()
     ele.insertAfter(next_content)
+    scroll_to_question(ele.attr("data-question-id"))
     reorder()
 
   $("#replaceModal form").submit ->

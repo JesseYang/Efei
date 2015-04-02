@@ -100,8 +100,17 @@ class Question
 
   def generate
     questions = []
-    questions << {"type" => self.type, "image_path" => self.image_path, "content" => self.content, "items" => self.items}
+    questions << {
+      "type" => self.type,
+      "image_path" => self.image_path,
+      "content" => self.content,
+      "items" => self.items,
+      "answer" => self.answer || -1,
+      "answer_content" => self.answer_content || []
+    }
     data = {
+      "with_answer" => true,
+      "with_number" => false,
       "app_qr_code" => false,
       "student_portal_url" => Rails.application.config.student_portal_url,
       "questions" => questions,

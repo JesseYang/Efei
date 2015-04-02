@@ -74,6 +74,25 @@ class Homework < Node
     self.save
   end
 
+  def copy(user, folder)
+    return if self.type != "user"
+    folder_id = folder.user == user ? folder.id : user.root_folder.id
+    new_homework = Homework.create(
+      name: self.name + "（复件）",
+      user_id: user.id,
+      parent_id: folder_id,
+      type: "user",
+      subject: self.subject,
+      q_ids: self.q_ids,
+      tag_set: self.tag_set,
+      answer_time: self.answer_time,
+      answer_time_type: self.answer_time_type
+    )
+    self.questions.each { |q| new_homework.questions << q }
+    new_homework.save
+    new_homework
+  end
+
   def insert_question(index, q)
     if index != -1
       self.q_ids.insert(index.to_i, q.id.to_s)

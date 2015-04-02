@@ -24,6 +24,9 @@
       #operation-wrapper
         - if @share.blank?
           %ul
+            %li{ data: { step: "8", intro: "更多操作请点击"} }
+              %a.more-link{href: "javascript:void(0);"}
+                %i.icon.more
             %li{ data: { step: "7", intro: "前往在线题库为本份作业添加题目"} }
               %a.compose-link{href: "javascript:void(0);"}
                 %i.icon.compose
@@ -50,30 +53,38 @@
                 %span 返回
         - else
           %ul
-            %li
+            %li{ data: { step: "8", intro: "更多操作请点击"} }
+              %a.more-link{href: "javascript:void(0);"}
+                %i.icon.more
+            %li{ data: { step: "7", intro: "前往在线题库为本份作业添加题目"} }
               %a.compose-link{href: "javascript:void(0);"}
                 %i.icon.compose
                 %span 选题
-            %li
+            %li{ data: { step: "6", intro: "以word格式导出作业"} }
               %a.download-link{href: "javascript:void(0);"}
                 %i.icon.download
                 %span 下载
-            %li
+            %li{ data: { step: "5", intro: "作业设置页面：设置答案公布时间、作业标签"} }
               %a{href: settings_teacher_share_path(@share)}
                 %i.icon.setting
                 %span 设置
-            %li
+            %li{ data: { step: "4", intro: "作业统计页面：查看同学记录作业错题统计数据"} }
               %a{href: stat_teacher_share_path(@share)}
                 %i.icon.stat
                 %span 统计
-            %li
+            %li{ data: { step: "3", intro: "作业编辑页面：插入、替换、删除题目，调整题目顺序"} }
               %a{href: teacher_share_path(@share)}
                 %i.icon.edit
                 %span 编辑
-            %li
+            %li{ data: { step: "2", intro: "返回文件夹"} }
               %a{href: teacher_nodes_path + "?folder_id=" + @share.parent.id.to_s}
                 %i.icon.return
                 %span 返回
+        #more-dropdown-list.hide.ef-dropdown-menu
+          .ef-dropdown-item.copy-link
+            %a 复制作业
+          .ef-dropdown-item.delete-link
+            %a 删除作业
   = yield
 
   #downloadModal.modal.fade
@@ -98,7 +109,7 @@
             .checkbox
               = label_tag :include_question_qr_code do
                 = check_box_tag :include_question_qr_code, 1, true
-                包含题目二维码
+                包含题目二维码（仅对设置了包含二维码的题目）
             .checkbox
               = label_tag :with_number do
                 = check_box_tag :with_number, 1, true

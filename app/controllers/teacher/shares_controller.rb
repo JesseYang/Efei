@@ -1,7 +1,7 @@
 # encoding: utf-8
 class Teacher::SharesController < Teacher::ApplicationController
   layout :resolve_layout
-  before_filter :ensure_homework, only: [:show, :stat, :move, :settings, :set_tag, :delete, :export, :generate, :star, :set_basic_setting, :set_tag_set, :reorder, :share, :share_info]
+  before_filter :ensure_homework, only: [:show, :stat, :settings, :generate]
 
   def ensure_homework
     begin
@@ -60,83 +60,10 @@ class Teacher::SharesController < Teacher::ApplicationController
     render "teacher/homeworks/settings"
   end
 
-  def set_basic_setting
-    @homework.update_attribute(:name, params[:name])
-    answer_time = Time.mktime(*(params[:answer_time].split('-'))).to_i if params[:answer_time_type] == "later"
-    if @homework.answer_time_type != params[:answer_time_type]
-      @homework.notes.each { |n| n.touch }
-    elsif params[:answer_time_type] == "later" && @homework.answer_time != answer_time
-      @homework.notes.each { |n| n.touch }
-    end
-    if %w{no now later} .include? params[:answer_time_type]
-      @homework.update_attribute(:answer_time_type, params[:answer_time_type])
-    end
-    if params[:answer_time_type] == "later"
-      @homework.update_attribute(:answer_time, answer_time)
-    end
-    render_json
-  end
-
-  def set_tag_set
-    tag_set = TagSet.find(params[:tag_set_id])
-    @homework.update_attribute(:tag_set, tag_set.tags.join(','))
-    render_json
-  end
-
-  def export
-    redirect_to URI.encode "/#{@homework.export}"
-  end
-
   def generate
     file_name = @homework.generate(params[:question_qr_code].to_s == 'true', params[:app_qr_code].to_s == "true", params[:with_number].to_s == "true", params[:with_answer].to_s == "true", @share.id.to_s)
     download_url = "#{Rails.application.config.word_host}/#{file_name}"
     render_json({ download_url: download_url })
-  end
-
-  def replace
-    homework = Homework.find(params[:id])
-    begin
-      document = Document.new
-      document.document = params[:replace_homework_file]
-      document.store_document!
-      document.replace_question(homework, params[:question_id])
-      flash[:notice] = "已完成题目替换"
-      redirect_to action: :show, id: homework.id.to_s
-    rescue Exception => e
-      if e.message == "wrong filetype"
-        flash[:error] = "文件损坏，解析失败"
-        redirect_to action: :show, id: homework.id.to_s
-      elsif e.message == "no content"
-        flash[:error] = "文件中没有有效内容"
-        redirect_to action: :show, id: homework.id.to_s
-      else
-        flash[:error] = "服务器错误，请重试"
-        redirect_to action: :show, id: homework.id.to_s
-      end
-    end
-  end
-
-  def insert
-    homework = Homework.find(params[:id])
-    begin
-      document = Document.new
-      document.document = params[:insert_homework_file]
-      document.store_document!
-      document.insert_question(homework, params[:question_id])
-      flash[:notice] = "已完成题目插入"
-      redirect_to action: :show, id: homework.id.to_s
-    rescue Exception => e
-      if e.message == "wrong filetype"
-        flash[:error] = "文件损坏，解析失败"
-        redirect_to action: :show, id: homework.id.to_s
-      elsif e.message == "no content"
-        flash[:error] = "文件中没有有效内容"
-        redirect_to action: :show, id: homework.id.to_s
-      else
-        flash[:error] = "服务器错误，请重试"
-        redirect_to action: :show, id: homework.id.to_s
-      end
-    end
   end
 
   def resolve_layout
