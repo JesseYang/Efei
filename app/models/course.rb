@@ -17,4 +17,21 @@ class Course
 
   belongs_to :teacher, class_name: "User", inverse_of: :courses
 
+  def info_for_tablet
+    {
+      server_id: self.id.to_s,
+      teacer_id: self.teacher.id.to_s,
+      subject: self.subject.to_i,
+      name: self.name,
+      start_at: self.start_at,
+      end_at: self.end_at,
+      grade: self.grade,
+      desc: self.desc,
+      suggestion: self.suggestion,
+      textbook_url: self.textbook_url,
+      update_at: self.updated_at.to_s
+    }
+    
+  end
+
 end
