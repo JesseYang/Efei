@@ -20,7 +20,7 @@ class Course
   def info_for_tablet
     {
       server_id: self.id.to_s,
-      teacer_id: self.teacher.id.to_s,
+      teacher_id: self.teacher.id.to_s,
       subject: self.subject.to_i,
       name: self.name,
       start_at: self.start_at,
