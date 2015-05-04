@@ -21,7 +21,7 @@ class Account::SessionsController < Account::ApplicationController
         end
       end
       format.json do
-        render json: retval
+        render json: retval.merge({ admin: false })
       end
     end
   end

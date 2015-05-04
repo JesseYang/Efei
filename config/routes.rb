@@ -17,10 +17,16 @@ Rails.application.routes.draw do
   get "welcome/app_download"
   get "welcome/app_version"
 
+  namespace :tablet do
+    resources :courses do
+    end
+  end
+
   namespace :account do
     resources :registrations do
       collection do
         get :reset_email
+        post :finish
       end
     end
     resources :sessions do

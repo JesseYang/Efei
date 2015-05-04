@@ -8,6 +8,11 @@ module UserComponents::Teacher
     field :teacher_desc, type: String
     field :admin, type: Boolean, default: false
 
+    # for table app
+    field :avatar, type: String, default: ""
+    field :desc, type: String, default: ""
+    has_many :courses, class_name: "Course", inverse_of: :teacher
+
     has_many :nodes, class_name: "Node", inverse_of: :user
     has_one :compose, class_name: "Compose", inverse_of: :user
     # has_many :homeworks, class_name: "Homework", inverse_of: :user

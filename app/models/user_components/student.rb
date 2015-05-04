@@ -4,6 +4,12 @@ module UserComponents::Student
 
   included do
     field :note_update_time, type: Hash, default: {}
+
+    # for tablet users
+    field :tablet, type: Boolean, default: false
+    field :city, type: String, default: ""
+    field :school, type: String, default: ""
+    field :grade, type: String, default: ""
     has_many :notes
     has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
   end
@@ -151,5 +157,15 @@ module UserComponents::Student
     other_students = other_classes.map { |e| e.students }
     the_other_class.students << self if !other_students.include?(self)
     self.klasses.delete(klass)
+  end
+
+
+  def tablet_student_finish_register(name, city, school, grade)
+    self.update_attributes({
+      name: name,
+      city: city,
+      school: school,
+      grade: grade
+    })
   end
 end
