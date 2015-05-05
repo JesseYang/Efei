@@ -31,7 +31,5 @@ class Course
       textbook_url: self.textbook_url,
       update_at: self.updated_at.to_s
     }
-    
   end
-
 end

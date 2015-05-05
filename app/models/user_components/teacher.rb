@@ -9,7 +9,7 @@ module UserComponents::Teacher
     field :admin, type: Boolean, default: false
 
     # for table app
-    field :avatar, type: String, default: ""
+    field :avatar_url, type: String, default: ""
     field :desc, type: String, default: ""
     has_many :courses, class_name: "Course", inverse_of: :teacher
 
@@ -105,5 +105,15 @@ module UserComponents::Teacher
   def create_question_feedback(qid)
     q = Question.find(qid)
     f = Feedback.create(user_id: self.id.to_s, question_id: q.id.to_s)
+  end
+
+  def info_for_tablet
+    {
+      server_id: self.id.to_s,
+      avatar_url: self.avatar_url.to_s,
+      name: self.name,
+      desc: self.desc,
+      update_at: self.updated_at.to_s
+    }
   end
 end
