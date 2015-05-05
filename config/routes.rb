@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   namespace :tablet do
     resources :courses do
     end
+
+    resources :teachers do
+    end
   end
 
   namespace :account do
