@@ -14,6 +14,10 @@ class Lesson
     course_name + " " + self.name
   end
 
+  def touch_parents
+    self.course.try(:touch)
+  end
+
   def order
     if self.course.blank?
       return "未绑定"

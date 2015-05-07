@@ -44,6 +44,8 @@ class Admin::VideosController < Admin::ApplicationController
       lesson.save
     end
 
+    @video.touch_parents
+
     redirect_to action: :index, lesson_id: lesson.id.to_s and return
   end
 

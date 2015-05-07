@@ -22,6 +22,11 @@ class Video
 
   belongs_to :lesson, class_name: "Lesson", inverse_of: :videos
 
+  def touch_parents
+    self.lesson.try(:touch)
+    self.lesson.try(:touch_parents)
+  end
+
   def order
     index = self.lesson.video_id_ary.index(self.id.to_s)
     if index == -1

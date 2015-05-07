@@ -19,6 +19,7 @@ class Admin::LessonsController < Admin::ApplicationController
     @lesson = Lesson.new(name: params[:lesson]["name"])
     @lesson.course = course
     @lesson.save
+    @lesson.touch_parents
 
     # update the lesson_id_ary for the course
     index = params[:lesson]["order"].to_i - 1
