@@ -8,9 +8,10 @@ module UserComponents::Teacher
     field :teacher_desc, type: String
     field :admin, type: Boolean, default: false
 
-    # for table app
+    # for tablet app
     field :avatar_url, type: String, default: ""
     field :desc, type: String, default: ""
+    field :tablet_teacher, type: Boolean, default: false
     has_many :courses, class_name: "Course", inverse_of: :teacher
 
     has_many :nodes, class_name: "Node", inverse_of: :user
@@ -21,6 +22,16 @@ module UserComponents::Teacher
     belongs_to :school, class_name: "School", inverse_of: :teachers
     has_many :classes, class_name: "Klass", inverse_of: :teacher
     has_many :tag_sets, class_name: "TagSet", inverse_of: :teacher
+  end
+
+  module ClassMethods
+    def tablet_teachers
+      hash = { "请选择" => -1 }
+      User.where(tablet_teacher: true).each do |t|
+        hash[t.name] = t.id.to_s
+      end
+      hash
+    end
   end
 
   def folders

@@ -7,4 +7,8 @@ class Tablet::CoursesController < Tablet::ApplicationController
     end
     render_with_auth_key({courses: courses}) and return
   end
+
+  def create
+  	
+  end
 end

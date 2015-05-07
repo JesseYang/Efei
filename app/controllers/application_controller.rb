@@ -97,6 +97,10 @@ class ApplicationController < ActionController::Base
     redirect_to new_account_session_path if current_user.try(:school_admin) != true
   end
 
+  def require_admin
+    redirect_to new_account_session_path if current_user.try(:admin) != true
+  end
+
   def user_sign_in?
     current_user.present?
   end

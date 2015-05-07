@@ -17,11 +17,34 @@ Rails.application.routes.draw do
   get "welcome/app_download"
   get "welcome/app_version"
 
+  namespace :admin do
+    resources :teachers do
+    end
+
+    resources :courses do
+    end
+
+    resources :lessons do
+    end
+
+    resources :videos do
+    end
+  end
+
   namespace :tablet do
     resources :courses do
     end
 
     resources :teachers do
+    end
+
+    resources :lessons do
+    end
+
+    resources :videos do
+    end
+
+    resources :tags do
     end
   end
 

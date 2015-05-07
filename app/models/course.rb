@@ -15,7 +15,20 @@ class Course
 
   field :ready, type: Boolean, default: false
 
+  has_many :lessons, class_name: "Lesson", inverse_of: :course
   belongs_to :teacher, class_name: "User", inverse_of: :courses
+
+  def name_with_teacher
+    self.name + "(" + self.teacher.name + ")"
+  end
+
+  def self.courses_for_select
+    hash = { "请选择" => -1 }
+    Course.all.each do |c|
+      hash[c.name_with_teacher] = c.id.to_s
+    end
+    hash
+  end
 
   def info_for_tablet
     {
