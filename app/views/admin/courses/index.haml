@@ -18,9 +18,9 @@
           %th.col-md-1= "结束时间"
           %th.col-md-1= "年级"
           %th.col-md-2= "简介"
-          %th.col-md-2= "建议学时"
+          %th.col-md-1= "建议学时"
           %th.col-md-1= "讲义封面"
-          %th.col-md-1 操作
+          %th.col-md-2 操作
         - @courses.each do |c|
           %tr
             %td= c.teacher.name
@@ -35,8 +35,11 @@
               =image_tag(c.textbook_url)
             %td
               = link_to "删除", { controller: "admin/courses", action: "destroy", id: c._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
-              = link_to "详细", { controller: "admin/courses", action: "show", id: c._id.to_s }, :class => 'btn btn-primary btn-xs'
               = link_to "内容", { controller: "admin/lessons", action: "index", course_id: c._id.to_s }, :class => 'btn btn-primary btn-xs'
+              - if c.ready
+                = link_to "下架", { controller: "admin/courses", action: "toggle_ready", id: c._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
+              - else
+                = link_to "上架", { controller: "admin/courses", action: "toggle_ready", id: c._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
     %button.btn.btn-primary{data: {toggle: "modal", target: "#newCourse"} } 创建新课程
 
 #newCourse.modal.fade

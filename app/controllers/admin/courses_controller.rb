@@ -44,4 +44,11 @@ class Admin::CoursesController < Admin::ApplicationController
     end
     redirect_to action: :index and return
   end
+
+  def toggle_ready
+    @course = Course.find(params[:id])
+    @course.ready = !@course.ready
+    @course.save
+    redirect_to action: :index and return
+  end
 end

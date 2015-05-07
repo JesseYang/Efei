@@ -22,6 +22,9 @@ Rails.application.routes.draw do
     end
 
     resources :courses do
+      member do
+        put :toggle_ready
+      end
     end
 
     resources :lessons do
