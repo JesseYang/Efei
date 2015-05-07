@@ -1,0 +1,12 @@
+- content_for :app_head do
+  = stylesheet_link_tag "layouts/admin-layout", :media => "all"
+  / = javascript_include_tag "layouts/admin-layout"
+  = yield :head
+
+- content_for :app_content do
+  .admin-nav
+    = link_to "教师列表", { controller: "admin/teachers", action: "index" }, :class => 'btn btn-default btn-xs'
+    = link_to "课程列表", { controller: "admin/courses", action: "index" }, :class => 'btn btn-default btn-xs'
+  = yield 
+
+= render :template => 'layouts/application'

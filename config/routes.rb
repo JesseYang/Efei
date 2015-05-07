@@ -29,6 +29,9 @@ Rails.application.routes.draw do
 
     resources :videos do
     end
+
+    resources :tags do
+    end
   end
 
   namespace :tablet do

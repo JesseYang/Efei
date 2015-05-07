@@ -7,7 +7,7 @@
   - if @course.blank?
     %h3 所有课程的内容
   - else
-    %h3= @course.name_with_teacher + " 的内容"
+    %h3= @course.name_with_teacher + " 的各讲内容"
   .lib-content
     - if @lessons.blank?
       %h4
@@ -15,21 +15,21 @@
     - else
       %table#course-table.table.table-striped
         %tr
-          %th.col-md-1= "课程"
-          %th.col-md-1= "科目"
+          / %th.col-md-1= "课程"
+          / %th.col-md-1= "科目"
           %th.col-md-1= "名称"
           %th.col-md-1= "序号"
           %th.col-md-1 操作
         - @lessons.each do |l|
           %tr
-            %td= l.course.blank? ? "未绑定" : l.course.name_with_teacher
-            %td= l.course.blank? ? "未绑定" :  Subject::NAME[l.course.subject]
+            / %td= l.course.blank? ? "未绑定" : l.course.name_with_teacher
+            / %td= l.course.blank? ? "未绑定" :  Subject::NAME[l.course.subject]
             %td= l.name
             %td= l.order
             %td
               = link_to "删除", { controller: "admin/lessons", action: "destroy", id: l._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
               = link_to "视频", { controller: "admin/videos", action: "index", lesson_id: l._id.to_s }, :class => 'btn btn-primary btn-xs'
-    %button.btn.btn-primary{data: {toggle: "modal", target: "#newLesson"} } 创建新内容
+    %button.btn.btn-primary{data: {toggle: "modal", target: "#newLesson"} } 创建新一讲
 
 #newLesson.modal.fade
   .modal-dialog

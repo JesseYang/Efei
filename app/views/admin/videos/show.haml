@@ -1,0 +1,58 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/courses-bundle"
+  = stylesheet_link_tag "pages/admin/courses-bundle", :media => "all"
+  :javascript
+
+.container
+  = link_to "返回本讲视频列表", { controller: "admin/videos", action: "index", lesson_id: @video.lesson.id.to_s }
+  %h3= "课程：" + @video.course_name
+  %h3= "本讲：" + @video.lesson_name
+  %h3= "视频标题：" + @video.name
+  %h3= "序号：" + @video.video_order.to_s
+  %video{width: "640", src: "#{@video.video_url}", controls: "controls"} 您的浏览器不支持 video 标签。
+  .lib-content
+    - if @video.tags.blank?
+      %h4 没有标签
+    - else
+      %table#course-table.table.table-striped
+        %tr
+          %th.col-md-1= "标签类型"
+          %th.col-md-1= "时间点"
+          %th.col-md-1= "名称"
+          %th.col-md-1= "知识片段"
+          %th.col-md-1 操作
+        - (@video.tags || []).each_with_index do |t, i|
+          %tr
+            %td= Video.show_tag_type(t["tag_type"])
+            %td= t["time"]
+            %td= t["name"]
+            %td= t["episode_id"].present? ? Video.find(t["episode_id"]).name : ""
+            %td
+              = link_to "删除", { controller: "admin/tags", action: "destroy", id: t["time"], video_id: @video.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+    %button.btn.btn-primary{data: {toggle: "modal", target: "#newTag"} } 创建新标签
+
+#newTag.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(admin_tags_path, method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 创建新标签
+        .modal-body
+          .form-group.hide
+            = text_field_tag "video_id", @video.id.to_s, autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :teacher, "标签类型"
+            = select_tag "tag[tag_type]", options_for_select(Video.tag_type_for_select, -1), class: "form-control"
+          .form-group
+            = label_tag :subject, "名称"
+            = text_field_tag "tag[name]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :order, "时间点"
+            = text_field_tag "tag[time]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :order, "视频链接"
+            = select_tag "tag[episode_id]", options_for_select(@video.episodes_for_select, -1), class: "form-control"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "创建", :class => 'btn-primary btn'

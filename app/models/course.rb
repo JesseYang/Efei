@@ -19,7 +19,7 @@ class Course
   belongs_to :teacher, class_name: "User", inverse_of: :courses
 
   def name_with_teacher
-    self.name + "(" + self.teacher.name + ")"
+    "《" + self.name + "》" + "(教师：" + self.teacher.name + ")"
   end
 
   def self.courses_for_select

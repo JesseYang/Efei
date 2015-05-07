@@ -3,21 +3,30 @@ class Admin::VideosController < Admin::ApplicationController
 
   def index
     @lesson = Lesson.find(params[:lesson_id])
-    @videos = @lesson.videos
+    @videos = [ ]
+    @lesson.video_id_ary.each do |vid|
+      next if vid.blank?
+      @videos << Video.find(vid)
+    end
   end
 
   def show
+    @video = Video.find(params[:id])
   end
 
   def create
-    # save the video content file
-    video_content = VideoContent.new
-    video_content.video = params[:video_content]
-    filetype = "mp4"
-    video_content.store_video!
-    filepath = video_content.video.file.file
-    video_url = "/videos/" + filepath.split("/")[-1]
-
+    if params[:existing_video_content].to_s != "-1"
+      existing_video = Video.find(params[:existing_video_content])
+      video_url = existing_video.video_url
+    else
+      # save the video content file
+      video_content = VideoContent.new
+      video_content.video = params[:video_content]
+      filetype = "mp4"
+      video_content.store_video!
+      filepath = video_content.video.file.file
+      video_url = "/videos/" + filepath.split("/")[-1]
+    end
 
     lesson = Lesson.find(params[:video]["lesson_id"])
 

@@ -11,7 +11,7 @@ class Lesson
   def name_with_course_and_teacher
     course_name = self.course.present? ? self.course.name_with_teacher : "（未绑定课程）"
 
-    course_name + " " + self.order + " " + self.name
+    course_name + " " + self.name
   end
 
   def order

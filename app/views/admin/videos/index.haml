@@ -4,7 +4,9 @@
   :javascript
 
 .container
-  %h3= @lesson.name_with_course_and_teacher + "的内容"
+  - if @lesson.course.present?
+    = link_to "返回本课程", { controller: "admin/lessons", action: "index", course_id: @lesson.course.id.to_s }
+  %h3= @lesson.name_with_course_and_teacher + "的视频列表"
   .lib-content
     - if @videos.blank?
       %h4
@@ -14,17 +16,19 @@
         %tr
           %th.col-md-1= "视频类型"
           %th.col-md-1= "名称"
+          %th.col-md-1= "序号"
           %th.col-md-1 操作
         - @videos.each do |v|
           %tr
             %td= Video.show_type(v.video_type)
             %td= v.name
+            %td= v.order
             %td
               = link_to "删除", { controller: "admin/videos", action: "destroy", id: v.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
-              / = link_to "标签", { controller: "admin/tags", action: "index", video_id: v._id.to_s }, :class => 'btn btn-primary btn-xs'
-    %button.btn.btn-primary{data: {toggle: "modal", target: "#newLesson"} } 创建新视频
+              = link_to "详细", { controller: "admin/videos", action: "show", id: v._id.to_s }, :class => 'btn btn-primary btn-xs'
+    %button.btn.btn-primary{data: {toggle: "modal", target: "#newVideo"} } 创建新视频
 
-#newLesson.modal.fade
+#newVideo.modal.fade
   .modal-dialog
     .modal-content
       = form_tag(admin_videos_path, method: "post", multipart: true) do
@@ -46,6 +50,9 @@
           .form-group
             = label_tag :video_content, "视频文件（mp4格式）"
             = file_field_tag "video_content"
+          .form-group
+            = label_tag :video_content, "或选择已有视频"
+            = select_tag "existing_video_content", options_for_select(Video.existing_video_content_for_select, -1), class: "form-control"
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'
