@@ -4,7 +4,7 @@ class Lesson
   include Mongoid::Timestamps
 
   field :name, type: String
-  field :video_id_ary, type: Array
+  field :video_id_ary, type: Array, default: []
   belongs_to :course, class_name: "Course", inverse_of: :lessons
   has_many :videos, class_name: "Video", inverse_of: :lesson
 

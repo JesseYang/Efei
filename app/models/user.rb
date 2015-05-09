@@ -92,6 +92,14 @@ class User
     return { success: true, auth_key: u.generate_auth_key }
   end
 
+  def self.tablet_login(email_mobile, password)
+    return ErrCode.ret_false(ErrCode::BLANK_EMAIL_MOBILE) if email_mobile.blank?
+    u = User.where(email: email_mobile, tablet: true).first || User.where(mobile: email_mobile, tablet: true).first
+    return ErrCode.ret_false(ErrCode::USER_NOT_EXIST) if u.blank?
+    return ErrCode.ret_false(ErrCode::WRONG_PASSWORD) if u.password != Encryption.encrypt_password(password)
+    return { success: true, auth_key: u.generate_auth_key, admin: u.admin, course_id_str: u.student_course_id_str }
+  end
+
   def send_reset_password_code
     self.reset_password_verify_code = "111111"
     self.reset_password_token = self.generate_auth_key

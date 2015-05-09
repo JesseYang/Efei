@@ -111,7 +111,7 @@ class Video
   def info_for_tablet(lesson, order)
     {
       server_id: self.id.to_s,
-      type: self.type,
+      type: self.video_type,
       name: self.name,
       video_order: order,
       time: self.time,

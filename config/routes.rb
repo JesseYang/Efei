@@ -64,6 +64,7 @@ Rails.application.routes.draw do
     resources :sessions do
       collection do
         delete :sign_out
+        post :tablet_login
       end
     end
     resources :passwords do

@@ -11,6 +11,7 @@ module UserComponents::Student
     field :school, type: String, default: ""
     field :grade, type: String, default: ""
     has_many :notes
+    has_many :student_courses, class_name: "Course", inverse_of: :student
     has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
   end
 
@@ -27,6 +28,12 @@ module UserComponents::Student
       teachers_info = teachers.map { |t| t.teacher_info_for_student(true) }
       { success: true, teachers: teachers_info }
     end
+  end
+
+  def student_course_id_str
+    self.student_courses.map do |e|
+      e.id.to_s
+    end .join(',')
   end
 
   def list_my_teachers

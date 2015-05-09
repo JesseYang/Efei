@@ -26,6 +26,11 @@ class Account::SessionsController < Account::ApplicationController
     end
   end
 
+  def tablet_login
+    retval = User.tablet_login(params[:email_mobile].to_s, params[:password].to_s)
+    render json: retval and return
+  end
+
   def sign_out
     refresh_session(nil)
     redirect_to redirect_to_root(params[:role]) and return
