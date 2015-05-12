@@ -12,6 +12,7 @@ module UserComponents::Student
     field :grade, type: String, default: ""
     has_many :notes
     has_many :student_courses, class_name: "Course", inverse_of: :student
+    has_many :studies, class_name: "Study", inverse_of: :student
     has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
   end
 
@@ -27,6 +28,17 @@ module UserComponents::Student
       end
       teachers_info = teachers.map { |t| t.teacher_info_for_student(true) }
       { success: true, teachers: teachers_info }
+    end
+  end
+
+  def update_studies(study_ary)
+    studey_ary.each do |s|
+      study = self.studies.where(course_id: s["course_id"]) || self.studies.create(course_id: s["course_id"])
+      study.update_attributes({
+        lesson_id: s["lesson_id"],
+        video_id: s["video_id"],
+        time: s["time"]
+      })
     end
   end
 

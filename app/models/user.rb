@@ -97,7 +97,13 @@ class User
     u = User.where(email: email_mobile, tablet: true).first || User.where(mobile: email_mobile, tablet: true).first
     return ErrCode.ret_false(ErrCode::USER_NOT_EXIST) if u.blank?
     return ErrCode.ret_false(ErrCode::WRONG_PASSWORD) if u.password != Encryption.encrypt_password(password)
-    return { success: true, auth_key: u.generate_auth_key, admin: u.admin, course_id_str: u.student_course_id_str }
+    return {
+      success: true,
+      auth_key: u.generate_auth_key,
+      admin: u.admin,
+      course_id_str: u.student_course_id_str,
+      status: u.studies
+    }
   end
 
   def send_reset_password_code

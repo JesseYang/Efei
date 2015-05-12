@@ -52,6 +52,9 @@ Rails.application.routes.draw do
 
     resources :tags do
     end
+
+    resources :studies do
+    end
   end
 
   namespace :account do
