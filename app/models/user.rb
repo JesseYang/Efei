@@ -102,7 +102,8 @@ class User
       auth_key: u.generate_auth_key,
       admin: u.admin,
       course_id_str: u.student_course_id_str,
-      status: u.studies
+      status: u.studies,
+      student_server_id: u.id.to_s
     }
   end
 
