@@ -22,6 +22,10 @@ class Video
 
   belongs_to :lesson, class_name: "Lesson", inverse_of: :videos
 
+  has_many :learn_logs, class_name: "LearnLog", inverse_of: :videos
+  has_many :original_learn_logs, class_name: "LearnLog", inverse_of: :original_video
+  has_many :action_logs
+
   def touch_parents
     self.lesson.try(:touch)
     self.lesson.try(:touch_parents)

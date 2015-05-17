@@ -19,6 +19,9 @@ class Course
   belongs_to :teacher, class_name: "User", inverse_of: :courses
   belongs_to :student, class_name: "User", inverse_of: :student_courses
 
+  has_many :learn_logs
+  has_many :action_logs
+
   def name_with_teacher
     "《" + self.name + "》" + "(教师：" + self.teacher.name + ")"
   end

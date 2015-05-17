@@ -8,6 +8,9 @@ class Lesson
   belongs_to :course, class_name: "Course", inverse_of: :lessons
   has_many :videos, class_name: "Video", inverse_of: :lesson
 
+  has_many :learn_logs
+  has_many :action_logs
+
   def name_with_course_and_teacher
     course_name = self.course.present? ? self.course.name_with_teacher : "（未绑定课程）"
 
