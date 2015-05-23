@@ -19,6 +19,10 @@ class Video
   field :content, type: Array, default: []
   # for example videos, recommended finish time
   field :time, type: Integer
+  # for example videos, page
+  field :page, type: Integer
+  # for example videos, example name
+  field :question_name, type: String
 
   belongs_to :lesson, class_name: "Lesson", inverse_of: :videos
 
@@ -132,6 +136,7 @@ class Video
         type: t["tag_type"],
         time: t["time"],
         name: t["name"],
+        video_id: self.id.to_s,
         episode_id: t["episode_id"]
       }
     end

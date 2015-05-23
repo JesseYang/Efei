@@ -55,6 +55,12 @@ Rails.application.routes.draw do
 
     resources :studies do
     end
+
+    resources :learn_logs do
+    end
+
+    resources :action_logs do
+    end
   end
 
   namespace :account do
