@@ -123,6 +123,8 @@ class Video
       name: self.name,
       video_order: order,
       time: self.time,
+      page: self.page || -1,
+      question_name: self.question_name || "",
       content: self.content.join("^^^"),
       video_url: self.video_url,
       update_at: self.updated_at.to_s,
