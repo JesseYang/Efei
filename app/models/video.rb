@@ -137,7 +137,7 @@ class Video
         time: t["time"],
         name: t["name"],
         video_id: self.id.to_s,
-        episode_id: t["episode_id"]
+        episode_id: t["episode_id"] || ""
       }
     end
   end

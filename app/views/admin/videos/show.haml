@@ -8,7 +8,12 @@
   %h3= "课程：" + @video.course_name
   %h3= "本讲：" + @video.lesson_name
   %h3= "视频标题：" + @video.name
+  %h3= "视频类型：" + Video..show_type(@video.video_type)
   %h3= "序号：" + @video.video_order.to_s
+  - if @video.video_type == 2
+    %h3= "推荐完成时间：" + @video.time.to_s + "分钟"
+    %h3= "例题所在页面：" + @video.page.to_s + "页"
+    %h3= "例题名称：" + @video.question_name.to_s
   %video{width: "640", src: "#{@video.video_url}", controls: "controls"} 您的浏览器不支持 video 标签。
   .lib-content
     - if @video.tags.blank?
