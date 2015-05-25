@@ -1,6 +1,13 @@
 class WelcomeController < ApplicationController
   layout :resolve_layout
   def index
+    if params[:echostr].present?
+      render text: params[:echostr] and return
+    end
+  end
+
+  def weixin
+    render text: "" and return
   end
 
   def redirect

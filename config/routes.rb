@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get "welcome/app_download"
   get "welcome/app_version"
 
+  match '/' => 'welcome#weixin', :via => :post
+
   namespace :admin do
     resources :teachers do
     end

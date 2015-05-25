@@ -1,8 +1,10 @@
-source 'https://rubygems.org'
+# source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 # ruby '2.1'
 gem 'rails', '4.1.8'
 gem 'activeresource', '~> 4.0.0'
 gem 'respond-rails', '~> 1.0.1'
+gem 'actionpack-xml_parser', '~> 1.0.2'
 
 gem 'sinatra', :require => nil
 
