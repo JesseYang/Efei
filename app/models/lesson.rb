@@ -5,6 +5,7 @@ class Lesson
 
   field :name, type: String
   field :video_id_ary, type: Array, default: []
+  field :exercise_page, type: Integer, default: -1
   belongs_to :course, class_name: "Course", inverse_of: :lessons
   has_many :videos, class_name: "Video", inverse_of: :lesson
 
@@ -40,6 +41,7 @@ class Lesson
       course_id: course.id.to_s,
       name: self.name,
       lesson_order: order,
+      exercise_page: self.exercise_page,
       update_at: self.updated_at.to_s
     }
   end
