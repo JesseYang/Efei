@@ -1,0 +1,61 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/css3/border-radius";
+@import "compass/utilities/general/clearfix";
+@import 'icons/weixin/*.png';
+
+#left-filter {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: none;
+  width: 200px;
+  border-right: #CCC solid 1px;
+
+  .filter-title {
+    background-color: $weixin-bg;
+    height: 50px;
+    text-align: center;
+    color: white;
+    .title-content {
+      @include inline-block;
+      margin: auto;
+      line-height: 50px;
+      color: white;
+      font-size: 22px;
+      text-align: center;
+    }
+    .icon {
+      @include size(24px, 24px);
+      @include inline-block;
+    }
+    a {
+      text-decoration: none;
+      .turnoff {
+        margin-top: 13px;
+        margin-right: 13px;
+        @include weixin-sprite(turnoff24);
+      }
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0px;
+    margin-bottom: 0px;
+    li {
+      list-style: none;
+      height: 50px;
+      background-color: #F4F4F4;
+      border-bottom: #CCC solid 1px;
+      text-align: center;
+      a {
+        display: block;
+        @include one-line(50px);
+        color: $weixin-bg;
+        text-decoration: none;
+        text-align: center;
+      }
+    }
+  }
+}

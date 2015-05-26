@@ -49,4 +49,12 @@ class Course
       update_at: self.updated_at.to_s
     }
   end
+
+  def teacher_name
+    "张三"
+  end
+
+  def coach_name
+    "李四"
+  end
 end

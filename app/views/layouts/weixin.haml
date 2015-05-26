@@ -1,0 +1,15 @@
+- content_for :app_head do
+  = stylesheet_link_tag "layouts/weixin-layout", :media => "all"
+  = javascript_include_tag "layouts/weixin-layout"
+  = yield :head
+- content_for :app_nav do
+  #weixin-navbar
+    %a.left.filter-link{href: "javascript:void(0);"}
+      %i.icon.filter
+    %h1#title= @title
+    %a.right.user-link{href: "javascript:void(0);"}
+      %i.icon.user
+- content_for :app_content do
+  = yield
+
+= render :template => 'layouts/application'

@@ -39,6 +39,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :weixin do
+    resources :courses do
+    end
+  end
+
   namespace :tablet do
     resources :courses do
     end

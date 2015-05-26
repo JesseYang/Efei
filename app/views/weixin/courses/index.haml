@@ -1,0 +1,43 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/weixin/courses/index-bundle"
+  = stylesheet_link_tag "pages/weixin/courses/index-bundle", :media => "all"
+
+- @courses.each do |c|
+  .one-course
+    .left-part
+      %span= Subject::NAME[c.subject]
+      %span= c.name
+      %br
+      %span= "授课：" + c.teacher_name
+      %span= "教师：" + c.coach_name
+
+
+#left-filter
+  .filter-title
+    %h1.title-content 我的课程
+    %a.right.turnoff-link{href: "javascript:void(0);"}
+      %i.icon.turnoff
+  %ul
+    %li
+      %a 当前课程
+    %li
+      %a 历史课程
+  .filter-title
+    %h1.title-content 科目
+  %ul
+    %li
+      %a 数学
+    %li
+      %a 语文
+    %li
+      %a 英语
+    %li
+      %a 物理
+    %li
+      %a 化学
+    %li
+      %a 生物
+    %li
+      %a 历史
+    %li
+      %a 地理

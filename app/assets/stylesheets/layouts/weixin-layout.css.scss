@@ -1,0 +1,48 @@
+@import 'utility';
+@import 'compass/css3';
+@import 'common';
+@import 'icons/weixin/*.png';
+
+body {
+  min-width: 0px;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+#weixin-navbar {
+  text-align: center;
+  background-color: $weixin-bg;
+  height: 50px;
+  .icon {
+    @include size(24px, 24px);
+    @include inline-block;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+    .filter {
+      margin-top: 13px;
+      margin-left: 13px;
+      @include weixin-sprite(filter24);
+    }
+    .user {
+      margin-top: 13px;
+      margin-right: 13px;
+      @include weixin-sprite(user24);
+    }
+  }
+  #title {
+    @include inline-block;
+    margin: auto;
+    line-height: 50px;
+    color: white;
+    font-size: 22px;
+    text-align: center;
+  }
+}
