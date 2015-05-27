@@ -11,7 +11,9 @@ module UserComponents::Student
     field :school, type: String, default: ""
     field :grade, type: String, default: ""
     has_many :notes
-    has_many :student_courses, class_name: "Course", inverse_of: :student
+    has_and_belongs_to_many :student_local_courses, class_name: "LocalCourse", inverse_of: :students
+    has_many :student_answers, class_name: "Answer", inverse_of: :student
+    has_many :student_study_reports, class_name: "StudyReport", inverse_of: :student
     has_many :studies, class_name: "Study", inverse_of: :student
     has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
 

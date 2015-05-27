@@ -4,3 +4,49 @@
 @import "compass/utilities/general/clearfix";
 @import 'icons/weixin/*.png';
 
+h4 {
+  border-bottom: #CCC solid 1px;
+  padding-bottom: 10px;
+  margin-bottom: 0px;
+}
+
+td {
+  padding: 0px;
+}
+
+.one-report {
+  border-bottom: #CCC solid 1px;
+  height: 100px;
+  .left-part {
+    height: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+    width: 100px;
+    color: white;
+    .month {
+      font-size: 1.9em;
+    }
+    .day {
+      font-size: 1.9em;
+    }
+    background: #666;
+  }
+  .right-part {
+    .content-wrapper {
+      margin-top: 5px;
+      margin-left: 10px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      height: 50px;
+      p {
+        font-size: 17px;
+      }
+    }
+    .info {
+      float: right;
+      margin-right: 10px;
+      color: #CCC;
+    }
+  }
+}

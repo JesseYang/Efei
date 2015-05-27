@@ -2,17 +2,20 @@
   = javascript_include_tag "pages/weixin/courses/index-bundle"
   = stylesheet_link_tag "pages/weixin/courses/index-bundle", :media => "all"
 
-- @courses.each do |c|
+- if @local_courses.blank?
+  %h4.course-name-tip= "没有符合条件的课程"
+
+- @local_courses.each do |lc|
   .one-course-wrapper
     .one-course
       .left-part
         .upper
           .course-subject-wrapper
-            %span.course-subject= Subject::NAME[c.subject]
-          %span.course-name= c.name
+            %span.course-subject= Subject::NAME[lc.subject]
+          %span.course-name= lc.name
         .lower
-          %span.course-teacher= "授课：" + c.teacher_name
-          %span.course-coach= "教师：" + c.coach_name
+          %span.course-teacher= "授课：" + lc.teacher_name
+          %span.course-coach= "教师：" + lc.coach_name
       .right-icon
         %a.right.slide-left-link{href: "javascript:void(0);"}
           %i.icon.slide-left
@@ -23,22 +26,22 @@
       %table.operation-table
         %tr
           %td
-            %a.exercise-link{href: exercise_weixin_course_path(c)}
+            %a.exercise-link{href: exercise_weixin_course_path(lc)}
               %i.icon.exercise
               %span 练习反馈
               .clear-both
           %td
-            %a.report-link{href: report_weixin_course_path(c)}
+            %a.report-link{href: report_weixin_course_path(lc)}
               %i.icon.report
               %span 学情报告
               .clear-both
           %td
-            %a.record-link{href: record_weixin_course_path(c)}
+            %a.record-link{href: record_weixin_course_path(lc)}
               %i.icon.record
               %span 学习记录
               .clear-both
           %td
-            %a.schedule-link{href: schedule_weixin_course_path(c)}
+            %a.schedule-link{href: schedule_weixin_course_path(lc)}
               %i.icon.schedule
               %span 进度追踪
               .clear-both
@@ -53,7 +56,7 @@
     %li
       = link_to "当前课程", weixin_courses_path + "?current=1&subject=#{@subject}"
     %li
-      = link_to "历史课程", weixin_courses_path + "?current=0&subject=#{@subject}"
+      = link_to "以往课程", weixin_courses_path + "?current=0&subject=#{@subject}"
   .filter-title
     %h1.title-content 科目
   %ul

@@ -8,6 +8,7 @@ class Lesson
   field :exercise_page, type: Integer, default: -1
   belongs_to :course, class_name: "Course", inverse_of: :lessons
   has_many :videos, class_name: "Video", inverse_of: :lesson
+  has_one :homework, class_name: "Homework", inverse_of: :lesson
 
   has_many :learn_logs
   has_many :action_logs

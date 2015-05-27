@@ -162,7 +162,7 @@
         height: 30px;
       }
       text-decoration: none;
-      color: #6EA1F3;
+      color: $weixin-bg;
       .exercise {
         @include weixin-sprite(exercise24);
       }

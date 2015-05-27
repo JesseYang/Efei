@@ -7,6 +7,7 @@ class User
   include Mongoid::Timestamps
   include UserComponents::Student
   include UserComponents::Teacher
+  include UserComponents::Coach
   include UserComponents::SchoolAdmin
 
   # user basic info

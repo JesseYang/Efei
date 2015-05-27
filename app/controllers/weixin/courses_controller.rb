@@ -2,36 +2,48 @@
 class Weixin::CoursesController < Weixin::ApplicationController
 
   def index
-    @current = params[:current] || 1
-    @subject = params[:subject] || 0
-    @title = @current.to_i == 1 ? "我的当前课程" : "我的历史课程"
-    if @subject.to_i != 0
-      @title += "(#{Subject::NAME[@subject.to_i]})"
+    @current = (params[:current] || 1).to_i
+    @subject = (params[:subject] || 0).to_i
+    @title = @current == 1 ? "我的当前课程" : "我的以往课程"
+    if @subject != 0
+      @title += "（#{Subject::NAME[@subject]}）"
     end
 
-    @courses = Course.all
-    # @courses = []
-    # c = Course.new(subject: 2, name: "高中必修1同步精讲")
-    # @courses << c
+    @local_courses = current_user.student_local_courses
+
+    if @current == 1
+      # filter current courses
+      @local_courses = @local_courses.select { |e| e.course.end_at > Time.now.to_i }
+    else
+      # filter old courses
+      @local_courses = @local_courses.select { |e| e.course.end_at < Time.now.to_i }
+    end
+
+    if @subject != 0
+      @local_courses = @local_courses.select { |e| e.subject == @subject }
+    end
   end
 
   def exercise
-    @course = Course.find(params[:id])
+    @local_course = LocalCourse.find(params[:id])
+    @lessons = @local_course.course.lesson_id_ary.map { |e| Lesson.find(e) }
     @title = "练习反馈"
   end
 
   def report
-    @course = Course.find(params[:id])
+    @local_course = LocalCourse.find(params[:id])
     @title = "学情报告"
+
+    @reports = current_user.student_study_reports.where(local_course_id: @local_course.id)
   end
 
   def record
-    @course = Course.find(params[:id])
+    @local_course = LocalCourse.find(params[:id])
     @title = "学习记录"
   end
 
   def schedule
-    @course = Course.find(params[:id])
+    @local_course = LocalCourse.find(params[:id])
     @title = "进度追踪"
   end
 end

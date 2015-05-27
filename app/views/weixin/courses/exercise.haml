@@ -2,4 +2,9 @@
   = javascript_include_tag "pages/weixin/courses/exercise-bundle"
   = stylesheet_link_tag "pages/weixin/courses/exercise-bundle", :media => "all"
 
-%span EXERCISE
+%h4.course-name-tip= @local_course.name
+
+%ul
+  - @lessons.each_with_index do |l, i|
+    %li
+      = link_to lesson_helper(i) + l.name, "javascript:void(0);"

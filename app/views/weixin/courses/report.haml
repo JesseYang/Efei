@@ -2,4 +2,16 @@
   = javascript_include_tag "pages/weixin/courses/report-bundle"
   = stylesheet_link_tag "pages/weixin/courses/report-bundle", :media => "all"
 
-%span REPORT
+%h4.course-name-tip= @local_course.name
+
+%table
+  %tr.one-report
+    %td.left-part
+      %span.month 07月
+      %br
+      %span.day 15日
+    %td.right-part
+      .content-wrapper
+        %p 这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字
+      .info
+        %span 2015.07.15 教师：李四

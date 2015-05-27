@@ -17,8 +17,10 @@ class Homework < Node
   field :answer_time_type, type: String, default: "no"
   field :answer_time, type: Integer
   has_and_belongs_to_many :questions, class_name: "Question", inverse_of: :homeworks
+  has_many :answers, class_name: "Answer", inverse_of: :homework
   has_one :compose
   has_many :notes
+  belongs_to :lesson, class_name: "Lesson", inverse_of: :homework
 
   include HTTParty
   base_uri Rails.application.config.word_host
