@@ -25,10 +25,6 @@
       font-size: 22px;
       text-align: center;
     }
-    .icon {
-      @include size(24px, 24px);
-      @include inline-block;
-    }
     a {
       text-decoration: none;
       .turnoff {
@@ -46,15 +42,139 @@
     li {
       list-style: none;
       height: 50px;
-      background-color: #F4F4F4;
-      border-bottom: #CCC solid 1px;
       text-align: center;
       a {
+        border-bottom: #CCC solid 1px;
+        background-color: #F4F4F4;
+        font-size: 1.2em;
+        cursor: pointer;
         display: block;
         @include one-line(50px);
         color: $weixin-bg;
         text-decoration: none;
         text-align: center;
+        &:hover {
+          background-color: #E6E6E6;
+        }
+      }
+    }
+  }
+}
+
+.icon {
+  @include size(24px, 24px);
+  @include inline-block;
+}
+
+.one-course-wrapper {
+  position: relative;
+}
+
+.one-course {
+  .left-part {
+    float: left;
+    margin-left: 20px;
+  }
+  height: 80px;
+  border-bottom: #E5E5E5 solid 1px;
+  .upper {
+    span {
+      @include inline-block;
+    }
+    margin-top: 15px;
+    margin-left: 10px;
+    .course-name {
+      font-size: 1.5em;
+      margin-left: 5px
+    }
+    .course-subject-wrapper {
+      padding: 2px;
+      background: $weixin-bg;
+      @include inline-block;
+      .course-subject {
+        font-size: 0.9em;
+        color: white;
+      } 
+    }
+  }
+  .lower {
+    margin-top: 10px;
+    margin-left: 10px;
+    color: #999;
+    .course-coach {
+      margin-left: 20px;
+    }
+  }
+  .right-icon {
+    height: 100%;
+    float: right;
+    a {
+      text-decoration: none;
+      padding-top: 28px;
+      padding-bottom: 28px;
+      padding-right: 20px;
+      padding-left: 20px;
+      .slide-left {
+        @include weixin-sprite(slide-left24);
+      }
+    }
+  }
+}
+
+.operation-div {
+  background-color: white;
+  border-bottom: #E5E5E5 solid 1px;
+  position: absolute;
+  display: none;
+  right: 0px;
+  top: 0px;
+  z-index: 100;
+  width: 100%;
+  height: 80px;
+  .left-icon {
+    height: 100%;
+    float: left;
+    width: 10%;
+    a {
+      text-decoration: none;
+      padding-top: 28px;
+      padding-bottom: 28px;
+      padding-right: 20px;
+      padding-left: 10px;
+      .slide-right {
+        @include weixin-sprite(slide-right24);
+      }
+    }
+  }
+
+  .operation-table {
+    width: 90%;
+    td {
+      width: 25%;
+      text-align: center;
+    }
+    a {
+      i {
+        margin-top: 10px;
+      }
+      span {
+        margin-top: 10px;
+        display: block;
+        height: 30px;
+      }
+      text-decoration: none;
+      color: #6EA1F3;
+      .exercise {
+        @include weixin-sprite(exercise24);
+      }
+      .report {
+        @include weixin-sprite(report24);
+      }
+      .record {
+        @include weixin-sprite(record24);
+      }
+      .schedule {
+        @include weixin-sprite(schedule24);
       }
     }
   }

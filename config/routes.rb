@@ -41,6 +41,12 @@ Rails.application.routes.draw do
 
   namespace :weixin do
     resources :courses do
+      member do
+        get :exercise
+        get :record
+        get :report
+        get :schedule
+      end
     end
   end
 

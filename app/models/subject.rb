@@ -38,4 +38,6 @@ class Subject
   }
 
   CODE_WITH_ALL = CODE.merge({"全部科目" => 0})
+
+  NAME_WITH_ALL = {0 => "全部"}.merge(NAME)
 end
