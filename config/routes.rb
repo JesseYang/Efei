@@ -40,6 +40,8 @@ Rails.application.routes.draw do
   end
 
   namespace :weixin do
+    resources :records do
+    end
     resources :reports do
     end
     resources :courses do
