@@ -22,7 +22,7 @@ td {
     padding-top: 10px;
     padding-bottom: 10px;
     text-align: center;
-    width: 100px;
+    width: 80px;
     color: white;
     .month {
       font-size: 1.9em;
@@ -32,7 +32,7 @@ td {
     }
     background: #666;
   }
-  .right-part {
+  .middle-part {
     .content-wrapper {
       margin-top: 5px;
       margin-left: 10px;
@@ -49,4 +49,23 @@ td {
       color: #CCC;
     }
   }
+  .right-part {
+    height: 100%;
+    a {
+      text-decoration: none;
+      padding-top: 28px;
+      padding-bottom: 28px;
+      padding-right: 20px;
+      padding-left: 20px;
+      .slide-right {
+        @include weixin-sprite(slide-right24);
+      }
+    }
+  }
 }
+
+.icon {
+  @include size(24px, 24px);
+  @include inline-block;
+}
+

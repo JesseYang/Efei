@@ -1,0 +1,14 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/weixin/reports/show-bundle"
+  = stylesheet_link_tag "pages/weixin/reports/show-bundle", :media => "all"
+
+.header
+  %h4.course-name-tip= @study_report.local_course.name
+  %span.info= @study_report.info
+  .clear-both
+
+.content
+  - @study_report.content.each do |e|
+    - if e["type"] == "text"
+      %p.content-ele= e["value"]
+

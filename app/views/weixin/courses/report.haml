@@ -5,13 +5,17 @@
 %h4.course-name-tip= @local_course.name
 
 %table
-  %tr.one-report
-    %td.left-part
-      %span.month 07月
-      %br
-      %span.day 15日
-    %td.right-part
-      .content-wrapper
-        %p 这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字
-      .info
-        %span 2015.07.15 教师：李四
+  - @reports.each do |r|
+    %tr.one-report
+      %td.left-part
+        %span.month= r.month
+        %br
+        %span.day= r.day
+      %td.middle-part
+        .content-wrapper
+          %p= r.content_in_short
+        .info
+          %span= r.info
+      %td.right-part
+        %a.right.slide-right-link{href: weixin_report_path(r)}
+          %i.icon.slide-right
