@@ -28,7 +28,8 @@ class Coach::ApplicationController < ApplicationController
         signature: @signature,
         noncestr: @noncestr,
         timestamp: @timestamp,
-        appid: Weixin::APPID
+        appid: Weixin::APPID,
+        jsapi_ticket: @jsapi_ticket
       }
     }
     render json: retval and return
