@@ -4,6 +4,14 @@
 class String
   CF = 1.2
 
+  def my_trim(i)
+    if self.length <= i
+      self
+    else
+      self[0...(i-1)] + "..."
+    end
+  end
+
   def is_mobile?
     !self.match(/1\d{10}/).nil?
   end

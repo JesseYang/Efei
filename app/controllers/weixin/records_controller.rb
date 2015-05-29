@@ -16,4 +16,11 @@ class Weixin::RecordsController < Weixin::ApplicationController
     ]
     render json: data and return
   end
+
+  def show
+    @title = "学习记录"
+    @local_course = LocalCourse.find(params[:local_course_id])
+    @date = params[:id]
+    @return_path = record_weixin_course_path(@local_course)
+  end
 end

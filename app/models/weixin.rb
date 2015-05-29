@@ -26,9 +26,30 @@ class Weixin
     response = Weixin.get(url)
     if response["errcode"].blank?
       @@redis.set("weixin_access_token", response["access_token"])
-      @@redis.set("weixin_access_token_expires_at", Time.now.to_i + response["expires_in"] - 200)
+      @@redis.set("weixin_access_token_expires_at", Time.now.to_i + response["expires_in"] - 100)
     end
     response["access_token"]
+  end
+
+  def self.get_jsapi_ticket
+    @@redis ||= Redis.new
+    expires_at = @@redis.get("weixin_jsapi_ticket_expires_at").to_i
+    if expires_at > Time.now.to_i
+      @@redis.get("weixin_jsapi_ticket")
+    else
+      self.refresh_jsapi_ticket
+    end
+  end
+
+  def self.refresh_jsapi_ticket
+    @@redis ||= Redis.new
+    url = "/ticket/getticket?access_token=#{self.get_access_token}&type=jsapi"
+    response = Weixin.get(url)
+    if response["errcode"].blank? || response["errcode"].to_s == "0"
+      @@redis.set("weixin_jsapi_ticket", response["ticket"])
+      @@redis.set("weixin_jsapi_ticket_expires_at", Time.now.to_i + response["expires_in"] - 100)
+    end
+    response["ticket"]
   end
 
   def self.update_menu

@@ -2,4 +2,29 @@
   = javascript_include_tag "pages/weixin/courses/schedule-bundle"
   = stylesheet_link_tag "pages/weixin/courses/schedule-bundle", :media => "all"
 
-%span PROGRESS
+%h4.course-name-tip= @local_course.name
+
+%table#schedule-content
+  - @lesson_info.each_with_index do |l, i|
+    %tr
+      %td.lesson-name
+        %span.name= lesson_helper(i) + l[:name].my_trim(6)
+        .placeholder
+      %td.lesson-figure
+        - if l[:finished]
+          .schedule-circle.finished
+        - else
+          .schedule-circle.unfinished
+        - if i < @lesson_info.length - 1
+          .schedule-line.black
+        - else
+          .schedule-line.white
+      %td.finished-at
+        - if l[:finished]
+          %span.time= l[:finished_at]
+          %br
+          %span.time= "已完成"
+        - else
+          %span.time= "未完成"
+        .placeholder
+

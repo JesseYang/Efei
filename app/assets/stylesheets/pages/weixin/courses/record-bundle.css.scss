@@ -5,6 +5,35 @@
 @import 'icons/weixin/*.png';
 @import 'fullcalendar';
 
+h4 {
+  border-bottom: #CCC 1px solid ;
+  padding-bottom: 10px;
+  margin-bottom: 0px;
+}
+
 #calendar {
   margin-top: 10px;
+}
+
+.fc-toolbar {
+  margin-left: 3vw;
+  margin-right: 3vw;
+}
+
+.tip-wrapper {
+  margin-top: 10px;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  .green {
+    @include inline-block;
+    @include size(16px, 16px);
+    background: #DEF6DA;
+    border: #DDDDDD solid 1px;
+  }
+  .yellow {
+    @include inline-block;
+    @include size(16px, 16px);
+    background: #FCF8E3;
+    border: #DDDDDD solid 1px;
+  }
 }

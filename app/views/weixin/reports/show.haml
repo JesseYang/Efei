@@ -7,7 +7,7 @@
   %span.info= @study_report.info
   .clear-both
 
-.content
+.report-content
   - @study_report.content.each do |e|
     - if e["type"] == "text"
       %p.content-ele= e["value"]

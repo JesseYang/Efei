@@ -1,5 +1,18 @@
 - content_for :app_head do
   = javascript_include_tag "pages/weixin/courses/record-bundle"
   = stylesheet_link_tag "pages/weixin/courses/record-bundle", :media => "all"
+  :javascript
+    window.local_course_id="#{@local_course.id.to_s}"
+
+%h4.course-name-tip= @local_course.name
 
 #calendar
+
+.tip-wrapper
+  %span 日历中
+  %span.green
+  %span 表示当天有学习记录，可点击查看详情。
+  %span.yellow
+  %span 为今天日期。
+  %br
+  %span 到目前为止，本课程自2015年4月至2015年7月有学习记录。

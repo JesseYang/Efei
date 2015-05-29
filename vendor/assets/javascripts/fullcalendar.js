@@ -294,6 +294,7 @@ function matchCellWidths(els) {
 // Returns true if the element is now a scroller, false otherwise.
 // NOTE: this method is best because it takes weird zooming dimensions into account
 function setPotentialScroller(containerEl, height) {
+	/* added by JesseYang
 	containerEl.height(height).addClass('fc-scroller');
 
 	// are scrollbars needed?
@@ -302,6 +303,8 @@ function setPotentialScroller(containerEl, height) {
 	}
 
 	unsetScroller(containerEl); // undo
+	return false;
+	*/
 	return false;
 }
 

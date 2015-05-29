@@ -7,4 +7,4 @@
 %ul
   - @lessons.each_with_index do |l, i|
     %li
-      = link_to lesson_helper(i) + l.name, "javascript:void(0);"
+      = link_to lesson_helper(i) + l.name, weixin_exercise_path(l) + "?local_course_id=" + @local_course.id.to_s + "&index=" + i.to_s

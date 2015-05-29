@@ -45,5 +45,15 @@ class Weixin::CoursesController < Weixin::ApplicationController
   def schedule
     @local_course = LocalCourse.find(params[:id])
     @title = "进度追踪"
+    @lesson_info = @local_course.course.lessons.map do |e|
+      {
+        name: e.name,
+        finished: false
+      }
+    end
+    @lesson_info[0][:finished_at] = "2015.4.3"
+    @lesson_info[0][:finished] = true
+    @lesson_info[1][:finished_at] = "2015.5.2"
+    @lesson_info[1][:finished] = true
   end
 end
