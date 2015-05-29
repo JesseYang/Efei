@@ -2,7 +2,7 @@
 #= require "utility/ajax"
 $ ->
   authorize = (url, api_list) ->
-    $.getJSON "/weixin_js_signature", (retval) ->
+    $.getJSON "/weixin_js_signature?url=" + url, (retval) ->
       if retval.success
         data = retval.data
         wx.config
