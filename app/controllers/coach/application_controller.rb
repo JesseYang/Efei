@@ -29,6 +29,7 @@ class Coach::ApplicationController < ApplicationController
         noncestr: @noncestr,
         timestamp: @timestamp,
         appid: Weixin::APPID,
+        string: string,
         jsapi_ticket: @jsapi_ticket
       }
     }
