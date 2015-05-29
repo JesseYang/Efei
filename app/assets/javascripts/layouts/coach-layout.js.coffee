@@ -1,8 +1,8 @@
 #= require "jweixin-1.0.0"
 #= require "utility/ajax"
 $ ->
-  authorize = (url, api_list) ->
-    $.getJSON "/weixin_js_signature", (retval) ->
+  window.authorize = (api_list) ->
+    $.getJSON "/weixin_js_signature?url=" + window.location.href.split('#')[0], (retval) ->
       if retval.success
         data = retval.data
         wx.config
@@ -14,7 +14,3 @@ $ ->
           jsApiList: api_list # 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       else
         $.page_notification "服务器出错"
-
-
-
-
