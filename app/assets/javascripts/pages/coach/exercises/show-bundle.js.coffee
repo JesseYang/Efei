@@ -2,7 +2,7 @@
 #= require "utility/ajax"
 #= require "layouts/coach-layout"
 $ ->
-  authorize(["chooseImage", "previewImage", "startRecord", "stopRecord", "translateVoice"])
+  authorize(["chooseImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
 
   $(".photo").click ->
     wx.chooseImage
@@ -19,7 +19,15 @@ $ ->
 
   $(".translate").click ->
     wx.translateVoice
-      localId: window.localId, # 需要识别的音频的本地Id，由录音相关接口获得
-      isShowProgressTips: 1, # 默认为1，显示进度提示
+      localId: window.localId # 需要识别的音频的本地Id，由录音相关接口获得
+      isShowProgressTips: 1 # 默认为1，显示进度提示
       success: (res) ->
         alert(res.translateResult); # 语音识别的结果
+
+  $(".qrcode").click ->
+    wx.scanQRCode
+      needResult: 1 # 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+      scanType: ["qrCode","barCode"] # 可以指定扫二维码还是一维码，默认二者都有
+      success: (res) ->
+        result = res.resultStr # 当needResult 为 1 时，扫码返回的结果
+        alert(result)
