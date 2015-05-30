@@ -6,7 +6,7 @@ class Weixin::ExercisesController < Weixin::ApplicationController
     @lesson = Lesson.find(params[:id])
     @index = params[:index].to_i
 
-    @return_path = exercise_weixin_course_path(@local_course)
+    # @return_path = exercise_weixin_course_path(@local_course)
     @title = "练习反馈"
 
     @question_index = params[:q_index].to_i || 0

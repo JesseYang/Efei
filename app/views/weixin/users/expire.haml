@@ -2,9 +2,9 @@
   = javascript_include_tag "pages/weixin/users/expire-bundle"
   = stylesheet_link_tag "pages/weixin/users/expire-bundle", :media => "all"
 
-
-.info
-  %span 授权已过期，请点击
-  = link_to "这里", "javascript:void(0);", { class: "close-page" }
-  %span 关闭页面重新进入
+- content_for :app_content do
+  .info
+    %span 授权已过期，请点击
+    = link_to "这里", "javascript:void(0);", { class: "close-page" }
+    %span 关闭页面重新进入
 

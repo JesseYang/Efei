@@ -1,11 +1,13 @@
 # encoding: utf-8
 class Weixin::UsersController < Weixin::ApplicationController
+  layout :resolve_layout
   skip_before_filter :weixin_init, :only => [:pre_bind, :bind, :expire, :post_bind]
 
   def pre_bind
   end
 
   def bind_info
+    @title = "帐号绑定"
   end
 
   def expire
@@ -44,5 +46,13 @@ class Weixin::UsersController < Weixin::ApplicationController
   def unbind
     @weixin_bind = WeixinBind.where(id: params[:id]).first
     @weixin_bind.destroy if @weixin_bind.present?
+  end
+
+  def resolve_layout
+    if %w{expire pre_bind} .include? action_name
+      "layouts/application"
+    else
+      "layouts/weixin"
+    end
   end
 end
