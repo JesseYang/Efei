@@ -132,7 +132,7 @@ class Weixin
             {
               "type" => "view", 
               "name" => "我的课程", 
-              "url" => "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx70147c2214d04e30&redirect_uri=http%3A%2F%2Fefei.org%2Fweixin%2Fcourses&response_type=code&scope=snsapi_base#wechat_redirect"
+              "url" => "http://efei.org/weixin/courses/redirect"
             },
             {
               "type" => "click", 
@@ -159,9 +159,8 @@ class Weixin
       ]
     }
 
-    response = Weixin.post("/menu/create?access_token=#{self.get_access_token}",
+    response = Weixin.post("/cgi-bin/menu/create?access_token=#{self.get_access_token}",
       :body => data.to_json)
-    binding.pry
     return response.body
   end
 

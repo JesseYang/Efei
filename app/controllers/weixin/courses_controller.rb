@@ -1,5 +1,10 @@
 # encoding: utf-8
 class Weixin::CoursesController < Weixin::ApplicationController
+  skip_before_filter :weixin_init, only: :redirect
+
+  def redirect
+    redirect_to Weixin.generate_authorize_link(Rails.application.config.server_host + "/weixin/courses") and return
+  end
 
   def index
     @current = (params[:current] || 1).to_i

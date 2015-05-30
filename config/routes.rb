@@ -73,6 +73,9 @@ Rails.application.routes.draw do
         get :report
         get :schedule
       end
+      collection do
+        get :redirect
+      end
     end
   end
 
