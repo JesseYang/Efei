@@ -1,6 +1,5 @@
 #= require "jweixin-1.0.0"
 #= require "utility/ajax"
-#= require "layouts/coach-layout"
 $ ->
   weixin_jsapi_authorize(["chooseImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
 
