@@ -5,7 +5,11 @@ class Coach::ApplicationController < ApplicationController
   before_filter :coach_init
 
   def coach_init
-  	@current_user = User.where(coach: true).first
+    if params[:code].present?
+      # may come from weixin authorize, try to get the weixin user id
+    else
+      @current_user = User.where(coach: true).first
+    end
   end
 
   def render_with_auth_key(value = nil)
@@ -13,26 +17,5 @@ class Coach::ApplicationController < ApplicationController
     value[:success] = true if value[:success].nil?
     value[:auth_key] = current_user.generate_auth_key if current_user.present?
     render json: value
-  end
-
-  def signature
-    @jsapi_ticket = Weixin.get_jsapi_ticket
-    @noncestr = rand(36**10).to_s 36
-    @timestamp = Time.now.to_i
-    @url = params[:url]
-    string = "jsapi_ticket=#{@jsapi_ticket}&noncestr=#{@noncestr}&timestamp=#{@timestamp}&url=#{@url}"
-    @signature = Digest::SHA1.hexdigest(string)
-    retval = {
-      success: true,
-      data: {
-        signature: @signature,
-        noncestr: @noncestr,
-        timestamp: @timestamp,
-        appid: Weixin::APPID,
-        string: string,
-        jsapi_ticket: @jsapi_ticket
-      }
-    }
-    render json: retval and return
   end
 end

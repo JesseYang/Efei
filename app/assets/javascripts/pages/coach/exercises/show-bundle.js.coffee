@@ -2,7 +2,7 @@
 #= require "utility/ajax"
 #= require "layouts/coach-layout"
 $ ->
-  authorize(["chooseImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
+  weixin_jsapi_authorize(["chooseImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
 
   $(".photo").click ->
     wx.chooseImage

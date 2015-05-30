@@ -1,0 +1,12 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/weixin/users/pre_bind-bundle"
+  = stylesheet_link_tag "pages/weixin/users/pre_bind-bundle", :media => "all"
+
+%p 请输入学员号完成和微信帐号的绑定
+= form_tag(bind_weixin_user_path, id: "bind-weixin-form", method: "post", multipart: true) do
+  %fieldset
+    .form-group
+      = label_tag :student_number, "学员号"
+      = text_field_tag :student_number, "", :autofocus => true, class: "form-control"
+    .content
+    = submit_tag "绑定", class: "btn btn-primary bind-btn"

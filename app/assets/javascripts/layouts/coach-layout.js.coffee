@@ -1,7 +1,7 @@
 #= require "jweixin-1.0.0"
 #= require "utility/ajax"
 $ ->
-  window.authorize = (api_list) ->
+  window.weixin_jsapi_authorize = (api_list) ->
     $.getJSON "/weixin_js_signature?url=" + window.location.href.split('#')[0], (retval) ->
       if retval.success
         data = retval.data

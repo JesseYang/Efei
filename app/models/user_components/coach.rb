@@ -9,6 +9,8 @@ module UserComponents::Coach
     has_many :coach_answers, class_name: "Answer", inverse_of: :coach
     has_many :study_reports, class_name: "StudyReport", inverse_of: :coach
 
+    has_many :coach_weixin_bind, class_name: "WeixinBind", inverse_of: :coach
+
   end
 
   module ClassMethods

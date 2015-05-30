@@ -10,6 +10,7 @@ module UserComponents::Student
     field :city, type: String, default: ""
     field :school, type: String, default: ""
     field :grade, type: String, default: ""
+    field :student_number, type: String, default: ""
     has_many :notes
     has_and_belongs_to_many :student_local_courses, class_name: "LocalCourse", inverse_of: :students
     has_many :student_answers, class_name: "Answer", inverse_of: :student
@@ -19,6 +20,8 @@ module UserComponents::Student
 
     has_many :learn_logs, class_name: "LearnLog", inverse_of: :student
     has_many :action_logs, class_name: "LearnLog", inverse_of: :student
+
+    has_many :student_weixin_binds, class_name: "WeixinBind", inverse_of: :student
   end
 
   module ClassMethods

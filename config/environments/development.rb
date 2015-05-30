@@ -36,7 +36,8 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # host name
-  config.server_host = "http://dev.efei.org"
+  # config.server_host = "http://dev.efei.org"
+  config.server_host = "http://efei.org"
 
   # student portal url
   config.student_portal_url = "http://dev.efei.org/login"
