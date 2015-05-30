@@ -1,9 +1,11 @@
 class Weixin::ApplicationController < ApplicationController
   layout 'layouts/weixin'
 
+  skip_before_filter :init
   before_filter :weixin_init
 
   def weixin_init
+    Rails.logger.info "AAAAAAAAAAAAAAAAAAAA"
     if params[:code].present?
       # may come from weixin authorize, try to get the weixin user id
       @open_id = Weixin.get_oauth_open_id(params[:code])
@@ -23,6 +25,7 @@ class Weixin::ApplicationController < ApplicationController
         redirect_to controller: "weixin/users", action: :pre_bind and return
       end
     else
+      Rails.logger.info "BBBBBBBBBBBBBBBBBBBBB"
       # try to find user by open id in cookie
       @open_id = cookies[:student_open_id]
       @weixin_bind = WeixinBind.find_student_by_open_id(@open_id)
@@ -35,8 +38,6 @@ class Weixin::ApplicationController < ApplicationController
         # ask the user to quit
         redirect_to controller: "weixin/users", action: :expire and return
       end
-
-      # @current_user = User.where(email: 'zhangsan@test.com').first
     end
   end
 
