@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Weixin::UsersController < Weixin::ApplicationController
-  skip_before_filter :weixin_init, :only => [:pre_bind, :bind, :expire]
+  skip_before_filter :weixin_init, :only => [:pre_bind, :bind, :expire, :post_bind]
 
   def pre_bind
   end

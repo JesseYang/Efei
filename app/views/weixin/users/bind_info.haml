@@ -8,12 +8,10 @@
   %span= @weixin_bind.nickname
   %br
   %span 学员姓名及学员号：
-  %span= @student.name + "(#{@student.student_number})"
+  %span= @current_user.name + "(#{@current_user.student_number})"
   = link_to "我的课程页", weixin_courses_path
-  = form_tag(unbind_weixin_user_path, id: "bind-weixin-form", method: "post", multipart: true) do
+  = form_tag(unbind_weixin_user_path(@weixin_bind), id: "bind-weixin-form", method: "post", multipart: true) do
     %fieldset
-      .form-group.hide
-        = text_field_tag :weixin_bind_id, @weixin_bind.id.to_s, :autofocus => true, class: "form-control"
       .content
       = submit_tag "解除绑定", class: "btn btn-primary unbind-btn"
 

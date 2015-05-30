@@ -3,7 +3,7 @@
   = stylesheet_link_tag "pages/weixin/users/pre_bind-bundle", :media => "all"
 
 %p 请输入学员号完成和微信帐号的绑定
-= form_tag(bind_weixin_user_path, id: "bind-weixin-form", method: "post", multipart: true) do
+= form_tag(bind_weixin_users_path, id: "bind-weixin-form", method: "post", multipart: true) do
   %fieldset
     .form-group
       = label_tag :student_number, "学员号"

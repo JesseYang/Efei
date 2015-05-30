@@ -11,7 +11,7 @@
       %a.left.return-link{href: @return_path || weixin_courses_path}
         %i.icon.return
     %h1#title= @title
-    %a.right.user-link{href: "javascript:void(0);"}
+    %a.right.user-link{href: bind_info_weixin_users_path}
       %i.icon.user
 - content_for :app_content do
   = yield
