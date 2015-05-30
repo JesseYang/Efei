@@ -79,8 +79,6 @@ class Weixin
   end
 
   def self.update_menu
-    url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN"
-
     data = {
       "button" => [
         {
@@ -134,7 +132,7 @@ class Weixin
             {
               "type" => "view", 
               "name" => "我的课程", 
-              "url" => "http://www.baidu.com"
+              "url" => "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx70147c2214d04e30&redirect_uri=http%3A%2F%2Fefei.org%2Fweixin%2Fcourses&response_type=code&scope=snsapi_base#wechat_redirect"
             },
             {
               "type" => "click", 
