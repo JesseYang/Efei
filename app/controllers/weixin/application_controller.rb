@@ -33,10 +33,11 @@ class Weixin::ApplicationController < ApplicationController
         @current_user = nil
         cookies.delete(:student_open_id, :domain => :all)
         # ask the user to quit
-        render controller: "weixin/users", action: :show and return
+        redirect_to controller: "weixin/users", action: :expires and return
       end
 
       # @current_user = User.where(email: 'zhangsan@test.com').first
+    end
   end
 
   def render_with_auth_key(value = nil)
