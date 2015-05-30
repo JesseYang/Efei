@@ -5,7 +5,11 @@ class Weixin::UsersController < Weixin::ApplicationController
   def pre_bind
   end
 
-  def show
+  def bind_info
+  end
+
+  def expire
+    
   end
 
   def bind
@@ -34,7 +38,7 @@ class Weixin::UsersController < Weixin::ApplicationController
       :expires => 24.months.from_now,
       :domain => :all
     }
-    redirect_to action: :show and return
+    redirect_to action: :bind_info and return
   end
 
   def unbind

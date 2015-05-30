@@ -33,7 +33,7 @@ class Weixin::ApplicationController < ApplicationController
         @current_user = nil
         cookies.delete(:student_open_id, :domain => :all)
         # ask the user to quit
-        redirect_to controller: "weixin/users", action: :expires and return
+        redirect_to controller: "weixin/users", action: :expire and return
       end
 
       # @current_user = User.where(email: 'zhangsan@test.com').first

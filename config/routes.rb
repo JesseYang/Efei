@@ -51,6 +51,8 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         get :pre_bind
+        get :expire
+        get :bind_info
       end
       member do
         post :bind
