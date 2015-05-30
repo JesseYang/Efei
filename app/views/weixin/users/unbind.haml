@@ -2,7 +2,8 @@
   = javascript_include_tag "pages/weixin/users/unbind-bundle"
   = stylesheet_link_tag "pages/weixin/users/unbind-bundle", :media => "all"
 
-
-%span 绑定已解除，请点击
-= link_to "这里", "javascript:void(0);", { class: "close-page" }
-%span 关闭页面
+- content_for :app_content do
+  .info
+    %span 绑定已解除，请点击
+    = link_to "这里", "javascript:void(0);", { class: "close-page" }
+    %span 关闭页面

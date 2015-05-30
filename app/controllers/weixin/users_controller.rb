@@ -49,7 +49,7 @@ class Weixin::UsersController < Weixin::ApplicationController
   end
 
   def resolve_layout
-    if %w{expire pre_bind} .include? action_name
+    if %w{expire pre_bind unbind} .include? action_name
       "layouts/application"
     else
       "layouts/weixin"
