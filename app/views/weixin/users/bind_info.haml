@@ -5,10 +5,10 @@
 / show the bind info and allow the user to unbind
 .info
   %p
-    %span= "您的微信（#{@weixin_bind.nickname}）易飞学堂帐号（#{@current_user.name}，学号#{@current_user.student_number}）绑定。点击"
+    %span= "您的微信（#{@weixin_bind.nickname}）已与易飞学堂帐号（#{@current_user.name}，学号#{@current_user.student_number}）绑定。点击"
     = link_to "这里", weixin_courses_path
     %span= "访问我的课程页"
   = form_tag(unbind_weixin_user_path(@weixin_bind), id: "bind-weixin-form", method: "post", multipart: true) do
     %fieldset
-      = submit_tag "解除绑定", class: "btn btn-danger btn-primary unbind-btn"
+      = submit_tag "解除绑定", class: "btn btn-danger btn-primary unbind-btn form-control"
 
