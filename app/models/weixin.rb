@@ -72,9 +72,6 @@ class Weixin
 
     url = "/sns/userinfo?access_token=#{response["access_token"]}&openid=#{response["openid"]}&lang=zh_CN"
     response = Weixin.get(url)
-    Rails.logger.info "AAAAAAAAAAAAAAAA"
-    Rails.logger.info response.inspect
-    Rails.logger.info "AAAAAAAAAAAAAAAA"
     {
       open_id: open_id,
       nickname: response["nickname"]
