@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       end
       member do
         post :unbind
+        get :post_bind
       end
     end
     resources :exercises do
