@@ -10,5 +10,5 @@
     %span= "访问我的课程页"
   = form_tag(unbind_weixin_user_path(@weixin_bind), id: "bind-weixin-form", method: "post", multipart: true) do
     %fieldset
-      = submit_tag "解除绑定", class: "btn btn-primary unbind-btn"
+      = submit_tag "解除绑定", class: "btn btn-danger btn-primary unbind-btn"
 
