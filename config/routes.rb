@@ -53,9 +53,9 @@ Rails.application.routes.draw do
         get :pre_bind
         get :expire
         get :bind_info
+        post :bind
       end
       member do
-        post :bind
         post :unbind
       end
     end
