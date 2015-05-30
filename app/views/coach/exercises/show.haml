@@ -2,6 +2,29 @@
   = javascript_include_tag "pages/coach/exercises/show-bundle"
   = stylesheet_link_tag "pages/coach/exercises/show-bundle", :media => "all"
 
+.header
+  %h4.course-name-tip= @local_course.name + " 练习反馈"
+  %span.info= lesson_helper(@index) + @lesson.name.my_trim(6)
+  .paginator-part
+    = link_to_if @question_index > 0, "<<", weixin_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&q_index=0"
+    = link_to_if @question_index > 0, "上一题", weixin_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&q_index=" + (@question_index - 1).to_s
+    %span= "#{@question_index + 1}/#{@question_number}"
+    = link_to_if @question_index < @question_number - 1, "下一题", weixin_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&q_index=" + (@question_index + 1).to_s
+    = link_to_if @question_index < @question_number - 1, ">>", weixin_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&q_index=#{@question_number - 1}"
+  .clear-both
+
+.question-content-div.content-block
+  .question-content
+    = render :partial => "partials/question_content", locals: { content: @question.content, image_path: @question.image_path }
+  - if @question.type == "choice"
+    .question-items{data: {"question-answer" => @question.answer}}
+      %table.line1
+        - @question.items.each_with_index do |item, index|
+          %tr
+            %td
+              %label= d2c(index) + ". "
+              %span.item-content= item.render_question(@question.image_path).html_safe
+
 = link_to "TAKE A PHOTO", "javascript:void(0);", { class: "photo" }
 %br
 = link_to "START", "javascript:void(0);", { class: "start" }

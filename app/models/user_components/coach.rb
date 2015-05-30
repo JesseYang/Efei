@@ -15,4 +15,12 @@ module UserComponents::Coach
 
   module ClassMethods
   end
+
+  def current_students
+    # those courses are not stopeed or has stopped within 10 days, are current courses
+    current_local_courses = self.local_courses.select do |lc|
+      lc.course.end_at > Time.now.to_i - 10.days.to_i
+    end
+    students = current_local_courses.map { |e| e.students } .flatten .uniq
+  end
 end

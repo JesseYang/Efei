@@ -19,9 +19,9 @@ body {
   float: left;
 }
 
-#weixin-navbar {
+#coach-navbar {
   text-align: center;
-  background-color: $weixin-bg;
+  background-color: $coach-bg;
   height: 50px;
   .icon {
     @include size(24px, 24px);
@@ -30,11 +30,6 @@ body {
   a {
     text-decoration: none;
     color: black;
-    .filter {
-      margin-top: 13px;
-      margin-left: 13px;
-      @include weixin-sprite(filter24);
-    }
     .user {
       margin-top: 13px;
       margin-right: 13px;

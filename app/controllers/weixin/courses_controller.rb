@@ -14,7 +14,7 @@ class Weixin::CoursesController < Weixin::ApplicationController
       @title += "（#{Subject::NAME[@subject]}）"
     end
 
-    @local_courses = current_user.student_local_courses
+    @local_courses = @current_user.student_local_courses
 
     if @current == 1
       # filter current courses

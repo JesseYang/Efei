@@ -5,6 +5,11 @@ class Weixin::ApplicationController < ApplicationController
   before_filter :weixin_init
 
   def weixin_init
+    ##### for test in local server #####
+    @current_user = User.where(email: 'zhangsan@test.com').first
+    return
+    ####################################
+
     if params[:code].present?
       # may come from weixin authorize, try to get the weixin user id
       @open_id = Weixin.get_oauth_open_id(params[:code])

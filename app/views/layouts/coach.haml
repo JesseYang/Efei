@@ -2,6 +2,13 @@
   = stylesheet_link_tag "layouts/coach-layout", :media => "all"
   = javascript_include_tag "layouts/coach-layout"
   = yield :head
+- content_for :app_nav do
+  #coach-navbar
+    %a.left.return-link{href: request.referrer}
+      %i.icon.return
+    %h1#title= @title
+    %a.right.user-link{href: "javascript:void(0);"}
+      %i.icon.user
 - content_for :app_content do
   = yield
 

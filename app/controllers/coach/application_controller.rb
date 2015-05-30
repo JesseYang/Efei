@@ -5,11 +5,7 @@ class Coach::ApplicationController < ApplicationController
   before_filter :coach_init
 
   def coach_init
-    if params[:code].present?
-      # may come from weixin authorize, try to get the weixin user id
-    else
-      @current_user = User.where(coach: true).first
-    end
+    @current_user = User.where(coach: true).first
   end
 
   def render_with_auth_key(value = nil)

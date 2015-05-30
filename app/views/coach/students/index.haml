@@ -2,5 +2,9 @@
   = javascript_include_tag "pages/coach/students/index-bundle"
   = stylesheet_link_tag "pages/coach/students/index-bundle", :media => "all"
 
+%h4= "您当前共#{@students.length}位学生"
 
-%p FIND ME AT /COACH/STUDENTS/INDEX.HAML
+%ul
+  - @students.each do |s|
+    %li
+      = link_to s.name + "（#{s.student_number}）", coach_student_path(s)
