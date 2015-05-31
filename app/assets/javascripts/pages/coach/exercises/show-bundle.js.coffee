@@ -1,7 +1,7 @@
 #= require "jweixin-1.0.0"
 #= require "utility/ajax"
 $ ->
-  weixin_jsapi_authorize(["chooseImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
+  weixin_jsapi_authorize(["chooseImage", "uploadImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
 
   $(".answer-item-ul a").click ->
     $(this).closest(".answer-item-ul").find("i").removeClass("selected")
@@ -13,7 +13,13 @@ $ ->
         localIds = res.localIds
         $(".student-answer-content img").attr("src", localIds)
 
-
+  $(".save-btn").click ->
+    wx.uploadImage
+      localId: $(".student-answer-content img").attr("src") # 需要上传的图片的本地ID，由chooseImage接口获得
+      isShowProgressTips: 1 # 默认为1，显示进度提示
+      success: (res) ->
+        serverId = res.serverId # 返回图片的服务器端ID
+        alert(serverId)
 
 
   $(".photo").click ->

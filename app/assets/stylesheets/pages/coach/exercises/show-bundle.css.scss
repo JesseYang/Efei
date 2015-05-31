@@ -73,3 +73,11 @@ h4 {
   @include size(32px, 32px);
   @include inline-block;
 }
+
+.student-answer-content {
+  img {
+    width: 80vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
+  }
+}

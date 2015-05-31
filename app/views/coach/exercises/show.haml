@@ -26,10 +26,14 @@
             %span.item-content= item.render_question(@question.image_path).html_safe
 
 .student-answer-content
+  %h4 学生解析：
   %img.student-answer-content-img
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-answer-content-photo" }
 
 .coach-comment
+
+.save-wrapper
+  = link_to "保存", "javascript:void(0)", { class: "save-btn btn btn-warning" }
 
 = link_to "TAKE A PHOTO", "javascript:void(0);", { class: "photo" }
 %br
