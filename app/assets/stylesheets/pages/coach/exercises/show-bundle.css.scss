@@ -13,11 +13,16 @@
   color: red;
 }
 
+.btn-group {
+  margin: 10px 3vw;
+}
+
 .student-answer-content {
   border-bottom: #CCC solid 1px;
   h4, a {
     margin-left: 3vw;
   }
+
 }
 
 .coach-comment {
@@ -35,8 +40,7 @@
 }
 
 .save-wrapper {
-  margin-top: 10px;
-  margin-left: 3vw;
+  margin: 10px 3vw;
 }
 
 h4 {

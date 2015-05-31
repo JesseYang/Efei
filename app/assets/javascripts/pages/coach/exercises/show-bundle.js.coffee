@@ -13,6 +13,7 @@ $ ->
       success: (res) ->
         localIds = res.localIds
         $(".student-answer-content img").attr("src", localIds)
+        $(".student-answer-content .btn-group").removeClass("hide")
 
   $(".get-coach-comment-photo").click ->
     wx.chooseImage
@@ -56,6 +57,21 @@ $ ->
         alert(serverId)
 
 
+  $(".student-answer-content .delete").click ->
+    $(".student-answer-content img").attr("src", "")
+    $(".student-answer-content .btn-group").addClass("hide")
+
+  $(".student-answer-content .turn").click ->
+    $(".student-answer-content .turn").removeClass("btn-primary")
+    $(this).addClass("btn-primary")
+
+  $(".coach-comment .delete").click ->
+    $(".coach-comment img").attr("src", "")
+    $(".coach-comment .btn-group").addClass("hide")
+
+  $(".coach-comment .turn").click ->
+    $(".coach-comment .turn").removeClass("btn-primary")
+    $(this).addClass("btn-primary")
 
 
   $(".photo").click ->

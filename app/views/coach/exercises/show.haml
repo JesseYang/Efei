@@ -29,6 +29,11 @@
   %h4 学生解析：
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-answer-content-photo" }
   %img.student-answer-content-img
+  .btn-group.hide
+    %button.btn.btn-default.turn.turn-left 左转90度
+    %button.btn.btn-default.turn.turn-over 旋转180度
+    %button.btn.btn-default.turn.turn-right 右转90度
+    %button.btn.btn-default.delete 删除
 
 .coach-comment
   %h4 教师评语：
@@ -36,6 +41,12 @@
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-coach-comment-photo" }
   = text_area_tag "comment", "", {class: "coach-comment-area"}
   %img.coach-comment-img
+  .btn-group.hide
+    %button.btn.btn-default.turn.turn-left 左转90度
+    %button.btn.btn-default.turn.turn-over 旋转180度
+    %button.btn.btn-default.turn.turn-right 右转90度
+    %button.btn.btn-default.delete 删除
+
 
 .save-wrapper
   = link_to "保存", "javascript:void(0)", { class: "save-btn btn btn-warning" }
