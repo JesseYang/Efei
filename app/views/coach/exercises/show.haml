@@ -18,12 +18,18 @@
     = render :partial => "partials/question_content", locals: { content: @question.content, image_path: @question.image_path }
   - if @question.type == "choice"
     .question-items{data: {"question-answer" => @question.answer}}
-      %table.line1
+      %ul.answer-item-ul
         - @question.items.each_with_index do |item, index|
-          %tr
-            %td
-              %label= d2c(index) + ". "
-              %span.item-content= item.render_question(@question.image_path).html_safe
+          %li
+            %a{class: d2c(index) + "-link", href: "javascript:void(0);"}
+              %i.icon{class: d2c(index)}
+            %span.item-content= item.render_question(@question.image_path).html_safe
+
+.student-answer-content
+  %img.student-answer-content-img
+  = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-answer-content-photo" }
+
+.coach-comment
 
 = link_to "TAKE A PHOTO", "javascript:void(0);", { class: "photo" }
 %br

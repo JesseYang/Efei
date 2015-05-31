@@ -3,6 +3,19 @@
 $ ->
   weixin_jsapi_authorize(["chooseImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
 
+  $(".answer-item-ul a").click ->
+    $(this).closest(".answer-item-ul").find("i").removeClass("selected")
+    $(this).find("i").addClass("selected")
+
+  $(".get-answer-content-photo").click ->
+    wx.chooseImage
+      success: (res) ->
+        localIds = res.localIds
+        $(".student-answer-content img").attr("src", localIds)
+
+
+
+
   $(".photo").click ->
     wx.chooseImage
       success: (res) ->

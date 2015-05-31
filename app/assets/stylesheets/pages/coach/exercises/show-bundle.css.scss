@@ -3,6 +3,7 @@
 @import "compass/css3/border-radius";
 @import "compass/utilities/general/clearfix";
 @import 'icons/weixin/*.png';
+@import 'icons/coach/*.png';
 
 .header {
   border-bottom: #CCC solid 1px;
@@ -31,3 +32,44 @@ h4 {
   border-bottom: #CCC solid 1px;
 }
 
+
+.question-content {
+  font-size: 18px;
+}
+
+.answer-item-ul {
+  padding-left: 0px;
+  list-style-type: none;
+  a {
+    text-decoration: none;
+    .A {
+      @include coach-sprite(A32);
+      &.selected {
+        @include coach-sprite(A_select32);
+      }
+    }
+    .B {
+      @include coach-sprite(B32);
+      &.selected {
+        @include coach-sprite(B_select32);
+      }
+    }
+    .C {
+      @include coach-sprite(C32);
+      &.selected {
+        @include coach-sprite(C_select32);
+      }
+    }
+    .D {
+      @include coach-sprite(D32);
+      &.selected {
+        @include coach-sprite(D_select32);
+      }
+    }
+  }
+}
+
+.icon {
+  @include size(32px, 32px);
+  @include inline-block;
+}
