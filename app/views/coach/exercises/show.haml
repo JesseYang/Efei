@@ -28,7 +28,7 @@
 .student-answer-content
   %h4 学生解析：
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-answer-content-photo" }
-  %img
+  %img.hide
   .btn-group.hide
     %button.btn.btn-default.turn.turn-left 左转90度
     %button.btn.btn-default.turn.turn-over 旋转180度
@@ -40,7 +40,7 @@
   = link_to "语音输入", "javascript:void(0);", { class: "get-coach-comment-voice" }
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-coach-comment-photo" }
   = text_area_tag "comment", "", {class: "coach-comment-area"}
-  %img
+  %img.hide
   .btn-group.hide
     %button.btn.btn-default.turn.turn-left 左转90度
     %button.btn.btn-default.turn.turn-over 旋转180度

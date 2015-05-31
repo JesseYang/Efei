@@ -13,6 +13,7 @@ $ ->
       success: (res) ->
         localIds = res.localIds
         $(".student-answer-content img").attr("src", localIds)
+        $(".student-answer-content img").removeClass("hide")
         $(".student-answer-content .btn-group").removeClass("hide")
 
   $(".get-coach-comment-photo").click ->
@@ -20,6 +21,7 @@ $ ->
       success: (res) ->
         localIds = res.localIds
         $(".coach-comment img").attr("src", localIds)
+        $(".coach-comment img").removeClass("hide")
         $(".coach-comment .btn-group").removeClass("hide")
 
   $(".get-coach-comment-voice").click ->
@@ -59,8 +61,7 @@ $ ->
 
 
   $(".student-answer-content .delete").click ->
-    $(".student-answer-content img").hide()
-    $("<img>").insertAfter($(".student-answer-content .get-answer-content-photo"))
+    $(".student-answer-content img").addClass("hide")
     $(".student-answer-content .btn-group").addClass("hide")
 
   $(".student-answer-content .turn").click ->
@@ -68,8 +69,7 @@ $ ->
     $(this).addClass("btn-primary")
 
   $(".coach-comment .delete").click ->
-    $(".coach-comment img").remove()
-    $("<img>").insertAfter($(".coach-comment .coach-comment-area"))
+    $(".coach-comment img").addClass("hide")
     $(".coach-comment img").attr("src", "")
     $(".coach-comment .btn-group").addClass("hide")
 
