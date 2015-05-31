@@ -28,7 +28,8 @@
 .student-answer-content
   %h4 学生解析：
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-answer-content-photo" }
-  %img.student-answer-content-img
+  .image-wrapper
+    %img.student-answer-content-img
 
 .coach-comment
   %h4 教师评语：
@@ -67,4 +68,3 @@
       .modal-footer
         %a#start-btn.btn.btn-primary{href: "javascript:void(0);", "aria-hidden" => "true"} 开始
         %a#stop-btn.btn.btn-primary{href: "javascript:void(0);", "aria-hidden" => "true", disabled: true} 结束
-        %a.btn.btn-default{href: "javascript:void(0);", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消

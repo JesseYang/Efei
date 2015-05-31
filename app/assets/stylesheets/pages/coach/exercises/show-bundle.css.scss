@@ -15,10 +15,16 @@
 
 .student-answer-content {
   border-bottom: #CCC solid 1px;
+  h4, a {
+    margin-left: 3vw;
+  }
 }
 
 .coach-comment {
   border-bottom: #CCC solid 1px;
+  h4, a{
+    margin-left: 3vw;
+  }
   .coach-comment-area {
     display: block;
     width: 90vw;
@@ -30,6 +36,7 @@
 
 .save-wrapper {
   margin-top: 10px;
+  margin-left: 3vw;
 }
 
 h4 {
@@ -98,10 +105,13 @@ h4 {
 }
 
 .student-answer-content {
-  img {
+  .image-wrapper {
     width: 80vw;
     margin-left: 10vw;
     margin-right: 10vw;
+    img {
+      width: 100%;
+    }
   }
 }
 

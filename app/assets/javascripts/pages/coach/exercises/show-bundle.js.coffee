@@ -1,5 +1,6 @@
 #= require "jweixin-1.0.0"
 #= require "utility/ajax"
+#= require 'jQueryRotate'
 $ ->
   weixin_jsapi_authorize(["chooseImage", "uploadImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
 
@@ -53,6 +54,14 @@ $ ->
         serverId = res.serverId # 返回图片的服务器端ID
         $(".server-id").html(serverId)
         alert(serverId)
+
+  $("img").click ->
+    $(this).rotate(90)
+
+
+
+
+
 
 
   $(".photo").click ->
