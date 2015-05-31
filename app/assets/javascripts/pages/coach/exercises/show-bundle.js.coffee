@@ -20,18 +20,30 @@ $ ->
         $(".coach-comment img").attr("src", localIds)
 
   $(".get-coach-comment-voice").click ->
-    wx.startRecord()
     $("#voiceInput").modal("show")
 
-  $("#voiceInput #over-btn").click ->
+  $("#voiceInput #start-btn").click ->
+    wx.startRecord()
+    $("#voiceInput #start-btn").attr("disabled", true)
+    $("#voiceInput #stop-btn").attr("disabled", false)
+    $(".record-tip").removeClass("hide")
+
+  $("#voiceInput #stop-btn").click ->
+    $("#voiceInput #start-btn").attr("disabled", false)
+    $("#voiceInput #stop-btn").attr("disabled", true)
+    window.replace = $("#voiceInput #replace_current").prop("checked")
     $("#voiceInput").modal("hide")
+    $(".record-tip").addClass("hide")
     wx.stopRecord
       success: (res) ->
         wx.translateVoice
           localId: res.localId
           isShowProgressTips: 1
           success: (res) ->
-            $(".coach-comment-area").text(res.translateResult)
+            if window.replace
+              $(".coach-comment-area").text(res.translateResult)
+            else
+              $(".coach-comment-area").text($(".coach-comment-area").text() + res.translateResult)
 
   $(".save-btn").click ->
     wx.uploadImage

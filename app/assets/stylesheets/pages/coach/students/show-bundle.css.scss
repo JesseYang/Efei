@@ -35,8 +35,11 @@
     }
   }
   .right-icon {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    border-bottom: #E5E5E5 solid 1px;
     height: 100%;
-    float: right;
     a {
       text-decoration: none;
       padding-top: 28px;

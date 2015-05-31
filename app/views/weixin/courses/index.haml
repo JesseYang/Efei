@@ -12,7 +12,7 @@
         .upper
           .course-subject-wrapper
             %span.course-subject= Subject::NAME[lc.subject]
-          %span.course-name= lc.name
+          %span.course-name= lc.name.my_trim(8)
         .lower
           %span.course-teacher= "授课：" + lc.teacher_name
           %span.course-coach= "教师：" + lc.coach_name

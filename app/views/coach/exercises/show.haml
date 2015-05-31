@@ -32,7 +32,7 @@
 
 .coach-comment
   %h4 教师评语：
-  = link_to "语音输入：", "javascript:void(0);", { class: "get-coach-comment-voice" }
+  = link_to "语音输入", "javascript:void(0);", { class: "get-coach-comment-voice" }
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-coach-comment-photo" }
   = text_area_tag "comment", "", {class: "coach-comment-area"}
   %img.coach-comment-img
@@ -40,15 +40,15 @@
 .save-wrapper
   = link_to "保存", "javascript:void(0)", { class: "save-btn btn btn-warning" }
 
-= link_to "TAKE A PHOTO", "javascript:void(0);", { class: "photo" }
-%br
-= link_to "START", "javascript:void(0);", { class: "start" }
-%br
-= link_to "STOP", "javascript:void(0);", { class: "stop" }
-%br
-= link_to "TRANSLATE", "javascript:void(0);", { class: "translate" }
-%br
-= link_to "QRCODE", "javascript:void(0);", { class: "qrcode" }
+/ = link_to "TAKE A PHOTO", "javascript:void(0);", { class: "photo" }
+/ %br
+/ = link_to "START", "javascript:void(0);", { class: "start" }
+/ %br
+/ = link_to "STOP", "javascript:void(0);", { class: "stop" }
+/ %br
+/ = link_to "TRANSLATE", "javascript:void(0);", { class: "translate" }
+/ %br
+/ = link_to "QRCODE", "javascript:void(0);", { class: "qrcode" }
 
 #voiceInput.modal.fade
   .modal-dialog
@@ -57,7 +57,14 @@
         .jesse-notification
           %span
         %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-        %h3 正在采集语音输入
+        %h3 采集语音输入
+      .modal-body
+        .checkbox
+          = label_tag :replace_current do
+            = check_box_tag :replace_current, 1, false
+            替换原有内容
+        %span.record-tip.hide 正在录音
       .modal-footer
-        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-        %a#over-btn.btn.btn-primary{href: "#", "aria-hidden" => "true"} 结束
+        %a#start-btn.btn.btn-primary{href: "javascript:void(0);", "aria-hidden" => "true"} 开始
+        %a#stop-btn.btn.btn-primary{href: "javascript:void(0);", "aria-hidden" => "true", disabled: true} 结束
+        %a.btn.btn-default{href: "javascript:void(0);", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
