@@ -201,7 +201,7 @@ class ApplicationController < ActionController::Base
     @jsapi_ticket = Weixin.get_jsapi_ticket
     @noncestr = rand(36**10).to_s 36
     @timestamp = Time.now.to_i
-    @url = params[:url]
+    @url = CGI::unescape(params[:url])
     string = "jsapi_ticket=#{@jsapi_ticket}&noncestr=#{@noncestr}&timestamp=#{@timestamp}&url=#{@url}"
     @signature = Digest::SHA1.hexdigest(string)
     retval = {

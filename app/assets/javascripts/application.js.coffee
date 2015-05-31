@@ -51,7 +51,7 @@ $ ->
   })
 
   window.weixin_jsapi_authorize = (api_list) ->
-    $.getJSON "/weixin_js_signature?url=" + window.location.href.split('#')[0], (retval) ->
+    $.getJSON "/weixin_js_signature?url=" + encodeURIComponent(window.location.href.split('#')[0]), (retval) ->
       if retval.success
         data = retval.data
         wx.config
