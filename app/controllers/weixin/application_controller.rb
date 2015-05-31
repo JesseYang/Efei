@@ -6,7 +6,7 @@ class Weixin::ApplicationController < ApplicationController
 
   def weixin_init
     ##### for test in local server #####
-    @current_user = User.where(email: 'zhangsan@test.com').first
+    @current_user = User.where(email: 'stu@test.com').first
     return
     ####################################
 
