@@ -59,7 +59,7 @@ $ ->
 
 
   $(".student-answer-content .delete").click ->
-    $(".student-answer-content img").remove()
+    $(".student-answer-content img").hide()
     $("<img>").insertAfter($(".student-answer-content .get-answer-content-photo"))
     $(".student-answer-content .btn-group").addClass("hide")
 
