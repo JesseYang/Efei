@@ -55,12 +55,6 @@ $ ->
         $(".server-id").html(serverId)
         alert(serverId)
 
-  $("img").click ->
-    $(this).rotate(90)
-
-
-
-
 
 
 
