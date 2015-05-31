@@ -20,6 +20,7 @@ $ ->
       success: (res) ->
         localIds = res.localIds
         $(".coach-comment img").attr("src", localIds)
+        $(".coach-comment .btn-group").removeClass("hide")
 
   $(".get-coach-comment-voice").click ->
     $("#voiceInput").modal("show")
