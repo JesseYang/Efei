@@ -19,6 +19,7 @@ $ ->
       isShowProgressTips: 1 # 默认为1，显示进度提示
       success: (res) ->
         serverId = res.serverId # 返回图片的服务器端ID
+        $(".server-id").html("aaa")
         alert(serverId)
 
 
