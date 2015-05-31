@@ -13,6 +13,26 @@ $ ->
         localIds = res.localIds
         $(".student-answer-content img").attr("src", localIds)
 
+  $(".get-coach-comment-photo").click ->
+    wx.chooseImage
+      success: (res) ->
+        localIds = res.localIds
+        $(".coach-comment img").attr("src", localIds)
+
+  $(".get-coach-comment-voice").click ->
+    wx.startRecord()
+    $("#voiceInput").modal("show")
+
+  $("#voiceInput #over-btn").click ->
+    $("#voiceInput").modal("hide")
+    wx.stopRecord
+      success: (res) ->
+        wx.translateVoice
+          localId: res.localId
+          isShowProgressTips: 1
+          success: (res) ->
+            $(".coach-comment-area").text(res.translateResult)
+
   $(".save-btn").click ->
     wx.uploadImage
       localId: $(".student-answer-content img").attr("src") # 需要上传的图片的本地ID，由chooseImage接口获得

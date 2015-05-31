@@ -27,11 +27,15 @@
 
 .student-answer-content
   %h4 学生解析：
-  %img.student-answer-content-img
-  %p.server-id
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-answer-content-photo" }
+  %img.student-answer-content-img
 
 .coach-comment
+  %h4 教师评语：
+  = link_to "语音输入：", "javascript:void(0);", { class: "get-coach-comment-voice" }
+  = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-coach-comment-photo" }
+  = text_area_tag "comment", "", {class: "coach-comment-area"}
+  %img.coach-comment-img
 
 .save-wrapper
   = link_to "保存", "javascript:void(0)", { class: "save-btn btn btn-warning" }
@@ -45,3 +49,15 @@
 = link_to "TRANSLATE", "javascript:void(0);", { class: "translate" }
 %br
 = link_to "QRCODE", "javascript:void(0);", { class: "qrcode" }
+
+#voiceInput.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        .jesse-notification
+          %span
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 正在采集语音输入
+      .modal-footer
+        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+        %a#over-btn.btn.btn-primary{href: "#", "aria-hidden" => "true"} 结束
