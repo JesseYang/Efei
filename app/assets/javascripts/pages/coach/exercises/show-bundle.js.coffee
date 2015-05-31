@@ -59,7 +59,8 @@ $ ->
 
 
   $(".student-answer-content .delete").click ->
-    $(".student-answer-content img").attr("src", "")
+    $(".student-answer-content img").remove()
+    $("<img>").insertAfter($(".student-answer-content .get-answer-content-photo"))
     $(".student-answer-content .btn-group").addClass("hide")
 
   $(".student-answer-content .turn").click ->
@@ -67,6 +68,8 @@ $ ->
     $(this).addClass("btn-primary")
 
   $(".coach-comment .delete").click ->
+    $(".coach-comment img").remove()
+    $("<img>").insertAfter($(".coach-comment .coach-comment-area"))
     $(".coach-comment img").attr("src", "")
     $(".coach-comment .btn-group").addClass("hide")
 
