@@ -1,5 +1,6 @@
 # encoding: utf-8
 class Coach::StudentsController < Coach::ApplicationController
+  skip_before_filter :coach_init, only: :redirect
 
   def redirect
     redirect_to Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/students") and return

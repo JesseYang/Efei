@@ -146,7 +146,7 @@ class Weixin
             {
               "type" => "view", 
               "name" => "我的学生", 
-              "key" => "http://efei.org/coach/students/redirect"
+              "url" => "http://efei.org/coach/students/redirect"
             },
 =begin
             {

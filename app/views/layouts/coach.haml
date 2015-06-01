@@ -7,7 +7,7 @@
     %a.left.return-link{href: request.referrer}
       %i.icon.return
     %h1#title= @title
-    %a.right.user-link{href: "javascript:void(0);"}
+    %a.right.user-link{href: bind_info_coach_users_path}
       %i.icon.user
 - content_for :app_content do
   = yield

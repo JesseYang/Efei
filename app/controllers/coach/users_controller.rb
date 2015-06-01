@@ -17,8 +17,8 @@ class Coach::UsersController < Coach::ApplicationController
   def bind
     coach_number = params[:coach_number]
     coach_password = params[:coach_password]
-    c = User.where(coach_number: student_number, :password: Encryption.encrypt_password(coach_password)).first
-    if s.blank?
+    c = User.where(coach_number: coach_number, password: Encryption.encrypt_password(coach_password)).first
+    if c.blank?
       flash[:error] = "员工号或者密码不正确"
       redirect_to action: :pre_bind and return
     end
@@ -27,15 +27,15 @@ class Coach::UsersController < Coach::ApplicationController
   end
 
   def post_bind
-    s = User.where(id: params[:id]).first
-    if s.blank?
+    c = User.where(id: params[:id]).first
+    if c.blank?
       flash[:error] = "员工号或者密码不正确"
       redirect_to action: :bind and return
     end
     # get the weixin open id and user info
     info = Weixin.get_oauth_open_id_and_user_info(params[:code])
     # create the bind
-    WeixinBind.create_coach_bind(s, info)
+    WeixinBind.create_coach_bind(c, info)
     cookies[:coach_open_id] = {
       :value => info[:open_id],
       :expires => 24.months.from_now,

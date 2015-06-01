@@ -6,7 +6,7 @@
 .info
   %p
     %span= "您的微信（#{@weixin_bind.nickname}）已与易飞学堂教师（#{@current_user.name}，员工号#{@current_user.coach_number}）绑定。"
-  = link_to "我的学生", coach_students_path, { class: "btn btn-primary form-control" }
+  = link_to "我的学生", coach_students_path, { class: "btn warning-primary form-control" }
   = form_tag(unbind_coach_user_path(@weixin_bind), id: "bind-weixin-form", method: "post", multipart: true) do
     %fieldset
       = submit_tag "解除绑定", class: "btn btn-danger btn-primary unbind-btn form-control"

@@ -4,6 +4,7 @@ module UserComponents::Coach
 
   included do
     field :coach, type: Boolean, default: false
+    field :coach_number, type: String, default: ""
 
     has_many :local_courses, class_name: "LocalCourse", inverse_of: :coach
     has_many :coach_answers, class_name: "Answer", inverse_of: :coach
