@@ -15,6 +15,7 @@ class Answer
   belongs_to :coach, class_name: "User", inverse_of: :coach_answers
 
   def self.ensure_answer(student, homework, coach)
+    return nil if homework.nil?
     a = student.student_answers.where(homework_id: homework.id).first
     if a.present?
       a

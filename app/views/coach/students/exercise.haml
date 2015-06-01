@@ -7,4 +7,4 @@
 %ul
   - @lessons.each_with_index do |l, i|
     %li
-      = link_to lesson_helper(i) + l.name, coach_exercise_path(l) + "?local_course_id=" + @local_course.id.to_s + "&index=" + i.to_s + "&student_id=" + @student.id.to_s
+      = link_to lesson_helper(i) + l.name.my_trim(6) + (Answer.ensure_answer(@student, l.homework, @current_user).try(:finish) ? "（已完成）" : ""), coach_exercise_path(l) + "?local_course_id=" + @local_course.id.to_s + "&index=" + i.to_s + "&student_id=" + @student.id.to_s
