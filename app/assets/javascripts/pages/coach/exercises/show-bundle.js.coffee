@@ -118,8 +118,10 @@ $ ->
     $(".student-answer-content .btn-group").addClass("hide")
 
   $(".student-answer-content .turn").click ->
+    has_class = $(this).hasClass("btn-primary")
     $(".student-answer-content .turn").removeClass("btn-primary")
-    $(this).addClass("btn-primary")
+    if !has_class
+      $(this).addClass("btn-primary")
 
   $(".coach-comment .delete").click ->
     $(".coach-comment img").addClass("hide")
@@ -128,8 +130,10 @@ $ ->
     $(".coach-comment .btn-group").addClass("hide")
 
   $(".coach-comment .turn").click ->
+    has_class = $(this).hasClass("btn-primary")
     $(".coach-comment .turn").removeClass("btn-primary")
-    $(this).addClass("btn-primary")
+    if !has_class
+      $(this).addClass("btn-primary")
 
 
 ###

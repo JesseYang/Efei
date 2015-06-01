@@ -39,7 +39,8 @@ class Answer
         q_answer["answer_content_img_serverId"] = new_answer["answer_content_img_serverId"]
         q_answer["answer_content_img_id"] = WeixinMedia.download_media(q_answer["answer_content_img_serverId"], new_answer["answer_content_img_rotate"])
       end
-    elsif new_answer["answer_content_img_serverId"].present? && new_answer["answer_content_img_rotate"].present?
+    end
+    if new_answer["answer_content_img_serverId"].present? && new_answer["answer_content_img_rotate"].present?
       # only change the rotate
       WeixinMedia.update_rotate(q_answer["answer_content_img_serverId"], new_answer["answer_content_img_rotate"])
     end
@@ -53,7 +54,8 @@ class Answer
         q_answer["coach_comment_img_serverId"] = new_answer["coach_comment_img_serverId"]
         q_answer["coach_comment_img_id"] = WeixinMedia.download_media(q_answer["coach_comment_img_serverId"], new_answer["coach_comment_img_rotate"])
       end
-    elsif new_answer["coach_comment_img_serverId"].present? && new_answer["coach_comment_img_rotate"].present?
+    end
+    if new_answer["coach_comment_img_serverId"].present? && new_answer["coach_comment_img_rotate"].present?
       # only change the rotate
       WeixinMedia.update_rotate(q_answer["coach_comment_img_serverId"], new_answer["coach_comment_img_rotate"])
     end

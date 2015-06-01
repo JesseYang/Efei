@@ -17,6 +17,14 @@ class WeixinMedia
   field :dowloaded, type: Boolean, default: false
 
 
+  def self.save_folder
+    @@save_folder
+  end
+
+  def self.image_folder
+    @@save_folder[6..-1]
+  end
+
   def self.download_media(media_id, rotate=0)
     m = WeixinMedia.create(server_id: media_id)
     url = "/cgi-bin/media/get?access_token=#{Weixin.get_access_token}&media_id=#{media_id}"
@@ -43,8 +51,8 @@ class WeixinMedia
 
   def self.update_rotate(media_id, rotate)
     media = WeixinMedia.where(server_id: media_id).first
-    img = Magick::ImageList.new(@@save_folder + media.id.to_s + "." + media.file_type)
-    img.rotate!(rotate)
+    img = Magick::ImageList.new(@@save_folder + media.id.to_s)
+    img.rotate!(rotate.to_f)
     img.write(@@save_folder + media.id.to_s)
   end
 end
