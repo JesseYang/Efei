@@ -23,10 +23,10 @@ canvas {
   @include size(40px, 40px);
   display: table;
   margin: 0 auto;
-  &.finished-icon {
+  .finished-icon {
     @include weixin-sprite(finished);
   }
-  &.unfinished-icon {
+  .unfinished-icon {
     @include weixin-sprite(unfinished);
   }
 }
