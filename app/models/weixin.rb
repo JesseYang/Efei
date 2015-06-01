@@ -144,10 +144,17 @@ class Weixin
               "url" => "http://efei.org/weixin/courses/redirect"
             },
             {
+              "type" => "view", 
+              "name" => "我的学生", 
+              "key" => "http://efei.org/coach/students/redirect"
+            },
+=begin
+            {
               "type" => "click", 
               "name" => "作业反馈", 
               "key" => "ZYFK"
             },
+=end
             {
               "type" => "click", 
               "name" => "学情报告", 

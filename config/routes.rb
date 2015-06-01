@@ -41,7 +41,22 @@ Rails.application.routes.draw do
 
   match "/weixin_js_signature" => 'application#signature', :via => :get
   namespace :coach do
+    resources :users do
+      collection do
+        get :pre_bind
+        get :expire
+        get :bind_info
+        post :bind
+      end
+      member do
+        post :unbind
+        get :post_bind
+      end
+    end
     resources :students do
+      collection do
+        get :redirect
+      end
       member do
         get :exercise
       end

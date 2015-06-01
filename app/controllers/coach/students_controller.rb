@@ -1,6 +1,10 @@
 # encoding: utf-8
 class Coach::StudentsController < Coach::ApplicationController
 
+  def redirect
+    redirect_to Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/students") and return
+  end
+
   def index
     @title = "学生列表"
     @students = @current_user.current_students

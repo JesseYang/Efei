@@ -14,9 +14,19 @@ class WeixinBind
   	weixin_bind = WeixinBind.where(type: "student", weixin_open_id: open_id).first
   end
 
+  def self.find_coach_by_open_id(open_id)
+    weixin_bind = WeixinBind.where(type: "coach", weixin_open_id: open_id).first
+  end
+
   def self.create_student_bind(student, info)
     wb = WeixinBind.create(weixin_open_id: info[:open_id], type: "student", nickname: info[:nickname])
     wb.student = student
+    wb.save
+  end
+
+  def self.create_coach_bind(coach, info)
+    wb = WeixinBind.create(weixin_open_id: info[:open_id], type: "coach", nickname: info[:nickname])
+    wb.coach = coach
     wb.save
   end
 end
