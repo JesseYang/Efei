@@ -7,11 +7,11 @@ class Coach::UsersController < Coach::ApplicationController
   end
 
   def bind_info
+    @return_path = request.referrer
     @title = "帐号绑定"
   end
 
   def expire
-    
   end
 
   def bind

@@ -12,6 +12,7 @@ class Coach::StudentsController < Coach::ApplicationController
   end
 
   def show
+    @return_path = coach_students_path
     @student = User.where(id: params[:id]).first
     @title = @student.name
     @local_courses = @student.local_courses.where(coach_id: @current_user.id)
@@ -19,6 +20,7 @@ class Coach::StudentsController < Coach::ApplicationController
 
   def exercise
     @student = User.where(id: params[:id]).first
+    @return_path = coach_student_path(@student)
     @local_course = @student.student_local_courses.where(id: params[:local_course_id]).first
     @lessons = @local_course.course.lesson_id_ary.map { |e| Lesson.find(e) }
     @title = @student.name

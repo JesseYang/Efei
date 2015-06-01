@@ -4,7 +4,7 @@
   = yield :head
 - content_for :app_nav do
   #coach-navbar
-    %a.left.return-link{href: request.referrer}
+    %a.left.return-link{href: @return_path.present? ? @return_path : "javascript:void(0)"}
       %i.icon.return
     %h1#title= @title
     %a.right.user-link{href: bind_info_coach_users_path}

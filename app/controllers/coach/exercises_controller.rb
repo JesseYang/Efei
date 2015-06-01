@@ -3,6 +3,7 @@ class Coach::ExercisesController < Coach::ApplicationController
 
   def show
     @student = User.where(id: params[:student_id]).first
+    @return_path = exercise_coach_student_path(@student)
     @local_course = LocalCourse.find(params[:local_course_id])
     @lesson = Lesson.find(params[:id])
     @index = params[:index].to_i

@@ -18,9 +18,9 @@ class Weixin::RecordsController < Weixin::ApplicationController
   end
 
   def show
+    @return_path = record_weixin_course_path(@local_course)
     @title = "学习记录"
     @local_course = LocalCourse.find(params[:local_course_id])
     @date = params[:id]
-    # @return_path = record_weixin_course_path(@local_course)
   end
 end

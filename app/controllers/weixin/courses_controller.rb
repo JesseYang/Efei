@@ -30,12 +30,14 @@ class Weixin::CoursesController < Weixin::ApplicationController
   end
 
   def exercise
+    @return_path = weixin_courses_path
     @local_course = LocalCourse.find(params[:id])
     @lessons = @local_course.course.lesson_id_ary.map { |e| Lesson.find(e) }
     @title = "练习反馈"
   end
 
   def report
+    @return_path = weixin_courses_path
     @local_course = LocalCourse.find(params[:id])
     @title = "学情报告"
 
@@ -43,11 +45,13 @@ class Weixin::CoursesController < Weixin::ApplicationController
   end
 
   def record
+    @return_path = weixin_courses_path
     @local_course = LocalCourse.find(params[:id])
     @title = "学习记录"
   end
 
   def schedule
+    @return_path = weixin_courses_path
     @local_course = LocalCourse.find(params[:id])
     @title = "进度追踪"
     @lesson_info = @local_course.course.lessons.map do |e|
