@@ -39,10 +39,11 @@
 .student-answer-content
   %h4 学生解析：
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-answer-content-photo" }
-  - if @answer_content["answer_content_img_serverId"].present?
-    %img{src: WeixinMedia.image_folder + @answer_content["answer_content_img_id"], data: {update: "false"}}
-  - else
-    %img.hide{data: {update: "false"}}
+  .image-wrapper
+    - if @answer_content["answer_content_img_serverId"].present?
+      %img{src: WeixinMedia.image_folder + @answer_content["answer_content_img_id"], data: {update: "false"}}
+    - else
+      %img.hide{data: {update: "false"}}
   .btn-group{class: @answer_content["answer_content_img_id"].present? ? "" : "hide"}
     %button.btn.btn-default.turn.turn-right{data: {rotate: "90"}} 右转90度
     %button.btn.btn-default.turn.turn-over{data: {rotate: "180"}} 旋转180度
@@ -54,10 +55,11 @@
   = link_to "语音输入", "javascript:void(0);", { class: "get-coach-comment-voice" }
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-coach-comment-photo" }
   = text_area_tag "comment", @answer_content["comment"], {class: "coach-comment-area"}
-  - if @answer_content["coach_comment_img_id"].present?
-    %img{src: WeixinMedia.image_folder + @answer_content["coach_comment_img_id"], data: {update: "false"}}
-  - else
-    %img.hide{data: {update: "false"}}
+  .image-wrapper
+    - if @answer_content["coach_comment_img_id"].present?
+      %img{src: WeixinMedia.image_folder + @answer_content["coach_comment_img_id"], data: {update: "false"}}
+    - else
+      %img.hide{data: {update: "false"}}
   .btn-group{class: @answer_content["coach_comment_img_id"].present? ? "" : "hide"}
     %button.btn.btn-default.turn.turn-right{data: {rotate: "90"}} 右转90度
     %button.btn.btn-default.turn.turn-over{data: {rotate: "180"}} 旋转180度
