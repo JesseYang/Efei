@@ -2,9 +2,13 @@
   = javascript_include_tag "pages/coach/exercises/show-bundle"
   = stylesheet_link_tag "pages/coach/exercises/show-bundle", :media => "all"
   :javascript
+    window.local_course_id="#{@local_course.id.to_s}"
+    window.index="#{@index}"
     window.question_id="#{@question.id.to_s}"
+    window.next_question_index="#{@question_index+1}"
     window.student_id="#{@student.id.to_s}"
     window.exercise_id="#{@exercise.id.to_s}"
+    window.lesson_id="#{@lesson.id.to_s}"
     window.coach_comment_img_serverId="#{@answer_content['coach_comment_img_serverId']}"
     window.answer_content_img_serverId="#{@answer_content['answer_content_img_serverId']}"
 
@@ -12,11 +16,11 @@
   %h4.course-name-tip= @local_course.name + " 练习反馈"
   %span.info= lesson_helper(@index) + @lesson.name.my_trim(6)
   .paginator-part
-    = link_to_if @question_index > 0, "<<", weixin_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&q_index=0"
-    = link_to_if @question_index > 0, "上一题", weixin_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&q_index=" + (@question_index - 1).to_s
+    = link_to_if @question_index > 0, "<<", coach_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&student_id=" + @student.id.to_s + "&q_index=0"
+    = link_to_if @question_index > 0, "上一题", coach_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&student_id=" + @student.id.to_s + "&q_index=" + (@question_index - 1).to_s
     %span= "#{@question_index + 1}/#{@question_number}"
-    = link_to_if @question_index < @question_number - 1, "下一题", weixin_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&q_index=" + (@question_index + 1).to_s
-    = link_to_if @question_index < @question_number - 1, ">>", weixin_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&q_index=#{@question_number - 1}"
+    = link_to_if @question_index < @question_number - 1, "下一题", coach_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&student_id=" + @student.id.to_s + "&q_index=" + (@question_index + 1).to_s
+    = link_to_if @question_index < @question_number - 1, ">>", coach_exercise_path(@lesson) + "?local_course_id=" + @local_course.id.to_s + "&index=" + @index.to_s + "&student_id=" + @student.id.to_s + "&q_index=#{@question_number - 1}"
   .clear-both
 
 .question-content-div.content-block

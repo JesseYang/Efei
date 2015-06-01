@@ -54,6 +54,7 @@ $ ->
               $(".coach-comment-area").text($(".coach-comment-area").text() + res.translateResult)
 
   $(".save-btn").click ->
+    $.page_notification "正在保存"
     if $(".student-answer-content img").attr("data-update") == "true"
       # upload the answer content image
       if $(".student-answer-content img").hasClass("hide")
@@ -107,7 +108,8 @@ $ ->
         }
       }, (data) ->
         if data.success
-          $.page_notification "保存成功"
+          $.page_notification "保存成功，正在跳转"
+          window.location.href = "/coach/exercises/#{window.lesson_id}?local_course_id=#{window.local_course_id}&index=#{window.index}&student_id=#{window.student_id}&q_index=#{window.next_question_index}"
         else
           $.page_notification "操作失败，请刷新页面重试"
 
