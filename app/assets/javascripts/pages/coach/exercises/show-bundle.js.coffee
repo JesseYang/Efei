@@ -123,8 +123,7 @@ $ ->
         student_id: student_id
       }, (data) ->
         if data.success
-          $.page_notification "提交成功"
-          window.location.href = "/coach/students/#{window.student_id}/exercise?local_course_id=#{window.local_course_id}"
+          window.location.href = "/coach/students/#{window.student_id}/exercise?local_course_id=#{window.local_course_id}&flash=提交成功"
         else
           $.page_notification "操作失败，请检查本讲答案是否全部上传"
 
