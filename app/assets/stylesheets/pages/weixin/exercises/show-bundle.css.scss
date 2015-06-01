@@ -26,9 +26,40 @@ h4 {
 }
 
 .content-block {
-  padding: 10px 3vw 0 3vw;
+  padding: 10px 3vw 10px 3vw;
   font-size: 16px;
   border-bottom: #CCC solid 1px;
 }
 
+.answer-item-ul {
+  padding-left: 0px;
+  list-style-type: none;
+  a {
+    text-decoration: none;
+    .A {
+      @include weixin-sprite(A32);
+    }
+    .B {
+      @include weixin-sprite(B32);
+    }
+    .C {
+      @include weixin-sprite(C32);
+    }
+    .D {
+      @include weixin-sprite(D32);
+    }
+  }
+}
 
+.icon {
+  @include size(32px, 32px);
+  @include inline-block;
+}
+
+.student-answer, .coach-comment {
+  img {
+    width: 80vw;
+    margin-left: 10vw;
+    margin-right: 10vw;
+  }
+}

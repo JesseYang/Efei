@@ -18,17 +18,27 @@
     = render :partial => "partials/question_content", locals: { content: @question.content, image_path: @question.image_path }
   - if @question.type == "choice"
     .question-items{data: {"question-answer" => @question.answer}}
-      %table.line1
+      %ul.answer-item-ul
         - @question.items.each_with_index do |item, index|
-          %tr
-            %td
-              %label= d2c(index) + ". "
-              %span.item-content= item.render_question(@question.image_path).html_safe
+          %li
+            %a{class: d2c(index) + "-link", href: "javascript:void(0);"}
+              %i.icon{class: d2c(index)}
+            %span.item-content= item.render_question(@question.image_path).html_safe
 
 .standard-answer.content-block
-  %p= "标准答案：#{d2c(@question.answer)}"
+  %p= "标准答案：" + ( @question.answer.present? ? d2c(@question.answer) : "" )
   .question-answer-content
     = render :partial => "partials/question_content", locals: { content: @question.answer_content, image_path: @question.image_path }
 
+.student-answer.content-block
+  %p= "#{@current_user.name}的答案：" + ( @answer_content["answer_index"].present? ? d2c(@answer_content["answer_index"].to_i) : "" )
+  - if @answer_content["answer_content_img_id"].present?
+    %img{src: WeixinMedia.image_folder + @answer_content["answer_content_img_id"]}
 
-.comment-content
+- if @answer_content["comment"].present? || @answer_content["coach_comment_img_id"].present?
+  .coach-comment.content-block
+    %p= "教师批注："
+    - if @answer_content["comment"].present?
+      %p= @answer_content["comment"]
+    - if @answer_content["coach_comment_img_id"].present?
+      %img{src: WeixinMedia.image_folder + @answer_content["coach_comment_img_id"]}
