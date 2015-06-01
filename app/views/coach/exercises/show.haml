@@ -32,7 +32,7 @@
         - @question.items.each_with_index do |item, index|
           %li
             %a{class: d2c(index) + "-link", href: "javascript:void(0);"}
-              %i.icon{class: d2c(index) + (@answer_content["answer_index"].to_i == index ? " selected" : ""), data: {index: index}}
+              %i.icon{class: d2c(index) + (@answer_content["answer_index"] == index.to_s ? " selected" : ""), data: {index: index}}
             %span.item-content= item.render_question(@question.image_path).html_safe
 
 .student-answer-content
