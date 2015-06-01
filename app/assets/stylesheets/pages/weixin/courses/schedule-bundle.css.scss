@@ -14,15 +14,20 @@ canvas {
   width: 100%;
 }
 
+.icon {
+  @include size(40px, 40px);
+  @include inline-block;
+}
+
 .schedule-circle {
   @include size(40px, 40px);
   display: table;
   margin: 0 auto;
-  &.finished {
-    background-color: green;
+  &.finished-icon {
+    @include weixin-sprite(finished);
   }
-  &.unfinished {
-    background-color: orange;
+  &.unfinished-icon {
+    @include weixin-sprite(unfinished);
   }
 }
 

@@ -13,8 +13,10 @@
       %td.lesson-figure
         - if l[:finished]
           .schedule-circle.finished
+            %i.icon.finished-icon
         - else
           .schedule-circle.unfinished
+            %i.icon.unfinished-icon
         - if i < @lesson_info.length - 1
           .schedule-line.black
         - else
