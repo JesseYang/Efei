@@ -25,6 +25,17 @@ class Answer
     end
   end
 
+  def submit
+    return false if self.answer_content.blank?
+    self.homework.q_ids.each do |e|
+      if self.answer_content[e].blank?
+        return false
+      end
+    end
+    self.update_attribute(:finish, true)
+    true
+  end
+
   def update_answer_content(q_id, new_answer)
     q_answer = self.answer_content[q_id] || { }
     q_answer["answer_index"] = new_answer["answer_index"]

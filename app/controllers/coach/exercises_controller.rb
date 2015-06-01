@@ -27,4 +27,12 @@ class Coach::ExercisesController < Coach::ApplicationController
     answer.update_answer_content(@question.id.to_s, params[:answer_content])
     render json: { success: true } and return
   end
+
+  def submit
+    @student = User.find(params[:student_id])
+    @lesson = Lesson.find(params[:id])
+    answer = Answer.ensure_answer(@student, @lesson.homework, @current_user)
+    retval = answer.submit
+    render json: { success: retval } and return
+  end
 end
