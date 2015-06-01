@@ -6,6 +6,7 @@
     window.index="#{@index}"
     window.question_id="#{@question.id.to_s}"
     window.next_question_index="#{@question_index+1}"
+    window.question_number="#{@question_number}"
     window.student_id="#{@student.id.to_s}"
     window.exercise_id="#{@exercise.id.to_s}"
     window.lesson_id="#{@lesson.id.to_s}"
@@ -66,6 +67,7 @@
 
 .save-wrapper
   = link_to "保存", "javascript:void(0)", { class: "save-btn btn btn-warning" }
+  = link_to "提交", "javascript:void(0)", { class: "submit-btn btn btn-danger" }
 
 / = link_to "TAKE A PHOTO", "javascript:void(0);", { class: "photo" }
 / %br
@@ -94,3 +96,17 @@
       .modal-footer
         %a#start-btn.btn.btn-primary{href: "javascript:void(0);", "aria-hidden" => "true"} 开始
         %a#stop-btn.btn.btn-primary{href: "javascript:void(0);", "aria-hidden" => "true", disabled: true} 结束
+
+#submitModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        .jesse-notification
+          %span
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 提交练习答案
+      .modal-body
+        %p= "请确认#{@student.name}同学本讲答案已经全部保存，提交之后学生及家长可以查看。"
+      .modal-footer
+        %a.btn.btn-default{href: "javascript:void(0);", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+        %a#ok.btn.btn-primary{href: "javascript:void(0);", "aria-hidden" => "true"} 提交

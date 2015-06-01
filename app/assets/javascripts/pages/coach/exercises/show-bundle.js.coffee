@@ -108,10 +108,25 @@ $ ->
         }
       }, (data) ->
         if data.success
-          $.page_notification "保存成功，正在跳转"
-          window.location.href = "/coach/exercises/#{window.lesson_id}?local_course_id=#{window.local_course_id}&index=#{window.index}&student_id=#{window.student_id}&q_index=#{window.next_question_index}"
+          $.page_notification "保存成功"
+          if parseInt(window.next_question_index) < parseInt(window.question_number)
+            window.location.href = "/coach/exercises/#{window.lesson_id}?local_course_id=#{window.local_course_id}&index=#{window.index}&student_id=#{window.student_id}&q_index=#{window.next_question_index}"
         else
           $.page_notification "操作失败，请刷新页面重试"
+
+  $(".submit-btn").click ->
+    $("#submitModal").modal("show")
+
+  $("#submitModal .ok").click ->
+    $.putJSON "/coach/exercises/#{window.lesson_id}/submit",
+      {
+        student_id: student_id
+      }, (data) ->
+        if data.success
+          $.page_notification "提交成功"
+          window.location.href = "/coach/students/#{window.student_id}/exercise?local_course_id=#{window.local_course_id}"
+        else
+          $.page_notification "操作失败，请检查本讲答案是否全部上传"
 
 
   $(".student-answer-content .delete").click ->
