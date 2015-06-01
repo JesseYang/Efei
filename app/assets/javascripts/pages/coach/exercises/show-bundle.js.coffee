@@ -2,6 +2,7 @@
 #= require "utility/ajax"
 #= require 'jQueryRotate'
 $ ->
+
   weixin_jsapi_authorize(["chooseImage", "uploadImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
 
   $(".answer-item-ul a").click ->
@@ -14,6 +15,7 @@ $ ->
         localIds = res.localIds
         $(".student-answer-content img").attr("src", localIds)
         $(".student-answer-content img").removeClass("hide")
+        $(".student-answer-content img").attr("data-update", "true")
         $(".student-answer-content .btn-group").removeClass("hide")
 
   $(".get-coach-comment-photo").click ->
@@ -22,6 +24,7 @@ $ ->
         localIds = res.localIds
         $(".coach-comment img").attr("src", localIds)
         $(".coach-comment img").removeClass("hide")
+        $(".coach-comment img").attr("data-update", "true")
         $(".coach-comment .btn-group").removeClass("hide")
 
   $(".get-coach-comment-voice").click ->
@@ -51,17 +54,67 @@ $ ->
               $(".coach-comment-area").text($(".coach-comment-area").text() + res.translateResult)
 
   $(".save-btn").click ->
-    wx.uploadImage
-      localId: $(".student-answer-content img").attr("src") # 需要上传的图片的本地ID，由chooseImage接口获得
-      isShowProgressTips: 1 # 默认为1，显示进度提示
-      success: (res) ->
-        serverId = res.serverId # 返回图片的服务器端ID
-        $(".server-id").html(serverId)
-        alert(serverId)
+    if $(".student-answer-content img").attr("data-update") == "true"
+      # upload the answer content image
+      if $(".student-answer-content img").hasClass("hide")
+        # user delete the image
+        window.answer_content_img_serverId = ""
+        upload_comment_img()
+      else
+        # user add a new image
+        wx.uploadImage
+          localId: $(".student-answer-content img").attr("src")
+          isShowProgressTips: 1
+          success: (res) ->
+            window.answer_content_img_serverId = res.serverId
+            upload_comment_img()
+    else
+      upload_comment_img()
+
+  upload_comment_img = ->
+    if $(".coach-comment img").attr("data-update") == "true"
+      # upload the coach comment image
+      if $(".coach-comment img").hasClass("hide")
+        # user delete the image
+        window.coach_comment_img_serverId = ""
+        upload_answer_content()
+      else
+        # user add a new image
+        wx.uploadImage
+          localId: $(".coach-comment img").attr("src")
+          isShowProgressTips: 1
+          success: (res) ->
+            window.coach_comment_img_serverId = res.serverId
+            upload_answer_content()
+    else
+      upload_answer_content()
+
+  upload_answer_content = ->
+    answer_index = $(".answer-item-ul .selected").attr("data-index")
+    answer_content_img_rotate = $(".student-answer-content .btn-group .btn-primary").attr("data-rotate")
+    coach_comment_img_rotate = $(".coach-comment .btn-group .btn-primary").attr("data-rotate")
+    $.putJSON "/coach/exercises/#{window.question_id}",
+      {
+        student_id: student_id,
+        exercise_id: exercise_id,
+        answer_content: {
+          answer_index: answer_index,
+          comment: $("#comment").val(),
+          answer_content_img_serverId: window.answer_content_img_serverId,
+          answer_content_img_rotate: answer_content_img_rotate,
+          coach_comment_img_serverId: window.coach_comment_img_serverId,
+          coach_comment_img_rotate: coach_comment_img_rotate
+        }
+      }, (data) ->
+        if data.success
+          $.page_notification "保存成功"
+        else
+          $.page_notification "操作失败，请刷新页面重试"
 
 
   $(".student-answer-content .delete").click ->
     $(".student-answer-content img").addClass("hide")
+    $(".student-answer-content img").attr("data-update", "true")
     $(".student-answer-content .btn-group").addClass("hide")
 
   $(".student-answer-content .turn").click ->
@@ -70,6 +123,7 @@ $ ->
 
   $(".coach-comment .delete").click ->
     $(".coach-comment img").addClass("hide")
+    $(".coach-comment img").attr("data-update", "true")
     $(".coach-comment img").attr("src", "")
     $(".coach-comment .btn-group").addClass("hide")
 
@@ -78,6 +132,7 @@ $ ->
     $(this).addClass("btn-primary")
 
 
+###
   $(".photo").click ->
     wx.chooseImage
       success: (res) ->
@@ -105,3 +160,4 @@ $ ->
       success: (res) ->
         result = res.resultStr # 当needResult 为 1 时，扫码返回的结果
         alert(result)
+###

@@ -1,6 +1,12 @@
 - content_for :app_head do
   = javascript_include_tag "pages/coach/exercises/show-bundle"
   = stylesheet_link_tag "pages/coach/exercises/show-bundle", :media => "all"
+  :javascript
+    window.question_id="#{@question.id.to_s}"
+    window.student_id="#{@student.id.to_s}"
+    window.exercise_id="#{@exercise.id.to_s}"
+    window.coach_comment_img_serverId="#{@answer_content['coach_comment_img_serverId']}"
+    window.answer_content_img_serverId="#{@answer_content['answer_content_img_serverId']}"
 
 .header
   %h4.course-name-tip= @local_course.name + " 练习反馈"
@@ -22,29 +28,35 @@
         - @question.items.each_with_index do |item, index|
           %li
             %a{class: d2c(index) + "-link", href: "javascript:void(0);"}
-              %i.icon{class: d2c(index)}
+              %i.icon{class: d2c(index) + (@answer_content["answer_index"].to_i == index ? " selected" : ""), data: {index: index}}
             %span.item-content= item.render_question(@question.image_path).html_safe
 
 .student-answer-content
   %h4 学生解析：
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-answer-content-photo" }
-  %img.hide
+  - if @answer_content["answer_content_img_serverId"].present?
+    %img{src: WeixinMedia.save_folder + @answer_content["answer_content_img_serverId"], data: {update: "false"}}
+  - else
+    %img.hide{data: {update: "false"}}
   .btn-group.hide
-    %button.btn.btn-default.turn.turn-left 左转90度
-    %button.btn.btn-default.turn.turn-over 旋转180度
-    %button.btn.btn-default.turn.turn-right 右转90度
+    %button.btn.btn-default.turn.turn-right{data: {rotate: "90"}} 右转90度
+    %button.btn.btn-default.turn.turn-over{data: {rotate: "180"}} 旋转180度
+    %button.btn.btn-default.turn.turn-left{data: {rotate: "270"}} 左转90度
     %button.btn.btn-default.delete 删除
 
 .coach-comment
   %h4 教师评语：
   = link_to "语音输入", "javascript:void(0);", { class: "get-coach-comment-voice" }
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-coach-comment-photo" }
-  = text_area_tag "comment", "", {class: "coach-comment-area"}
-  %img.hide
+  = text_area_tag "comment", @answer_content["comment"], {class: "coach-comment-area"}
+  - if @answer_content["coach_comment_img_serverId"].present?
+    %img{src: WeixinMedia.save_folder + @answer_content["coach_comment_img_serverId"], data: {update: "false"}}
+  - else
+    %img.hide{data: {update: "false"}}
   .btn-group.hide
-    %button.btn.btn-default.turn.turn-left 左转90度
-    %button.btn.btn-default.turn.turn-over 旋转180度
-    %button.btn.btn-default.turn.turn-right 右转90度
+    %button.btn.btn-default.turn.turn-right{data: {rotate: "90"}} 右转90度
+    %button.btn.btn-default.turn.turn-over{data: {rotate: "180"}} 旋转180度
+    %button.btn.btn-default.turn.turn-left{data: {rotate: "270"}} 左转90度
     %button.btn.btn-default.delete 删除
 
 

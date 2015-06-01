@@ -13,5 +13,18 @@ class Coach::ExercisesController < Coach::ApplicationController
     @exercise = @lesson.homework
     @question_number = @exercise.q_ids.length
     @question = Question.find(@exercise.q_ids[@question_index])
+
+    answer = Answer.ensure_answer(@student, @exercise, @current_user)
+    @answer_content = answer.answer_content[@question.id.to_s] || { }
+  end
+
+  # update answer for one question
+  def update
+    @question = Question.find(params[:id])
+    @student = User.find(params[:student_id])
+    @exercise = Homework.find(params[:exercise_id])
+    answer = Answer.ensure_answer(@student, @exercise, @current_user)
+    answer.update_answer_content(@question.id.to_s, params[:answer_content])
+    render json: { success: true } and return
   end
 end

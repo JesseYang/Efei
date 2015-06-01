@@ -10,15 +10,6 @@ class Weixin
   APPID = "wx70147c2214d04e30"
   SECRET = "432ecf07f2a5359979d6a605280cba32"
 
-  def self.download_media(media_id)
-    original_uri = self.base_uri
-    self.base_uri "http://file.api.weixin.qq.com"
-    url = "/cgi-bin/media/get?access_token=#{self.get_access_token}&media_id=#{media_id}"
-    binding.pry
-    response = Weixin.get(url)
-    self.base_uri original_uri
-  end
-
   def self.get_access_token
     @@redis ||= Redis.new
     expires_at = @@redis.get("weixin_access_token_expires_at").to_i
