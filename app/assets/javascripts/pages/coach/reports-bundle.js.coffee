@@ -29,7 +29,7 @@ $ ->
   $("#voiceInput #stop-btn").click ->
     $("#voiceInput #start-btn").attr("disabled", false)
     $("#voiceInput #stop-btn").attr("disabled", true)
-    window.replace = $("#voiceInput #replace_current").prop("checked")
+    replace = $("#voiceInput #replace_current").prop("checked")
     $("#voiceInput").modal("hide")
     $(".record-tip").addClass("hide")
     wx.stopRecord
@@ -39,7 +39,7 @@ $ ->
           isShowProgressTips: 1
           success: (res) ->
             textarea = window.current_content.find("textarea")
-            if window.replace
+            if replace
               textarea.text(res.translateResult)
             else
               textarea.text(textarea.text() + res.translateResult)
