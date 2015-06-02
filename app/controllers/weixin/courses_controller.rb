@@ -54,15 +54,17 @@ class Weixin::CoursesController < Weixin::ApplicationController
     @return_path = weixin_courses_path
     @local_course = LocalCourse.find(params[:id])
     @title = "进度追踪"
-    @lesson_info = @local_course.course.lessons.map do |e|
-      {
-        name: e.name,
-        finished: false
+    @lesson_info = @local_course.course.lesson_id_ary.map do |l_id|
+      lesson = Lesson.find(l_id)
+      a = Answer.ensure_answer(@current_user, lesson.homework, @local_course.coach)
+      info = {
+        name: lesson.name,
+        finished: a.try(:finish) || false
       }
+      if a.present? && a.finish && a.finished_at.present?
+        info[:finished_at] = Timw.mktime(a.finished_at).strftimt("%Y.%m.%d")
+      end
+      info
     end
-    @lesson_info[0][:finished_at] = "2015.4.3"
-    @lesson_info[0][:finished] = true
-    @lesson_info[1][:finished_at] = "2015.5.2"
-    @lesson_info[1][:finished] = true
   end
 end

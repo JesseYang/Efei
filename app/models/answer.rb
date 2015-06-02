@@ -4,6 +4,7 @@ class Answer
   include Mongoid::Timestamps
 
   field :finish, type: Boolean, default: false
+  field :finished_at, type: Integer
   # each value in the answer_content has the following keys:
   # => item_index: only for choice answer
   # => content: array, element of which is hash, can be text or images
@@ -34,6 +35,10 @@ class Answer
       end
     end
     self.update_attribute(:finish, true)
+    if self.finished_at.blank?
+      self.finished_at = Time.now.to_i
+      self.save
+    end
     true
   end
 
