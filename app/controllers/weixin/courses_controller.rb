@@ -62,7 +62,7 @@ class Weixin::CoursesController < Weixin::ApplicationController
         finished: a.try(:finish) || false
       }
       if a.present? && a.finish && a.finished_at.present?
-        info[:finished_at] = Timw.mktime(a.finished_at).strftimt("%Y.%m.%d")
+        info[:finished_at] = Time.at(a.finished_at).strftime("%Y.%m.%d")
       end
       info
     end
