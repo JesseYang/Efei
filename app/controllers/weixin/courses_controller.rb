@@ -40,7 +40,6 @@ class Weixin::CoursesController < Weixin::ApplicationController
     @return_path = weixin_courses_path
     @local_course = LocalCourse.find(params[:id])
     @title = "学情报告"
-
     @reports = current_user.student_study_reports.where(local_course_id: @local_course.id)
   end
 

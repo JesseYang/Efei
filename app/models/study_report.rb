@@ -4,6 +4,7 @@ class StudyReport
   include Mongoid::Timestamps
   field :name, type: String
   field :content, type: Array, default: []
+  field :finish, type: Boolean, default: false
   field :finished_at, type: Integer
 
   belongs_to :local_course, class_name: "LocalCourse", inverse_of: :study_reports

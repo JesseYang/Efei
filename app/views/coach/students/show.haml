@@ -22,7 +22,7 @@
               %span 练习反馈
               .clear-both
           %td
-            %a.report-link{href: "javascript:void(0);"}
+            %a.report-link{href: report_coach_student_path(@student) + "?local_course_id=#{lc.id.to_s}"}
               %i.icon.report
               %span 学情报告
               .clear-both

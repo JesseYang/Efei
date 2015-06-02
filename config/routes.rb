@@ -59,7 +59,10 @@ Rails.application.routes.draw do
       end
       member do
         get :exercise
+        get :report
       end
+    end
+    resources :reports do
     end
     resources :exercises do
       member do

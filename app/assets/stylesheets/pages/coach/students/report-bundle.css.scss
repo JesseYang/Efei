@@ -15,6 +15,7 @@ h4 {
   margin-left: auto;
   margin-right: auto;
   display: table;
+  margin-bottom: 10px;
 }
 
 td {
@@ -68,6 +69,14 @@ td {
         @include weixin-sprite(slide-right24);
       }
     }
+  }
+}
+
+.new-wrapper {
+  border-top: #CCC solid 1px;
+  border-bottom: #CCC solid 1px;
+  .new-btn {
+    margin: 10px 3vw;
   }
 }
 

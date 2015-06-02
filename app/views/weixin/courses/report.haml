@@ -4,6 +4,9 @@
 
 %h4.course-name-tip= @local_course.name
 
+- if @reports.blank?
+  .info= "教师还没有为#{@current_user.name}撰写学情报告"
+
 %table
   - @reports.each do |r|
     %tr.one-report

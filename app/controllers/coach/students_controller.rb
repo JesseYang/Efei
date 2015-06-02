@@ -25,4 +25,13 @@ class Coach::StudentsController < Coach::ApplicationController
     @lessons = @local_course.course.lesson_id_ary.map { |e| Lesson.find(e) }
     @title = @student.name
   end
+
+  def report
+    @student = User.where(id: params[:id]).first
+    @return_path = coach_student_path(@student)
+    @local_course = LocalCourse.find(params[:local_course_id])
+    @title = @student.name
+
+    @reports = current_user.student_study_reports.where(local_course_id: @local_course.id)
+  end
 end
