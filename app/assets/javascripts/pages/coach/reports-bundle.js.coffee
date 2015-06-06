@@ -43,3 +43,12 @@ $ ->
               textarea.text(res.translateResult)
             else
               textarea.text(textarea.text() + res.translateResult)
+
+  $(".new-image").click ->
+    wx.chooseImage
+      success: (res) ->
+        localIds = res.localIds
+        $(".coach-comment img").attr("src", localIds)
+        $(".coach-comment img").removeClass("hide")
+        $(".coach-comment img").attr("data-update", "true")
+        $(".coach-comment .btn-group").removeClass("hide")
