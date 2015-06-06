@@ -5,6 +5,7 @@
 
 body {
   min-width: 0px;
+  margin-top: 50px;
 }
 
 .course-name-tip {
@@ -22,7 +23,12 @@ body {
 #weixin-navbar {
   text-align: center;
   background-color: $weixin-bg;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   height: 50px;
+  z-index: 100;
   .icon {
     @include size(24px, 24px);
     @include inline-block;
@@ -51,7 +57,7 @@ body {
     margin: auto;
     line-height: 50px;
     color: white;
-    font-size: 22px;
+    font-size: 18px;
     text-align: center;
   }
 }

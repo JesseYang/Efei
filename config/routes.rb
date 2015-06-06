@@ -101,6 +101,12 @@ Rails.application.routes.draw do
         get :redirect
       end
     end
+    resources :lessons do
+      member do
+        get :exercise
+        get :record
+      end
+    end
   end
 
   namespace :tablet do

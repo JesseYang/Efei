@@ -4,13 +4,13 @@
   = yield :head
 - content_for :app_nav do
   #weixin-navbar
-    - if params[:action] == "index"
+    - if params[:action] == "show"
       %a.left.filter-link{href: "javascript:void(0);"}
         %i.icon.filter
     - else
       %a.left.return-link{href: @return_path.present? ? @return_path : "javascript:void(0)"}
         %i.icon.return
-    %h1#title= @title
+    %h1#title= @title.my_trim(10)
     %a.right.user-link{href: bind_info_weixin_users_path}
       %i.icon.user
 - content_for :app_content do

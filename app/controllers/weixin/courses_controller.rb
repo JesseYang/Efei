@@ -7,6 +7,10 @@ class Weixin::CoursesController < Weixin::ApplicationController
   end
 
   def index
+    # redirect to the recent course page
+    @local_course = @current_user.student_local_courses.first
+    redirect_to weixin_course_path(@local_course) and return
+=begin
     @current = (params[:current] || 1).to_i
     @subject = (params[:subject] || 0).to_i
     @title = @current == 1 ? "我的当前课程" : "我的以往课程"
@@ -27,6 +31,14 @@ class Weixin::CoursesController < Weixin::ApplicationController
     if @subject != 0
       @local_courses = @local_courses.select { |e| e.subject == @subject }
     end
+=end
+  end
+
+  def show
+    @local_courses = @current_user.student_local_courses
+    @local_course = LocalCourse.find(params[:id])
+    @lessons = @local_course.course.lesson_id_ary.map { |e| Lesson.find(e) }
+    @title = @local_course.name
   end
 
   def exercise
