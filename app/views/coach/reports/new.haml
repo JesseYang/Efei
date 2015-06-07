@@ -2,6 +2,7 @@
   = javascript_include_tag "pages/coach/reports-bundle"
   = stylesheet_link_tag "pages/coach/reports-bundle", :media => "all"
   :javascript
+    window.report_id="#{@report_id}"
 
 %h4.course-name-tip= @local_course.name + " 学情报告"
 

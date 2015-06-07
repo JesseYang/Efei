@@ -63,6 +63,9 @@ Rails.application.routes.draw do
       end
     end
     resources :reports do
+      member do
+        put :submit
+      end
     end
     resources :exercises do
       member do
