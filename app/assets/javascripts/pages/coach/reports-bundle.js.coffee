@@ -1,4 +1,5 @@
 #= require "./reports/_templates/para_wrapper"
+#= require "./reports/_templates/image_wrapper"
 #= require "jweixin-1.0.0"
 #= require "utility/ajax"
 #= require 'jQueryRotate'
@@ -48,7 +49,6 @@ $ ->
     wx.chooseImage
       success: (res) ->
         localIds = res.localIds
-        $(".coach-comment img").attr("src", localIds)
-        $(".coach-comment img").removeClass("hide")
-        $(".coach-comment img").attr("data-update", "true")
-        $(".coach-comment .btn-group").removeClass("hide")
+        new_image = $(HandlebarsTemplates["image_wrapper"]({ }))
+        $(".content-wrapper").append(new_image)
+        new_image.find("image").attr("src", localIds)
