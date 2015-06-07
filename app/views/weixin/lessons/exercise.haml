@@ -39,7 +39,7 @@
       - if @answer_content["answer_content_img_id"].present?
         %p.answer-tip= "#{@current_user.name}的答案解析："
         .image-wrapper
-          %img{src: WeixinMedia.image_folder + @answer_content["answer_content_img_id"]}
+          %img.lazy{src: WeixinMedia.image_folder + @answer_content["answer_content_img_id"]}
 
       - if @answer_content["comment"].present? || @answer_content["coach_comment_img_id"].present?
         %p.answer-tip= "教师批注："
@@ -47,7 +47,7 @@
           %p= @answer_content["comment"]
         - if @answer_content["coach_comment_img_id"].present?
           .image-wrapper
-            %img{src: WeixinMedia.image_folder + @answer_content["coach_comment_img_id"]}
+            %img.lazy{src: WeixinMedia.image_folder + @answer_content["coach_comment_img_id"]}
 
 
 #footer

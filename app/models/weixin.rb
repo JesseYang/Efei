@@ -136,7 +136,7 @@ class Weixin
             },
             {
               "type" => "view", 
-              "name" => "我的学生", 
+              "name" => "我的课表", 
               "url" => "http://efei.org/coach/students/redirect"
             },
             {

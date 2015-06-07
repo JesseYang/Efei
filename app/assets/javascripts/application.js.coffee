@@ -17,6 +17,7 @@
 #= require ui/widgets/notification
 #= require extensions/page_notification
 #= require "jweixin-1.0.0"
+#= require "jail"
 
 $ ->
   if $.browser.msie && parseFloat($.browser.version) < 8
