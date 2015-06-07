@@ -15,19 +15,11 @@ class WelcomeController < ApplicationController
         "MsgType" => "text",
         "Content" => "滚"
       }
-      render :xml => data.to_xml and return
+      render :xml => data and return
     else
       render text: "" and return
     end
   end
-
-<xml>
-<ToUserName><![CDATA[toUser]]></ToUserName>
-<FromUserName><![CDATA[fromUser]]></FromUserName>
-<CreateTime>12345678</CreateTime>
-<MsgType><![CDATA[text]]></MsgType>
-<Content><![CDATA[你好]]></Content>
-</xml>
 
   def redirect
     flash[:notice] = params[:notice]
