@@ -66,3 +66,9 @@ $ ->
     if next.hasClass("one-content")
       ele.remove()
       ele.insertAfter(next)
+
+  $("body").on "click", ".turn", (event) ->
+    has_class = $(event.target).closest(".turn").hasClass("btn-primary")
+    $(event.target).closest(".one-content").find(".turn").removeClass("btn-primary")
+    if !has_class
+      $(event.target).closest(".turn").addClass("btn-primary")
