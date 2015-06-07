@@ -13,11 +13,15 @@ body {
 }
 
 .right {
-  float: right;
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 
 .left {
-  float: left;
+  position: absolute;
+  top: 0px;
+  left: 0px;
 }
 
 #weixin-navbar {
@@ -51,6 +55,11 @@ body {
       margin-left: 13px;
       @include weixin-sprite(return24);
     }
+  }
+  #title-wrapper {
+    @include inline-block;
+    height: 50px;
+    width: 70vw;
   }
   #title {
     @include inline-block;

@@ -10,7 +10,8 @@
     - else
       %a.left.return-link{href: @return_path.present? ? @return_path : "javascript:void(0)"}
         %i.icon.return
-    %h1#title= @title.my_trim(10)
+    #title-wrapper
+      %h1#title= @title
     %a.right.user-link{href: bind_info_weixin_users_path}
       %i.icon.user
 - content_for :app_content do

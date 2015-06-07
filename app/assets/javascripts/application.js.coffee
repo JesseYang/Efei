@@ -18,6 +18,7 @@
 #= require extensions/page_notification
 #= require "jweixin-1.0.0"
 #= require "jail"
+#= require "jquery.dotdotdot.min"
 
 $ ->
   if $.browser.msie && parseFloat($.browser.version) < 8
