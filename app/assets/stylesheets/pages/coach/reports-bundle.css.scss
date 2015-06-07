@@ -17,3 +17,12 @@ h4 {
 .record-tip {
   color: red;
 }
+
+.image-wrapper {
+  width: 80vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  img {
+    width: 100%
+  }
+}
