@@ -7,7 +7,8 @@ class WelcomeController < ApplicationController
   end
 
   def weixin
-    if params[:xml]["Content"] == "我是老师"
+    # if params[:xml]["Content"] == "我是老师"
+    if true
       data = {
         "ToUserName" => params["xml"]["FromUserName"],
         "FromUserName" => params["xml"]["ToUserName"],
@@ -15,7 +16,7 @@ class WelcomeController < ApplicationController
         "MsgType" => "text",
         "Content" => "滚"
       }
-      render :xml => data and return
+      render :xml => data.to_xml(root: "xml") and return
     else
       render text: "" and return
     end
