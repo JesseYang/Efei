@@ -7,8 +7,27 @@ class WelcomeController < ApplicationController
   end
 
   def weixin
-    render text: "" and return
+    if params[:xml]["Content"] == "我是老师"
+      data = {
+        "ToUserName" => params["xml"]["FromUserName"],
+        "FromUserName" => params["xml"]["ToUserName"],
+        "CreateTime" => Time.now.to_i,
+        "MsgType" => "text",
+        "Content" => "滚"
+      }
+      render data.to_xml and return
+    else
+      render text: "" and return
+    end
   end
+
+<xml>
+<ToUserName><![CDATA[toUser]]></ToUserName>
+<FromUserName><![CDATA[fromUser]]></FromUserName>
+<CreateTime>12345678</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[你好]]></Content>
+</xml>
 
   def redirect
     flash[:notice] = params[:notice]

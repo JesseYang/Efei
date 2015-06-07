@@ -139,27 +139,10 @@ class Weixin
               "name" => "我的学生", 
               "url" => "http://efei.org/coach/students/redirect"
             },
-=begin
-            {
-              "type" => "click", 
-              "name" => "作业反馈", 
-              "key" => "ZYFK"
-            },
-=end
             {
               "type" => "click", 
               "name" => "学情报告", 
-              "key" => "XQBG"
-            },
-            {
-              "type" => "click", 
-              "name" => "学习记录", 
-              "key" => "XXJL"
-            },
-            {
-              "type" => "click", 
-              "name" => "考勤订阅", 
-              "key" => "KQDY"
+              "key" => "http://efei.org/weixin/reports/redirect"
             }
           ]
         }

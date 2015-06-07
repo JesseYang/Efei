@@ -72,10 +72,24 @@ h4 {
   float: right;
 }
 
+.question-content-div {
+  border-bottom: #EEE solid 1px;
+}
+
 .content-block {
-  padding: 10px 3vw 10px 3vw;
+  margin: 10px 3vw 10px 3vw;
   font-size: 16px;
-  border-bottom: #CCC solid 1px;
+  .right-answer {
+    color: #00BBBD;
+  }
+  .wrong-answer {
+    color: #EB4F38;
+  }
+  .answer-tip {
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.8em;
+  }
 }
 
 .answer-item-ul {
@@ -95,6 +109,38 @@ h4 {
     .D {
       @include weixin-sprite(D32);
     }
+    .A-right {
+      @include weixin-sprite(A_right32);
+    }
+    .B-right {
+      @include weixin-sprite(B_right32);
+    }
+    .C-right {
+      @include weixin-sprite(C_right32);
+    }
+    .D-right {
+      @include weixin-sprite(D_right32);
+    }
+    .A-wrong {
+      @include weixin-sprite(A_wrong32);
+    }
+    .B-wrong {
+      @include weixin-sprite(B_wrong32);
+    }
+    .C-wrong {
+      @include weixin-sprite(C_wrong32);
+    }
+    .D-wrong {
+      @include weixin-sprite(D_wrong32);
+    }
+  }
+}
+
+.one-question {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  &.not-last-ele {
+    border-bottom: #999 solid 1px;
   }
 }
 
@@ -103,13 +149,11 @@ h4 {
   @include inline-block;
 }
 
-.student-answer, .coach-comment {
-  .image-wrapper {
-    width: 80vw;
-    margin-left: 10vw;
-    margin-right: 10vw;
-    img {
-      width: 100%;
-    }
+.image-wrapper {
+  width: 80vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  img {
+    width: 100%;
   }
 }

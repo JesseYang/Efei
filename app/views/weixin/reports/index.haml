@@ -1,0 +1,22 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/weixin/reports/index-bundle"
+  = stylesheet_link_tag "pages/weixin/reports/index-bundle", :media => "all"
+
+- if @reports.blank?
+  .info= "教师还没有为#{@current_user.name}撰写学情报告"
+
+%table
+  - @reports.each do |r|
+    %tr.one-report
+      %td.left-part
+        %span.month= r.month
+        %br
+        %span.day= r.day
+      %td.middle-part
+        .content-wrapper
+          %p= r.content_in_short
+        .info
+          %span= r.info
+      %td.right-part
+        %a.right.slide-right-link{href: weixin_report_path(r)}
+          %i.icon.slide-right

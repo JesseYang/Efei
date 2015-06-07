@@ -1,5 +1,8 @@
 - image_path ||= nil
-- content.each do |node|
+- q_index ||= nil
+- content.each_with_index do |node, i|
+  - if i == 0 && q_index.present?
+    - node = q_index.to_s + ". " + node
   - if node.class == String
     %p= node.render_question(image_path).html_safe
   - elsif node.class == Hash && node["type"] == "table"
