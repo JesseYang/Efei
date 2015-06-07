@@ -7,11 +7,9 @@
 
 .content-wrapper
 
-.add-wrapper
-  = link_to "新文本段落", "javascript:void(0);", { class: "new-paragraph" }
-  = link_to "拍照或选取照片", "javascript:void(0);", { class: "new-image" }
-
 .save-wrapper
+  %a.btn.btn-primary.new-paragraph{href: "javascript:void(0);"} 新文本段落
+  %a.btn.btn-primary.new-image{href: "javascript:void(0);"} 拍照或选取照片
   = link_to "保存", "javascript:void(0)", { class: "save-btn btn btn-warning" }
   = link_to "提交", "javascript:void(0)", { class: "submit-btn btn btn-danger" }
 

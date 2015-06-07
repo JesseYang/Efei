@@ -52,3 +52,17 @@ $ ->
         new_image = $(HandlebarsTemplates["image_wrapper"]({ }))
         $(".content-wrapper").append(new_image)
         new_image.find("img").attr("src", localIds)
+
+  $("body").on "click", ".move-up", (event) ->
+    ele = $(event.target).closest(".one-content")
+    prev = ele.prev()
+    if prev.hasClass("one-content")
+      ele.remove()
+      ele.insertBefore(prev)
+
+  $("body").on "click", ".move-down", (event) ->
+    ele = $(event.target).closest(".one-content")
+    next = ele.next()
+    if next.hasClass("one-content")
+      ele.remove()
+      ele.insertAfter(next)
