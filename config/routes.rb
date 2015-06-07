@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   get "welcome/app_version"
 
   match '/' => 'welcome#weixin', :via => :post
-  match '/' => 'welcome#weixin', :via => :get
 
   namespace :admin do
     resources :teachers do

@@ -13,3 +13,6 @@ $ ->
       $(this).parent().find(".lesson-detail").toggle()
     else
       $(".lesson-detail").hide()
+
+  $(".lesson-link").dotdotdot()
+

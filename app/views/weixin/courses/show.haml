@@ -5,7 +5,7 @@
 %ul#lesson-ul
   - @lessons.each_with_index do |l, i|
     %li
-      = link_to lesson_helper(i) + l.name.my_trim(10) + (Answer.ensure_answer(@current_user, l.homework, @local_course.coach).try(:finish) ? "（已完成）" : ""), "javascript:void(0);", { class: 'lesson-link' }
+      = link_to lesson_helper(i) + (Answer.ensure_answer(@current_user, l.homework, @local_course.coach).try(:finish) ? "（已完成）" : "") + l.name, "javascript:void(0);", { class: 'lesson-link' }
       .lesson-detail
         - if Answer.ensure_answer(@current_user, l.homework, @local_course.coach).try(:finish)
           .para
