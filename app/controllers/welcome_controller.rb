@@ -15,7 +15,7 @@ class WelcomeController < ApplicationController
         "MsgType" => "text",
         "Content" => "滚"
       }
-      render data.to_xml and return
+      render :xml => data.to_xml and return
     else
       render text: "" and return
     end
