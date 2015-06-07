@@ -7,14 +7,13 @@ class WelcomeController < ApplicationController
   end
 
   def weixin
-    # if params[:xml]["Content"] == "我是老师"
-    if true
+    if params[:xml]["Content"] == "我是老师"
       data = {
         "ToUserName" => params["xml"]["FromUserName"],
         "FromUserName" => params["xml"]["ToUserName"],
         "CreateTime" => Time.now.to_i,
         "MsgType" => "text",
-        "Content" => "滚"
+        "Content" => "<a href='http://www.baidu.com'>CLICK HERE</a>"
       }
       render :xml => data.to_xml(root: "xml") and return
     else
