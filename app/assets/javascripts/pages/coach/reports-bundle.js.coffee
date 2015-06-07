@@ -51,4 +51,4 @@ $ ->
         localIds = res.localIds
         new_image = $(HandlebarsTemplates["image_wrapper"]({ }))
         $(".content-wrapper").append(new_image)
-        new_image.find("image").attr("src", localIds)
+        new_image.find("img").attr("src", localIds)
