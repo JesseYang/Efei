@@ -13,7 +13,7 @@ class WelcomeController < ApplicationController
         "FromUserName" => params["xml"]["ToUserName"],
         "CreateTime" => Time.now.to_i,
         "MsgType" => "text",
-        "Content" => "<a href='http://www.baidu.com'>CLICK HERE</a>"
+        "Content" => "<a href='#{Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/students")}/'>我的学生</a>"
       }
       render :xml => data.to_xml(root: "xml") and return
     else
