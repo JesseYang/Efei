@@ -52,8 +52,9 @@ table {
       margin-bottom: 15px;
       overflow: hidden;
       height: 50px;
-      p {
-        font-size: 17px;
+      font-size: 17px;
+      .unsubmit-tip {
+        color: red;
       }
     }
     .info {

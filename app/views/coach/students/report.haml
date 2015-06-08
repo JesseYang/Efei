@@ -16,6 +16,8 @@
         %span.day= r.day
       %td.middle-part
         .content-wrapper
+          - if r.finish == false
+            %span.unsubmit-tip 未提交
           %p= r.content_in_short
         .info
           %span= r.info

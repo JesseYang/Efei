@@ -14,7 +14,7 @@ class WeixinMedia
   field :server_id, type: String, default: ""
   field :file_type, type: String, default: ""
   field :error_code, type: String, default: ""
-  field :dowloaded, type: Boolean, default: false
+  field :downloaded, type: Boolean, default: false
 
 
   def self.save_folder
@@ -44,6 +44,7 @@ class WeixinMedia
       m.file_type = "jpg"
       file = File.open(@@save_folder + m.id.to_s, 'wb')
       file.write(response.body)
+      m.downloaded = true
       m.save
       return m.id.to_s
     end
