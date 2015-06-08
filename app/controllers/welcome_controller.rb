@@ -7,17 +7,31 @@ class WelcomeController < ApplicationController
   end
 
   def weixin
-    if params[:xml]["Content"] == "我是老师"
-      data = {
-        "ToUserName" => params["xml"]["FromUserName"],
-        "FromUserName" => params["xml"]["ToUserName"],
-        "CreateTime" => Time.now.to_i,
-        "MsgType" => "text",
-        "Content" => "<a href='#{Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/students")}/'>我的学生</a>"
-      }
-      render :xml => data.to_xml(root: "xml") and return
-    else
-      render text: "" and return
+    case params[:xml]["MsgType"]
+    when "text"
+      if params[:xml]["Content"] == "我是老师"
+        data = {
+          "ToUserName" => params[:xml]["FromUserName"],
+          "FromUserName" => params[:xml]["ToUserName"],
+          "CreateTime" => Time.now.to_i,
+          "MsgType" => "text",
+          "Content" => "<a href='#{Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/students")}/'>我的学生</a>"
+        }
+        render :xml => data.to_xml(root: "xml") and return
+      else
+        render text: "" and return
+      end
+    when "event"
+      if params[:xml]["Event"] == "CLICK" && params[:xml]["EventKey"] == "MSWK"
+        data = {
+          "ToUserName" => params[:xml]["FromUserName"],
+          "FromUserName" => params[:xml]["ToUserName"],
+          "CreateTime" => Time.now.to_i,
+          "MsgType" => "text",
+          "Content" => "<a href='#{Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/students")}/'>我的学生</a>"
+        }
+        render :xml => data.to_xml(root: "xml") and return
+      end
     end
   end
 
