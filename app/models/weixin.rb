@@ -142,7 +142,7 @@ class Weixin
             {
               "type" => "view", 
               "name" => "学情报告", 
-              "key" => "http://efei.org/weixin/reports/redirect"
+              "url" => "http://efei.org/weixin/reports/redirect"
             }
           ]
         }
