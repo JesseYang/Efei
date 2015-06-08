@@ -11,4 +11,7 @@
   - @study_report.content.each do |e|
     - if e["type"] == "text"
       %p.content-ele= e["value"]
+    - else
+      .image-wrapper
+        %img{src: WeixinMedia.image_folder + e["value"] + "." + e["file_type"]}
 

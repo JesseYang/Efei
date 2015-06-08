@@ -29,3 +29,15 @@ h4 {
   }
 }
 
+.image-wrapper {
+  width: 90vw;
+  margin-left: 5vw;
+  margin-right: 5vw;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: #CCC solid 1px;
+  img {
+    width: 100%
+  }
+}
+

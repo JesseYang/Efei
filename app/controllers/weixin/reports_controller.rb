@@ -8,7 +8,6 @@ class Weixin::ReportsController < Weixin::ApplicationController
   end
 
   def index
-    # @local_course = LocalCourse.find(params[:id])
     @title = "学情报告"
     @reports = current_user.student_study_reports
   end
