@@ -3,6 +3,7 @@ class Coach::ReportsController < Coach::ApplicationController
 
   def new
     @student = User.find(params[:student_id])
+    @return_path = report_coach_student_path(@student) + "?local_course_id=#{params[:local_course_id]}"
     @local_course = LocalCourse.find(params[:local_course_id])
 
     @title = @student.name
@@ -11,7 +12,7 @@ class Coach::ReportsController < Coach::ApplicationController
 
   def show
     @student = User.find(params[:student_id])
-    @return_path = report_coach_student_path(@student)
+    @return_path = report_coach_student_path(@student) + "?local_course_id=#{params[:local_course_id]}"
     @local_course = LocalCourse.find(params[:local_course_id])
     
     @title = @student.name
