@@ -1,0 +1,11 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/weixin/schedules/index-bundle"
+  = stylesheet_link_tag "pages/weixin/schedules/index-bundle", :media => "all"
+
+#calendar
+
+.tip-wrapper
+  %span 日历中
+  %span.green
+  %span 表示当天有课程，可点击查看详情。
+  

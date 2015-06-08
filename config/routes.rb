@@ -96,6 +96,12 @@ Rails.application.routes.draw do
         get :redirect
       end
     end
+    resources :schedules do
+      collection do
+        get :redirect
+        get :data
+      end
+    end
     resources :courses do
       member do
         get :exercise

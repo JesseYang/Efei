@@ -4,7 +4,7 @@
   = yield :head
 - content_for :app_nav do
   #weixin-navbar
-    - if (params[:controller] == "weixin/courses" && params[:action] == "show") || (params[:controller] == "weixin/reports" && params[:action] == "index")
+    - if (params[:controller] == "weixin/courses" && params[:action] == "show") || (params[:controller] == "weixin/reports" && params[:action] == "index") || (params[:controller] == "weixin/schedules" && params[:action] == "index")
       %a.left.filter-link{href: "javascript:void(0);"}
         %i.icon.filter
     - else

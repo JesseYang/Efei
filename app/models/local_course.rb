@@ -4,6 +4,8 @@ class LocalCourse
   include Mongoid::Timestamps
 
   field :city, type: String
+  field :time_desc, type: String
+  field :time_ary, type: Array, default: [ ]
 
   belongs_to :course, class_name: "Course", inverse_of: :local_courses
   belongs_to :coach, class_name: "User", inverse_of: :local_courses
@@ -24,5 +26,15 @@ class LocalCourse
 
   def coach_name
   	self.coach.name
+  end
+
+  def push_time(start_time, end_time)
+    ele = {
+      date: start_time.strftime("%Y-%m-%d"),
+      start_time: start_time.to_i,
+      end_time: end_time.to_i
+    }
+    self.time_ary.push(ele)
+    self.save
   end
 end

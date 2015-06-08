@@ -137,7 +137,7 @@ class Weixin
             {
               "type" => "view", 
               "name" => "我的课表", 
-              "url" => "http://efei.org/coach/students/redirect"
+              "url" => "http://efei.org/weixin/schedules/redirect"
             },
             {
               "type" => "view", 
