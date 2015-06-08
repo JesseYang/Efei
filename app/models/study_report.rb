@@ -56,11 +56,11 @@ class StudyReport
   end
 
   def month
-    Time.at(self.finished_at).strftime("%m") + "月"
+    Time.at(self.finished_at || self.updated_at).strftime("%m") + "月"
   end
 
   def day
-    Time.at(self.finished_at).strftime("%d") + "日"
+    Time.at(self.finished_at || self.updated_at).strftime("%d") + "日"
   end
 
   def content_in_short
