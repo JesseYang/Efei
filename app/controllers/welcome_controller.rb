@@ -28,7 +28,7 @@ class WelcomeController < ApplicationController
           "FromUserName" => params[:xml]["ToUserName"],
           "CreateTime" => Time.now.to_i,
           "MsgType" => "news",
-          "ArticleCount" => 1,
+          "ArticleCount" => 2,
           "Articles" => [
             {
               "item_1" => {
@@ -48,7 +48,8 @@ class WelcomeController < ApplicationController
             }
           ]
         }
-        render :xml => data.to_xml(root: "xml").gsub(/item_\d/, "item") and return
+        retval = data.to_xml(root: "xml").gsub(/item-\d/, "item").gsub("<Article>", "").gsub("</Article>", "")
+        render :xml => retval and return
       end
     end
   end
