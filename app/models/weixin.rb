@@ -140,7 +140,7 @@ class Weixin
               "url" => "http://efei.org/coach/students/redirect"
             },
             {
-              "type" => "click", 
+              "type" => "view", 
               "name" => "学情报告", 
               "key" => "http://efei.org/weixin/reports/redirect"
             }
