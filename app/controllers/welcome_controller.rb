@@ -27,8 +27,16 @@ class WelcomeController < ApplicationController
           "ToUserName" => params[:xml]["FromUserName"],
           "FromUserName" => params[:xml]["ToUserName"],
           "CreateTime" => Time.now.to_i,
-          "MsgType" => "text",
-          "Content" => "<a href='#{Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/students")}/'>我的学生</a>"
+          "MsgType" => "news",
+          "ArticleCount" => 1,
+          "Articles" => {
+            "item" => {
+              "Title" => "图文消息标题",
+              "Description" => "图文消息描述",
+              "PicUrl" => "https://www.baidu.com/img/bdlogo.png",
+              "Url" => "http://www.baidu.com"
+            }
+          }
         }
         render :xml => data.to_xml(root: "xml") and return
       end
