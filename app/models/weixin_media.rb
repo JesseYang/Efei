@@ -51,7 +51,7 @@ class WeixinMedia
   end
 
   def self.update_rotate(media_id, rotate)
-    media = WeixinMedia.where(server_id: media_id).first
+    media = WeixinMedia.where(id: media_id).first
     img = Magick::ImageList.new(@@save_folder + media.id.to_s + "." + media.file_type)
     img.rotate!(rotate.to_f)
     img.write(@@save_folder + media.id.to_s + "." + media.file_type)

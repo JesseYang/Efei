@@ -61,7 +61,7 @@ class Answer
     end
     if new_answer["answer_content_img_serverId"].present? && new_answer["answer_content_img_rotate"].present?
       # only change the rotate
-      WeixinMedia.update_rotate(q_answer["answer_content_img_serverId"], new_answer["answer_content_img_rotate"])
+      WeixinMedia.update_rotate(q_answer["answer_content_img_id"], new_answer["answer_content_img_rotate"])
     end
     if new_answer["coach_comment_img_serverId"].to_s != q_answer["coach_comment_img_serverId"].to_s
       if new_answer["coach_comment_img_serverId"].blank?
@@ -78,7 +78,7 @@ class Answer
     end
     if new_answer["coach_comment_img_serverId"].present? && new_answer["coach_comment_img_rotate"].present?
       # only change the rotate
-      WeixinMedia.update_rotate(q_answer["coach_comment_img_serverId"], new_answer["coach_comment_img_rotate"])
+      WeixinMedia.update_rotate(q_answer["coach_comment_img_id"], new_answer["coach_comment_img_rotate"])
     end
     self.answer_content[q_id] = q_answer
     self.save
