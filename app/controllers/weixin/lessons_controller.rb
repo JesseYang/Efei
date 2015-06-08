@@ -5,7 +5,8 @@ class Weixin::LessonsController < Weixin::ApplicationController
     @local_course = LocalCourse.find(params[:local_course_id])
     @return_path = weixin_course_path(@local_course)
     @lesson = Lesson.find(params[:id])
-    @title = Lesson.lesson_helper + @lesson.name
+    lesson_index = @local_course.course.lesson_id_ary.index(params[:id])
+    @title = Lesson.lesson_helper(lesson_index) + @lesson.name
 
     @exercise = @lesson.homework
     @answer = Answer.ensure_answer(@current_user, @lesson.homework, @local_course.coach)
@@ -15,6 +16,7 @@ class Weixin::LessonsController < Weixin::ApplicationController
     @local_course = LocalCourse.find(params[:local_course_id])
     @return_path = weixin_course_path(@local_course)
     @lesson = Lesson.find(params[:id])
-    @title = Lesson.lesson_helper + @lesson.name
+    lesson_index = @local_course.course.lesson_id_ary.index(params[:id])
+    @title = Lesson.lesson_helper(lesson_index) + @lesson.name
   end
 end
