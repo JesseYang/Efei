@@ -3,14 +3,39 @@
   = stylesheet_link_tag "pages/coach/reports-bundle", :media => "all"
   :javascript
     window.report_id="#{@report_id}"
+    window.student_id="#{@student.id.to_s}"
+    window.local_course_id="#{@local_course.id.to_s}"
 
 %h4.course-name-tip= @local_course.name + " 学情报告"
 
 .content-wrapper
+  - if @report.present?
+    - @report.content.each do |ele|
+      - if ele["type"] == "text"
+        / a text paragraph
+        .para-wrapper.one-content
+          = text_area_tag(:message, ele["value"])
+          .btn-group
+            %button.btn.btn-default.voice-input 语音输入
+            %button.btn.btn-default.delete 删除
+            %button.btn.btn-default.move-up 上移
+            %button.btn.btn-default.move-down 下移
+      - else
+        / an image
+        .image-wrapper.one-content
+          %img{src: WeixinMedia.image_folder + ele["media_id"], data: {serverId: ele["value"]}}
+          .btn-group
+            %button.btn.btn-default.turn.turn-right{data: {rotate: "90"}} 右转90度
+            %button.btn.btn-default.turn.turn-over{data: {rotate: "180"}} 旋转180度
+            %button.btn.btn-default.turn.turn-left{data: {rotate: "270"}} 左转90度
+          .btn-group
+            %button.btn.btn-default.delete 删除
+            %button.btn.btn-default.move-up 上移
+            %button.btn.btn-default.move-down 下移
 
 .save-wrapper
-  %a.btn.btn-primary.new-paragraph{href: "javascript:void(0);"} 新文本段落
-  %a.btn.btn-primary.new-image{href: "javascript:void(0);"} 拍照或选取照片
+  %a.btn.btn-primary.new-paragraph-btn{href: "javascript:void(0);"} 新文本段落
+  %a.btn.btn-primary.new-image-btn{href: "javascript:void(0);"} 拍照或选取照片
   = link_to "保存", "javascript:void(0)", { class: "save-btn btn btn-warning" }
   = link_to "提交", "javascript:void(0)", { class: "submit-btn btn btn-danger" }
 

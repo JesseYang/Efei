@@ -54,5 +54,6 @@ class WeixinMedia
     img = Magick::ImageList.new(@@save_folder + media.id.to_s)
     img.rotate!(rotate.to_f)
     img.write(@@save_folder + media.id.to_s)
+    return media.id.to_s
   end
 end

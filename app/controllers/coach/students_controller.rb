@@ -32,6 +32,6 @@ class Coach::StudentsController < Coach::ApplicationController
     @local_course = LocalCourse.find(params[:local_course_id])
     @title = @student.name
 
-    @reports = current_user.student_study_reports.where(local_course_id: @local_course.id)
+    @reports = @student.student_study_reports.where(finish: true, local_course_id: @local_course.id)
   end
 end

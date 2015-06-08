@@ -18,13 +18,18 @@ h4 {
   margin-bottom: 10px;
 }
 
-td {
-  padding: 0px;
+table {
+  width: 100%;
+  td {
+    padding: 0px;
+  }
 }
+
 
 .one-report {
   border-bottom: #CCC solid 1px;
   height: 100px;
+  width: 100%;
   .left-part {
     height: 100%;
     padding-top: 10px;
@@ -59,6 +64,7 @@ td {
   }
   .right-part {
     height: 100%;
+    width: 64px;
     a {
       text-decoration: none;
       padding-top: 28px;
@@ -73,7 +79,6 @@ td {
 }
 
 .new-wrapper {
-  border-top: #CCC solid 1px;
   border-bottom: #CCC solid 1px;
   .new-btn {
     margin: 10px 3vw;

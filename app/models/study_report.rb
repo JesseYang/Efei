@@ -11,18 +11,23 @@ class StudyReport
   belongs_to :student, class_name: "User", inverse_of: :student_study_reports
   belongs_to :coach, class_name: "User", inverse_of: :study_reports
 
-  def self.create_new(content, name="")
+  def self.create_new(content, student, local_course)
     new_content = [ ]
     content.each do |ele|
       if ele["type"] == "image"
-        WeixinMedia.download_media(ele["serverId"], ele["rotate"])
+        media_id = WeixinMedia.download_media(ele["serverId"], ele["rotate"])
       end
-      new_content[content["index"].to_i] = {
+      new_content[ele["index"].to_i] = {
         type: ele["type"],
-        value: ele["value"]
+        value: ele["value"],
+        media_id: media_id.to_s
       }
     end
-    sr = StudyReport.create(content: new_content, name: name)
+    sr = StudyReport.create(content: new_content)
+    sr.student = student
+    sr.local_course = local_course
+    sr.coach = local_course.coach
+    sr.save
     sr.id.to_s
   end
 
@@ -30,13 +35,14 @@ class StudyReport
     new_content = [ ]
     content.each do |ele|
       if ele["type"] == "image" && ele["image_type"] == "new"
-        WeixinMedia.download_media(ele["serverId"], ele["rotate"])
+        media_id = WeixinMedia.download_media(ele["serverId"], ele["rotate"])
       elsif ele["type"] == "image" && ele["image_type"] == "existing"
-        WeixinMedia.update_rotate(ele["serverId"], ele["rotate"])
+        media_id = WeixinMedia.update_rotate(ele["serverId"], ele["rotate"])
       end
-      new_content[content["index"].to_i] = {
+      new_content[ele["index"].to_i] = {
         type: ele["type"],
-        value: ele["value"]
+        value: ele["value"],
+        media_id: media_id.to_s
       }
     end
     self.content = new_content

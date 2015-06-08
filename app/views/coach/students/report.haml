@@ -20,7 +20,7 @@
         .info
           %span= r.info
       %td.right-part
-        %a.right.slide-right-link{href: "javascript:void(0);"}
+        %a.right.slide-right-link{href: coach_report_path(r) + "?student_id=#{@student.id.to_s}&local_course_id=#{@local_course.id.to_s}"}
           %i.icon.slide-right
 
 .new-wrapper

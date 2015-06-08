@@ -8,7 +8,7 @@ $ ->
   window.current_content = null
   weixin_jsapi_authorize(["chooseImage", "uploadImage", "previewImage", "startRecord", "stopRecord", "translateVoice", "scanQRCode"])
 
-  $(".new-paragraph").click ->
+  $(".new-paragraph-btn").click ->
     new_para = $(HandlebarsTemplates["para_wrapper"]({ }))
     $(".content-wrapper").append(new_para)
 
@@ -46,7 +46,7 @@ $ ->
             else
               textarea.text(textarea.text() + res.translateResult)
 
-  $(".new-image").click ->
+  $(".new-image-btn").click ->
     wx.chooseImage
       success: (res) ->
         localIds = res.localIds
@@ -112,7 +112,7 @@ $ ->
           ele.rotate = $(this).find(".btn-group .btn-primary").attr("data-rotate")
           window.content.push(ele)
           window.existing_image_number += 1
-    send_save_report_request()
+      send_save_report_request()
 
   send_save_report_request = ->
     if window.uploaded_image_number != $(".new-image").length || window.text_para_number != $(".para-wrapper").length || window.existing_image_number != $(".existing-image").length
@@ -120,7 +120,9 @@ $ ->
     if window.report_id == ""
       $.postJSON "/coach/reports",
         {
-          content: content
+          content: content,
+          student_id: window.student_id,
+          local_course_id: window.local_course_id
         }, (data) ->
           if data.success
             $.page_notification "保存成功"
