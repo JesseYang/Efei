@@ -14,14 +14,16 @@ class StudyReport
   def self.create_new(content, student, local_course)
     new_content = [ ]
     content.each do |ele|
+      new_ele = {
+        type: ele["type"]
+      }
       if ele["type"] == "image"
         media_id = WeixinMedia.download_media(ele["value"], ele["rotate"])
+        new_ele[:value] = media_id
+      else
+        new_ele[:value] = ele["value"]
       end
-      new_content[ele["index"].to_i] = {
-        type: ele["type"],
-        value: ele["value"],
-        media_id: media_id.to_s
-      }
+      new_content[ele["index"].to_i] = new_ele
     end
     sr = StudyReport.create(content: new_content)
     sr.student = student
@@ -34,16 +36,19 @@ class StudyReport
   def update_existing(content)
     new_content = [ ]
     content.each do |ele|
+      new_ele = {
+        type: ele["type"]
+      }
       if ele["type"] == "image" && ele["image_type"] == "new"
         media_id = WeixinMedia.download_media(ele["value"], ele["rotate"])
+        new_ele[:value] = media_id
       elsif ele["type"] == "image" && ele["image_type"] == "existing"
-        media_id = WeixinMedia.update_rotate(ele["value"], ele["rotate"])
+        WeixinMedia.update_rotate(ele["value"], ele["rotate"])
+        new_ele[:value] = ele["value"]
+      else
+        new_ele[:value] = ele["value"]
       end
-      new_content[ele["index"].to_i] = {
-        type: ele["type"],
-        value: ele["value"],
-        media_id: media_id.to_s
-      }
+      new_content[ele["index"].to_i] = new_ele
     end
     self.content = new_content
     self.save

@@ -108,7 +108,7 @@ $ ->
                 send_save_report_request()
         else
           ele.image_type = "existing"
-          ele.value = $(this).find("img").attr("data-serverId")
+          ele.value = $(this).find("img").attr("data-media_id")
           ele.rotate = $(this).find(".btn-group .btn-primary").attr("data-rotate")
           window.content.push(ele)
           window.existing_image_number += 1
