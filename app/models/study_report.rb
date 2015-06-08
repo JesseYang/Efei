@@ -69,7 +69,7 @@ class StudyReport
   end
 
   def info
-    Time.at(self.finished_at).strftime("%Y.%m.%d") + " 教师：" + self.coach.name
+    Time.at(self.finished_at || self.updated_at).strftime("%Y.%m.%d") + " 教师：" + self.coach.name
   end
 
   def title
