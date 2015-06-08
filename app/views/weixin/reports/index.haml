@@ -5,6 +5,9 @@
 - if @reports.blank?
   .info= "教师还没有为#{@current_user.name}撰写学情报告"
 
+- if @local_course.present?
+  %p.selected-course= @local_course.name
+
 %table
   - @reports.each do |r|
     %tr.one-report
@@ -20,3 +23,15 @@
       %td.right-part
         %a.slide-right-link{href: weixin_report_path(r)}
           %i.icon.slide-right
+
+#left-filter
+  .filter-title
+    %h1.title-content 课程选择
+    %a.right.turnoff-link{href: "javascript:void(0);"}
+      %i.icon.turnoff
+  %ul
+    %li
+      = link_to "全部课程", weixin_reports_path
+    - @local_courses.each do |lc|
+      %li
+        = link_to lc.name, weixin_reports_path + "?local_course_id=#{lc.id.to_s}"

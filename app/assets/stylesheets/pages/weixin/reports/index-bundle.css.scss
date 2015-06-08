@@ -11,6 +11,14 @@
   display: table;
 }
 
+.selected-course {
+  text-align: center;
+  border-bottom: #CCC solid 1px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 1.3em;
+}
+
 table {
   width: 100%;
   td {
@@ -72,5 +80,66 @@ table {
 .icon {
   @include size(24px, 24px);
   @include inline-block;
+}
+
+#left-filter {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: none;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  border-right: #CCC solid 1px;
+  z-index: 101;
+
+  .filter-title {
+    background-color: $weixin-bg;
+    height: 50px;
+    text-align: center;
+    color: white;
+    .title-content {
+      @include inline-block;
+      margin: auto;
+      line-height: 50px;
+      color: white;
+      font-size: 22px;
+      text-align: center;
+    }
+    a {
+      text-decoration: none;
+      .turnoff {
+        margin-top: 13px;
+        margin-right: 13px;
+        @include weixin-sprite(turnoff24);
+      }
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0px;
+    margin-bottom: 0px;
+    li {
+      list-style: none;
+      height: 50px;
+      text-align: center;
+      a {
+        overflow: hidden;
+        border-bottom: #CCC solid 1px;
+        background-color: #F4F4F4;
+        font-size: 1.2em;
+        cursor: pointer;
+        display: block;
+        @include one-line(50px);
+        color: $weixin-bg;
+        text-decoration: none;
+        text-align: center;
+        &:hover {
+          background-color: #E6E6E6;
+        }
+      }
+    }
+  }
 }
 

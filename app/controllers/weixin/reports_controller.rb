@@ -9,7 +9,12 @@ class Weixin::ReportsController < Weixin::ApplicationController
 
   def index
     @title = "学情报告"
+    @local_courses = @current_user.student_local_courses
     @reports = current_user.student_study_reports
+    if params[:local_course_id].present?
+      @local_course = LocalCourse.find(params[:local_course_id])
+      @reports = @reports.where(local_course_id: params[:local_course_id])
+    end
   end
 
   def show
