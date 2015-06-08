@@ -42,19 +42,19 @@ class WeixinMedia
       return m.id.to_s
     when "image/jpeg"
       m.file_type = "jpg"
-      file = File.open(@@save_folder + m.id.to_s, 'wb')
+      file = File.open(@@save_folder + m.id.to_s + "." + m.file_type, 'wb')
       file.write(response.body)
       m.downloaded = true
       m.save
-      return m.id.to_s
+      return m
     end
   end
 
   def self.update_rotate(media_id, rotate)
     media = WeixinMedia.where(server_id: media_id).first
-    img = Magick::ImageList.new(@@save_folder + media.id.to_s)
+    img = Magick::ImageList.new(@@save_folder + media.id.to_s + "." + media.file_type)
     img.rotate!(rotate.to_f)
-    img.write(@@save_folder + media.id.to_s)
-    return media.id.to_s
+    img.write(@@save_folder + media.id.to_s + "." + media.file_type)
+    return media
   end
 end

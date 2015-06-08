@@ -18,8 +18,9 @@ class StudyReport
         type: ele["type"]
       }
       if ele["type"] == "image"
-        media_id = WeixinMedia.download_media(ele["value"], ele["rotate"])
-        new_ele[:value] = media_id
+        media = WeixinMedia.download_media(ele["value"], ele["rotate"])
+        new_ele[:value] = media.id.to_s
+        new_ele[:file_type] = media.file_type.to_s
       else
         new_ele[:value] = ele["value"]
       end
@@ -40,11 +41,13 @@ class StudyReport
         type: ele["type"]
       }
       if ele["type"] == "image" && ele["image_type"] == "new"
-        media_id = WeixinMedia.download_media(ele["value"], ele["rotate"])
-        new_ele[:value] = media_id
+        media = WeixinMedia.download_media(ele["value"], ele["rotate"])
+        new_ele[:value] = media.id.to_s
+        new_ele[:file_type] = media.file_type.to_s
       elsif ele["type"] == "image" && ele["image_type"] == "existing"
-        WeixinMedia.update_rotate(ele["value"], ele["rotate"])
-        new_ele[:value] = ele["value"]
+        media = WeixinMedia.update_rotate(ele["value"], ele["rotate"])
+        new_ele[:value] = media.id.to_s
+        new_ele[:file_type] = media.file_type.to_s
       else
         new_ele[:value] = ele["value"]
       end

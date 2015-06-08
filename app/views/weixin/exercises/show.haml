@@ -34,7 +34,7 @@
   %p= "#{@current_user.name}的答案：" + ( @answer_content["answer_index"].present? ? d2c(@answer_content["answer_index"].to_i) : "" )
   - if @answer_content["answer_content_img_id"].present?
     .image-wrapper
-      %img{src: WeixinMedia.image_folder + @answer_content["answer_content_img_id"]}
+      %img{src: WeixinMedia.image_folder + @answer_content["answer_content_img_id"] + "." + @answer_content["answer_content_img_file_type"]}
 
 - if @answer_content["comment"].present? || @answer_content["coach_comment_img_id"].present?
   .coach-comment.content-block
@@ -43,4 +43,4 @@
       %p= @answer_content["comment"]
     - if @answer_content["coach_comment_img_id"].present?
       .image-wrapper
-        %img{src: WeixinMedia.image_folder + @answer_content["coach_comment_img_id"]}
+        %img{src: WeixinMedia.image_folder + @answer_content["coach_comment_img_id"] + "." + @answer_content["coach_comment_img_file_type"]}

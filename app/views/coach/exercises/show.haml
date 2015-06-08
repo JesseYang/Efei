@@ -41,7 +41,7 @@
   = link_to "拍照或选择图片", "javascript:void(0);", { class: "get-answer-content-photo" }
   .image-wrapper
     - if @answer_content["answer_content_img_serverId"].present?
-      %img{src: WeixinMedia.image_folder + @answer_content["answer_content_img_id"], data: {update: "false"}}
+      %img{src: WeixinMedia.image_folder + @answer_content["answer_content_img_id"] + "." + @answer_content["answer_content_img_file_type"], data: {update: "false"}}
     - else
       %img.hide{data: {update: "false"}}
   .btn-group{class: @answer_content["answer_content_img_id"].present? ? "" : "hide"}
@@ -57,7 +57,7 @@
   = text_area_tag "comment", @answer_content["comment"], {class: "coach-comment-area"}
   .image-wrapper
     - if @answer_content["coach_comment_img_id"].present?
-      %img{src: WeixinMedia.image_folder + @answer_content["coach_comment_img_id"], data: {update: "false"}}
+      %img{src: WeixinMedia.image_folder + @answer_content["coach_comment_img_id"] + "." + @answer_content["coach_comment_img_file_type"], data: {update: "false"}}
     - else
       %img.hide{data: {update: "false"}}
   .btn-group{class: @answer_content["coach_comment_img_id"].present? ? "" : "hide"}

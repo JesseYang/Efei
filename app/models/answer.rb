@@ -54,7 +54,9 @@ class Answer
       else
         # download the image from weixin server and save
         q_answer["answer_content_img_serverId"] = new_answer["answer_content_img_serverId"]
-        q_answer["answer_content_img_id"] = WeixinMedia.download_media(q_answer["answer_content_img_serverId"], new_answer["answer_content_img_rotate"])
+        media = WeixinMedia.download_media(q_answer["answer_content_img_serverId"], new_answer["answer_content_img_rotate"])
+        q_answer["answer_content_img_id"] = media.id.to_s
+        q_answer["answer_content_img_file_type"] = media.file_type
       end
     end
     if new_answer["answer_content_img_serverId"].present? && new_answer["answer_content_img_rotate"].present?
@@ -69,7 +71,9 @@ class Answer
       else
         # download the image from weixin server and save
         q_answer["coach_comment_img_serverId"] = new_answer["coach_comment_img_serverId"]
-        q_answer["coach_comment_img_id"] = WeixinMedia.download_media(q_answer["coach_comment_img_serverId"], new_answer["coach_comment_img_rotate"])
+        media = WeixinMedia.download_media(q_answer["coach_comment_img_serverId"], new_answer["coach_comment_img_rotate"])
+        q_answer["coach_comment_img_id"] = media.id.to_s
+        q_answer["coach_comment_img_file_type"] = media.file_type.to_s
       end
     end
     if new_answer["coach_comment_img_serverId"].present? && new_answer["coach_comment_img_rotate"].present?
