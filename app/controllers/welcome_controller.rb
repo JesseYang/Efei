@@ -31,7 +31,7 @@ class WelcomeController < ApplicationController
           "ArticleCount" => 1,
           "Articles" => [
             {
-              "item" => {
+              "item_1" => {
                 "Title" => "图文消息标题",
                 "Description" => "图文消息描述",
                 "PicUrl" => "https://www.baidu.com/img/bdlogo.png",
@@ -39,7 +39,7 @@ class WelcomeController < ApplicationController
               }
             },
             {
-              "item" => {
+              "item_2" => {
                 "Title" => "图文消息标题",
                 "Description" => "图文消息描述",
                 "PicUrl" => "https://www.baidu.com/img/bdlogo.png",
@@ -48,7 +48,7 @@ class WelcomeController < ApplicationController
             }
           ]
         }
-        render :xml => data.to_xml(root: "xml") and return
+        render :xml => data.to_xml(root: "xml").gsub(/item_\d/, "item") and return
       end
     end
   end
