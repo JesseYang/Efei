@@ -15,7 +15,7 @@ class StudyReport
     new_content = [ ]
     content.each do |ele|
       if ele["type"] == "image"
-        media_id = WeixinMedia.download_media(ele["serverId"], ele["rotate"])
+        media_id = WeixinMedia.download_media(ele["value"], ele["rotate"])
       end
       new_content[ele["index"].to_i] = {
         type: ele["type"],
@@ -35,9 +35,9 @@ class StudyReport
     new_content = [ ]
     content.each do |ele|
       if ele["type"] == "image" && ele["image_type"] == "new"
-        media_id = WeixinMedia.download_media(ele["serverId"], ele["rotate"])
+        media_id = WeixinMedia.download_media(ele["value"], ele["rotate"])
       elsif ele["type"] == "image" && ele["image_type"] == "existing"
-        media_id = WeixinMedia.update_rotate(ele["serverId"], ele["rotate"])
+        media_id = WeixinMedia.update_rotate(ele["value"], ele["rotate"])
       end
       new_content[ele["index"].to_i] = {
         type: ele["type"],
