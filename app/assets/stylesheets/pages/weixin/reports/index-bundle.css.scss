@@ -11,8 +11,11 @@
   display: table;
 }
 
-td {
-  padding: 0px;
+table {
+  width: 100%;
+  td {
+    padding: 0px;
+  }
 }
 
 .one-report {
@@ -52,6 +55,7 @@ td {
   }
   .right-part {
     height: 100%;
+    width: 64px;
     a {
       text-decoration: none;
       padding-top: 28px;

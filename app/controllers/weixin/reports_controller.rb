@@ -14,7 +14,7 @@ class Weixin::ReportsController < Weixin::ApplicationController
   end
 
   def show
-    @return_path = report_weixin_course_path(@study_report.local_course)
+    @return_path = weixin_reports_path
     @title = "学情报告"
     @study_report = StudyReport.find(params[:id])
   end
