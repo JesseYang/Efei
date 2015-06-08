@@ -92,6 +92,9 @@ Rails.application.routes.draw do
     resources :records do
     end
     resources :reports do
+      collection do
+        get :redirect
+      end
     end
     resources :courses do
       member do
