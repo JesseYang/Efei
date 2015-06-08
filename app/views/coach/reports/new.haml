@@ -22,7 +22,7 @@
             %button.btn.btn-default.move-down 下移
       - else
         / an image
-        .image-wrapper.one-content
+        .image-wrapper.one-content.existing-image
           %img{src: WeixinMedia.image_folder + ele["value"], data: {media_id: ele["value"]}}
           .btn-group
             %button.btn.btn-default.turn.turn-right{data: {rotate: "90"}} 右转90度
