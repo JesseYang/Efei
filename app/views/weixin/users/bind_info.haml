@@ -7,7 +7,7 @@
   %p
     %span= "您的微信（#{@weixin_bind.nickname}）已与易飞学堂帐号（#{@current_user.name}，学号#{@current_user.student_number}）绑定。"
   = link_to "我的课程", weixin_courses_path, { class: "btn btn-primary form-control" }
-  = link_to "我的课表", "javascript:void(0);", { class: "btn btn-primary form-control" }
+  = link_to "我的课表", weixin_schedules_path, { class: "btn btn-primary form-control" }
   = link_to "学情报告", weixin_reports_path, { class: "btn btn-primary form-control" }
   = form_tag(unbind_weixin_user_path(@weixin_bind), id: "bind-weixin-form", method: "post", multipart: true) do
     %fieldset
