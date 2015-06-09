@@ -1,0 +1,61 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/weixin_news-bundle"
+  = stylesheet_link_tag "pages/admin/weixin_news-bundle", :media => "all"
+  :javascript
+
+.container
+  .lib-content
+    - if @weixin_news.blank?
+      %h4
+        没有微信新闻
+    - else
+      %table#course-table.table.table-striped
+        %tr
+          %th.col-md-1= "类型"
+          %th.col-md-1= "标题"
+          %th.col-md-1= "描述"
+          %th.col-md-1= "图片"
+          %th.col-md-1= "链接"
+          %th.col-md-2 操作
+        - @weixin_news.each do |e|
+          %tr
+            %td= WeixinNews.type_info(e.type)
+            %td= e.title
+            %td= e.desc
+            %td
+              =image_tag(e.pic_url)
+            %td= e.url
+            %td
+              = link_to "删除", { controller: "admin/weixin_news", action: "destroy", id: e._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+              - if e.active
+                = link_to "隐藏", { controller: "admin/weixin_news", action: "toggle_active", id: e._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
+              - else
+                = link_to "显示", { controller: "admin/weixin_news", action: "toggle_active", id: e._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
+    %button.btn.btn-primary{data: {toggle: "modal", target: "#newWeixinNews"} } 创建新闻
+
+#newWeixinNews.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(admin_weixin_news_index_path, method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 创建新闻
+        .modal-body
+          .form-group
+            = label_tag :title, "类型"
+            = select_tag "weixin_news[type]", options_for_select(WeixinNews.type_for_select), class: "form-control"
+          .form-group
+            = label_tag :title, "标题"
+            = text_field_tag "weixin_news[title]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :desc, "描述"
+            = text_field_tag "weixin_news[desc]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :weixin_news_media, "图片"
+            = file_field_tag "weixin_news_media"
+          .form-group
+            = label_tag :url, "链接"
+            = text_field_tag "weixin_news[url]", "", autofocus: false, class: "form-control"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "创建", :class => 'btn-primary btn'

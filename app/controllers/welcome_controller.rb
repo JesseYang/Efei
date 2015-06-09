@@ -22,32 +22,26 @@ class WelcomeController < ApplicationController
         render text: "" and return
       end
     when "event"
-      if params[:xml]["Event"] == "CLICK" && params[:xml]["EventKey"] == "MSWK"
+      if params[:xml]["Event"] == "CLICK" && ["MSWK", "ZCKD", "JYZT"].include?(params[:xml]["EventKey"])
         data = {
           "ToUserName" => params[:xml]["FromUserName"],
           "FromUserName" => params[:xml]["ToUserName"],
           "CreateTime" => Time.now.to_i,
           "MsgType" => "news",
           "ArticleCount" => 2,
-          "Articles" => [
-            {
-              "item_1" => {
-                "Title" => "图文消息标题",
-                "Description" => "图文消息描述",
-                "PicUrl" => "https://www.baidu.com/img/bdlogo.png",
-                "Url" => "http://www.baidu.com"
-              }
-            },
-            {
-              "item_2" => {
-                "Title" => "图文消息标题",
-                "Description" => "图文消息描述",
-                "PicUrl" => "https://www.baidu.com/img/bdlogo.png",
-                "Url" => "http://www.baidu.com"
-              }
-            }
-          ]
+          "Articles" => [ ]
         }
+        news = WeixinNews.where(type: params[:xml]["EventKey"]).desc(:created_at).limit(3)
+        news.each_with_index do |n, i|
+          data["Articles"] << {
+            "item_#{i}" => {
+              "Title" => n.title,
+              "Description" => n.desc,
+              "PicUrl" => Rails.application.config.server_host + n.pic_url,
+              "Url" => n.url
+            }
+          }
+        end
         retval = data.to_xml(root: "xml").gsub(/item-\d/, "item").gsub("<Article>", "").gsub("</Article>", "")
         render :xml => retval and return
       end
