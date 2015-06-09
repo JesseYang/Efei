@@ -2,7 +2,7 @@
 class Admin::TeachersController < Admin::ApplicationController
 
   def index
-    @teachers = User.where(tablet_teacher: true)
+    @teachers = auto_paginate User.where(tablet_teacher: true).desc(:created)
   end
 
   def create
@@ -21,6 +21,25 @@ class Admin::TeachersController < Admin::ApplicationController
       avatar_url: avatar_url,
       teacher: true)
     @teacher.save(validate: false)
+    redirect_to action: :index and return
+  end
+
+  def update
+    @teacher = User.find(params[:id])
+    @teacher.name = params[:teacher]["name"]
+    @teacher.desc = params[:teacher]["desc"]
+
+    if params[:avatar].present?
+      # also update avatar
+      avatar = Avatar.new
+      avatar.avatar = params[:avatar]
+      filetype = "png"
+      avatar.store_avatar!
+      filepath = avatar.avatar.file.file
+      avatar_url = "/avatars/" + filepath.split("/")[-1]
+      @teacher.avatar_url = avatar_url
+    end
+    @teacher.save
     redirect_to action: :index and return
   end
 

@@ -1,0 +1,87 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/coaches-bundle"
+  = stylesheet_link_tag "pages/admin/coaches-bundle", :media => "all"
+  :javascript
+
+.container
+  .lib-content
+    - if @coaches["data"].blank?
+      %h4
+        没有辅导老师
+    - else
+      .paginator-wrapper
+        = paginator_mini @coaches
+      .table-responsive
+        %table.table.table-striped
+          %tr
+            %th.col-md-2= "姓名"
+            %th.col-md-2= "员工号"
+            %th.col-md-2= "邮箱"
+            %th.col-md-2= "手机"
+            %th.col-md-2 操作
+          - @coaches["data"].each do |c|
+            %tr{data: {id: c.id.to_s}}
+              %td.name-td= c.name
+              %td.coach-number-td= c.coach_number
+              %td.email-td= c.email
+              %td.mobile-td= c.mobile
+              %td
+                = link_to "删除", { controller: "admin/coaches", action: "destroy", id: c._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+                = link_to "编辑", "javascript:void(0)", :class => 'btn btn-primary btn-xs edit-coach'
+    %button.btn.btn-new.btn-primary{data: {toggle: "modal", target: "#newCoach"} } 创建新辅导老师
+
+#newCoach.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(admin_coaches_path, method: "post", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 创建新辅导老师
+        .modal-body
+          .form-group
+            = label_tag :name, "姓名"
+            = text_field_tag "coach[name]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :coach_number, "员工号"
+            = text_field_tag "coach[coach_number]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :password, "密码"
+            = text_field_tag "coach[password]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :email, "邮箱"
+            = text_field_tag "coach[email]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :mobile, "手机"
+            = text_field_tag "coach[mobile]", "", autofocus: false, class: "form-control"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "创建", :class => 'btn-primary btn'
+
+#editCoach.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(admin_coaches_path, method: "put", multipart: true) do
+        .modal-header
+          .jesse-notification
+            %span
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 编辑辅导老师
+        .modal-body
+          .form-group
+            = label_tag :name, "姓名"
+            = text_field_tag "coach[name]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :coach_number, "员工号"
+            = text_field_tag "coach[coach_number]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :password, "密码"
+            = text_field_tag "coach[password]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :email, "邮箱"
+            = text_field_tag "coach[email]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :mobile, "手机"
+            = text_field_tag "coach[mobile]", "", autofocus: false, class: "form-control"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "更新", :class => 'btn-primary btn'

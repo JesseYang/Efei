@@ -5,9 +5,17 @@
 
 - content_for :app_content do
   .admin-nav
-    = link_to "教师列表", { controller: "admin/teachers", action: "index" }, :class => 'btn btn-default btn-xs'
-    = link_to "课程列表", { controller: "admin/courses", action: "index" }, :class => 'btn btn-default btn-xs'
-    = link_to "新闻列表", { controller: "admin/weixin_news", action: "index" }, :class => 'btn btn-default btn-xs'
+    %ul.nav.nav-tabs
+      %li.teachers
+        = link_to "教师列表", { controller: "admin/teachers", action: "index" }
+      %li.courses
+        = link_to "课程列表", { controller: "admin/courses", action: "index" }
+      %li.news
+        = link_to "新闻列表", { controller: "admin/weixin_news", action: "index" }
+      %li.coaches
+        = link_to "辅导老师", { controller: "admin/coaches", action: "index" }
+      %li.local_courses
+        = link_to "本地课程", { controller: "admin/local_courses", action: "index" }
   = yield 
 
 = render :template => 'layouts/application'

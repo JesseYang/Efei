@@ -1,0 +1,33 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/local_courses-bundle"
+  = stylesheet_link_tag "pages/admin/local_courses-bundle", :media => "all"
+  :javascript
+
+.container
+  .lib-content
+    - if @local_courses["data"].blank?
+      %h4
+        没有本地课程
+    - else
+      .paginator-wrapper
+        = paginator_mini @local_courses
+      .table-responsive
+        %table.table.table-striped
+          %tr
+            %th.col-md-2= "原课程"
+            %th.col-md-2= "辅导老师"
+            %th.col-md-1= "上课城市"
+            %th.col-md-2= "上课地点"
+            %th.col-md-3= "上课时间描述"
+            %th.col-md-2 操作
+          - @local_courses["data"].each do |e|
+            %tr{data: {id: e.id.to_s}}
+              %td= e.name
+              %td= e.coach.name
+              %td= e.city
+              %td= e.location
+              %td= e.time_desc
+              %td
+                = link_to "删除", { controller: "admin/local_courses", action: "destroy", id: e._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+                = link_to "编辑", edit_admin_local_course_path(e), :class => 'btn btn-primary btn-xs edit-coach'
+    %a.btn.btn-new.btn-primary{ href: new_admin_local_course_path } 创建本地课程

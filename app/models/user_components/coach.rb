@@ -15,6 +15,33 @@ module UserComponents::Coach
   end
 
   module ClassMethods
+    def create_coach(coach)
+      return ErrCode::COACH_NUMBER_EXIST if User.where(coach_number: coach["coach_number"]).present?
+      return ErrCode::EMAIL_EXIST if User.where(email: coach["email"]).present?
+      return ErrCode::MOBILE_EXIST if User.where(mobile: coach["mobile"]).present?
+      coach = User.create({
+        name: coach["name"],
+        coach_number: coach["coach_number"],
+        password: Encryption.encrypt_password(coach["password"]),
+        email: coach["email"],
+        mobile: coach["mobile"],
+        coach: true
+      })
+    end
+  end
+
+  def update_coach(coach)
+    return ErrCode::COACH_NUMBER_EXIST if User.where(coach_number: coach["coach_number"]).present?
+    return ErrCode::EMAIL_EXIST if User.where(email: coach["email"]).present?
+    return ErrCode::MOBILE_EXIST if User.where(mobile: coach["mobile"]).present?
+    self.name = coach["name"]
+    self.coach_number = coach["coach_number"]
+    self.email = coach["email"]
+    self.mobile = coach["mobile"]
+    if coach["password"].present?
+      self.password = Encryption.encrypt_password(coach["password"])
+    end
+    self.save
   end
 
   def current_students

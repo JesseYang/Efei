@@ -1,14 +1,16 @@
 - content_for :head do
-  / = javascript_include_tag "pages/admin/teachers-bundle"
-  / = stylesheet_link_tag "pages/admin/teachers-bundle", :media => "all"
+  = javascript_include_tag "pages/admin/teachers-bundle"
+  = stylesheet_link_tag "pages/admin/teachers-bundle", :media => "all"
   :javascript
 
 .container
   .lib-content
-    - if @teachers.blank?
+    - if @teachers["data"].blank?
       %h4
         没有教师
     - else
+      .paginator-wrapper
+        = paginator_mini @teachers
       .table-responsive
         %table.table.table-striped
           %tr
@@ -16,15 +18,16 @@
             %th.col-md-3= "简介"
             %th.col-md-3= "头像"
             %th.col-md-3 操作
-          - @teachers.each do |t|
-            %tr
-              %td= t.name
-              %td= t.desc
+          - @teachers["data"].each do |t|
+            %tr{data: {id: t.id.to_s}}
+              %td.name-td= t.name
+              %td.desc-td= t.desc
               %td
                 =image_tag(t.avatar_url)
               %td
                 = link_to "删除", { controller: "admin/teachers", action: "destroy", id: t._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
-    %button.btn.btn-primary{data: {toggle: "modal", target: "#newTeacher"} } 创建新教师
+                = link_to "编辑", "javascript:void(0)", :class => 'btn btn-primary btn-xs edit-teacher'
+    %button.btn.btn-new.btn-primary{data: {toggle: "modal", target: "#newTeacher"} } 创建新教师
 
 #newTeacher.modal.fade
   .modal-dialog
@@ -50,26 +53,22 @@
 #editTeacher.modal.fade
   .modal-dialog
     .modal-content
-      .modal-header
-        .jesse-notification
-          %span
-        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-        %h3 编辑教师资料
-      .modal-body
-        .form-group.hide
-          = text_field_tag "teacher[id]", ""
-        .form-group
-          = label_tag :name, "姓名"
-          = text_field_tag "teacher[name]", "", autofocus: true, class: "form-control"
-        .form-group
-          = label_tag :subject, "邮箱"
-          = text_field_tag "teacher[email]", "", class: "form-control"
-        .form-group
-          = label_tag :subject, "学科"
-          = select_tag "teacher[subject]", options_for_select(Subject::CODE, 1), class: "form-control"
-        .form-group
-          = label_tag :password, "变更密码"
-          = text_field_tag "teacher[password]", "", class: "form-control"
-      .modal-footer
-        %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-        %a#update-btn.btn.btn-primary{href: "#", "aria-hidden" => "true"} 更新
+      = form_tag(admin_teachers_path, method: "put", multipart: true) do
+        .modal-header
+          .jesse-notification
+            %span
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 编辑教师
+        .modal-body
+          .form-group
+            = label_tag :name, "姓名"
+            = text_field_tag "teacher[name]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :desc, "简介"
+            = text_area_tag "teacher[desc]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :avatar_url, "头像"
+            = file_field_tag "avatar"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "更新", :class => 'btn-primary btn'

@@ -21,14 +21,22 @@ img {
 }
 
 .col-url {
-  width: 16%;
+  width: 12%;
 }
 
 .col-op {
-  width: 12%;
+  width: 16%;
 }
 
 .news-url-wrapper {
   @include inline-block;
   width: 100%;
+}
+
+.paginator-wrapper {
+  margin-bottom: 10px;
+}
+
+.btn-new {
+  margin-bottom: 30px;
 }

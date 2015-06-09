@@ -5,10 +5,12 @@
 
 .container
   .lib-content
-    - if @weixin_news.blank?
+    - if @weixin_news["data"].blank?
       %h4
         没有微信新闻
     - else
+      .paginator-wrapper
+        = paginator_mini @weixin_news
       %table#course-table.table.table-striped
         %tr
           %th.col-type= "类型"
@@ -17,23 +19,24 @@
           %th.col-pic= "图片"
           %th.col-url= "链接"
           %th.col-op 操作
-        - @weixin_news.each do |e|
-          %tr
-            %td.col-type= WeixinNews.type_info(e.type)
-            %td.col-title= e.title
-            %td.col-desc= e.desc
-            %td.col-pic
+        - @weixin_news["data"].each do |e|
+          %tr{data: {id: e.id.to_s}}
+            %td.type-td.col-type= WeixinNews.type_info(e.type)
+            %td.title-td.col-title= e.title
+            %td.desc-td.col-desc= e.desc
+            %td.pic-td.col-pic
               =image_tag(e.pic_url)
-            %td.col-url
+            %td.url-td.col-url
               .news-url-wrapper
                 %span.news-url= e.url
             %td.col-op
               = link_to "删除", { controller: "admin/weixin_news", action: "destroy", id: e._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+              = link_to "编辑", "javascript:void(0);", :class => 'btn btn-primary btn-xs edit-news'
               - if e.active
                 = link_to "隐藏", { controller: "admin/weixin_news", action: "toggle_active", id: e._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
               - else
                 = link_to "显示", { controller: "admin/weixin_news", action: "toggle_active", id: e._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
-    %button.btn.btn-primary{data: {toggle: "modal", target: "#newWeixinNews"} } 创建新闻
+    %button.btn.btn-new.btn-primary{data: {toggle: "modal", target: "#newWeixinNews"} } 创建新闻
 
 #newWeixinNews.modal.fade
   .modal-dialog
@@ -61,3 +64,30 @@
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'
+
+#editWeixinNews.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(admin_weixin_news_index_path, method: "put", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 创建新闻
+        .modal-body
+          .form-group
+            = label_tag :title, "类型"
+            = select_tag "weixin_news[type]", options_for_select(WeixinNews.type_for_select), class: "form-control"
+          .form-group
+            = label_tag :title, "标题"
+            = text_field_tag "weixin_news[title]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :desc, "描述"
+            = text_field_tag "weixin_news[desc]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :weixin_news_media, "图片"
+            = file_field_tag "weixin_news_media"
+          .form-group
+            = label_tag :url, "链接"
+            = text_field_tag "weixin_news[url]", "", autofocus: false, class: "form-control"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "更新", :class => 'btn-primary btn'

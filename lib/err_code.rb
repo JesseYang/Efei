@@ -26,6 +26,10 @@ module ErrCode
 
   WRONG_INVITE_CODE = -50
 
+  COACH_NUMBER_EXIST = -60
+  EMAIL_EXIST = -61
+  MOBILE_EXIST = -62
+
 
   def self.ret_false(code)
     retval = { success: false }
@@ -74,6 +78,12 @@ module ErrCode
       "不在选题状态"
     when WRONG_INVITE_CODE 
       "邀请码错误"
+    when COACH_NUMBER_EXIST 
+      "员工号已存在"
+    when EMAIL_EXIST 
+      "邮箱已存在"
+    when MOBILE_EXIST 
+      "手机号已存在"
     end
   end
 end

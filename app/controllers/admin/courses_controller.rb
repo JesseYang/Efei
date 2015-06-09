@@ -2,7 +2,7 @@
 class Admin::CoursesController < Admin::ApplicationController
 
   def index
-    @courses = Course.all
+    @courses = auto_paginate Course.all
   end
 
   def show

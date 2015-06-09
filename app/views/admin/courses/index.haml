@@ -5,10 +5,12 @@
 
 .container
   .lib-content
-    - if @courses.blank?
+    - if @courses["data"].blank?
       %h4
         没有课程
     - else
+      .paginator-wrapper
+        = paginator_mini @courses
       %table#course-table.table.table-striped
         %tr
           %th.col-md-1= "教师"
@@ -21,7 +23,7 @@
           %th.col-md-1= "建议学时"
           %th.col-md-1= "讲义封面"
           %th.col-md-2 操作
-        - @courses.each do |c|
+        - @courses["data"].each do |c|
           %tr
             %td= c.teacher.name
             %td= Subject::NAME[c.subject]
@@ -40,7 +42,7 @@
                 = link_to "下架", { controller: "admin/courses", action: "toggle_ready", id: c._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
               - else
                 = link_to "上架", { controller: "admin/courses", action: "toggle_ready", id: c._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
-    %button.btn.btn-primary{data: {toggle: "modal", target: "#newCourse"} } 创建新课程
+    %button.btn.btn-new.btn-primary{data: {toggle: "modal", target: "#newCourse"} } 创建新课程
 
 #newCourse.modal.fade
   .modal-dialog
