@@ -8,22 +8,31 @@ class Weixin::SchedulesController < Weixin::ApplicationController
 
   def index
     @title = "我的课表"
+    @local_courses = @current_user.student_local_courses
+    if params[:local_course_id].present?
+      @local_course = LocalCourse.find(params[:local_course_id])
+    end
   end
 
   def show
-    date = params[:id]
-    @title = date
+    @date = params[:id]
+    @title = "我的课表"
     @return_path = weixin_schedules_path
   end
 
   # get the dates that have lessons
   def data
     if params[:date].present?
-      data = [{
-        title: "高一预习",
-        start: "2015-06-20T13:21:58+00:00",
-        "end" => "2015-06-20T15:21:58+00:00"
-        }]
+      data = [ ]
+      @current_user.student_local_courses.each do |lc|
+        lc.time_ary.each do |time|
+          data.push({
+            "title" => lc.desc,
+            "start" => Time.at(time["start_time"]).iso8601,
+            "end" => Time.at(time["end_time"]).iso8601
+          })
+        end
+      end
       render json: data and return
     else
       data = [ ]

@@ -4,6 +4,7 @@ class LocalCourse
   include Mongoid::Timestamps
 
   field :city, type: String
+  field :location, type: String
   field :time_desc, type: String
   field :time_ary, type: Array, default: [ ]
 
@@ -11,6 +12,10 @@ class LocalCourse
   belongs_to :coach, class_name: "User", inverse_of: :local_courses
   has_and_belongs_to_many :students, class_name: "User", inverse_of: :student_local_courses
   has_many :study_reports, class_name: "StudyReport", inverse_of: :local_course
+
+  def desc
+    self.name + "\n" + "教师：" + self.coach.name + "\n" + self.location
+  end
 
   def name
   	self.course.name

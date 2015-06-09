@@ -2,10 +2,26 @@
   = javascript_include_tag "pages/weixin/schedules/index-bundle"
   = stylesheet_link_tag "pages/weixin/schedules/index-bundle", :media => "all"
 
-#calendar
+- if @local_course.present?
+  %p.selected-course= @local_course.name
+  %p.desc= @local_course.time_desc
+  %p.desc= @local_course.location
+- else
+  #calendar
 
-.tip-wrapper
-  %span 日历中
-  %span.green
-  %span 表示当天有课程，可点击查看详情。
-  
+  .tip-wrapper
+    %span 日历中
+    %span.green
+    %span 表示当天有课程，可点击查看详情。
+
+#left-filter
+  .filter-title
+    %h1.title-content 课程选择
+    %a.right.turnoff-link{href: "javascript:void(0);"}
+      %i.icon.turnoff
+  %ul
+    %li
+      = link_to "课表日历", weixin_schedules_path
+    - @local_courses.each do |lc|
+      %li
+        = link_to lc.name, weixin_schedules_path + "?local_course_id=#{lc.id.to_s}"

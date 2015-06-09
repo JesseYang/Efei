@@ -14,3 +14,9 @@ $ ->
       url = "/weixin/schedules/" + date.format()
       window.location.href = url
   })
+
+  $(".filter").click ->
+    $("#left-filter").toggle()
+
+  $(".turnoff").click ->
+    $("#left-filter").toggle()  
