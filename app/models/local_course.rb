@@ -17,6 +17,32 @@ class LocalCourse
     self.name + "\n" + "教师：" + self.coach.name + "\n" + self.location
   end
 
+  def time_ary_text
+    ""
+  end
+
+  def self.create_local_course(local_course)
+    lc = LocalCourse.create({
+      course_id: local_course["course_id"],
+      coach_id: local_course["coach_id"],
+      city: local_course["city"],
+      location: local_course["location"],
+      time_desc: local_course["time_desc"]
+    })
+    true
+  end
+
+  def update_local_course(local_course)
+    self.update_attributes({
+      course_id: local_course["course_id"],
+      coach_id: local_course["coach_id"],
+      city: local_course["city"],
+      location: local_course["location"],
+      time_desc: local_course["time_desc"]
+    })
+    true
+  end
+
   def name
   	self.course.name
   end

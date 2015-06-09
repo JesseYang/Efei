@@ -28,6 +28,14 @@ module UserComponents::Coach
         coach: true
       })
     end
+
+    def coaches_for_select
+      hash = { "请选择" => -1 }
+      User.where(coach: true).each do |t|
+        hash[t.name] = t.id.to_s
+      end
+      hash
+    end
   end
 
   def update_coach(coach)

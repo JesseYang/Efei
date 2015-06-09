@@ -1,0 +1,37 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/students-bundle"
+  = stylesheet_link_tag "pages/admin/students-bundle", :media => "all"
+  :javascript
+
+.container
+  .lib-content
+    - if @students["data"].blank?
+      %h4
+        没有学生
+    - else
+      .paginator-wrapper
+        = paginator_mini @students
+      .table-responsive
+        %table.table.table-striped
+          %tr
+            %th.col-md-1= "姓名"
+            %th.col-md-1= "城市"
+            %th.col-md-2= "学校"
+            %th.col-md-1= "年级"
+            %th.col-md-1= "学号"
+            %th.col-md-2= "邮箱"
+            %th.col-md-2= "手机"
+            %th.col-md-2 操作
+          - @students["data"].each do |e|
+            %tr
+              %td= e.name
+              %td= e.city
+              %td= e.school
+              %td= e.grade
+              %td= e.student_number
+              %td= e.email
+              %td= e.mobile
+              %td
+                = link_to "删除", { controller: "admin/students", action: "destroy", id: e._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+                = link_to "编辑", edit_admin_student_path(e), :class => 'btn btn-primary btn-xs edit-coach'
+    %button.btn.btn-new.btn-primary 创建新学生
