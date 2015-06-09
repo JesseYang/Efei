@@ -1,0 +1,34 @@
+@import "compass/css3/inline-block";
+
+img {
+  width: 100%;
+}
+
+.col-type {
+  width: 8%;
+}
+
+.col-title {
+  width: 16%;
+}
+
+.col-desc {
+  width: 16%;
+}
+
+.col-pic {
+  width: 32%;
+}
+
+.col-url {
+  width: 16%;
+}
+
+.col-op {
+  width: 12%;
+}
+
+.news-url-wrapper {
+  @include inline-block;
+  width: 100%;
+}

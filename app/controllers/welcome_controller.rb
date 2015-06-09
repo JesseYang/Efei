@@ -23,7 +23,7 @@ class WelcomeController < ApplicationController
       end
     when "event"
       if params[:xml]["Event"] == "CLICK" && ["MSWK", "ZCKD", "JYZT"].include?(params[:xml]["EventKey"])
-        news = WeixinNews.where(type: params[:xml]["EventKey"]).desc(:created_at).limit(3)
+        news = WeixinNews.where(active: true, type: params[:xml]["EventKey"]).desc(:created_at).limit(3)
         data = {
           "ToUserName" => params[:xml]["FromUserName"],
           "FromUserName" => params[:xml]["ToUserName"],

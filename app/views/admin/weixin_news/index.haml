@@ -11,21 +11,23 @@
     - else
       %table#course-table.table.table-striped
         %tr
-          %th.col-md-1= "类型"
-          %th.col-md-1= "标题"
-          %th.col-md-1= "描述"
-          %th.col-md-1= "图片"
-          %th.col-md-1= "链接"
-          %th.col-md-2 操作
+          %th.col-type= "类型"
+          %th.col-title= "标题"
+          %th.col-desc= "描述"
+          %th.col-pic= "图片"
+          %th.col-url= "链接"
+          %th.col-op 操作
         - @weixin_news.each do |e|
           %tr
-            %td= WeixinNews.type_info(e.type)
-            %td= e.title
-            %td= e.desc
-            %td
+            %td.col-type= WeixinNews.type_info(e.type)
+            %td.col-title= e.title
+            %td.col-desc= e.desc
+            %td.col-pic
               =image_tag(e.pic_url)
-            %td= e.url
-            %td
+            %td.col-url
+              .news-url-wrapper
+                %span.news-url= e.url
+            %td.col-op
               = link_to "删除", { controller: "admin/weixin_news", action: "destroy", id: e._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
               - if e.active
                 = link_to "隐藏", { controller: "admin/weixin_news", action: "toggle_active", id: e._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
