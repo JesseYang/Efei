@@ -1,0 +1,26 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/students-bundle"
+  = stylesheet_link_tag "pages/admin/students-bundle", :media => "all"
+  :javascript
+
+.form-wrapper
+  = form_tag(@new ? admin_students_path : admin_students_path(@student), method: @new ? "post" : "put", multipart: true) do
+    .form-group
+      = label_tag :name, "姓名"
+      = text_field_tag "student[name]", @student.name, autofocus: true, class: "form-control"
+    .form-group
+      = label_tag :email, "邮箱"
+      = text_field_tag "student[email]", @student.email, autofocus: false, class: "form-control"
+    .form-group
+      = label_tag :mobile, "手机"
+      = text_field_tag "student[mobile]", @student.mobile, autofocus: false, class: "form-control"
+    .form-group
+      = label_tag :city, "城市"
+      = text_field_tag "student[city]", @student.city, autofocus: false, class: "form-control"
+    .form-group
+      = label_tag :school, "学校"
+      = text_field_tag "student[school]", @student.school, autofocus: false, class: "form-control"
+    .form-group
+      = label_tag :grade, "年级"
+      = text_field_tag "student[grade]", @student.grade, autofocus: false, class: "form-control"
+    = submit_tag @new ? "创建" : "更新", :class => 'btn-primary btn'

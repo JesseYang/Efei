@@ -37,6 +37,33 @@ module UserComponents::Student
       teachers_info = teachers.map { |t| t.teacher_info_for_student(true) }
       { success: true, teachers: teachers_info }
     end
+
+    def create_student(student)
+      student = LocalCourse.create({
+        tablet: true,
+        name: student["name"],
+        email: student["email"],
+        mobile: student["mobile"],
+        city: student["city"],
+        school: student["school"],
+        grade: student["grade"],
+        student_number: student["student_number"]
+      })
+      true
+    end
+  end
+
+  def update_student(student)
+    self.update_attributes({
+      name: student["name"],
+        email: student["email"],
+        mobile: student["mobile"],
+        city: student["city"],
+        school: student["school"],
+        grade: student["grade"],
+        student_number: student["student_number"]
+    })
+    true
   end
 
   def update_studies(study_ary)
