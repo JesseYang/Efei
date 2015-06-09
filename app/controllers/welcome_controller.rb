@@ -21,35 +21,17 @@ class WelcomeController < ApplicationController
       else
         render text: "" and return
       end
-=begin
-            {
-              "item_1" => {
-                "title" => "图文消息标题",
-                "description" => "图文消息描述",
-                "picurl" => "https://www.baidu.com/img/bdlogo.png",
-                "url" => "http://www.baidu.com"
-              }
-            },
-            {
-              "item_2" => {
-                "title" => "图文消息标题",
-                "description" => "图文消息描述",
-                "picurl" => "https://www.baidu.com/img/bdlogo.png",
-                "url" => "http://www.baidu.com"
-              }
-            }
-=end
     when "event"
       if params[:xml]["Event"] == "CLICK" && ["MSWK", "ZCKD", "JYZT"].include?(params[:xml]["EventKey"])
+        news = WeixinNews.where(type: params[:xml]["EventKey"]).desc(:created_at).limit(3)
         data = {
           "ToUserName" => params[:xml]["FromUserName"],
           "FromUserName" => params[:xml]["ToUserName"],
           "CreateTime" => Time.now.to_i,
           "MsgType" => "news",
-          "ArticleCount" => 2,
+          "ArticleCount" => news.length,
           "Articles" => [ ]
         }
-        news = WeixinNews.where(type: params[:xml]["EventKey"]).desc(:created_at).limit(3)
         news.each_with_index do |n, i|
           data["Articles"] << {
             "item_#{i}" => {
