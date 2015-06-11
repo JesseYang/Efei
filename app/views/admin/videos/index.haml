@@ -28,7 +28,7 @@
             %td
               = link_to "删除", { controller: "admin/videos", action: "destroy", id: v.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
               = link_to "详细", { controller: "admin/videos", action: "show", id: v._id.to_s }, :class => 'btn btn-primary btn-xs'
-    %button.btn.btn-primary{data: {toggle: "modal", target: "#newVideo"} } 创建新视频
+    %button.btn.btn-primary.btn-new{data: {toggle: "modal", target: "#newVideo"} } 创建新视频
 
 #newVideo.modal.fade
   .modal-dialog

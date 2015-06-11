@@ -32,6 +32,14 @@ class Homework < Node
     Homework.create(name: name, subject: subject)
   end
 
+  def self.homeworks_for_select
+    hash = { "请选择" => -1 }
+    Homework.all.each do |h|
+      hash[h.name] = h.id.to_s
+    end
+    hash
+  end
+
   def questions_in_order
     self.q_ids.map { |e| Question.find(e) }
   end

@@ -6,11 +6,31 @@ class Admin::LessonsController < Admin::ApplicationController
       @lessons = Lesson.all
     else
       @course = Course.find(params[:course_id])
-      @lessons = @course.lessons
+      @lessons = @course.lesson_id_ary.map { |e| Lesson.find(e) }
     end
   end
 
   def show
+  end
+
+  def update
+    @lesson = Lesson.find(params[:id])
+    course = @lesson.course
+
+    @lesson.name = params[:lesson]["name"]
+    homework = Homework.where(id: params[:lesson]["homework_id"]).first
+    @lesson.homework = homework if homework.present?
+    
+    # update the lesson_id_ary for the course
+    index = params[:lesson]["order"].to_i - 1
+    if index >= 0
+      course.lesson_id_ary ||= []
+      course.lesson_id_ary[index] = @lesson.id.to_s
+      course.save
+    end
+    @lesson.save
+
+    redirect_to action: :index, course_id: course.id and return
   end
 
   def create
@@ -18,6 +38,8 @@ class Admin::LessonsController < Admin::ApplicationController
 
     @lesson = Lesson.new(name: params[:lesson]["name"])
     @lesson.course = course
+    homework = Homework.where(id: params[:lesson]["homework_id"]).first
+    @lesson.homework = homework if homework.present?
     @lesson.save
     @lesson.touch_parents
 
