@@ -4,10 +4,13 @@
   :javascript
 
 .form-wrapper
-  = form_tag(@new ? admin_students_path : admin_students_path(@student), method: @new ? "post" : "put", multipart: true) do
+  = form_tag(@new ? admin_students_path : admin_student_path(@student), method: @new ? "post" : "put", multipart: true) do
     .form-group
       = label_tag :name, "姓名"
       = text_field_tag "student[name]", @student.name, autofocus: true, class: "form-control"
+    .form-group
+      = label_tag :student_number, "学号"
+      = text_field_tag "student[student_number]", @student.student_number, autofocus: true, class: "form-control"
     .form-group
       = label_tag :email, "邮箱"
       = text_field_tag "student[email]", @student.email, autofocus: false, class: "form-control"
@@ -18,9 +21,20 @@
       = label_tag :city, "城市"
       = text_field_tag "student[city]", @student.city, autofocus: false, class: "form-control"
     .form-group
-      = label_tag :school, "学校"
-      = text_field_tag "student[school]", @student.school, autofocus: false, class: "form-control"
+      = label_tag :school_name, "学校"
+      = text_field_tag "student[school_name]", @student.school_name, autofocus: false, class: "form-control"
     .form-group
       = label_tag :grade, "年级"
       = text_field_tag "student[grade]", @student.grade, autofocus: false, class: "form-control"
+    .form-group
+      = label_tag :course_id_ary, "报名课程"
+      = text_field_tag "student[local_course_id_ary]", @student.local_course_id_ary, autofocus: false, class: "form-control hide"
+      %ul#local-course-ul
+        - @student.student_local_courses.each do |lc|
+          %li{data: {id: lc.id.to_s}}
+            %a{href: edit_admin_local_course_path(lc), target: "_blank"}= lc.name + "(#{lc.number})"
+            %a.remove-local-course{href: "javascript:void(0);"}= "删除"
+      .fomr-control
+        = select_tag "new_local_course", options_for_select(LocalCourse.local_courses_for_select(@student), "-1"), class: "form-control"
+        %a.btn.btn-default.new-local-course{href: "javascript:void(0);"} 报名
     = submit_tag @new ? "创建" : "更新", :class => 'btn-primary btn'

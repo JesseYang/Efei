@@ -1,3 +1,5 @@
+@import "compass/css3/inline-block";
+
 .paginator-wrapper {
   margin-bottom: 10px;
 }
@@ -12,3 +14,20 @@
   margin-right: 20vw;
 }
 
+#new_local_course {
+  width: 80%;
+  @include inline-block;
+}
+
+.remove-local-course {
+  text-decoration: none;
+  color: black;
+  opacity: 0.2;
+  font-weight: bold;
+  margin-left: 20px;
+  &:hover {
+    text-decoration: none;
+    color: black;
+    opacity: 0.5;
+  }
+}

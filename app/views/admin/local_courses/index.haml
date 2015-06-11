@@ -15,7 +15,8 @@
         %table.table.table-striped
           %tr
             %th.col-md-2= "原课程"
-            %th.col-md-2= "辅导老师"
+            %th.col-md-1= "班号"
+            %th.col-md-1= "辅导老师"
             %th.col-md-1= "上课城市"
             %th.col-md-2= "上课地点"
             %th.col-md-3= "上课时间描述"
@@ -23,6 +24,7 @@
           - @local_courses["data"].each do |e|
             %tr{data: {id: e.id.to_s}}
               %td= e.name
+              %td= e.number
               %td= e.coach.name
               %td= e.city
               %td= e.location

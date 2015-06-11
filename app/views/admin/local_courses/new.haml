@@ -12,6 +12,9 @@
       = label_tag :coach_id, "辅导老师"
       = select_tag "local_course[coach_id]", options_for_select(User.coaches_for_select, @local_course.coach.try(:id).to_s), class: "form-control"
     .form-group
+      = label_tag :number, "班号"
+      = text_field_tag "local_course[number]", @local_course.number, autofocus: false, class: "form-control"
+    .form-group
       = label_tag :city, "上课城市"
       = text_field_tag "local_course[city]", @local_course.city, autofocus: false, class: "form-control"
     .form-group

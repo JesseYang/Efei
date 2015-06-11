@@ -8,7 +8,7 @@ module UserComponents::Student
     # for tablet users
     field :tablet, type: Boolean, default: false
     field :city, type: String, default: ""
-    field :school, type: String, default: ""
+    field :school_name, type: String, default: ""
     field :grade, type: String, default: ""
     field :student_number, type: String, default: ""
     has_many :notes
@@ -39,16 +39,19 @@ module UserComponents::Student
     end
 
     def create_student(student)
-      student = LocalCourse.create({
+      new_student = User.create({
         tablet: true,
         name: student["name"],
         email: student["email"],
         mobile: student["mobile"],
         city: student["city"],
-        school: student["school"],
+        school_name: student["school_name"],
         grade: student["grade"],
         student_number: student["student_number"]
       })
+      student["local_course_id_ary"].split(',').each do |lc_id|
+        new_student.student_local_courses << LocalCourse.find(lc_id)
+      end
       true
     end
   end
@@ -59,10 +62,21 @@ module UserComponents::Student
         email: student["email"],
         mobile: student["mobile"],
         city: student["city"],
-        school: student["school"],
+        school_name: student["school_name"],
         grade: student["grade"],
         student_number: student["student_number"]
     })
+    update_lc_id_ary = student["local_course_id_ary"].split(',')
+    self.student_local_courses.each do |lc|
+      if !update_lc_id_ary.include?(lc.id.to_s)
+        self.student_local_courses.delete(lc)
+      else
+        update_lc_id_ary.delete(lc.id.to_s)
+      end
+    end
+    update_lc_id_ary.each do |lc_id|
+      self.student_local_courses << LocalCourse.find(lc_id)
+    end
     true
   end
 
@@ -221,5 +235,9 @@ module UserComponents::Student
       school: school,
       grade: grade
     })
+  end
+
+  def local_course_id_ary
+    self.student_local_courses.map { |e| e.id.to_s } .join(',')
   end
 end

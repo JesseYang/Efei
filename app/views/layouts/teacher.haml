@@ -30,9 +30,9 @@
               = current_user.email
               %b.caret
             .ef-dropdown-menu.hide
-              / - if current_user.school_admin
-              /   .ef-dropdown-item
-              /     %a{href: "/school_admin/teachers", data: {method: "get"}} 学校管理员
+              - if current_user.admin
+                .ef-dropdown-item
+                  %a{href: "/admin/teachers", data: {method: "get"}} 管理员
               .ef-dropdown-item
                 %a{href: "/teacher/settings/#{current_user.id.to_s}"} 个人设置
               .ef-dropdown-item
