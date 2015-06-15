@@ -97,6 +97,12 @@ module UserComponents::Student
     end .join(',')
   end
 
+  def completed_lesson_id_str
+    self.student_answers.map do |e|
+      e.homework.lesson.id.to_s
+    end .join(',')
+  end
+
   def list_my_teachers
     teachers_info = self.klasses.map { |e| e.teacher } .uniq.map { |t| t.teacher_info_for_student }
     { success: true, teachers: teachers_info }
