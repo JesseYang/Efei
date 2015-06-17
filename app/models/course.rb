@@ -11,7 +11,7 @@ class Course
   field :desc, type: String
   field :suggestion, type: String
   field :textbook_url, type: String
-  field :lesson_id_ary, type: Array
+  field :lesson_id_ary, type: Array, default: [ ]
 
   field :ready, type: Boolean, default: false
 

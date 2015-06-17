@@ -6,7 +6,7 @@ class Admin::LessonsController < Admin::ApplicationController
       @lessons = Lesson.all
     else
       @course = Course.find(params[:course_id])
-      @lessons = @course.lesson_id_ary.map { |e| Lesson.find(e) }
+      @lessons = (@course.lesson_id_ary || []).map { |e| Lesson.find(e) }
     end
   end
 
