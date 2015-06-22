@@ -19,6 +19,11 @@ Rails.application.routes.draw do
 
   match '/' => 'welcome#weixin', :via => :post
 
+  namespace :client do
+    resources :homeworks do
+    end
+  end
+
   namespace :admin do
     resources :students do
     end
