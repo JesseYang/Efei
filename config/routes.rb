@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 
   namespace :client do
     resources :homeworks do
+      collection do
+        get :test
+      end
     end
   end
 
