@@ -18,7 +18,7 @@ class Homework::UsersController < Homework::ApplicationController
     teacher_name = params[:teacher_name]
     teacher_auth_code = params[:teacher_auth_code]
     t = User.where(name: teacher_name, teacher_auth_code: params[:teacher_auth_code]).first
-    if c.blank?
+    if t.blank?
       flash[:error] = "授权码或者姓名不正确"
       redirect_to action: :pre_bind and return
     end
