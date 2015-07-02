@@ -1,47 +1,205 @@
 @import 'utility';
 @import 'compass/css3';
 @import 'common';
-@import 'icons/weixin/*.png';
+@import 'icons/homeworks/*.png';
 
-body {
-  min-width: 0px;
-}
-
-.course-name-tip {
-  text-align: center;
-}
-
-.right {
-  float: right;
-}
-
-.left {
-  float: left;
-}
-
-#homework-navbar {
-  text-align: center;
-  background-color: $homework-bg;
-  height: 50px;
+#title-bar {
+  .uneditable-tip {
+    line-height: 50px;
+    height: 50px;
+    margin-left: 10px;
+    color: #888;
+  }
   .icon {
-    @include size(24px, 24px);
+    margin-left: 15px;
+    @include size(20px, 20px);
     @include inline-block;
   }
-  a {
-    text-decoration: none;
-    color: black;
-    .return {
-      margin-top: 13px;
-      margin-left: 13px;
-      @include weixin-sprite(return24);
+  width: auto;
+  height: 50px;
+  background: #FAFAFA;
+  @include box-shadow(gray 0px 0px 5px);
+  border-top: 1px solid #E5E5E5;
+  #wrapper {
+    width: 965px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #title-wrapper {
+    float: left;
+    width: 400px;
+    #title {
+      margin-top: 0;
+      margin-bottom: 0;
+      @include inline-block;
+      @include one-line(50px);
+      float: left;
+      font-size: 1.4em;
+    }
+    .title-edit {
+      @include one-line(50px);
+      .form-control {
+        @include inline-block;
+        width: 250px;
+      }
+    }
+    #title-edit-icon {
+      @include size(16px, 16px);
+      @include inline-block;
+      cursor: pointer;
+      margin-left: 10px;
+      margin-top: 15px;
+      float: left;
+      @include homeworks-sprite(title_edit);
     }
   }
-  #title {
-    @include inline-block;
-    margin: auto;
-    line-height: 50px;
-    color: white;
-    font-size: 22px;
-    text-align: center;
+  #operation-wrapper {
+    position: relative;
+    float: right;
+    ul {
+      list-style: none;
+      li {
+        @include one-line(50px);
+        margin-left: 10px;
+        a {
+          text-decoration: none;
+          color: black;
+          .return {
+            @include homeworks-sprite(return20);
+          }
+          .download {
+            @include homeworks-sprite(download20);
+          }
+          .more {
+            @include homeworks-sprite(more20);
+          }
+          .compose {
+            @include homeworks-sprite(compose20);
+          }
+          .remove {
+            @include homeworks-sprite(remove20);
+          }
+          .edit {
+            @include homeworks-sprite(edit20);
+          }
+          .setting {
+            @include homeworks-sprite(setting20);
+          }
+          .stat {
+            @include homeworks-sprite(stat20);
+          }
+          &:hover {
+            .return {
+              @include homeworks-sprite(return20_hover);
+            }
+            .download {
+              @include homeworks-sprite(download20_hover);
+            }
+            .more {
+              @include homeworks-sprite(more20_hover);
+            }
+            .compose {
+              @include homeworks-sprite(compose20_hover);
+            }
+            .remove {
+              @include homeworks-sprite(remove20_hover);
+            }
+            .edit {
+              @include homeworks-sprite(edit20_hover);
+            }
+            .setting {
+              @include homeworks-sprite(setting20_hover);
+            }
+            .stat {
+              @include homeworks-sprite(stat20_hover);
+            }
+              span {
+              color: $efblue;
+            }
+          }
+        }
+        float: right;
+      }
+    }
+    .ef-dropdown-menu {
+      @include box-shadow(gray 0px 0px 5px);
+      width: 114px;
+      top: 40px;
+      right: 0px;
+      position: absolute;
+      border: 1px #CCCCCC solid;
+      background-color: white;
+      list-style-type: none;
+      z-index: 1000;
+      .ef-dropdown-item {
+        cursor: pointer;
+        margin: 0;
+        padding: 7px 0 7px;
+        &:hover {
+          background-color: #EEE;
+        }
+        line-height: 20px;
+        a {
+          width: 100%;
+          @include inline-block;
+          padding-left: 10px;
+          line-height: 20px;
+          color: #333;
+          text-decoration: none;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+#downloadModal {
+  .title-p {
+    margin-left: 20px;
+  }
+  .content-p {
+    margin-left: 40px;
+  }
+  .checkbox {
+    margin-left: 30px;
+  }
+}
+
+#shareModal {
+  .sharer-list {
+    padding-left: 100px;
+    width: 50%;
+    max-height: 200px;
+    .teacher-name {
+      @include inline-block;
+      width: 45%;
+    }
+    .editable {
+      @include inline-block;
+      width: 45%;
+      cursor: pointer;
+    }
+    .close-link {
+      text-decoration: none;
+      color: black;
+      opacity: 0.4;
+      font-size: 1.2em;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+  #share-input {
+    width: 300px;
+  }
+  .editable {
+    text-decoration: none;
+  }
+}
+
+.ui-autocomplete {
+  z-index: 10000;
+  li {
+    font-size: 14px;
   }
 }

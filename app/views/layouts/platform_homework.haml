@@ -1,0 +1,15 @@
+- content_for :app_head do
+  = stylesheet_link_tag "layouts/platform_homework-layout", :media => "all"
+  = javascript_include_tag "layouts/platform_homework-layout"
+  = yield :head
+- content_for :app_nav do
+  #homework-navbar
+    %a.left.return-link{href: @return_path.present? ? @return_path : "javascript:void(0)"}
+      %i.icon.return
+    %h1#title= @title
+    %a.right.hide
+      %i.icon
+- content_for :app_content do
+  = yield
+
+= render :template => 'layouts/application'

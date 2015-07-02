@@ -1,6 +1,6 @@
 require 'digest/sha1'
 class Homework::ApplicationController < ApplicationController
-  layout 'layouts/homework'
+  layout 'layouts/platform_homework'
 
   # for efei homework teachers
 

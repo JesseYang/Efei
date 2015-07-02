@@ -1,0 +1,47 @@
+@import 'utility';
+@import 'compass/css3';
+@import 'common';
+@import 'icons/weixin/*.png';
+
+body {
+  min-width: 0px;
+}
+
+.course-name-tip {
+  text-align: center;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+#homework-navbar {
+  text-align: center;
+  background-color: $homework-bg;
+  height: 50px;
+  .icon {
+    @include size(24px, 24px);
+    @include inline-block;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+    .return {
+      margin-top: 13px;
+      margin-left: 13px;
+      @include weixin-sprite(return24);
+    }
+  }
+  #title {
+    @include inline-block;
+    margin: auto;
+    line-height: 50px;
+    color: white;
+    font-size: 22px;
+    text-align: center;
+  }
+}
