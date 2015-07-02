@@ -18,6 +18,15 @@ class WelcomeController < ApplicationController
           "Content" => "<a href='#{Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/students")}/'>我的学生</a>"
         }
         render :xml => data.to_xml(root: "xml") and return
+      elsif params[:xml]["Content"] == "我的作业平台"
+        data = {
+          "ToUserName" => params[:xml]["FromUserName"],
+          "FromUserName" => params[:xml]["ToUserName"],
+          "CreateTime" => Time.now.to_i,
+          "MsgType" => "text",
+          "Content" => "<a href='#{Platform.generate_authorize_link(Rails.application.config.server_host + "/homework/klasses")}/'>我的作业平台</a>"
+        }
+        render :xml => data.to_xml(root: "xml") and return
       else
         render text: "" and return
       end

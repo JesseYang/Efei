@@ -27,6 +27,23 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :homework do
+    resources :users do
+      collection do
+        get :pre_bind
+        get :expire
+        get :bind_info
+        post :bind
+      end
+      member do
+        post :unbind
+        get :post_bind
+      end
+    end
+    resources :klasses do
+    end
+  end
+
   namespace :admin do
     resources :students do
     end

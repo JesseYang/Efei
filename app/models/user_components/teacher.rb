@@ -8,6 +8,10 @@ module UserComponents::Teacher
     field :teacher_desc, type: String
     field :admin, type: Boolean, default: false
 
+    # for homework platform
+    field :homework, type: Boolean, default: false
+    field :auth_code, type: String, default: ""
+
     # for tablet app
     field :avatar_url, type: String, default: ""
     field :desc, type: String, default: ""
