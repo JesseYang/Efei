@@ -1,0 +1,9 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/homework/klasses/list-bundle"
+  = stylesheet_link_tag "pages/homework/klasses/list-bundle", :media => "all"
+
+%ul
+  - @klasses.each do |k|
+    %li
+      = check_box_tag :replace_current, 1, false
+      %span= k.name

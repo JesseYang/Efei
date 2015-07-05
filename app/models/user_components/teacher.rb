@@ -20,11 +20,8 @@ module UserComponents::Teacher
 
     has_many :nodes, class_name: "Node", inverse_of: :user
     has_one :compose, class_name: "Compose", inverse_of: :user
-    # has_many :homeworks, class_name: "Homework", inverse_of: :user
-    # has_many :slides, class_name: "Homework", inverse_of: :user
-    # has_many :folders, class_name: "Folder", inverse_of: :user
     belongs_to :school, class_name: "School", inverse_of: :teachers
-    has_many :classes, class_name: "Klass", inverse_of: :teacher
+    has_and_belongs_to_many :classes, class_name: "Klass", inverse_of: :teachers
     has_many :tag_sets, class_name: "TagSet", inverse_of: :teacher
   end
 

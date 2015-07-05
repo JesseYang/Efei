@@ -8,4 +8,9 @@ class Homework::KlassesController < Homework::ApplicationController
 
   def index
   end
+
+  def list
+  	@school = @current_user.school
+  	@klasses = @school.klasses
+  end
 end

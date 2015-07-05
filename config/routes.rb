@@ -41,6 +41,9 @@ Rails.application.routes.draw do
       end
     end
     resources :klasses do
+      collection do
+        get :list
+      end
     end
   end
 

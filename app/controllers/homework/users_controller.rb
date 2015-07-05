@@ -19,7 +19,7 @@ class Homework::UsersController < Homework::ApplicationController
     teacher_auth_code = params[:teacher_auth_code]
     t = User.where(name: teacher_name, teacher_auth_code: params[:teacher_auth_code]).first
     if t.blank?
-      flash[:error] = "授权码或者姓名不正确"
+      flash[:error] = "姓名或者授权码不正确"
       redirect_to action: :pre_bind and return
     end
     url = Platform.generate_authorize_link(Rails.application.config.server_host + "/homework/users/#{t.id.to_s}/post_bind", true)
@@ -29,7 +29,7 @@ class Homework::UsersController < Homework::ApplicationController
   def post_bind
     t = User.where(id: params[:id]).first
     if t.blank?
-      flash[:error] = "授权码或者姓名不正确"
+      flash[:error] = "姓名或者授权码不正确"
       redirect_to action: :bind and return
     end
     # get the weixin open id and user info
@@ -41,7 +41,11 @@ class Homework::UsersController < Homework::ApplicationController
       :expires => 24.months.from_now,
       :domain => :all
     }
-    redirect_to action: :bind_info and return
+    if t.classes.blank?
+      redirect_to controller: "homework/klasses", action: :list and return
+    else
+      redirect_to action: :bind_info and return
+    end
   end
 
   def unbind

@@ -9,5 +9,6 @@ class School
   field :detail_address, type: String
   field :for_test, type: Boolean, default: false
   has_many :teachers, class_name: "User", inverse_of: :school
+  has_many :classes, class_name: "Klass", inverse_of: :school
 
 end
