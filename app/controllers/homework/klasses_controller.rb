@@ -7,6 +7,11 @@ class Homework::KlassesController < Homework::ApplicationController
   end
 
   def index
+    @school = @current_user.school
+    @klasses = @school.klasses
+    if @klasses.blank?
+      render action: :list and return
+    end
   end
 
   def list
