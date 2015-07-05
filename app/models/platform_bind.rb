@@ -24,7 +24,7 @@ class PlatformBind
     wb.save
   end
 
-  def self.create_teacher_bind(coach, info)
+  def self.create_teacher_bind(teacher, info)
     wb = PlatformBind.create(weixin_open_id: info[:open_id], type: "teacher", nickname: info[:nickname])
     wb.teacher = teacher
     wb.save
