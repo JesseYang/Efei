@@ -9,6 +9,7 @@ class Klass
   field :visible, type: Boolean, default: true
 
   belongs_to :school, class_name: "School", inverse_of: :classes
+  has_many :exams, class_name: "Exam", inverse_of: :klass
   has_and_belongs_to_many :teachers, class_name: "User", inverse_of: :classes
   has_and_belongs_to_many :students, class_name: "User", inverse_of: :klasses
 

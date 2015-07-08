@@ -2,8 +2,23 @@
   = javascript_include_tag "pages/homework/klasses/list-bundle"
   = stylesheet_link_tag "pages/homework/klasses/list-bundle", :media => "all"
 
-%ul
-  - @klasses.each do |k|
-    %li
-      = check_box_tag :replace_current, 1, false
-      %span= k.name
+- content_for :app_nav do
+  #homework-navbar
+    %h1#title= @title
+    %a.nav-text.nav-right-text#submit-link{href: "javascript:void(0);"} 完成
+
+- content_for :app_content do
+  %table.klass-list
+    - @klasses.each do |k|
+      - if @current_klasses.include?(k)
+        %tr.klass-wrapper.selected{data: {id: k.id.to_s}}
+          %td.span-wrapper
+            %span= k.name
+          %td.input-wrapper
+            = check_box_tag :replace_current, 1, true
+      - else
+        %tr.klass-wrapper{data: {id: k.id.to_s}}
+          %td.span-wrapper
+            %span= k.name
+          %td.input-wrapper
+            = check_box_tag :replace_current, 1, false

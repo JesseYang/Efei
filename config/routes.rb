@@ -28,6 +28,11 @@ Rails.application.routes.draw do
   end
 
   namespace :homework do
+    resources :exams do
+      member do
+        get :entry
+      end
+    end
     resources :users do
       collection do
         get :pre_bind

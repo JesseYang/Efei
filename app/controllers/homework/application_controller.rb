@@ -8,8 +8,9 @@ class Homework::ApplicationController < ApplicationController
 
   def homework_init
     ##### for test in local server #####
-    # @current_user = User.where(homework: true).first
-    # return
+    @current_user = User.where(homework: true).first
+    @platform_bind = @current_user.teacher_weixin_bind
+    return
     ####################################
 
     if params[:code].present?

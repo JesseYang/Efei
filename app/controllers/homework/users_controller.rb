@@ -54,10 +54,10 @@ class Homework::UsersController < Homework::ApplicationController
   end
 
   def resolve_layout
-    if %w{expire pre_bind unbind} .include? action_name
+    if %w{expire pre_bind unbind bind_info} .include? action_name
       "layouts/application"
     else
-      "layouts/homework"
+      "layouts/platform_homework"
     end
   end
 end

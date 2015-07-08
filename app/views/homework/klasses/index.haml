@@ -1,0 +1,21 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/homework/klasses/index-bundle"
+  = stylesheet_link_tag "pages/homework/klasses/index-bundle", :media => "all"
+
+- content_for :app_nav do
+  #homework-navbar
+    %a.nav-left-icon{href: list_homework_klasses_path}
+      %i.icon.filter
+    %h1#title= @title
+    %a.nav-right-icon{href: bind_info_homework_users_path}
+      %i.icon.user
+
+- content_for :app_content do
+  %table.klass-list
+    - @current_user.classes.each do |k|
+      %tr.klass-wrapper
+        %td.span-wrapper
+          %span= k.name
+        %td.link-wrapper
+          = link_to "新建作业", new_homework_exam_path + "?klass_id=#{k.id.to_s}"
+

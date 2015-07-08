@@ -1,0 +1,39 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/homework/exams/new-bundle"
+  = stylesheet_link_tag "pages/homework/exams/new-bundle", :media => "all"
+  :javascript
+    window.klass_id = "#{@klass.id.to_s}"
+
+- content_for :app_nav do
+  #homework-navbar
+    %a.nav-left-icon{href: "javascript:void(0);"}
+      %i.icon.return
+    %h1#title= @title
+
+- content_for :app_content do
+  .title-wrapper.form-inline
+    = text_field_tag :title, Time.now.strftime("%Y年%m月%d日-" + Subject::NAME[@current_user.subject] + "作业"), class: "form-control"
+
+  .radios-wrapper
+    .radio-wrapper
+      = radio_button_tag(:type, "no", true)
+      = label_tag(:type_no, "无成绩")
+    %br
+    .radio-wrapper
+      = radio_button_tag(:type, "abcd", false)
+      = label_tag(:type_abcd, "ABCD")
+    %br
+    .radio-wrapper
+      = radio_button_tag(:type, "5", false)
+      = label_tag(:type_5, "5分制")
+    %br
+    .radio-wrapper
+      = radio_button_tag(:type, "10", false)
+      = label_tag(:type_10, "10分制")
+    %br
+    .radio-wrapper
+      = radio_button_tag(:type, "100", false)
+      = label_tag(:type_100, "100分制")
+
+  .btn-wrapper
+    = link_to "确定", "javascript:void(0);", class: "btn btn-primary btn-main form-control btn-create"

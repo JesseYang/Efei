@@ -11,12 +11,15 @@ module UserComponents::Teacher
     # for homework platform
     field :homework, type: Boolean, default: false
     field :auth_code, type: String, default: ""
+    has_one :teacher_weixin_bind, class_name: "PlatformBind", inverse_of: :teacher
 
     # for tablet app
     field :avatar_url, type: String, default: ""
     field :desc, type: String, default: ""
     field :tablet_teacher, type: Boolean, default: false
     has_many :courses, class_name: "Course", inverse_of: :teacher
+
+    has_many :exams, class_name: "Exam", inverse_of: :teacher
 
     has_many :nodes, class_name: "Node", inverse_of: :user
     has_one :compose, class_name: "Compose", inverse_of: :user
@@ -47,39 +50,11 @@ module UserComponents::Teacher
     self.nodes.where(_type: Slide)
   end
 
-  def ensure_default_class
-    if !self.classes.where(default: true).first
-      self.classes.create(default: true, name: "其他")
-    end
-  end
-
   def ensure_compose(homework_id = nil)
     if self.compose.blank?
       self.compose = Compose.create(homework_id: homework_id)
     end
     self.compose
-  end
-
-  def add_to_class(class_id, student)
-    return if self.has_student?(student)
-    klass = self.classes.where(id: class_id).first || self.classes.where(default: true).first || self.classes.create(default: true, name: "其他")
-    klass.students << student
-    return { success: true }
-  end
-
-  def remove_student(student)
-    self.classes.each do |c|
-      c.students.delete(student)
-    end
-  end
-
-  def has_student?(student)
-    all_students_id = self.classes.map { |e| e.students.map { |stu| stu.id.to_s } } .flatten
-    all_students_id.include?(student.id.to_s)
-  end
-
-  def has_teacher?(teacher)
-    teacher.has_student?(self)
   end
 
   def create_tag_set(tag_set_str)
@@ -110,10 +85,6 @@ module UserComponents::Teacher
     f.nil? ? self.nodes.create({is_root: true, name: "我的文件夹"}, Folder) : f
   end
 
-  def create_class(name)
-    self.classes.create(name: name)
-  end
-
   def create_question_feedback(qid)
     q = Question.find(qid)
     f = Feedback.create(user_id: self.id.to_s, question_id: q.id.to_s)
@@ -127,5 +98,22 @@ module UserComponents::Teacher
       desc: self.desc,
       update_at: self.updated_at.to_s
     }
+  end
+
+  def set_classes(class_id_ary)
+    remove_ary = [ ]
+    self.classes.each do |c|
+      if !class_id_ary.include?(c.id.to_s)
+        remove_ary << c
+        class_id_ary.delete(c.id.to_s)
+      end
+    end
+    remove_ary.each do |c|
+      self.classes.delete(c)
+    end
+    class_id_ary.each do |cid|
+      c = Klass.where(id: cid).first
+      self.classes << c
+    end
   end
 end

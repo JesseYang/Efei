@@ -1,13 +1,14 @@
 - content_for :app_head do
-  = javascript_include_tag "pages/coach/users/bind_info-bundle"
-  = stylesheet_link_tag "pages/coach/users/bind_info-bundle", :media => "all"
+  = javascript_include_tag "pages/homework/users/bind_info-bundle"
+  = stylesheet_link_tag "pages/homework/users/bind_info-bundle", :media => "all"
 
-/ show the bind info and allow the user to unbind
-.info
-  %p
-    %span= "您的微信（#{@weixin_bind.nickname}）已与易飞学堂教师（#{@current_user.name}，员工号#{@current_user.coach_number}）绑定。"
-  = link_to "我的学生", coach_students_path, { class: "btn btn-warning form-control" }
-  = form_tag(unbind_coach_user_path(@weixin_bind), id: "bind-weixin-form", method: "post", multipart: true) do
-    %fieldset
-      = submit_tag "解除绑定", class: "btn btn-danger btn-primary unbind-btn form-control"
+- content_for :app_content do
+  / show the bind info and allow the user to unbind
+  .info
+    %p
+      %span= "您的微信帐号（#{@platform_bind.nickname}）已与#{@current_user.school.name}教师 #{@current_user.name} 绑定。"
+    = link_to "我的班级", homework_klasses_path, { class: "btn btn-primary btn-main form-control" }
+    = form_tag(unbind_homework_user_path(@platform_bind), id: "bind-weixin-form", method: "post", multipart: true) do
+      %fieldset
+        = submit_tag "解除绑定", class: "btn btn-danger btn-primary unbind-btn form-control"
 

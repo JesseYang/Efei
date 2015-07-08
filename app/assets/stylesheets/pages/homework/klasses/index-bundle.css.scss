@@ -9,34 +9,25 @@ body {
   text-align: center;
 }
 
-.nav-right-text {
-  position: absolute;
-  right: 5px;
-}
-
 .klass-list {
   width: 100%;
 }
 
 .klass-wrapper {
-  &.selected {
-    background-color: #DCFFB9;
-  }
   height: 80px;
   border-bottom: solid 1px #CCC;
   .span-wrapper {
-    width: 80%;
+    width: 70%;
     span {
       @include inline-block;
       line-height: 80px;
       font-size: 22px;
     }
   }
-  .input-wrapper {
-    width: 20%;
-    input {
-      @include inline-block;
-      height: 80px;
+  .link-wrapper {
+    width: 30%;
+    a {
+      font-size: 18px;
     }
   }
 }
