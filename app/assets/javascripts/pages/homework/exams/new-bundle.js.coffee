@@ -1,6 +1,7 @@
 $ ->
   weixin_jsapi_authorize(["scanQRCode"])
-  
+
+
   $(".btn-create").click ->
     title = $("input#title").val()
     radio = $('input:radio:checked').val()
@@ -15,6 +16,8 @@ $ ->
           window.student_name_ary = data.student_name_ary
           window.exam_id = data.exam_id
           window.type = radio
+          window.exam_student_id_ary = [ ]
+          window.exam_score_ary = [ ]
           wx.scanQRCode
             needResult: 1
             scanType: ["qrCode"]
@@ -31,6 +34,7 @@ $ ->
     index = window.student_id_ary.indexOf(sid)
     if index == -1
       return
+    window.current_student_id = sid
     name = window.student_name_ary[index]
     $("h1#title").text(name)
     $(".pre-entry").addClass("hide")
@@ -44,3 +48,28 @@ $ ->
       $(this).find(".icon").addClass("star_select")
       $(this).find("span").text("取消表扬")
 
+  $(".btn-next").click ->
+    # save the current student
+    window.exam_student_id_ary << window.current_student_id
+
+    # next student
+    wx.scanQRCode
+      needResult: 1
+      scanType: ["qrCode"]
+      success: (res) ->
+        result = res.resultStr
+        t = result.split("/")
+        sid = t[t.length - 1]
+        refresh_new_student(sid)
+
+  $(".btn-over").click ->
+    # submit data, and return the the exam page
+    $.putJSON '/homework/exams/' + window.exam_id,
+      {
+        student_id_ary: window.exam_student_id_ary
+        score_ary: window.exam_score_ary
+      }, (data) ->
+        if data.success
+          $.page_notification "成绩提交成功"
+        else
+          $.page_notification "操作失败，请刷新页面重试"

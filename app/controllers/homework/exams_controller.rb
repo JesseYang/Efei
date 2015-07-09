@@ -20,4 +20,8 @@ class Homework::ExamsController < Homework::ApplicationController
     }
     render json: retval.merge({success: true}) and return
   end
+
+  def update
+    render json: {success: true} and return
+  end
 end
