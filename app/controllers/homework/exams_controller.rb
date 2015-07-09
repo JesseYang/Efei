@@ -28,7 +28,7 @@ class Homework::ExamsController < Homework::ApplicationController
       next if s.blank?
       s = exam.scores.where(student_id: sid).first
       if s.present?
-        s.update_score(params[:score_ary][index])
+        s.update_score(params[:score_ary][index].to_i)
       else
         exam.scores.create(student_id: sid, type: exam.type, score: params[:score_ary][index].to_i)
       end
