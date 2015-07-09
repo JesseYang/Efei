@@ -11,4 +11,14 @@ class Exam
   belongs_to :klass, class_name: "Klass", inverse_of: :exams
 
   has_many :scores
+
+  def lack_students
+    students = [ ]
+    self.klass.students.each do |ele|
+      if self.scores.where(student_id: ele.id.to_s).blank?
+        students << ele
+      end
+    end
+    students
+  end
 end

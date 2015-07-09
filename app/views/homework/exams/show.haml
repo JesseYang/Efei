@@ -18,6 +18,17 @@
   .stat-pic-wrapper
   .detail-table-wrapper
     %table
+      - @exam.scores.each do |score|
+        %tr
+          %td= score.student.name
+          %td= score.score_in_text
+          %td
+            = link_to "删除", "javascript:void(0);"
+            = link_to "编辑", "javascript:void(0);"
+      - @exam.lack_students.each do |student|
+        %tr
+          %td= student.name
+          %td= "未提交"
       
   .btn-wrapper
     = link_to "补交作业", scan_homework_exam_path(@exam), class: "btn btn-primary btn-main form-control btn-append"
