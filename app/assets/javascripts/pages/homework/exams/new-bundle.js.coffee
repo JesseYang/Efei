@@ -1,5 +1,6 @@
 $ ->
   weixin_jsapi_authorize(["scanQRCode"])
+  
   $(".btn-create").click ->
     title = $("input#title").val()
     radio = $('input:radio:checked').val()
