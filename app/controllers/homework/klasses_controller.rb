@@ -8,7 +8,7 @@ class Homework::KlassesController < Homework::ApplicationController
 
   def index
     @school = @current_user.school
-    @klasses = @school.klasses
+    @klasses = @school.klasses.asc(:name)
     if @klasses.blank?
       render action: :list and return
     end
@@ -17,7 +17,7 @@ class Homework::KlassesController < Homework::ApplicationController
 
   def list
     @school = @current_user.school
-    @klasses = @school.klasses
+    @klasses = @school.klasses.asc(:name)
     @current_klasses = @current_user.classes
     @title = "班级选择"
   end

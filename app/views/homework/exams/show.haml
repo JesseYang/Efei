@@ -10,10 +10,11 @@
 
 - content_for :app_content do
   .exam-title-wrapper
-    %span= @exam.title
-    %span= @exam.created_at.strftime("%Y年%m月%d日")
+    %span.title= @exam.title
+    %br
+    %span.created-at= @exam.created_at.strftime("%Y年%m月%d日")
   .exam-stat-wrapper
-    %p= "提交#{@submit_number}份，还差#{@lack_number}份，提交率#{@submit_rate}"
+    %p= "已提交#{@submit_number}份，还差#{@lack_number}份，提交率#{@submit_rate}"
   .stat-pic-wrapper
   .detail-table-wrapper
     %table
