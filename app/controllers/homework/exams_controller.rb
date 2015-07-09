@@ -18,7 +18,7 @@ class Homework::ExamsController < Homework::ApplicationController
     k = Klass.where(id: params[:klass_id]).first
     exam.klass = k
     exam.save
-    render json: {success: true} and return
+    render json: {success: true, exam_id: exam.id.to_s} and return
   end
 
   def update
