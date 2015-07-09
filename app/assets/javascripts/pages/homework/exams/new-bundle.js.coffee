@@ -40,6 +40,7 @@ $ ->
     if index == -1
       return
     window.current_student_id = sid
+    alert(window.current_student_id)
     name = window.student_name_ary[index]
     $("h1#title").text(name)
     $(".pre-entry").addClass("hide")
@@ -54,35 +55,36 @@ $ ->
       $(this).find("span").text("取消表扬")
 
   $(".btn-next").click ->
-    record_one_student()
-
+    if record_one_student()
+      # next student
+      wx.scanQRCode
+        needResult: 1
+        scanType: ["qrCode"]
+        success: (res) ->
+          result = res.resultStr
+          t = result.split("/")
+          sid = t[t.length - 1]
+          refresh_new_student(sid)
 
   record_one_student = ->
     # save the score
     if window.type == "abcd"
       score = $(".score-abcd").attr("data-value")
+      $(".score-abcd .icon").removeClass("select")
       if score == ""
         $.page_notification "请先选择该学生的成绩"
-        return
+        return false
       window.exam_score_ary.push(score)
     if window.type == "100"
       score = $(".score-100 input").val()
       if score == ""
         $.page_notification "请先填写该学生的成绩"
-        return
+        return false
       window.exam_score_ary.push(score)
     # save the current student
-    window.exam_student_id_ary << window.current_student_id
-
-    # next student
-    wx.scanQRCode
-      needResult: 1
-      scanType: ["qrCode"]
-      success: (res) ->
-        result = res.resultStr
-        t = result.split("/")
-        sid = t[t.length - 1]
-        refresh_new_student(sid)
+    alert("AAA " + window.current_student_id)
+    window.exam_student_id_ary.push(window.current_student_id)
+    return true
 
   $(".btn-over").click ->
     record_one_student()
