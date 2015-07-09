@@ -22,14 +22,14 @@
     .radio-wrapper
       = radio_button_tag(:type, "abcd", false)
       = label_tag(:type_abcd, "ABCD")
-    %br
-    .radio-wrapper
-      = radio_button_tag(:type, "5", false)
-      = label_tag(:type_5, "5分制")
-    %br
-    .radio-wrapper
-      = radio_button_tag(:type, "10", false)
-      = label_tag(:type_10, "10分制")
+    / %br
+    / .radio-wrapper
+    /   = radio_button_tag(:type, "5", false)
+    /   = label_tag(:type_5, "5分制")
+    / %br
+    / .radio-wrapper
+    /   = radio_button_tag(:type, "10", false)
+    /   = label_tag(:type_10, "10分制")
     %br
     .radio-wrapper
       = radio_button_tag(:type, "100", false)
@@ -39,12 +39,12 @@
     = link_to "确定", "javascript:void(0);", class: "btn btn-primary btn-main form-control btn-create"
 
   .entry.hide
-    .score-100
+    .score-100.score-input
       %span 分数：
       .score-input-wrapper.form-inline
         = text_field_tag :score_input, "", class: "form-control"
-    .score-5
-    .score-abcd
+    .score-5.score-input
+    .score-abcd.score-input
       %a{href: "javascript:void(0);", data: {value: "a"}}
         %i.icon.exam_A32
       %a{href: "javascript:void(0);", data: {value: "b"}}

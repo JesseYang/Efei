@@ -18,6 +18,11 @@ $ ->
           window.type = radio
           window.exam_student_id_ary = [ ]
           window.exam_score_ary = [ ]
+          $(".score-input").addClass("hide")
+          if radio == "100"
+            $(".score-100").removeClass("hide")
+          if radio == "abcd"
+            $(".score-abcd").removeClass("hide")
           wx.scanQRCode
             needResult: 1
             scanType: ["qrCode"]
