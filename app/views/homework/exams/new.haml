@@ -39,6 +39,20 @@
     = link_to "确定", "javascript:void(0);", class: "btn btn-primary btn-main form-control btn-create"
 
   .entry.hide
+    .score-100
+      %span 分数：
+      .score-input-wrapper.form-inline
+        = text_field_tag :score_input, "", class: "form-control"
+    .score-5
+    .score-abcd
+      %a{href: "javascript:void(0);", data: {value: "a"}}
+        %i.icon.exam_A32
+      %a{href: "javascript:void(0);", data: {value: "b"}}
+        %i.icon.exam_B32
+      %a{href: "javascript:void(0);", data: {value: "c"}}
+        %i.icon.exam_C32
+      %a{href: "javascript:void(0);", data: {value: "d"}}
+        %i.icon.exam_D32
     .operation
       %a.praise{href: "javascript:void(0);"}
         %i.icon.star

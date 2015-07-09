@@ -49,6 +49,23 @@ $ ->
       $(this).find("span").text("取消表扬")
 
   $(".btn-next").click ->
+    record_one_student()
+
+
+  record_one_student = ->
+    # save the score
+    if window.type == "abcd"
+      score = $(".score-abcd").attr("data-value")
+      if score == ""
+        $.page_notification "请先选择该学生的成绩"
+        return
+      window.exam_score_ary.push(score)
+    if window.type == "100"
+      score = $(".score-100 input").val()
+      if score == ""
+        $.page_notification "请先填写该学生的成绩"
+        return
+      window.exam_score_ary.push(score)
     # save the current student
     window.exam_student_id_ary << window.current_student_id
 
@@ -63,6 +80,7 @@ $ ->
         refresh_new_student(sid)
 
   $(".btn-over").click ->
+    record_one_student()
     # submit data, and return the the exam page
     $.putJSON '/homework/exams/' + window.exam_id,
       {
@@ -73,3 +91,9 @@ $ ->
           $.page_notification "成绩提交成功"
         else
           $.page_notification "操作失败，请刷新页面重试"
+
+  $(".score-abcd a").click ->
+    v = $(this).attr("data-value")
+    $(this).closest(".score-abcd").attr("data-value", v)
+    $(".score-abcd .icon").removeClass("select")
+    $(this).find(".icon").addClass("select")

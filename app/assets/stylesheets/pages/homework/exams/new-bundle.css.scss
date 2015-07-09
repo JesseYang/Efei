@@ -52,8 +52,12 @@ body {
   }
 }
 
+.score-abcd .icon {
+  @include size(32px, 32px);
+  @include inline-block;
+}
 
-.icon {
+.operation .icon {
   @include size(40px, 40px);
   @include inline-block;
 }
@@ -71,6 +75,38 @@ a {
   .edit {
     @include weixin-sprite(edit40);
   }
+  .exam_A32 {
+    @include weixin-sprite(exam_A32);
+    &.select {
+      @include weixin-sprite(exam_A_select32);
+    }
+  }
+  .exam_B32 {
+    @include weixin-sprite(exam_B32);
+    &.select {
+      @include weixin-sprite(exam_B_select32);
+    }
+  }
+  .exam_C32 {
+    @include weixin-sprite(exam_C32);
+    &.select {
+      @include weixin-sprite(exam_C_select32);
+    }
+  }
+  .exam_D32 {
+    @include weixin-sprite(exam_D32);
+    &.select {
+      @include weixin-sprite(exam_D_select32);
+    }
+  }
+}
+
+.score-100, .score-5, .score-abcd {
+  margin-top: 10px;
+}
+
+.score-input-wrapper {
+  @include inline-block;
 }
 
 .operation {
