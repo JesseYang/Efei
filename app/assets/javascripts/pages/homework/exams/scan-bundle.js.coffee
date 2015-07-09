@@ -1,42 +1,20 @@
 $ ->
   weixin_jsapi_authorize(["scanQRCode"])
 
+  window.student_id_ary = window.student_id_str.split(',')
+  window.student_name_ary = window.student_name_str.split(',')
+  window.exam_student_id_ary = [ ]
+  window.exam_score_ary = [ ]
 
-  $(".btn-create").click ->
-    title = $("input#title").val()
-    radio = $('input:radio:checked').val()
-    $.postJSON '/homework/exams',
-      {
-        title: title
-        type: radio
-        klass_id: window.klass_id
-      }, (data) ->
-        if data.success
-          window.location.href = "/homework/exams/" + data.exam_id + "/scan"
-          ###
-          window.student_id_ary = data.student_id_ary
-          window.student_name_ary = data.student_name_ary
-          window.exam_id = data.exam_id
-          window.type = radio
-          window.exam_student_id_ary = [ ]
-          window.exam_score_ary = [ ]
-          $(".score-input").addClass("hide")
-          if radio == "100"
-            $(".score-100").removeClass("hide")
-          if radio == "abcd"
-            $(".score-abcd").removeClass("hide")
-          wx.scanQRCode
-            needResult: 1
-            scanType: ["qrCode"]
-            success: (res) ->
-              result = res.resultStr
-              t = result.split("/")
-              sid = t[t.length - 1]
-              refresh_new_student(sid)
-          ###
-        else
-          $.page_notification "操作失败，请刷新页面重试"
-
+  wx.ready ->
+    wx.scanQRCode
+      needResult: 1
+      scanType: ["qrCode"]
+      success: (res) ->
+        result = res.resultStr
+        t = result.split("/")
+        sid = t[t.length - 1]
+        refresh_new_student(sid)
 
   refresh_new_student = (sid) ->
     index = window.student_id_ary.indexOf(sid)
@@ -45,8 +23,6 @@ $ ->
     window.current_student_id = sid
     name = window.student_name_ary[index]
     $("h1#title").text(name)
-    $(".pre-entry").addClass("hide")
-    $(".entry").removeClass("hide")
 
   $(".praise").click ->
     if $(this).find(".icon").hasClass("star_select")
@@ -97,6 +73,7 @@ $ ->
       }, (data) ->
         if data.success
           $.page_notification "成绩提交成功"
+          window.location.href = "/homework/exams/" + window.exam_id
         else
           $.page_notification "操作失败，请刷新页面重试"
 

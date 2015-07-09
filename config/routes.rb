@@ -29,6 +29,9 @@ Rails.application.routes.draw do
 
   namespace :homework do
     resources :exams do
+      member do
+        get :scan
+      end
     end
     resources :users do
       collection do

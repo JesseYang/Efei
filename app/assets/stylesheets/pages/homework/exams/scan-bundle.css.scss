@@ -1,0 +1,122 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/css3/border-radius";
+@import "compass/utilities/general/clearfix";
+@import 'icons/weixin/*.png';
+
+body {
+  min-width: 0px;
+  text-align: center;
+}
+
+.wrapper {
+  @include inline-block;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+}
+
+.title-wrapper {
+  width: 70vw;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 50px;
+  input#title {
+    width: 100%;
+  }
+}
+
+.radios-wrapper {
+  width: auto;
+  @include inline-block;
+  text-align: left;
+  .radio-wrapper {
+    @include inline-block;
+    font-size: 18px;
+  }
+}
+
+.btn-wrapper {
+  width: 70vw;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.btn-main {
+  background-color: #179C26;
+  &:hover {
+    background-color: #0E731A;
+  }
+}
+
+.score-abcd .icon {
+  @include size(32px, 32px);
+  @include inline-block;
+}
+
+.operation .icon {
+  @include size(40px, 40px);
+  @include inline-block;
+}
+a {
+  text-decoration: none;
+  .star {
+    @include weixin-sprite(star40);
+  }
+  .star_select {
+    @include weixin-sprite(star_select40);
+  }
+  .photo {
+    @include weixin-sprite(photo40);
+  }
+  .edit {
+    @include weixin-sprite(edit40);
+  }
+  .exam_A32 {
+    @include weixin-sprite(exam_A32);
+    &.select {
+      @include weixin-sprite(exam_A_select32);
+    }
+  }
+  .exam_B32 {
+    @include weixin-sprite(exam_B32);
+    &.select {
+      @include weixin-sprite(exam_B_select32);
+    }
+  }
+  .exam_C32 {
+    @include weixin-sprite(exam_C32);
+    &.select {
+      @include weixin-sprite(exam_C_select32);
+    }
+  }
+  .exam_D32 {
+    @include weixin-sprite(exam_D32);
+    &.select {
+      @include weixin-sprite(exam_D_select32);
+    }
+  }
+}
+
+.score-100, .score-5, .score-abcd {
+  margin-top: 10px;
+}
+
+.score-input-wrapper {
+  @include inline-block;
+}
+
+.operation {
+  margin-top: 20px;
+}
+
+.btn-wrapper {
+  margin-top: 20px;
+}
+
+.btn-over {
+  margin-top: 10px;
+}

@@ -1,0 +1,46 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/homework/exams/scan-bundle"
+  = stylesheet_link_tag "pages/homework/exams/scan-bundle", :media => "all"
+  :javascript
+    window.student_id_str="#{@student_id_str}"
+    window.student_name_str="#{@student_name_str}"
+    window.exam_id="#{@exam.id.to_s}"
+    window.type="#{@exam.type.to_s}"
+
+- content_for :app_nav do
+  #homework-navbar
+    %a.nav-left-icon{href: "javascript:void(0);"}
+      %i.icon.return
+    %h1#title= @title
+
+- content_for :app_content do
+  - if @exam.type == "100"
+    .score-100.score-input
+      %span 分数：
+      .score-input-wrapper.form-inline
+        = text_field_tag :score_input, "", class: "form-control"
+  - if @exam.type == "abcd"
+    .score-abcd.score-input
+      %a{href: "javascript:void(0);", data: {value: 100}}
+        %i.icon.exam_A32
+      %a{href: "javascript:void(0);", data: {value: 80}}
+        %i.icon.exam_B32
+      %a{href: "javascript:void(0);", data: {value: 60}}
+        %i.icon.exam_C32
+      %a{href: "javascript:void(0);", data: {value: 40}}
+        %i.icon.exam_D32
+  .operation
+    %a.praise{href: "javascript:void(0);"}
+      %i.icon.star
+      %span 提出表扬
+  .operation
+    %a{href: "javascript:void(0);"}
+      %i.icon.edit
+      %span 文字点评
+  .operation
+    %a{href: "javascript:void(0);"}
+      %i.icon.photo
+      %span 拍照上传
+  .btn-wrapper
+    = link_to "下一个", "javascript:void(0);", class: "btn btn-primary btn-main form-control btn-next"
+    = link_to "结束", "javascript:void(0);", class: "btn btn-primary btn-main form-control btn-over"
