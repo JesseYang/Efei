@@ -11,15 +11,13 @@ class Homework::ExamsController < Homework::ApplicationController
     k = Klass.where(id: params[:klass_id]).first
     exam.klass = k
     exam.save
-    render json: { success: true, id: exam.id.to_s } and return
-  end
-
-  def entry
-    # get the student list
-    @exam = Exam.where(id: params[:id]).first
-    @klass = @exam.klass
-    @students = @klass.students
-    @student_id_str = @students.map { |e| e.id.to_s } .join(',')
-    @student_name_str = @students.map { |e| e.name } .join(',')
+    student_id_str = k.students.map { |e| e.id.to_s } .join(',')
+    student_name_str = k.students.map { |e| e.name.to_s } .join(',')
+    retval = {
+      exam_id: exam.id.to_s,
+      student_id_str: student_id_str,
+      student_name_str: student_name_str
+    }
+    render json: retval.merge({success: true}) and return
   end
 end
