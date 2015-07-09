@@ -40,7 +40,6 @@ $ ->
     if index == -1
       return
     window.current_student_id = sid
-    alert(window.current_student_id)
     name = window.student_name_ary[index]
     $("h1#title").text(name)
     $(".pre-entry").addClass("hide")
@@ -82,7 +81,6 @@ $ ->
         return false
       window.exam_score_ary.push(score)
     # save the current student
-    alert("AAA " + window.current_student_id)
     window.exam_student_id_ary.push(window.current_student_id)
     return true
 

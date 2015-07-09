@@ -1,0 +1,22 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/homework/exams/show-bundle"
+  = stylesheet_link_tag "pages/homework/exams/show-bundle", :media => "all"
+
+- content_for :app_nav do
+  #homework-navbar
+    %a.nav-left-icon{href: "javascript:void(0);"}
+      %i.icon.return
+    %h1#title= @title
+
+- content_for :app_content do
+  .exam-title-wrapper
+    %span= @exam.title
+    %span= @exam.created_at.strftime("%Y年%m月%d日")
+  .exam-stat-wrapper
+    %p= "提交#{@submit_number}份，还差#{@lack_number}份，提交率#{@submit_rate}"
+  .stat-pic-wrapper
+  .detail-table-wrapper
+    %table
+      
+  .btn-wrapper
+    = link_to "补交作业", "javascript:void(0);", class: "btn btn-primary btn-main form-control btn-append"
