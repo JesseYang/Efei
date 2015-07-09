@@ -52,7 +52,7 @@ $ ->
       }
   })
 
-  window.weixin_jsapi_authorize = (api_list) ->
+  window.weixin_jsapi_authorize = (api_list, callback=undefined) ->
     $.getJSON "/weixin_js_signature?url=" + encodeURIComponent(window.location.href.split('#')[0]), (retval) ->
       if retval.success
         data = retval.data
@@ -63,5 +63,7 @@ $ ->
           nonceStr: data.noncestr # 必填，生成签名的随机串
           signature: data.signature # 必填，签名，见附录1
           jsApiList: api_list # 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        if callback != undefined
+          callback()
       else
         $.page_notification "服务器出错"

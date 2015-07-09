@@ -1,7 +1,6 @@
 $ ->
 
-  $(".test").click ->
-    weixin_jsapi_authorize(["scanQRCode"])
+  scan = ->
     alert("aaa")
     wx.scanQRCode
       needResult: 1
@@ -9,4 +8,4 @@ $ ->
       success: (res) ->
         result = res.resultStr
 
-  $(".test").trigger("click")
+  weixin_jsapi_authorize(["scanQRCode"], scan)
