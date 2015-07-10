@@ -55,6 +55,7 @@ $ ->
       window.exam_score_ary.push(score)
     if window.type == "100"
       score = $(".score-100 input").val()
+      $(".score-100 input").val("")
       if score == ""
         $.page_notification "请先填写该学生的成绩"
         return false
