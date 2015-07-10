@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   end
 
   namespace :homework do
+    resources :scores do
+    end
     resources :exams do
       member do
         get :scan

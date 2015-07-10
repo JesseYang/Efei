@@ -126,3 +126,25 @@ a {
 .btn-over {
   margin-top: 10px;
 }
+
+.detail-table-wrapper {
+  table {
+    border-top: solid 1px #CCC;
+    width: 100%;
+    font-size: 18px;
+    tr {
+      height: 40px;
+      border-bottom: solid 1px #CCC;
+      padding: 5px;
+    }
+  }
+  .name-td {
+    width: 20%;
+  }
+  .score-td {
+    width: 50%;
+  }
+  .op-td {
+    width: 30%;
+  }
+}
