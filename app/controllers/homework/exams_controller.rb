@@ -23,7 +23,7 @@ class Homework::ExamsController < Homework::ApplicationController
 
   def update
     exam = Exam.find(params[:id])
-    params[:student_id_ary].each_with_index do |sid, index|
+    (params[:student_id_ary] || []).each_with_index do |sid, index|
       s = User.where(id: sid).first
       next if s.blank?
       s = exam.scores.where(student_id: sid).first
