@@ -15,7 +15,7 @@
     - @current_user.classes.each do |k|
       %tr.klass-wrapper
         %td.span-wrapper
-          %span= k.name
+          = link_to k.name, homework_klass_path(k) + "?type=exam"
         %td.link-wrapper
           = link_to "新建作业", new_homework_exam_path + "?klass_id=#{k.id.to_s}"
 

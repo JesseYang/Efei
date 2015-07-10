@@ -1,0 +1,23 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/homework/klasses/show-bundle"
+  = stylesheet_link_tag "pages/homework/klasses/show-bundle", :media => "all"
+
+- content_for :app_nav do
+  #homework-navbar
+    %a.nav-left-icon{href: homework_klasses_path}
+      %i.icon.return
+    %h1#title= @title
+    %a.nav-right-icon{href: new_homework_exam_path + "?klass_id=#{@klass.id.to_s}"}
+      %i.icon.new
+
+- content_for :app_content do
+  .exam-list
+    - @klass.exams.each do |e|
+      .exam-summary{ data: { id: e.id.to_s }}
+        %table
+          %tr.first-tr
+            %td.title-td= e.title
+            %td.rate-td= e.submit_summary
+          %tr.second-tr
+            %td.date-td= e.created_at.strftime("%Y年%m月%d日")
+            %td.summary-td= "完成率：" + e.submit_rate

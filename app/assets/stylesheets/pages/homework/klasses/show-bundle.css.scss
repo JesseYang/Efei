@@ -33,3 +33,27 @@ body {
     }
   }
 }
+
+.exam-summary {
+  table {
+    width: 100%;
+    text-align: left;
+  }
+  padding: 10px 0 10px 0;
+  border-bottom: solid 1px #CCC;
+  .first-tr {
+    font-size: 18px;
+    height: 35px;
+  }
+  .second-tr {
+    font-size: 14px;
+    color: #999;
+  }
+  .title-td, .date-td {
+    width: 70%;
+    padding-left: 5%;
+  }
+  .rate-td, .summary-td {
+    width: 30%;
+  }
+}

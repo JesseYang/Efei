@@ -45,6 +45,11 @@ body {
   a {
     text-decoration: none;
     color: black;
+    .new {
+      margin-top: 13px;
+      margin-right: 13px;
+      @include weixin-sprite(new24);
+    }
     .return {
       margin-top: 13px;
       margin-left: 13px;

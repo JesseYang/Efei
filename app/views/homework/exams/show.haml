@@ -7,7 +7,7 @@
 
 - content_for :app_nav do
   #homework-navbar
-    %a.nav-left-icon{href: "javascript:void(0);"}
+    %a.nav-left-icon{href: homework_klass_path(@exam.klass) + "?type=exam"}
       %i.icon.return
     %h1#title= @title
 

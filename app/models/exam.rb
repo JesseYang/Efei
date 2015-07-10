@@ -21,4 +21,16 @@ class Exam
     end
     students
   end
+
+  def submit_rate
+    submit_number = self.scores.count
+    total_number = self.klass.students.length
+    total_number == 0 ? "0" : ((submit_number * 1.0 / total_number) * 100).round.to_s + "%"
+  end
+
+  def submit_summary
+    submit_number = self.scores.count
+    total_number = self.klass.students.length
+    "#{submit_number}/#{total_number}"
+  end
 end

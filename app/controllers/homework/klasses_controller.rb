@@ -2,6 +2,11 @@
 class Homework::KlassesController < Homework::ApplicationController
   skip_before_filter :homework_init, only: :redirect
 
+  def show
+    @klass = Klass.find(params[:id])
+    @title = @klass.name
+  end
+
   def redirect
     redirect_to Platform.generate_authorize_link(Rails.application.config.server_host + "/homework/klasses") and return
   end
