@@ -33,7 +33,6 @@ $ ->
         klass_id_str: klass_id_str
       }, (data) ->
         if data.success
-          $.page_notification "班级更新完毕，正在跳转"
           window.location.href = "/homework/klasses"
         else
           $.page_notification "操作失败，请刷新页面重试"

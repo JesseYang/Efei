@@ -82,6 +82,12 @@ class Weixin
     data = {
       "button" => [
         {
+          "type" => "view",
+          "name" => "讲座报名",
+          "url" => "http://www.baidu.com"
+        },
+=begin
+        {
           "name" => "易飞好学",
           "sub_button" => [
             {
@@ -126,6 +132,7 @@ class Weixin
             }
           ]
         },
+=end
         {
           "name" => "我的易飞",
           "sub_button" => [
