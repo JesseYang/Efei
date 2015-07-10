@@ -1,6 +1,13 @@
 # encoding: utf-8
 class Homework::ScoresController < Homework::ApplicationController
 
+  def update
+    @exam = Exam.where(id: params[:exam_id]).first
+    @score = Score.where(id: params[:id]).first
+    @score.update_score(params[:score].to_i)
+    render json: { success: true } and return
+  end
+
   def destroy
     @exam = Exam.where(id: params[:exam_id]).first
     @score = Score.where(id: params[:id]).first

@@ -1,6 +1,9 @@
 - content_for :app_head do
   = javascript_include_tag "pages/homework/exams/show-bundle"
   = stylesheet_link_tag "pages/homework/exams/show-bundle", :media => "all"
+  :javascript
+    window.exam_id="#{@exam.id.to_s}"
+    window.type="#{@exam.type}"
 
 - content_for :app_nav do
   #homework-navbar
@@ -24,7 +27,7 @@
           %td.score-td= score.score_in_text
           %td.op-td
             = link_to "删除", homework_score_path(score) + "?exam_id=" + @exam.id.to_s, :method => "delete"
-            = link_to "编辑", "javascript:void(0);"
+            = link_to "编辑", "javascript:void(0);", class: "edit-score"
       - @exam.lack_students.each do |student|
         %tr
           %td.name-td= student.name
@@ -33,3 +36,29 @@
       
   .btn-wrapper
     = link_to "补交作业", scan_homework_exam_path(@exam), class: "btn btn-primary btn-main form-control btn-append"
+
+  #editScoreModal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3#modal-student-name
+        .modal-body
+          - if @exam.type == "100"
+            .score-100.score-input
+              %span 分数：
+              .score-input-wrapper.form-inline
+                = text_field_tag :score_input, "", class: "form-control"
+          - if @exam.type == "abcd"
+            .score-abcd.score-input
+              %a{href: "javascript:void(0);", data: {value: 100}}
+                %i.icon.exam_A32
+              %a{href: "javascript:void(0);", data: {value: 80}}
+                %i.icon.exam_B32
+              %a{href: "javascript:void(0);", data: {value: 60}}
+                %i.icon.exam_C32
+              %a{href: "javascript:void(0);", data: {value: 40}}
+                %i.icon.exam_D32
+        .modal-footer
+          %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
