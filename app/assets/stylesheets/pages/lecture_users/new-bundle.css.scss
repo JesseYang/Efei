@@ -36,6 +36,19 @@ body {
   }
 }
 
+#bottom {
+  border-bottom: solid 1px #CCC;
+  padding-bottom: 20px;
+}
+
+.teacher {
+  ul {
+    text-align: left;
+    margin-left: 3vw;
+    margin-right: 3vw;
+  }
+}
+
 .c1 {
   margin-top: 20px;
   font-size: 1.2em;
@@ -70,12 +83,23 @@ body {
   }
 }
 
+.teacher-intro {
+  color: red;
+  font-weight: red;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  margin-top: 20px;
+}
+
 .c5 {
   margin-top: 20px;
+  padding-top: 20px;
   padding-bottom: 20px;
+  border-top: solid 1px #CCC;
   span {
     margin-left: 10px;
     color: #00BCBF;
     font-size: 1.3em;
+    font-weight: bold;
   }
 }
