@@ -4,7 +4,7 @@
 
 
 #top-bar
-  =link_to "", "javascript:void(0);", :class => 'logo-image'
+  =image_tag "logo.png", width: "50px", class: "logo-image"
   #login-btn-wrapper
     - if current_user.present?
       %a.login-btn.btn.btn-success{href: new_account_session_path} 云端平台
@@ -12,11 +12,10 @@
       %a.login-btn.btn.btn-success{href: new_account_session_path} 登录
       %a.registrate-btn.btn.btn-success{href: new_account_registration_path} 注册 
 #logo-wrapper
-  #logo-image
-#title-wrapper
-  %span#title 易飞网
+  =image_tag "logo.png", width: "118px", class: "logo-image"
+  %span#title 家门口的名师课堂
 #desc-wrapper
-  %span#desc 中小学教师云平台
+  %span#desc 教师云端平台
 #teacher-part
   #teacher-left-part
     %ul
@@ -37,36 +36,6 @@
           #pc_pic3
         %li
           #pc_pic4
-  .clear-both
-#student-part
-  #student-left-part
-    #mobile
-    #screenshots
-      %ul
-        %li
-          #pic1
-        %li
-          #pic2
-        %li
-          #pic3
-  #student-right-part
-    #right-content
-      #spec 学生端app（扫描下载）
-      %table
-        %tr
-          %td
-            #android_qr_code
-          %td
-            #ios_qr_code
-        %tr
-          %td
-            #android-link-wrapper
-              %a{href: "javascript:void(0);"}
-                %i#android-link.icon
-          %td
-            #ios-link-wrapper
-              %a{href: "javascript:void(0);"}
-                %i#ios-link.icon
   .clear-both
 #bottom-bar
   #beian 京ICP备14013320-2

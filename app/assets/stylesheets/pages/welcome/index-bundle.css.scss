@@ -8,12 +8,10 @@
   padding: 10px 0;
   .logo-image {
     margin-left: 50px;
-    background-image: image-url('logo-50.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
     @include inline-block;
-    @include size(50px, 50px);
   }
   background: #FAFAFA;
   @include box-shadow(gray 0px 0px 5px);
@@ -31,13 +29,15 @@
 }
 
 #logo-wrapper {
+  display: block;
+  text-align: center;
   padding-top: 100px;
-  #logo-image {
-    display: block;
-    @include size(118px, 118px);
-    background-image: image-url('logo.png');
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
+  #title {
+    margin-left: 20px;
+    font-size: 2.5em;
+    color: #00bcbf;
   }
 }
 
@@ -47,6 +47,7 @@
   #title {
     @include inline-block;
     font-size: 2.5em;
+    color: #00bcbf;
   }
 }
 
