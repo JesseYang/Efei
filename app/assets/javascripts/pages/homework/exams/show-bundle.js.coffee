@@ -1,4 +1,38 @@
+#= require highcharts
 $ ->
+  # window.categories_str = 'A,B,C,D,未提交'
+  # window.data_str = '4,5,3,4,1'
+  data = [ ]
+  $.each window.data_str.split(','), (i, v) ->
+    data.push parseInt(v)
+
+  $('.stat-pic-wrapper').highcharts({
+          chart: {
+              type: 'column'
+          },
+          credits:
+            enabled: false
+          title: {
+              text: null
+          },
+          colors: ['#179C26'],
+          xAxis: {
+              # categories: ['A', 'B', 'C', 'D', '未提交'],
+              categories: window.categories_str.split(','),
+              crosshair: true
+          },
+          yAxis: {
+              min: 0,
+              title: { text: '人数' }
+          },
+          series: [{
+              name: '人数',
+              data: data
+
+          }]
+      });
+
+
   $(".edit-score").click ->
     $("#editScoreModal").modal("show")
     student_name = $(this).closest("tr").find(".name-td").text()

@@ -9,6 +9,11 @@ body {
   text-align: center;
 }
 
+.stat-pic-wrapper {
+  margin-bottom: 10px;
+  height: 300px;
+}
+
 .exam-title-wrapper {
   width: 90vw;
   margin-top: 10px;
@@ -49,6 +54,7 @@ body {
   position: fixed;
   bottom: 0px;
   padding-bottom: 10px;
+  padding-top: 10px;
   background-color: white;
   .btn-main {
     width: 70vw;
