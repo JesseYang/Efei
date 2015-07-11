@@ -60,9 +60,10 @@ class WelcomeController < ApplicationController
           "FromUserName" => params[:xml]["ToUserName"],
           "CreateTime" => Time.now.to_i,
           "MsgType" => "text",
-          "Content" => "<a href='http://www.baidu.com'>讲座报名</a>"
+          "Content" => "有福啦！易飞学堂邀请<span style="color: red;">顶级</span>名师团为<span style="color: red;">吉林</span>父老举办<span style="color: red;">免费</span>讲座！8月开讲，点击<a href='http://efei.org/lecture_users/new'>这里</a>报名！！！"
         }
         render :xml => data.to_xml(root: "xml") and return
+      end
     end
   end
 

@@ -1,0 +1,81 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "welcome/*.png";
+
+body {
+  min-width: 0px;
+  text-align: center;
+}
+
+#top-wrapper {
+  background-color: #DDD;
+}
+
+.stat {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  .em {
+    color: red;
+    font-size: 1.4em;
+  }
+}
+
+#top {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
+  p {
+    font-weight: bold;
+  }
+  input {
+    width: 100%;
+  }
+}
+
+.c1 {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.c2 {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  .em {
+    color: red;
+    font-size: 1.4em;
+  }
+}
+
+.c3 {
+  margin-top: 20px;
+  color: red;
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+.c4 {
+  margin-top: 30px;
+  text-align: left;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  font-size: 1.2em;
+  li {
+    margin-top: 5px;
+  }
+}
+
+.c5 {
+  margin-top: 20px;
+  padding-bottom: 20px;
+  span {
+    margin-left: 10px;
+    color: #00BCBF;
+    font-size: 1.3em;
+  }
+}

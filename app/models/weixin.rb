@@ -84,7 +84,7 @@ class Weixin
         {
           "type" => "view",
           "name" => "讲座报名",
-          "url" => "http://www.baidu.com"
+          "url" => "http://efei.org/lecture_users/new"
         },
 =begin
         {

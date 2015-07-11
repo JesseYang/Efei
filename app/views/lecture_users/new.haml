@@ -1,0 +1,38 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/lecture_users/new-bundle"
+  = stylesheet_link_tag "pages/lecture_users/new-bundle", :media => "all"
+
+
+#top-wrapper
+  #top
+    = form_tag(lecture_users_path, method: "post", multipart: true) do
+      %fieldset
+        %p 请留下您的联系方式，我们的工作人员会向您致电告知讲座的具体时间和地点：
+        .form-group
+          = text_field_tag :mobile, "", :autofocus => true, class: "form-control", placeholder: "电话号码"
+        = submit_tag "立即报名", class: "btn btn-danger"
+    .stat
+      %span 已经有
+      %span.em= (173 + LectureUser.count).to_s
+      %span 位家长报名
+
+#bottom
+  %p.c1 想听北大清华毕业的状元名师现身说法吗？
+  .c2
+    %span 有福啦！易飞学堂邀请
+    %span.em 顶级
+    %span 名师团为
+    %span.em 吉林
+    %span 父老举办
+    %span.em 免费
+    %span 讲座！
+  %p.c3 8月开讲，火热报名中！！！
+  %ul.c4
+    %li 高考改革，大语文时代，究竟意味着什么？
+    %li 竞赛保送、自主招生、高考加分，到底什么政策，是否遥不可及？
+    %li 平行志愿下，应该采取什么样的填报策略？
+    %li 初中次次100分，高中次次60分，怎么回事？
+    %li 什么样的学生更容易考上顶级名校？
+  .c5
+    = image_tag "logo.png", width: "100px"
+    %span 家门口的名师课堂

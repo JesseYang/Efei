@@ -14,7 +14,7 @@ class Klass
   has_and_belongs_to_many :students, class_name: "User", inverse_of: :klasses
 
   def rename(name)
-  	self.update_attribute :name, name
+    self.update_attribute :name, name
   end
 
   def clear_students

@@ -218,6 +218,9 @@ Rails.application.routes.draw do
   resources :schools do
   end
 
+  resources :lecture_users do
+  end
+
   namespace :teacher do
     resources :help do
       collection do
