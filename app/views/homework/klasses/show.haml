@@ -11,13 +11,33 @@
       %i.icon.new
 
 - content_for :app_content do
-  .exam-list
-    - @klass.exams.each do |e|
-      .exam-summary{ data: { id: e.id.to_s }}
-        %table
-          %tr.first-tr
-            %td.title-td= e.title
-            %td.rate-td= e.submit_summary
-          %tr.second-tr
-            %td.date-td= e.created_at.strftime("%Y年%m月%d日")
-            %td.summary-td= "完成率：" + e.submit_rate
+  - if params[:type] == "exam"
+    .exam-list
+      - @klass.exams.each do |e|
+        .exam-summary{ data: { id: e.id.to_s }}
+          %table
+            %tr.first-tr
+              %td.title-td= e.title
+              %td.rate-td= e.submit_summary
+            %tr.second-tr
+              %td.date-td= e.created_at.strftime("%Y年%m月%d日")
+              %td.summary-td= "完成率：" + e.submit_rate
+  - if params[:type] == "student"
+    .student-list
+      - @klass.students.each do |s|
+        .student-summary
+          %table
+            %tr
+              %td.name-td= s.name
+              %td.stat-td
+                %span.summary-span= "本学期：" + "39/42"
+                %br
+                %span.rate-span= "完成率：" + "92%"
+
+  .bottom-nav
+    %table
+      %tr
+        %td
+          %a{href: homework_klass_path(@klass) + "?type=exam"}= "作业列表"
+        %td
+          %a{href: homework_klass_path(@klass) + "?type=student"}= "学生列表"

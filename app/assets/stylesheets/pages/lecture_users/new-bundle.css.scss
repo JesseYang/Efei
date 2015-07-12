@@ -2,6 +2,7 @@
 @import "compass/css3";
 @import "compass/utilities/general/clearfix";
 @import "welcome/*.png";
+@import "compass/css3/border-radius";
 
 body {
   min-width: 0px;
@@ -9,7 +10,7 @@ body {
 }
 
 #top-wrapper {
-  background-color: #DDD;
+  background-color: #E3E3E3;
 }
 
 .stat {
@@ -30,6 +31,7 @@ body {
   margin-right: auto;
   p {
     font-weight: bold;
+    text-align: left;
   }
   input {
     width: 100%;
@@ -49,6 +51,19 @@ body {
   }
 }
 
+.teacher-title {
+  @include inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.5em;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: white;
+  @include border-radius(20px);
+  background-color: #FFD02D;
+}
+
 .c1 {
   margin-top: 20px;
   font-size: 1.2em;
@@ -56,6 +71,10 @@ body {
 }
 
 .c2 {
+  width: 80vw;
+  text-align: left;
+  margin-right: auto;
+  margin-left: auto;
   margin-top: 20px;
   font-size: 1.2em;
   font-weight: bold;
@@ -69,7 +88,14 @@ body {
   margin-top: 20px;
   color: red;
   font-weight: bold;
-  font-size: 1.3em;
+  font-size: 1.5em;
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+  background-color: #FF592D;
+  @include border-radius(20px);
+  color: white;
 }
 
 .c4 {
@@ -84,11 +110,16 @@ body {
 }
 
 .teacher-intro {
-  color: red;
-  font-weight: red;
-  margin-left: 3vw;
-  margin-right: 3vw;
+  font-weight: bold;
   margin-top: 20px;
+  background-color: #FF5C31;
+  color: white;
+  width: 80vw;
+  @include inline-block;
+  @include border-radius(5px);
+  padding: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .c5 {
