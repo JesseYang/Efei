@@ -97,6 +97,8 @@ class Video
       "索引"
     when 2
       "知识片段"
+    when 3
+      "例题"
     else
       "未知"
     end
