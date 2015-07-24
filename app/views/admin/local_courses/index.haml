@@ -25,7 +25,7 @@
             %tr{data: {id: e.id.to_s}}
               %td= e.name
               %td= e.number
-              %td= e.coach.name
+              %td= e.coach.try(:name)
               %td= e.city
               %td= e.location
               %td= e.time_desc
