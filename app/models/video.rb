@@ -9,7 +9,7 @@ class Video
   field :video_url, type: String
 
   # structure of one element in tags:
-  # => tag_type: Integer, 1 for index, 2 for episode
+  # => tag_type: Integer, 1 for index, 2 for episode, 3 for example
   # => time: Integer
   # => name: String, only for index tags
   # => episode_id: String, only for episode tags
@@ -73,7 +73,8 @@ class Video
     {
       "请选择" => -1,
       "索引" => 1,
-      "知识片段" => 2
+      "知识片段" => 2,
+      "例题" => 3
     }
   end
 
