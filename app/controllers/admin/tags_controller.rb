@@ -7,7 +7,8 @@ class Admin::TagsController < Admin::ApplicationController
     tag = {
       "tag_type" => params[:tag]["tag_type"].to_i,
       "name" => params[:tag]["name"],
-      "time" => params[:tag]["time"].to_i
+      "time" => params[:tag]["time"].to_i,
+      "duration" => params[:tag]["duration"].to_i
     }
 
     if params[:tag]["episode_id"].to_s != "-1"
@@ -20,7 +21,7 @@ class Admin::TagsController < Admin::ApplicationController
     redirect_to controller: "admin/videos", action: :show, id: @video.id.to_s and return
   end
 
-  def destroy
+  def destroy 
     @video = Video.find(params[:video_id])
     index = @video.tags.index { |e| e["time"].to_i == params[:id].to_i }
     if index != -1

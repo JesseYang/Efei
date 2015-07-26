@@ -24,6 +24,7 @@
         %tr
           %th.col-md-1= "标签类型"
           %th.col-md-1= "时间点"
+          %th.col-md-1= "持续时间"
           %th.col-md-1= "名称"
           %th.col-md-1= "知识片段"
           %th.col-md-1 操作
@@ -31,6 +32,7 @@
           %tr
             %td= Video.show_tag_type(t["tag_type"])
             %td= t["time"]
+            %td= t["duration"]
             %td= t["name"]
             %td= t["episode_id"].present? ? Video.find(t["episode_id"]).name : ""
             %td
@@ -56,6 +58,9 @@
           .form-group
             = label_tag :order, "时间点"
             = text_field_tag "tag[time]", "", autofocus: false, class: "form-control"
+          .form-group
+            = label_tag :duration, "持续时间"
+            = text_field_tag "tag[duration]", "", autofocus: false, class: "form-control"
           .form-group
             = label_tag :order, "视频链接"
             = select_tag "tag[episode_id]", options_for_select(@video.episodes_for_select, -1), class: "form-control"
