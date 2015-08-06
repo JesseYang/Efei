@@ -19,6 +19,16 @@ class Lesson
     course_name + " " + self.name
   end
 
+  def has_video?
+    return true if self.videos.present?
+    self.video_id_ary.each do |e|
+      if e.present?
+        return true
+      end
+    end
+    return false
+  end
+
   def touch_parents
     self.course.try(:touch)
   end
