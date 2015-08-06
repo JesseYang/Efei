@@ -56,8 +56,8 @@ class Admin::LessonsController < Admin::ApplicationController
 
   def destroy
     @lesson = Lesson.find(params[:id])
+    course = @lesson.course
     if @lesson.videos.blank? && @lesson.video_id_ary.blank?
-      course = @lesson.course
       if course.present?
         lesson_index = course.lesson_id_ary.index(@lesson.id.to_s)
         if lesson_index != -1
@@ -67,6 +67,6 @@ class Admin::LessonsController < Admin::ApplicationController
       end
       @lesson.destroy
     end
-    redirect_to action: :index and return
+    redirect_to action: :index, course_id: course.id.to_s and return
   end
 end
