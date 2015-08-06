@@ -61,7 +61,9 @@ class Admin::VideosController < Admin::ApplicationController
       end
     end
     # remove the video file
-    File.delete("public" + @video.video_url)
+    if File.exist?("public" + @video.video_url)
+      File.delete("public" + @video.video_url)
+    end
     @video.destroy
     redirect_to action: :index, lesson_id: lesson.id.to_s and return
   end
