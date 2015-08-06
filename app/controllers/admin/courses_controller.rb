@@ -37,7 +37,7 @@ class Admin::CoursesController < Admin::ApplicationController
 
   def destroy
     c = Course.find(params[:id])
-    if c.lesson_id_ary.blank?
+    if !c.has_lesson?
       c.destroy
       # remove the textbook file
       File.delete("public" + c.textbook_url)

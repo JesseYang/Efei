@@ -27,6 +27,15 @@ class Course
     "《" + self.name + "》" + "(教师：" + self.teacher.name + ")"
   end
 
+  def has_lesson?
+    self.lesson_id_ary.each do |e|
+      if e.present?
+        return true
+      end
+    end
+    return false
+  end
+
   def self.courses_for_select
     hash = { "请选择" => -1 }
     Course.all.each do |c|
