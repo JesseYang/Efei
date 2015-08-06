@@ -40,7 +40,9 @@ class Admin::CoursesController < Admin::ApplicationController
     if !c.has_lesson?
       c.destroy
       # remove the textbook file
-      File.delete("public" + c.textbook_url)
+      if File.exist?("public" + c.textbook_url)
+        File.delete("public" + c.textbook_url)
+      end
     end
     redirect_to action: :index and return
   end
