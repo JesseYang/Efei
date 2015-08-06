@@ -24,3 +24,22 @@ $ ->
     $("#local-course-ul li").each ->
       arr.push($(this).attr("data-id"))
     $("#student_local_course_id_ary").val(arr.join(','))
+
+  $(".local-course-select-box").change ->
+    local_course_id = $(this).val()
+    $.getJSON "/admin/local_courses/#{local_course_id}", (data) ->
+      if data.success
+        $(".city-content").text(data.info.city)
+        $(".location-content").text(data.info.location)
+        $(".time-content").text(data.info.time_desc)
+      else
+        $.page_notification "服务器出错"
+
+  $("body").on "click", ".download-local-course-cover", (event) ->
+    local_course_id = $(event.target).closest("li").attr("data-id")
+    $.getJSON "/admin/students/#{window.student_id}/download_cover?local_course_id=#{local_course_id}", (data) ->
+      if data.success
+        window.open data.filename
+      else
+        $.page_notification "服务器出错"
+  $(".download-local-course-cover")

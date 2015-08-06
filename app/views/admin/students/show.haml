@@ -1,0 +1,34 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/students-bundle"
+  = stylesheet_link_tag "pages/admin/students-bundle", :media => "all"
+  :javascript
+    window.student_id="#{@student.id.to_s}"
+
+.student-info
+  %span.name= @student.name
+  %span.student_number= @student.student_number
+  %span.email= @student.email
+  %span.mobile= @student.mobile
+  %span.city= @student.city
+  %span.school_name= @student.school_name
+  %span.grade= @student.grade
+
+%ul#local-course-ul
+  - @student.student_local_courses.each do |lc|
+    %li{data: {id: lc.id.to_s}}
+      %a{href: edit_admin_local_course_path(lc), target: "_blank"}= lc.name + "(#{lc.number})"
+      %a.remove-local-course{href: "javascript:void(0);"}= "删除"
+      %a.download-local-course-cover{href: "javascript:void(0);"}= "下载封面"
+.fomr-control
+  = select_tag "new_local_course", options_for_select(LocalCourse.local_courses_for_select(@student), "-1"), class: "form-control local-course-select-box"
+  %a.btn.btn-default.new-local-course{href: "javascript:void(0);"} 报名
+.local-course-info
+  .city
+    %span 城市：
+    %span.city-content
+  .location
+    %span 地点：
+    %span.location-content
+  .time
+    %span 上课时间：
+    %span.time-content

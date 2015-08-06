@@ -5,6 +5,16 @@ class Admin::LocalCoursesController < Admin::ApplicationController
     @local_courses = auto_paginate LocalCourse.all
   end
 
+  def show
+    @local_course = LocalCourse.find(params[:id])
+    info = {
+      city: @local_course.city,
+      location: @local_course.location,
+      time_desc: @local_course.time_desc
+    }
+    render json: { success: true, info: info } and return
+  end
+
   def create
     retval = LocalCourse.create_local_course(params[:local_course])
     flash[:notice] = "创建成功"

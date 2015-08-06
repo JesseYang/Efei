@@ -11,6 +11,10 @@ class Admin::StudentsController < Admin::ApplicationController
     redirect_to action: :index and return
   end
 
+  def show
+    @student = User.find(params[:id])
+  end
+
   def update
     @student = User.find(params[:id])
     @student.update_student(params[:student])
@@ -33,5 +37,12 @@ class Admin::StudentsController < Admin::ApplicationController
   def edit
     @student = User.find(params[:id])
     render action: :new
+  end
+
+  def download_cover
+    @student = User.find(params[:id])
+    @local_course = LocalCourse.find(params[:local_course_id])
+    filename = @student.download_cover(@local_course)
+    render json: { success: true, filename: filename }
   end
 end

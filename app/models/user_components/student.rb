@@ -1,4 +1,6 @@
 # encoding: utf-8
+require 'prawn'
+require "prawn/measurement_extensions"
 module UserComponents::Student
   extend ActiveSupport::Concern
 
@@ -55,6 +57,22 @@ module UserComponents::Student
       end
       true
     end
+  end
+
+  def download_cover(local_course)
+    qr = RQRCode::QRCode.new(self.id.to_s, :size => 4, :level => :h )
+    png = qr.to_img
+    temp_img_name = "public/pdf/#{self.id.to_s}.png"
+    png.resize(78, 78).save(temp_img_name)
+    pdf = Prawn::Document.new(:page_size => 'B5', margin: 0)
+    pdf.font("public/fonts/weiruanyahei.ttf") do
+      pdf.draw_text local_course.course.name, at: [32.mm, 178.mm], size: 30
+      pdf.draw_text self.name, at: [56.mm, 68.mm], size: 24
+      pdf.draw_text local_course.number, at: [56.mm, 48.mm], size: 24
+      pdf.image "public/pdf/#{self.id.to_s}.png", at: [125.mm, 73.mm]
+    end
+    pdf.render_file "public/pdf/#{self.id.to_s}.pdf"
+    "/pdf/#{self.id.to_s}.pdf"
   end
 
   def update_student(student)
