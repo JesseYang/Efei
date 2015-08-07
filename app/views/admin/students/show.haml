@@ -21,8 +21,8 @@
       %a.download-local-course-cover{href: "javascript:void(0);"}= "下载封面"
 .fomr-control
   = select_tag "new_local_course", options_for_select(LocalCourse.local_courses_for_select(@student), "-1"), class: "form-control local-course-select-box"
-  %a.btn.btn-default.new-local-course{href: "javascript:void(0);"} 报名
-.local-course-info
+  %a.btn.btn-primary.new-local-course{href: "javascript:void(0);"} 报名
+.local-course-info.hide
   .city
     %span 城市：
     %span.city-content
@@ -32,3 +32,5 @@
   .time
     %span 上课时间：
     %span.time-content
+
+= link_to "返回学生列表", { controller: "admin/students", action: "index"}, class: "btn btn-default"

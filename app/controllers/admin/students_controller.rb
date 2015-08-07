@@ -2,7 +2,11 @@
 class Admin::StudentsController < Admin::ApplicationController
 
   def index
-    @students = auto_paginate User.where(tablet: true)
+    @students = User.where(tablet: true)
+    if params[:keyword].present?
+      @students = @students.any_of({name: /#{params[:keyword]}/}, {email: /#{params[:keyword]}/}, {mobile: /#{params[:keyword]}/})
+    end
+    @students = auto_paginate @students
   end
 
   def create
@@ -37,6 +41,20 @@ class Admin::StudentsController < Admin::ApplicationController
   def edit
     @student = User.find(params[:id])
     render action: :new
+  end
+
+  def add_local_course
+    @student = User.find(params[:id])
+    @local_course = LocalCourse.find(params[:local_course_id])
+    @student.student_local_courses << @local_course
+    render json: { success: true }
+  end
+
+  def remove_local_course
+    @student = User.find(params[:id])
+    @local_course = LocalCourse.find(params[:local_course_id])
+    @student.student_local_courses.delete(@local_course)
+    render json: { success: true }
   end
 
   def download_cover

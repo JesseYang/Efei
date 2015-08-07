@@ -12,6 +12,9 @@ module UserComponents::Student
     field :city, type: String, default: ""
     field :school_name, type: String, default: ""
     field :grade, type: String, default: ""
+    # 0 for senior school, 1 for junior school, 2 for primary school
+    field :phase, type: Integer, default: -1
+    field :entrance_year, type: String, default: "-1"
     field :student_number, type: String, default: ""
     has_many :notes
     has_and_belongs_to_many :student_local_courses, class_name: "LocalCourse", inverse_of: :students
@@ -49,13 +52,36 @@ module UserComponents::Student
         mobile: student["mobile"],
         city: student["city"],
         school_name: student["school_name"],
-        grade: student["grade"],
+        phase: student["phase"],
+        entrance_year: student["entrance_year"],
         student_number: student["student_number"]
       })
       student["local_course_id_ary"].split(',').each do |lc_id|
         new_student.student_local_courses << LocalCourse.find(lc_id)
       end
       true
+    end
+
+    def phase_for_select
+      hash = { "请选择" => -1 }
+      hash["高中"] = 0
+      hash["初中"] = 1
+      hash
+    end
+
+    def entrance_year_for_select
+      hash = { "请选择" => -1, "2013" => "2013", "2014" => "2014", "2015" => "2015" }
+      hash
+    end
+
+    def phase_text(phase)
+      h = { "-1" => "未知", "1" => "初中", "0" => "高中" }
+      h[phase.to_s]
+    end
+
+    def entrance_year_text(entrance_year)
+      return "未知" if entrance_year == "-1"
+      return entrance_year
     end
   end
 
@@ -82,20 +108,10 @@ module UserComponents::Student
         mobile: student["mobile"],
         city: student["city"],
         school_name: student["school_name"],
-        grade: student["grade"],
+        phase: student["phase"],
+        entrance_year: student["entrance_year"],
         student_number: student["student_number"]
     })
-    update_lc_id_ary = student["local_course_id_ary"].split(',')
-    self.student_local_courses.each do |lc|
-      if !update_lc_id_ary.include?(lc.id.to_s)
-        self.student_local_courses.delete(lc)
-      else
-        update_lc_id_ary.delete(lc.id.to_s)
-      end
-    end
-    update_lc_id_ary.each do |lc_id|
-      self.student_local_courses << LocalCourse.find(lc_id)
-    end
     true
   end
 

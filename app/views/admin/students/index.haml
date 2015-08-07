@@ -9,29 +9,37 @@
       %h4
         没有学生
     - else
-      .paginator-wrapper
-        = paginator_mini @students
+      .top-content-wrapper
+        .paginator-wrapper
+          = paginator_mini @students
+        .student-search-box
+          %input#input-search{:placeholder => "姓名、邮箱或者手机号", :type => "text", :value => params[:keyword]}
+          = link_to "搜索", "javascript:void(0);", class: "btn btn-primary btn-sm student-search-btn"
       .table-responsive
         %table.table.table-striped
           %tr
             %th.col-md-1= "姓名"
             %th.col-md-1= "城市"
-            %th.col-md-2= "学校"
-            %th.col-md-1= "年级"
+            %th.col-md-1= "学校"
+            %th.col-md-1= "学段"
+            %th.col-md-1= "入学年份"
             %th.col-md-1= "学号"
             %th.col-md-2= "邮箱"
             %th.col-md-2= "手机"
             %th.col-md-2 操作
           - @students["data"].each do |e|
             %tr
-              %td= e.name
+              %td
+                = link_to e.name, { controller: "admin/students", action: "show", id: e.id.to_s}
               %td= e.city
               %td= e.school_name
-              %td= e.grade
+              %td= User.phase_text(e.phase)
+              %td= User.entrance_year_text(e.entrance_year)
               %td= e.student_number
               %td= e.email
               %td= e.mobile
               %td
                 = link_to "删除", { controller: "admin/students", action: "destroy", id: e._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
                 = link_to "编辑", edit_admin_student_path(e), :class => 'btn btn-primary btn-xs edit-coach'
+                = link_to "详细", { controller: "admin/students", action: "show", id: e.id.to_s}, :class => 'btn btn-primary btn-xs'
     %a.btn.btn-new.btn-primary{ href: new_admin_student_path } 创建新学生
