@@ -16,14 +16,12 @@ class Weixin::UsersController < Weixin::ApplicationController
   end
 
   def bind
-    student_number = params[:student_number]
-    s = User.where(student_number: student_number).first
+    s = User.where(id: params[:student_id]).first
     if s.blank?
-      flash[:error] = "学员号不正确"
-      redirect_to action: :pre_bind and return
+      render json: { success: false } and return
     end
     url = Weixin.generate_authorize_link(Rails.application.config.server_host + "/weixin/users/#{s.id.to_s}/post_bind", true)
-    redirect_to url and return
+    render json: { success: true, url: url } and return
   end
 
   def post_bind
