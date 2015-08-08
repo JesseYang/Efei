@@ -16,7 +16,13 @@ class Weixin::UsersController < Weixin::ApplicationController
   end
 
   def bind
+    Rails.logger.info "AAAAAAAAAAAAA"
+    Rails.logger.info params[:student_id]
+    Rails.logger.info "AAAAAAAAAAAAA"
     s = User.where(id: params[:student_id]).first
+    Rails.logger.info "AAAAAAAAAAAAA"
+    Rails.logger.info s.inspect
+    Rails.logger.info "AAAAAAAAAAAAA"
     if s.blank?
       render json: { success: false } and return
     end
