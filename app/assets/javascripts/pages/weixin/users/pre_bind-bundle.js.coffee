@@ -18,3 +18,4 @@ $ ->
               window.location.href = data.url
             else
               $.page_notification("二维码不正确")
+        )
