@@ -4,10 +4,5 @@
 
 - content_for :app_content do
   .wrapper
-    %p 请输入学员号完成和微信帐号的绑定
-    = form_tag(bind_weixin_users_path, id: "bind-weixin-form", method: "post", multipart: true) do
-      %fieldset
-        .form-group
-          = text_field_tag :student_number, "", :autofocus => true, :placeholder => "易飞学堂学员号", class: "form-control"
-        .content
-        = submit_tag "绑定", class: "btn btn-primary bind-btn form-control"
+    %p 请扫描讲义封面二维码与微信帐号绑定
+    = link_to "开始扫描", "javascript:void(0);", class: "btn btn-primary bind-btn form-control"
