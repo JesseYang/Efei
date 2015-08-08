@@ -9,7 +9,7 @@
   margin-bottom: 30px;
 }
 
-.form-wrapper {
+.form-wrapper, .student-show-wrapper {
   width: 60vw;
   margin-left: 20vw;
   margin-right: 20vw;
@@ -17,21 +17,9 @@
 }
 
 #new_local_course {
-  width: 80%;
+  width: 50%;
   @include inline-block;
-}
-
-.remove-local-course {
-  text-decoration: none;
-  color: black;
-  opacity: 0.2;
-  font-weight: bold;
   margin-left: 20px;
-  &:hover {
-    text-decoration: none;
-    color: black;
-    opacity: 0.5;
-  }
 }
 
 .left-part {
@@ -46,7 +34,7 @@
   padding: 10px;
 }
 
-.top-content-wrapper {
+.top-content-wrapper, .student-info {
   @include clearfix;
 }
 
@@ -57,3 +45,9 @@
 .student-search-box {
   float: right;
 }
+
+.local-course-info {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+

@@ -16,6 +16,8 @@ module UserComponents::Student
     field :phase, type: Integer, default: -1
     field :entrance_year, type: String, default: "-1"
     field :student_number, type: String, default: ""
+    field :parent_name, type: String, default: ""
+    field :parent_mobile, type: String, default: ""
     has_many :notes
     has_and_belongs_to_many :student_local_courses, class_name: "LocalCourse", inverse_of: :students
     has_many :student_answers, class_name: "Answer", inverse_of: :student
@@ -54,12 +56,11 @@ module UserComponents::Student
         school_name: student["school_name"],
         phase: student["phase"],
         entrance_year: student["entrance_year"],
-        student_number: student["student_number"]
+        student_number: student["student_number"],
+        parent_name: student["parent_name"],
+        parent_mobile: student["parent_mobile"]
       })
-      student["local_course_id_ary"].split(',').each do |lc_id|
-        new_student.student_local_courses << LocalCourse.find(lc_id)
-      end
-      true
+      new_student
     end
 
     def phase_for_select
@@ -110,7 +111,9 @@ module UserComponents::Student
         school_name: student["school_name"],
         phase: student["phase"],
         entrance_year: student["entrance_year"],
-        student_number: student["student_number"]
+        student_number: student["student_number"],
+        parent_name: student["parent_name"],
+        parent_mobile: student["parent_mobile"]
     })
     true
   end

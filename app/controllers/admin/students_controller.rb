@@ -10,9 +10,9 @@ class Admin::StudentsController < Admin::ApplicationController
   end
 
   def create
-    retval = User.create_student(params[:student])
+    new_student = User.create_student(params[:student])
     flash[:notice] = "创建成功"
-    redirect_to action: :index and return
+    redirect_to admin_student_path(new_student) and return
   end
 
   def show
@@ -46,7 +46,9 @@ class Admin::StudentsController < Admin::ApplicationController
   def add_local_course
     @student = User.find(params[:id])
     @local_course = LocalCourse.find(params[:local_course_id])
-    @student.student_local_courses << @local_course
+    if !@student.student_local_courses.include?(@local_course)
+      @student.student_local_courses << @local_course
+    end
     render json: { success: true }
   end
 

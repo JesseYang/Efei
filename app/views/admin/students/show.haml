@@ -4,33 +4,70 @@
   :javascript
     window.student_id="#{@student.id.to_s}"
 
-.student-info
-  %span.name= @student.name
-  %span.student_number= @student.student_number
-  %span.email= @student.email
-  %span.mobile= @student.mobile
-  %span.city= @student.city
-  %span.school_name= @student.school_name
-  %span.grade= @student.grade
 
-%ul#local-course-ul
-  - @student.student_local_courses.each do |lc|
-    %li{data: {id: lc.id.to_s}}
-      %a{href: edit_admin_local_course_path(lc), target: "_blank"}= lc.name + "(#{lc.number})"
-      %a.remove-local-course{href: "javascript:void(0);"}= "删除"
-      %a.download-local-course-cover{href: "javascript:void(0);"}= "下载封面"
-.fomr-control
+.student-show-wrapper
+  = link_to "返回学生列表", { controller: "admin/students", action: "index"}, class: "btn btn-primary"
+  .student-info
+    .left-part
+      %p.name= "姓名：" + @student.name
+      %p.email= "邮箱：" + @student.email
+      %p.mobile= "手机：" + @student.mobile
+      %p.parent-name= "家长姓名：" + @student.parent_name
+      %p.parent-name= "家长电话：" + @student.parent_mobile
+    .right-part
+      %p.city= "城市：" + @student.city
+      %p.school_name= "学校：" + @student.school_name
+      %p.phase= "学段：" + User.phase_text(@student.phase)
+      %p.entrance_year= "入学年份：" + User.entrance_year_text(@student.entrance_year)
+
+  - if @student.student_local_courses.blank?
+    %h4 未报名任何课程
+  - else
+    %h4 已报名课程：
+    .table-responsive
+      %table.table.table-striped
+        %tr
+          %th.col-md-1= "名称"
+          %th.col-md-1= "操作"
+        - @student.student_local_courses.each do |lc|
+          %tr{data: {id: lc.id.to_s}}
+            %td
+              %a.local-course-name{href: "javascript:void(0);"}= lc.name + "(#{lc.number})"
+            %td
+              %a.remove-local-course{href: "javascript:void(0);"}= "删除"
+              %a.download-local-course-cover{href: "javascript:void(0);"}= "下载封面"
   = select_tag "new_local_course", options_for_select(LocalCourse.local_courses_for_select(@student), "-1"), class: "form-control local-course-select-box"
   %a.btn.btn-primary.new-local-course{href: "javascript:void(0);"} 报名
-.local-course-info.hide
-  .city
-    %span 城市：
-    %span.city-content
-  .location
-    %span 地点：
-    %span.location-content
-  .time
-    %span 上课时间：
-    %span.time-content
+  .local-course-info.hide
+    .city
+      %span 城市：
+      %span.city-content
+    .location
+      %span 地点：
+      %span.location-content
+    .time
+      %span 上课时间：
+      %span.time-content
 
-= link_to "返回学生列表", { controller: "admin/students", action: "index"}, class: "btn btn-default"
+
+#localCourseInfoModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+        %h3 课程详细信息
+      .modal-body
+        .name
+          %span 名称：
+          %span.name-content
+        .city
+          %span 城市：
+          %span.city-content
+        .location
+          %span 地点：
+          %span.location-content
+        .time
+          %span 上课时间：
+          %span.time-content
+      .modal-footer
+        %a.btn.btn-primary{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 确定

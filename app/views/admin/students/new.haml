@@ -16,20 +16,24 @@
         = label_tag :phase, "学段"
         = select_tag "student[phase]", options_for_select(User.phase_for_select, @student.phase), class: "form-control"
       .form-group
-        = label_tag :city, "城市"
-        = text_field_tag "student[city]", @student.city, autofocus: false, class: "form-control"
+        = label_tag :entrance_year, "入学年份"
+        = select_tag "student[entrance_year]", options_for_select(User.entrance_year_for_select, @student.entrance_year), class: "form-control"
     .right-part
-      .form-group
-        = label_tag :student_number, "学号"
-        = text_field_tag "student[student_number]", @student.student_number, autofocus: true, class: "form-control"
       .form-group
         = label_tag :mobile, "手机"
         = text_field_tag "student[mobile]", @student.mobile, autofocus: false, class: "form-control"
       .form-group
-        = label_tag :entrance_year, "入学年份"
-        = select_tag "student[entrance_year]", options_for_select(User.entrance_year_for_select, @student.entrance_year), class: "form-control"
+        = label_tag :city, "城市"
+        = text_field_tag "student[city]", @student.city, autofocus: false, class: "form-control"
       .form-group
         = label_tag :school_name, "学校"
         = text_field_tag "student[school_name]", @student.school_name, autofocus: false, class: "form-control"
-    = link_to "返回学生列表", { controller: "admin/students", action: "index"}, class: "btn btn-default"
+      .form-group
+        = label_tag :parent_name, "家长姓名"
+        = text_field_tag "student[parent_name]", @student.parent_name, autofocus: false, class: "form-control"
+      .form-group
+        = label_tag :parent_mobile, "家长电话"
+        = text_field_tag "student[parent_mobile]", @student.parent_mobile, autofocus: false, class: "form-control"
+    .clear-both
+    = link_to "取消", { controller: "admin/students", action: "index"}, class: "btn btn-default"
     = submit_tag @new ? "创建" : "更新", :class => 'btn-primary btn'

@@ -8,6 +8,7 @@ class Admin::LocalCoursesController < Admin::ApplicationController
   def show
     @local_course = LocalCourse.find(params[:id])
     info = {
+      name: @local_course.name + "(" + @local_course.number + ")",
       city: @local_course.city,
       location: @local_course.location,
       time_desc: @local_course.time_desc
