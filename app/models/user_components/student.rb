@@ -137,7 +137,7 @@ module UserComponents::Student
 
   def completed_lesson_id_str
     self.student_answers.map do |e|
-      e.homework.lesson.id.to_s
+      e.homework.lesson.try(:id).to_s
     end .join(',')
   end
 
