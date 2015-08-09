@@ -25,7 +25,7 @@ $ ->
       }, (data) ->
         if data.success
           $.page_notification "删除成功"
-          $(event.target).closest("li").remove()
+          window.location.reload()
         else
           $.page_notification "操作失败，请刷新页面重试"
 
