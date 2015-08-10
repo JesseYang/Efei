@@ -50,7 +50,14 @@ $ ->
         window.open data.filename
       else
         $.page_notification "服务器出错"
-  $(".download-local-course-cover")
+
+  $("body").on "click", ".download-local-course-schedule", (event) ->
+    local_course_id = $(event.target).closest("tr").attr("data-id")
+    $.getJSON "/admin/students/#{window.student_id}/download_schedule?local_course_id=#{local_course_id}", (data) ->
+      if data.success
+        window.open data.filename
+      else
+        $.page_notification "服务器出错"
 
   $(".student-search-btn").click ->
     search()

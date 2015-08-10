@@ -58,6 +58,7 @@ Rails.application.routes.draw do
     resources :students do
       member do
         get :download_cover
+        get :download_schedule
         post :add_local_course
         delete :remove_local_course
       end

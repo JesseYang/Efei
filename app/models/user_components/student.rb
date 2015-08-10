@@ -86,6 +86,10 @@ module UserComponents::Student
     end
   end
 
+  def download_schedule(local_course)
+    "/schedule/#{local_course.number}.pdf"
+  end
+
   def download_cover(local_course)
     qr = RQRCode::QRCode.new(self.id.to_s, :size => 4, :level => :h )
     png = qr.to_img

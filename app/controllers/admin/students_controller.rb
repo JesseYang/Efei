@@ -59,6 +59,13 @@ class Admin::StudentsController < Admin::ApplicationController
     render json: { success: true }
   end
 
+  def download_schedule
+    @student = User.find(params[:id])
+    @local_course = LocalCourse.find(params[:local_course_id])
+    filename = @student.download_schedule(@local_course)
+    render json: { success: true, filename: filename }
+  end
+
   def download_cover
     @student = User.find(params[:id])
     @local_course = LocalCourse.find(params[:local_course_id])
