@@ -6,7 +6,6 @@ module UserComponents::Teacher
     field :teacher, type: Boolean, default: false
     field :subject, type: Integer
     field :teacher_desc, type: String
-    field :admin, type: Boolean, default: false
 
     # for homework platform
     field :homework, type: Boolean, default: false

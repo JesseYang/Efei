@@ -29,6 +29,11 @@ class User
   # for registration invitation
   field :invite_code, type: String
 
+
+  field :admin, type: Boolean, default: false
+  field :super_admin, type: Boolean, default: false
+  field :permission, type: Integer, default: 0
+
   has_many :feedbacks
 
   include HTTParty
@@ -205,5 +210,25 @@ class User
 
   def create_feedback(content)
     f = Feedback.create(content: content, user_id: self.id.to_s)
+  end
+
+  def default_admin_path
+    if self.admin != true || self.permission == 0
+      return ""
+    elsif self.super_admin
+      "/admin/supers"
+    elsif self.permission & 1 == 1
+      "/admin/teachers"
+    elsif self.permission & 2 == 2
+      "/admin/courses"
+    elsif self.permission & 4 == 4
+      "/admin/weixin_news"
+    elsif self.permission & 8 == 8
+      "/admin/coaches"
+    elsif self.permission & 16 == 16
+      "/admin/local_courses"
+    elsif self.permission & 32 == 32
+      "/admin/students"
+    end
   end
 end

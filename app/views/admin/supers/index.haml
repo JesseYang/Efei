@@ -1,0 +1,69 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/supers-bundle"
+  = stylesheet_link_tag "pages/admin/supers-bundle", :media => "all"
+  :javascript
+
+.container
+  .lib-content
+    - if @admins.blank?
+      %h4
+        没有管理员
+    - else
+      .table-responsive
+        %table.table.table-striped
+          %tr
+            %th.col-md-1= "姓名"
+            %th.col-md-1= "邮箱"
+            %th.col-md-1= "手机"
+            %th.col-md-1= "教师管理"
+            %th.col-md-1= "课程管理"
+            %th.col-md-1= "新闻管理"
+            %th.col-md-1= "辅导教师管理"
+            %th.col-md-2= "本地课程管理"
+            %th.col-md-2= "学生管理"
+            %th.col-md-2 操作
+          - @admins.each do |u|
+            %tr{ data: {id: u.id.to_s} }
+              %td= u.name
+              %td= u.email.present? ? u.email : "无"
+              %td= u.mobile.present? ? u.mobile : "无"
+              %td
+                - if u.permission & 1 == 0
+                  = check_box_tag "teacher", 1, false
+                - else
+                  = check_box_tag "teacher", 1, true
+              %td
+                - if u.permission & 2 == 0
+                  = check_box_tag "course", 2, false
+                - else
+                  = check_box_tag "course", 2, true
+              %td
+                - if u.permission & 4 == 0
+                  = check_box_tag "news", 4, false
+                - else
+                  = check_box_tag "news", 4, true
+              %td
+                - if u.permission & 8 == 0
+                  = check_box_tag "coach", 8, false
+                - else
+                  = check_box_tag "coach", 8, true
+              %td
+                - if u.permission & 16 == 0
+                  = check_box_tag "local_course", 16, false
+                - else
+                  = check_box_tag "local_course", 16, true
+              %td
+                - if u.permission & 32 == 0
+                  = check_box_tag "student", 32, false
+                - else
+                  = check_box_tag "student", 32, true
+              %td
+                = link_to "删除", { controller: "admin/supers", action: "destroy", id: u._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+                %a.btn.btn-update.btn-xs.btn-primary{ href: "javascript:void(0);" } 更新
+
+    .new-admin-box
+      = form_tag(admin_supers_path, method: "post", multipart: true) do
+        = label_tag :password, "邮箱或手机号"
+        = text_field_tag :email_mobile, ""
+        = submit_tag "添加", class: "btn btn-primary"
+

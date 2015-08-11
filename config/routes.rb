@@ -55,6 +55,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resources :supers do
+    end
     resources :students do
       member do
         get :download_cover

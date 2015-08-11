@@ -112,8 +112,8 @@ class ApplicationController < ActionController::Base
   def redirect_to_root(role = "teacher")
     if current_user.blank?
       "/redirect" + "?role=#{role}"
-    # elsif current_user.try(:school_admin)
-    #  school_admin_teachers_path
+    elsif current_user.super_admin == true || (current_user.admin == true && current_user.permission > 0)
+      current_user.default_admin_path
     elsif current_user.try(:teacher)
       teacher_nodes_path
     else

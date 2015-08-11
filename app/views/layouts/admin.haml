@@ -4,20 +4,32 @@
   = yield :head
 
 - content_for :app_content do
+  .welcome
+    %span= "你好，" + @current_user.name + "！"
+    %a{href: "/account/sessions/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
   .admin-nav
     %ul.nav.nav-tabs
-      %li.teachers
-        = link_to "教师列表", { controller: "admin/teachers", action: "index" }
-      %li.courses
-        = link_to "课程列表", { controller: "admin/courses", action: "index" }
-      %li.news
-        = link_to "新闻列表", { controller: "admin/weixin_news", action: "index" }
-      %li.coaches
-        = link_to "辅导老师", { controller: "admin/coaches", action: "index" }
-      %li.local_courses
-        = link_to "本地课程", { controller: "admin/local_courses", action: "index" }
-      %li.students
-        = link_to "学生", { controller: "admin/students", action: "index" }
+      - if @current_user.super_admin
+        %li.supers
+          = link_to "超级管理员", { controller: "admin/supers", action: "index" }
+      - if @current_user.permission & 1 == 1
+        %li.teachers
+          = link_to "教师列表", { controller: "admin/teachers", action: "index" }
+      - if @current_user.super_admin || @current_user.permission & 2 == 2
+        %li.courses
+          = link_to "课程列表", { controller: "admin/courses", action: "index" }
+      - if @current_user.super_admin || @current_user.permission & 4 == 4
+        %li.news
+          = link_to "新闻列表", { controller: "admin/weixin_news", action: "index" }
+      - if @current_user.super_admin || @current_user.permission & 8 == 8
+        %li.coaches
+          = link_to "辅导老师", { controller: "admin/coaches", action: "index" }
+      - if @current_user.super_admin || @current_user.permission & 16 == 16
+        %li.local_courses
+          = link_to "本地课程", { controller: "admin/local_courses", action: "index" }
+      - if @current_user.super_admin || @current_user.permission & 32 == 32
+        %li.students
+          = link_to "学生", { controller: "admin/students", action: "index" }
   = yield 
 
 = render :template => 'layouts/application'

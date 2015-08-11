@@ -69,9 +69,6 @@ class WelcomeController < ApplicationController
 
   def redirect
     flash[:notice] = params[:notice]
-    # if current_user.try(:school_admin)
-    #   redirect_to school_admin_teachers_path and return
-    # elsif current_user.try(:teacher)
     if current_user.try(:teacher)
       redirect_to teacher_nodes_path and return
     elsif current_user.present?
