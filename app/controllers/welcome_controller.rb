@@ -68,6 +68,11 @@ class WelcomeController < ApplicationController
   end
 
   def redirect
+    if current_user.present? && current_user.super_admin
+      redirect_to "/admin/supers" and return
+    elsif current_user.present? && current_user.admin && current_user.permission > 0
+      redirect_to current_user.default_admin_path and return
+    end
     flash[:notice] = params[:notice]
     if current_user.try(:teacher)
       redirect_to teacher_nodes_path and return
