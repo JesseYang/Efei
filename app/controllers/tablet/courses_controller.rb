@@ -8,6 +8,11 @@ class Tablet::CoursesController < Tablet::ApplicationController
     render_with_auth_key({courses: courses}) and return
   end
 
+  def show
+  	c = Course.where(id: params[:id]).first
+  	render_with_auth_key({course: c.info_for_tablet}) and return
+  end
+
   def create
   	
   end
