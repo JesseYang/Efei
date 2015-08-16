@@ -81,12 +81,12 @@ class Weixin
   def self.update_menu
     data = {
       "button" => [
+=begin
         {
           "type" => "view",
           "name" => "讲座报名",
           "url" => "http://efei.org/lecture_users/new"
         },
-=begin
         {
           "name" => "易飞好学",
           "sub_button" => [
