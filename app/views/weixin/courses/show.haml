@@ -6,16 +6,16 @@
   - @lessons.each_with_index do |l, i|
     %li
       = link_to lesson_helper(i) + (Answer.ensure_answer(@current_user, l.homework, @local_course.coach).try(:finish) ? "（已完成）" : "") + l.name, "javascript:void(0);", { class: 'lesson-link' }
-      .lesson-detail
-        - if Answer.ensure_answer(@current_user, l.homework, @local_course.coach).try(:finish)
-          .para
-            %span= "#{@current_user.name} 已经完成了本讲课程的学习。你可以查看详细的"
-            = link_to "学习记录", record_weixin_lesson_path(l) + "?local_course_id=#{@local_course.id.to_s}"
-            %span= "以及教师提供的"
-            = link_to "练习反馈", exercise_weixin_lesson_path(l) + "?local_course_id=#{@local_course.id.to_s}"
-            %span= "。"
-        - else
-          %p.para= "#{@current_user.name} 还没有完成本讲课程的学习。"
+      / .lesson-detail
+      /  - if Answer.ensure_answer(@current_user, l.homework, @local_course.coach).try(:finish)
+      /    .para
+      /      %span= "#{@current_user.name} 已经完成了本讲课程的学习。你可以查看详细的"
+      /      = link_to "学习记录", record_weixin_lesson_path(l) + "?local_course_id=#{@local_course.id.to_s}"
+      /      %span= "以及教师提供的"
+      /      = link_to "练习反馈", exercise_weixin_lesson_path(l) + "?local_course_id=#{@local_course.id.to_s}"
+      /      %span= "。"
+      /  - else
+      /    %p.para= "#{@current_user.name} 还没有完成本讲课程的学习。"
 
 #left-filter
   .filter-title
