@@ -9,11 +9,11 @@ class Tablet::CoursesController < Tablet::ApplicationController
   end
 
   def show
-  	c = Course.where(id: params[:id]).first
-  	render_with_auth_key({course: c.info_for_tablet}) and return
+    c = Course.where(id: params[:id]).first
+    render_with_auth_key({course: c.info_for_tablet}) and return
   end
 
   def create
-  	
+    
   end
 end

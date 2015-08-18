@@ -1,11 +1,12 @@
 - content_for :app_head do
   = stylesheet_link_tag "layouts/admin-layout", :media => "all"
-  / = javascript_include_tag "layouts/admin-layout"
+  = javascript_include_tag "layouts/admin-layout"
   = yield :head
 
 - content_for :app_content do
   .welcome
-    %span= "你好，" + @current_user.name + "！"
+    %span= "你好，" + @current_user.name + "（#{@current_user.email}）！"
+    / %a.change-password{href: "javascript:void(0);"} 修改密码
     %a{href: "/account/sessions/sign_out", data: {method: "delete"}, rel: "nofollow"} 退出
   .admin-nav
     %ul.nav.nav-tabs
@@ -31,5 +32,26 @@
         %li.students
           = link_to "学生", { controller: "admin/students", action: "index" }
   = yield 
+
+
+  #changePasswordModal.modal.fade
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 修改密码
+        .modal-body
+          %p
+            = label_tag :subject, "当前密码"
+            = password_field_tag :current_password, "", class: "form-control"
+          %p
+            = label_tag :name, "新密码"
+            = password_field_tag :new_password, "", class: "form-control"
+          %p
+            = label_tag :name, "新密码重复"
+            = password_field_tag :new_password_tag, "", class: "form-control"
+        .modal-footer
+          %a.btn.btn-primary.ok{href: "#", "aria-hidden" => "true"} 确定
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
 
 = render :template => 'layouts/application'
