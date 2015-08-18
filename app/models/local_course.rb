@@ -23,7 +23,7 @@ class LocalCourse
   end
 
   def desc
-    self.name + "\n" + "教师：" + self.coach.name + "\n" + self.location
+    self.name + "\n" + "教师：" + self.coach.nil? ? "未分配" : self.coach.name + "\n" + self.location
   end
 
   def time_ary_text
