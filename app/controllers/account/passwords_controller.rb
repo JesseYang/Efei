@@ -74,7 +74,8 @@ class Account::PasswordsController < Account::ApplicationController
   end
 
   def change_password
-    retval = @current_user.change_password(params[:password], params[:new_password])
-    render_with_auth_key retval and return
+    value = @current_user.change_password(params[:password], params[:new_password])
+    value = { success: true } if value.nil?
+    render json: value
   end
 end

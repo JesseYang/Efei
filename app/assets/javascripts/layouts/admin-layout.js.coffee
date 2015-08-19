@@ -19,5 +19,6 @@ $ ->
     (data) ->
       if data.success
         $.page_notification "修改密码成功"
+        $("#changePasswordModal").modal("hide")
       else
-        $.page_notification "操作失败，请刷新页面重试"
+        $.page_notification "密码错误"
