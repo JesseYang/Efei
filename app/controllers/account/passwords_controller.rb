@@ -72,4 +72,9 @@ class Account::PasswordsController < Account::ApplicationController
       redirect_to redirect_to_root and return
     end
   end
+
+  def change_password
+    retval = @current_user.change_password(params[:password], params[:new_password])
+    render_with_auth_key retval and return
+  end
 end

@@ -217,6 +217,7 @@ Rails.application.routes.draw do
     resources :passwords do
       collection do
         get :edit
+        put :change_password
         put :update
         post :verify_code
       end
