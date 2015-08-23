@@ -1,0 +1,8 @@
+- content_for :app_head do
+  / = javascript_include_tag "pages/welcome/index-bundle"
+  = stylesheet_link_tag "pages/welcome/tecent-news-list-bundle", :media => "all"
+
+%h3= params[:type] == "0" ? "政策方法" : "课程信息"
+
+- @news.each do |n|
+  = link_to n.title, n.url

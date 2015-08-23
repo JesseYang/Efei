@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get "welcome/app_download"
   get "welcome/app_version"
 
+  get "welcome/tecent_news_list"
+
   match '/' => 'welcome#weixin', :via => :post
 
   namespace :client do

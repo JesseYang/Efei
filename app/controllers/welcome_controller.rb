@@ -69,6 +69,14 @@ class WelcomeController < ApplicationController
     end
   end
 
+  def tecent_news_list
+    if params[:type] == "0"
+      @news = TecentNews.where(type: 0).desc(:created_at)
+    else
+      @news = TecentNews.where(type: 1).desc(:created_at)
+    end
+  end
+
   def redirect
     if current_user.present? && current_user.super_admin
       redirect_to "/admin/supers" and return
