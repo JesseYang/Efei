@@ -60,8 +60,9 @@ class Admin::VideosController < Admin::ApplicationController
         lesson.save
       end
     end
-    # remove the video file
-    if File.exist?("public" + @video.video_url)
+    # if no other videos use the same file, remove the video file
+    videos = Video.where(videl_url: @video_url)
+    if videos.length == 1 && File.exist?("public" + @video.video_url)
       File.delete("public" + @video.video_url)
     end
     @video.destroy
