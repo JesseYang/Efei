@@ -40,9 +40,9 @@
         .modal-body
           .form-group.hide
             = text_field_tag "video[lesson_id]", @lesson.id.to_s, autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :teacher, "视频类型"
-            = select_tag "video[video_type]", options_for_select(Video.video_type_for_select, -1), class: "form-control"
+          / .form-group
+          /   = label_tag :teacher, "视频类型"
+          /   = select_tag "video[video_type]", options_for_select(Video.video_type_for_select, -1), class: "form-control"
           .form-group
             = label_tag :subject, "名称"
             = text_field_tag "video[name]", "", autofocus: true, class: "form-control"

@@ -8,7 +8,7 @@
   %h3= "课程：" + @video.course_name
   %h3= "本讲：" + @video.lesson_name
   %h3= "视频标题：" + @video.name
-  %h3= "视频类型：" + Video.show_type(@video.video_type)
+  / %h3= "视频类型：" + Video.show_type(@video.video_type)
   %h3= "序号：" + @video.video_order.to_s
   %h3= "文件名：" + @video.video_url.to_s
   - if @video.video_type == 2
