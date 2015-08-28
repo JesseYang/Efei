@@ -39,23 +39,30 @@ class Admin::CoursesController < Admin::ApplicationController
   def update
     c = Course.find(params[:id])
 
-    if params[:textbook].blank?
+    if params[:textbook].present?
       # save the textbook image and update
       textbook = Textbook.new
       textbook.textbook = params[:textbook]
       filetype = "png"
+      # save the textbook image and update
       textbook.store_textbook!
       filepath = textbook.textbook.file.file
+      textbook_url = "/textbooks/" + filepath.split("/")[-1]
+      old_url = c.textbook_url
       c.textbook_url = textbook_url
 
       # delete the old textbook image
-      File.delete("public" + textbook_url)
+      if File.exist?("public" + old_url)
+        File.delete("public" + old_url)
+      end
     end
     c.name = params[:course]["name"]
     c.subject = params[:course]["subject"]
     c.course_type = params[:course]["type"]
-    c.start_at = params[:course]["start_at"]
-    c.end_at = params[:course]["end_at"]
+    start_at = Time.mktime(*params[:course]["start_at"].split("/"))
+    end_at = Time.mktime(*params[:course]["end_at"].split("/"))
+    c.start_at = start_at
+    c.end_at = end_at
     c.grade = params[:course]["grade"]
     c.desc = params[:course]["desc"]
     c.suggestion = params[:course]["suggestion"]
