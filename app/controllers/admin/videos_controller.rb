@@ -15,7 +15,7 @@ class Admin::VideosController < Admin::ApplicationController
     videos = l.video_id_ary.map { |e| Video.find(e) }
     hash = { "请选择" => -1 }
     videos.each_with_index do |v, i|
-      hash[v.course_name + ", " + v.lesson_name + ", " + v.name] = v.id.to_s
+      hash[v.course_name + ", " + v.lesson_name + ", 第#{i+1}段 " + v.name] = v.id.to_s
     end
     render json: { success: true, data: hash } and return
   end
