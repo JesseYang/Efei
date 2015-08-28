@@ -14,6 +14,18 @@ class LocalCourse
   has_and_belongs_to_many :students, class_name: "User", inverse_of: :student_local_courses
   has_many :study_reports, class_name: "StudyReport", inverse_of: :local_course
 
+  def self.filter(subject, type)
+    if subject != 0
+      courses = Course.where(subject: subject)
+    else
+      courses = Course.all
+    end
+    if type != 0
+      courses = courses.where(course_type: type)
+    end
+    courses.map { |e| e.local_courses} .flatten
+  end
+
   def self.local_courses_for_select(student)
       hash = { "请选择" => -1 }
       LocalCourse.where(city: student.city).each do |lc|

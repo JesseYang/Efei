@@ -8,6 +8,12 @@
   float: right;
   #course_subject {
     margin-right: 10px;
+    display: inline-block;
+    width: auto;
+  }
+  #course_type {
+    display: inline-block;
+    width: auto;
   }
 }
 

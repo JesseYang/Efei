@@ -2,7 +2,8 @@
 class Admin::LocalCoursesController < Admin::ApplicationController
 
   def index
-    @local_courses = auto_paginate LocalCourse.all
+    # @local_courses = auto_paginate LocalCourse.all
+    @local_courses = auto_paginate LocalCourse.filter(params[:subject].to_i, params[:type].to_i)
   end
 
   def show
