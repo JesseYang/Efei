@@ -13,6 +13,9 @@ class Course
   field :textbook_url, type: String
   field :lesson_id_ary, type: Array, default: [ ]
 
+  # 1 for long course, 2 for module course
+  field :course_type, type: Integer, default: 1
+
   field :ready, type: Boolean, default: false
 
   has_many :local_courses, class_name: "LocalCourse", inverse_of: :course
@@ -22,6 +25,19 @@ class Course
 
   has_many :learn_logs
   has_many :action_logs
+
+
+  def self.filter(subject, type)
+    if subject != 0
+      courses = Course.where(subject: subject)
+    else
+      courses = Course.all
+    end
+    if type != 0
+      courses = courses.where(course_type: type)
+    end
+    courses
+  end
 
   def name_with_teacher
     "《" + self.name + "》" + "(教师：" + self.teacher.name + ")"
@@ -34,6 +50,14 @@ class Course
       end
     end
     return false
+  end
+
+  def self.type_for_select
+    hash = { "学期课" => 1, "模块课" => 2 }
+  end
+
+  def self.type_for_select_with_all
+    hash = { "全部" => 0, "学期课" => 1, "模块课" => 2 }
   end
 
   def self.courses_for_select

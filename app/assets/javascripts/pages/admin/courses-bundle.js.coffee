@@ -8,3 +8,8 @@ $ ->
     $("#editLesson #lesson_order").val($(this).closest("tr").attr("data-index"))
     $("#editLesson #lesson_homework_id").val($(this).closest("tr").attr("data-homeworkid"))
     false
+
+  $(".btn-filter").click ->
+    subject = $("#course_subject").val()
+    type = $("#course_type").val()
+    window.location.href = "/admin/courses?subject=#{subject}&type=#{type}"

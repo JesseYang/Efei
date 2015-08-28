@@ -5,12 +5,20 @@
 
 .container
   .lib-content
-    - if @courses["data"].blank?
-      %h4
-        没有课程
-    - else
+    .top-wrapper
       .paginator-wrapper
         = paginator_mini @courses
+      .selector-wrapper
+        = label_tag :course_subject, "科目"
+        = select_tag "course[subject]", options_for_select(Subject::CODE_WITH_ALL, params[:subject] || 0)
+        = label_tag :course_type, "类型"
+        = select_tag "course[type]", options_for_select(Course.type_for_select_with_all, params[:type] || 0)
+        = link_to "筛选", "javascript:void(0);", class: "btn btn-default btn-filter"
+
+    - if @courses["data"].blank?
+      %h4
+        没有符合条件的课程
+    - else
       %table#course-table.table.table-striped
         %tr
           %th.col-md-1= "教师"
@@ -58,6 +66,9 @@
           .form-group
             = label_tag :subject, "学科"
             = select_tag "course[subject]", options_for_select(Subject::CODE, 4), class: "form-control"
+          .form-group
+            = label_tag :subject, "类型"
+            = select_tag "course[type]", options_for_select(Course.type_for_select, 1), class: "form-control"
           .form-group
             = label_tag :subject, "名称"
             = text_field_tag "course[name]", "", autofocus: true, class: "form-control"

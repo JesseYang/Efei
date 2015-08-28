@@ -2,7 +2,7 @@
 class Admin::CoursesController < Admin::ApplicationController
 
   def index
-    @courses = auto_paginate Course.all
+    @courses = auto_paginate Course.filter(params[:subject].to_i, params[:type].to_i)
   end
 
   def show
@@ -24,6 +24,7 @@ class Admin::CoursesController < Admin::ApplicationController
 
     @course = Course.new(name: params[:course]["name"],
       subject: params[:course]["subject"],
+      course_type: params[:course]["type"],
       start_at: start_at,
       end_at: end_at,
       grade: params[:course]["grade"],

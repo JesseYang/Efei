@@ -17,14 +17,14 @@
           %th.col-md-1= "视频类型"
           %th.col-md-1= "名称"
           %th.col-md-1= "序号"
-          %th.col-md-1= "时长"
+          / %th.col-md-1= "时长"
           %th.col-md-1 操作
         - @videos.each do |v|
           %tr
             %td= Video.show_type(v.video_type)
             %td= v.name
             %td= v.order
-            %td= v.time
+            / %td= v.time
             %td
               = link_to "删除", { controller: "admin/videos", action: "destroy", id: v.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
               = link_to "详细", { controller: "admin/videos", action: "show", id: v._id.to_s }, :class => 'btn btn-primary btn-xs'
@@ -49,9 +49,9 @@
           .form-group
             = label_tag :order, "序号（从1开始）"
             = text_field_tag "video[order]", "", autofocus: false, class: "form-control"
-          .form-group
-            = label_tag :order, "时长"
-            = text_field_tag "video[time]", "", autofocus: false, class: "form-control"
+          / .form-group
+          /   = label_tag :order, "时长"
+          /   = text_field_tag "video[time]", "", autofocus: false, class: "form-control"
           .form-group
             = label_tag :video_content, "视频文件（mp4格式）"
             = file_field_tag "video_content"

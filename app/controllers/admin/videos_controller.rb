@@ -33,7 +33,7 @@ class Admin::VideosController < Admin::ApplicationController
     # @video = Video.new(video_type: params[:video]["video_type"].to_i,
     @video = Video.new(video_type: 1,
       name: params[:video]["name"],
-      time: params[:video]["time"],
+      # time: params[:video]["time"],
       video_url: video_url)
     @video.lesson = lesson
     @video.save
