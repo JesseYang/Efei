@@ -24,9 +24,8 @@
           %th.col-md-1= "教师"
           %th.col-md-1= "科目"
           %th.col-md-1= "名称"
-          %th.col-md-1= "时间范围"
           %th.col-md-1= "年级"
-          %th.col-md-2= "简介"
+          %th.col-md-3= "简介"
           %th.col-md-1= "建议学时"
           %th.col-md-1= "讲义封面"
           %th.col-md-3 操作
@@ -35,7 +34,7 @@
             %td= c.teacher.name
             %td= Subject::NAME[c.subject]
             %td= c.name
-            %td= Time.at(c.start_at).strftime("%y%m%d") + "到" + Time.at(c.end_at).strftime("%y%m%d")
+            / %td= Time.at(c.start_at).strftime("%y%m%d") + "到" + Time.at(c.end_at).strftime("%y%m%d")
             %td= c.grade
             %td= c.desc
             %td= c.suggestion
