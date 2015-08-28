@@ -86,9 +86,15 @@ Rails.application.routes.draw do
     end
 
     resources :lessons do
+      collection do
+        get :list
+      end
     end
 
     resources :videos do
+      collection do
+        get :list
+      end
     end
 
     resources :tags do

@@ -28,3 +28,29 @@ $ ->
     $("#editCourse #course_desc").val(tr.attr("data-desc"))
     $("#editCourse #course_suggestion").val(tr.attr("data-suggestion"))
     $("#editCourse").modal("show")
+
+  $("#course_selector").change ->
+    val = $(this).val()
+    $.getJSON "/admin/lessons/list?course_id=#{val}", (data) ->
+      if data.success
+        $("#lesson_selector").empty()
+        $.each data.data, (k, v) ->
+          $('#lesson_selector')
+            .append($("<option></option>")
+            .attr("value",v)
+            .text(k)); 
+      else
+        $.page_notification "服务器出错"
+
+  $("#lesson_selector").change ->
+    val = $(this).val()
+    $.getJSON "/admin/videos/list?lesson_id=#{val}", (data) ->
+      if data.success
+        $("#existing_video_content").empty()
+        $.each data.data, (k, v) ->
+          $('#existing_video_content')
+            .append($("<option></option>")
+            .attr("value",v)
+            .text(k)); 
+      else
+        $.page_notification "服务器出错"

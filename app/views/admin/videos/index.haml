@@ -52,12 +52,23 @@
           / .form-group
           /   = label_tag :order, "时长"
           /   = text_field_tag "video[time]", "", autofocus: false, class: "form-control"
+          .form-group.select-video
+            = label_tag :video_content, "选择已有视频"
+            .form-group
+              = label_tag :course_selector_lable, "课程：", class: "col-sm-2 control-label"
+              .col-sm-10
+                = select_tag "course_selector", options_for_select(Course.courses_for_select), class: "form-control"
+            .form-group
+              = label_tag :course_selector_lable, "讲：", class: "col-sm-2 control-label"
+              .col-sm-10
+                = select_tag "lesson_selector", options_for_select({ "请选择" => -1 }), class: "form-control"
+            .form-group
+              = label_tag :course_selector_lable, "视频：", class: "col-sm-2 control-label"
+              .col-sm-10
+                = select_tag "existing_video_content", options_for_select(Video.existing_video_content_for_select, -1), class: "form-control"
           .form-group
-            = label_tag :video_content, "视频文件（mp4格式）"
+            = label_tag :video_content, "或上传视频文件（mp4格式）"
             = file_field_tag "video_content"
-          .form-group
-            = label_tag :video_content, "或选择已有视频"
-            = select_tag "existing_video_content", options_for_select(Video.existing_video_content_for_select, -1), class: "form-control"
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'

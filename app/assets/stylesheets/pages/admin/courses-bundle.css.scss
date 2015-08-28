@@ -18,3 +18,15 @@
 .top-wrapper {
   @include clearfix;
 }
+
+#course_selector {
+  margin-bottom: 10px;
+}
+
+#lesson_selector {
+  margin-bottom: 10px;
+}
+
+.select-video {
+  @include clearfix;
+}

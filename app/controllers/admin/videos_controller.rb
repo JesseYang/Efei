@@ -10,6 +10,16 @@ class Admin::VideosController < Admin::ApplicationController
     end
   end
 
+  def list
+    l = Lesson.find(params[:lesson_id])
+    videos = l.video_id_ary.map { |e| Video.find(e) }
+    hash = { "请选择" => -1 }
+    videos.each_with_index do |v, i|
+      hash[v.course_name + ", " + v.lesson_name + ", " + v.name] = v.id.to_s
+    end
+    render json: { success: true, data: hash } and return
+  end
+
   def show
     @video = Video.find(params[:id])
   end

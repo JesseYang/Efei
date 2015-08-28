@@ -11,6 +11,16 @@ class Admin::LessonsController < Admin::ApplicationController
     end
   end
 
+  def list
+    c = Course.find(params[:course_id])
+    @lessons = c.lesson_id_ary.map { |e| Lesson.find(e) }
+    hash = { "请选择" => -1 }
+    @lessons.each_with_index do |l, i|
+      hash["第" + (i+1).to_s + "讲：" + l.name] = l.id.to_s
+    end
+    render json: { success: true, data: hash } and return
+  end
+
   def show
   end
 
