@@ -13,3 +13,18 @@ $ ->
     subject = $("#course_subject").val()
     type = $("#course_type").val()
     window.location.href = "/admin/courses?subject=#{subject}&type=#{type}"
+
+  $(".btn-edit").click ->
+    tr = $(this).closest("tr")
+    $("#editCourse form").attr("action", "/admin/courses/#{tr.attr("data-id")}")
+    $("#editCourse .course-name").text("编辑课程：" + tr.attr("data-name"))
+    $("#editCourse #course_teacher_id").val(tr.attr("data-teacher-id"))
+    $("#editCourse #course_subject").val(tr.attr("data-subject"))
+    $("#editCourse #course_type").val(tr.attr("data-type"))
+    $("#editCourse #course_name").val(tr.attr("data-name"))
+    $("#editCourse #course_start_at").val(tr.attr("data-start-at"))
+    $("#editCourse #course_end_at").val(tr.attr("data-end-at"))
+    $("#editCourse #course_grade").val(tr.attr("data-grade"))
+    $("#editCourse #course_desc").val(tr.attr("data-desc"))
+    $("#editCourse #course_suggestion").val(tr.attr("data-suggestion"))
+    $("#editCourse").modal("show")

@@ -36,6 +36,35 @@ class Admin::CoursesController < Admin::ApplicationController
     redirect_to action: :index and return
   end
 
+  def update
+    c = Course.find(params[:id])
+
+    if params[:textbook].blank?
+      # save the textbook image and update
+      textbook = Textbook.new
+      textbook.textbook = params[:textbook]
+      filetype = "png"
+      textbook.store_textbook!
+      filepath = textbook.textbook.file.file
+      c.textbook_url = textbook_url
+
+      # delete the old textbook image
+      File.delete("public" + textbook_url)
+    end
+    c.name = params[:course]["name"]
+    c.subject = params[:course]["subject"]
+    c.course_type = params[:course]["type"]
+    c.start_at = params[:course]["start_at"]
+    c.end_at = params[:course]["end_at"]
+    c.grade = params[:course]["grade"]
+    c.desc = params[:course]["desc"]
+    c.suggestion = params[:course]["suggestion"]
+
+    c.save
+    flash[:notice] = "更新成功"
+    redirect_to action: :index and return
+  end
+
   def destroy
     c = Course.find(params[:id])
     if !c.has_lesson?

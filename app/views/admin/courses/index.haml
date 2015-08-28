@@ -24,20 +24,18 @@
           %th.col-md-1= "教师"
           %th.col-md-1= "科目"
           %th.col-md-1= "名称"
-          %th.col-md-1= "起始时间"
-          %th.col-md-1= "结束时间"
+          %th.col-md-1= "时间范围"
           %th.col-md-1= "年级"
           %th.col-md-2= "简介"
           %th.col-md-1= "建议学时"
           %th.col-md-1= "讲义封面"
-          %th.col-md-2 操作
+          %th.col-md-3 操作
         - @courses["data"].each do |c|
-          %tr
+          %tr{data: { id: c.id.to_s, teacher_id: c.teacher.id.to_s, subject: c.subject, name: c.name, type: c.course_type, start_at: Time.at(c.start_at).strftime("%Y/%m/%d"), end_at: Time.at(c.end_at).strftime("%Y/%m/%d"), grade: c.grade, desc: c.desc, suggestion: c.suggestion }}
             %td= c.teacher.name
             %td= Subject::NAME[c.subject]
             %td= c.name
-            %td= Time.at(c.start_at).strftime("%Y-%m-%d")
-            %td= Time.at(c.end_at).strftime("%Y-%m-%d")
+            %td= Time.at(c.start_at).strftime("%y%m%d") + "到" + Time.at(c.end_at).strftime("%y%m%d")
             %td= c.grade
             %td= c.desc
             %td= c.suggestion
@@ -46,11 +44,54 @@
             %td
               = link_to "删除", { controller: "admin/courses", action: "destroy", id: c._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
               = link_to "内容", { controller: "admin/lessons", action: "index", course_id: c._id.to_s }, :class => 'btn btn-primary btn-xs'
+              = link_to "编辑", "javascript:void(0);", :class => 'btn btn-primary btn-xs btn-edit'
               - if c.ready
                 = link_to "下架", { controller: "admin/courses", action: "toggle_ready", id: c._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
               - else
                 = link_to "上架", { controller: "admin/courses", action: "toggle_ready", id: c._id.to_s }, method: "put", :class => 'btn btn-primary btn-xs'
     %button.btn.btn-new.btn-primary{data: {toggle: "modal", target: "#newCourse"} } 创建新课程
+
+#editCourse.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag(admin_courses_path, method: "put", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3.course-name 编辑课程：
+        .modal-body
+          .form-group
+            = label_tag :teacher, "教师"
+            = select_tag "course[teacher_id]", options_for_select(User.tablet_teachers, -1), class: "form-control"
+          .form-group
+            = label_tag :subject, "学科"
+            = select_tag "course[subject]", options_for_select(Subject::CODE, 4), class: "form-control"
+          .form-group
+            = label_tag :subject, "类型"
+            = select_tag "course[type]", options_for_select(Course.type_for_select, 1), class: "form-control"
+          .form-group
+            = label_tag :subject, "名称"
+            = text_field_tag "course[name]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :start_at, "起始时间（形如 2015/7/1）"
+            = text_field_tag "course[start_at]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :start_at, "结束时间（形如 2015/7/1）"
+            = text_field_tag "course[end_at]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :start_at, "年级"
+            = text_field_tag "course[grade]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :start_at, "简介"
+            = text_field_tag "course[desc]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :start_at, "建议学时"
+            = text_field_tag "course[suggestion]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :textbook_url, "讲义封面"
+            = file_field_tag "textbook"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "更新", :class => 'btn-primary btn'
 
 #newCourse.modal.fade
   .modal-dialog
