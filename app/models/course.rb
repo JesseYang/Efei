@@ -56,6 +56,10 @@ class Course
     hash = { "学期课" => 1, "模块课" => 2 }
   end
 
+  def type_text
+    self.course_type == 1 ? "学期课" : "模块课"
+  end
+
   def self.type_for_select_with_all
     hash = { "全部" => 0, "学期课" => 1, "模块课" => 2 }
   end

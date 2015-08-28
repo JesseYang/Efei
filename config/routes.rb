@@ -68,6 +68,9 @@ Rails.application.routes.draw do
       end
     end
     resources :local_courses do
+      collection do
+        get :list
+      end
     end
     resources :coaches do
     end

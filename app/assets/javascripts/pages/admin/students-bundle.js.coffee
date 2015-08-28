@@ -82,3 +82,17 @@ $ ->
         $("#localCourseInfoModal").modal("show")
       else
         $.page_notification "服务器出错"
+
+  $(".btn-filter").click ->
+    subject = $("#course_subject").val()
+    course_type = $("#course_type").val()
+    $.getJSON "/admin/local_courses/list?student_id=#{window.student_id}&subject=#{subject}&course_type=#{course_type}", (data) ->
+      if data.success
+        $("#new_local_course").empty()
+        $.each data.data, (k, v) ->
+          $('#new_local_course')
+            .append($("<option></option>")
+            .attr("value",v)
+            .text(k)); 
+      else
+        $.page_notification "服务器出错"

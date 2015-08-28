@@ -27,11 +27,25 @@ class LocalCourse
   end
 
   def self.local_courses_for_select(student)
-      hash = { "请选择" => -1 }
-      LocalCourse.where(city: student.city).each do |lc|
-        hash[lc.name + "(#{lc.number})"] = lc.id.to_s
+    hash = { "请选择" => -1 }
+    LocalCourse.where(city: student.city).each do |lc|
+      hash[lc.name + "(#{lc.number})"] = lc.id.to_s
+    end
+    hash
+  end
+
+  def self.filterd_local_courses_for_select(student, subject, course_type)
+    hash = { "请选择" => -1 }
+    LocalCourse.where(city: student.city).each do |lc|
+      if subject != 0 && lc.course.subject != subject
+        next
       end
-      hash
+      if course_type != 0 && lc.course.course_type != course_type
+        next
+      end
+      hash[lc.name + "(#{lc.number})"] = lc.id.to_s
+    end
+    hash
   end
 
   def desc

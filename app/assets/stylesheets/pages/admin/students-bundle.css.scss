@@ -5,6 +5,21 @@
   margin-bottom: 10px;
 }
 
+.filter-wrapper {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  #course_subject {
+    margin-right: 10px;
+    display: inline-block;
+    width: auto;
+  }
+  #course_type {
+    display: inline-block;
+    width: auto;
+  }
+  @include clearfix;
+}
+
 .btn-new {
   margin-bottom: 30px;
 }

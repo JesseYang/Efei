@@ -6,6 +6,12 @@ class Admin::LocalCoursesController < Admin::ApplicationController
     @local_courses = auto_paginate LocalCourse.filter(params[:subject].to_i, params[:type].to_i)
   end
 
+  def list
+    @student = User.find(params[:student_id])
+    @local_courses = LocalCourse.filterd_local_courses_for_select(@student, params[:subject].to_i, params[:course_type].to_i)
+    render json: { success: true, data: @local_courses } and return
+  end
+
   def show
     @local_course = LocalCourse.find(params[:id])
     info = {
