@@ -58,36 +58,41 @@
           %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
           %h3.course-name 编辑课程：
         .modal-body
-          .form-group
-            = label_tag :teacher, "教师"
-            = select_tag "course[teacher_id]", options_for_select(User.tablet_teachers, -1), class: "form-control"
-          .form-group
-            = label_tag :subject, "学科"
-            = select_tag "course[subject]", options_for_select(Subject::CODE, 4), class: "form-control"
-          .form-group
-            = label_tag :subject, "类型"
-            = select_tag "course[type]", options_for_select(Course.type_for_select, 1), class: "form-control"
-          .form-group
-            = label_tag :subject, "名称"
-            = text_field_tag "course[name]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "起始时间（形如 2015/7/1）"
-            = text_field_tag "course[start_at]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "结束时间（形如 2015/7/1）"
-            = text_field_tag "course[end_at]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "年级"
-            = text_field_tag "course[grade]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "简介"
-            = text_field_tag "course[desc]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "建议学时"
-            = text_field_tag "course[suggestion]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :textbook_url, "讲义封面"
-            = file_field_tag "textbook"
+          .wrapper
+            .form-group.col-sm-6
+              = label_tag :teacher, "教师"
+              = select_tag "course[teacher_id]", options_for_select(User.tablet_teachers, -1), class: "form-control"
+            .form-group.col-sm-3
+              = label_tag :subject, "学科"
+              = select_tag "course[subject]", options_for_select(Subject::CODE, 4), class: "form-control"
+            .form-group.col-sm-3
+              = label_tag :subject, "类型"
+              = select_tag "course[type]", options_for_select(Course.type_for_select, 1), class: "form-control"
+          .wrapper
+            .form-group.col-sm-6
+              = label_tag :subject, "名称"
+              = text_field_tag "course[name]", "", autofocus: true, class: "form-control"
+            .form-group.col-sm-3
+              = label_tag :start_at, "年级"
+              = text_field_tag "course[grade]", "", autofocus: true, class: "form-control"
+            .form-group.col-sm-3
+              = label_tag :start_at, "建议学时"
+              = text_field_tag "course[suggestion]", "", autofocus: true, class: "form-control"
+          .wrapper
+            .form-group.col-sm-6
+              = label_tag :start_at, "起始时间（形如 2015/7/1）"
+              = text_field_tag "course[start_at]", "", autofocus: true, class: "form-control"
+            .form-group.col-sm-6
+              = label_tag :start_at, "结束时间（形如 2015/7/1）"
+              = text_field_tag "course[end_at]", "", autofocus: true, class: "form-control"
+          .wrapper
+            .form-group.col-sm-12
+              = label_tag :start_at, "简介"
+              = text_field_tag "course[desc]", "", autofocus: true, class: "form-control"
+          .wrapper
+            .form-group.col-sm-12
+              = label_tag :textbook_url, "讲义封面"
+              = file_field_tag "textbook"
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "更新", :class => 'btn-primary btn'
@@ -100,36 +105,41 @@
           %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
           %h3 创建新课程
         .modal-body
-          .form-group
-            = label_tag :teacher, "教师"
-            = select_tag "course[teacher_id]", options_for_select(User.tablet_teachers, -1), class: "form-control"
-          .form-group
-            = label_tag :subject, "学科"
-            = select_tag "course[subject]", options_for_select(Subject::CODE, 4), class: "form-control"
-          .form-group
-            = label_tag :subject, "类型"
-            = select_tag "course[type]", options_for_select(Course.type_for_select, 1), class: "form-control"
-          .form-group
-            = label_tag :subject, "名称"
-            = text_field_tag "course[name]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "起始时间（形如 2015/7/1）"
-            = text_field_tag "course[start_at]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "结束时间（形如 2015/7/1）"
-            = text_field_tag "course[end_at]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "年级"
-            = text_field_tag "course[grade]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "简介"
-            = text_field_tag "course[desc]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :start_at, "建议学时"
-            = text_field_tag "course[suggestion]", "", autofocus: true, class: "form-control"
-          .form-group
-            = label_tag :textbook_url, "讲义封面"
-            = file_field_tag "textbook"
+          .wrapper
+            .form-group.col-sm-6
+              = label_tag :teacher, "教师"
+              = select_tag "course[teacher_id]", options_for_select(User.tablet_teachers, -1), class: "form-control"
+            .form-group.col-sm-3
+              = label_tag :subject, "学科"
+              = select_tag "course[subject]", options_for_select(Subject::CODE, 4), class: "form-control"
+            .form-group.col-sm-3
+              = label_tag :subject, "类型"
+              = select_tag "course[type]", options_for_select(Course.type_for_select, 1), class: "form-control"
+          .wrapper
+            .form-group.col-sm-6
+              = label_tag :subject, "名称"
+              = text_field_tag "course[name]", "", autofocus: true, class: "form-control"
+            .form-group.col-sm-3
+              = label_tag :start_at, "年级"
+              = text_field_tag "course[grade]", "", autofocus: true, class: "form-control"
+            .form-group.col-sm-3
+              = label_tag :start_at, "建议学时"
+              = text_field_tag "course[suggestion]", "", autofocus: true, class: "form-control"
+          .wrapper
+            .form-group.col-sm-6
+              = label_tag :start_at, "起始时间（形如 2015/7/1）"
+              = text_field_tag "course[start_at]", "", autofocus: true, class: "form-control"
+            .form-group.col-sm-6
+              = label_tag :start_at, "结束时间（形如 2015/7/1）"
+              = text_field_tag "course[end_at]", "", autofocus: true, class: "form-control"
+          .wrapper
+            .form-group.col-sm-12
+              = label_tag :start_at, "简介"
+              = text_field_tag "course[desc]", "", autofocus: true, class: "form-control"
+          .wrapper
+            .form-group.col-sm-12
+              = label_tag :textbook_url, "讲义封面"
+              = file_field_tag "textbook"
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'

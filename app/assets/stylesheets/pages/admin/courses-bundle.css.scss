@@ -36,3 +36,8 @@
 .select-video {
   @include clearfix;
 }
+
+.wrapper {
+  @include clearfix;
+  margin-bottom: 5px;
+}
