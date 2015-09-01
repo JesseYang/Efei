@@ -50,6 +50,7 @@ module UserComponents::Student
       new_student = User.create({
         tablet: true,
         name: student["name"],
+        password: Encryption.encrypt_password(student["password"]),
         email: student["email"],
         mobile: student["mobile"],
         city: student["city"],
@@ -119,6 +120,10 @@ module UserComponents::Student
         parent_name: student["parent_name"],
         parent_mobile: student["parent_mobile"]
     })
+    if student["password"].present?
+      self.update_attributes({
+        password: Encryption.encrypt_password(student["password"])
+      })
     true
   end
 

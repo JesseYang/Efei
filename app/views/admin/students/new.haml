@@ -10,16 +10,6 @@
         = label_tag :name, "姓名"
         = text_field_tag "student[name]", @student.name, autofocus: true, class: "form-control"
       .form-group
-        = label_tag :email, "邮箱"
-        = text_field_tag "student[email]", @student.email, autofocus: false, class: "form-control"
-      .form-group
-        = label_tag :phase, "学段"
-        = select_tag "student[phase]", options_for_select(User.phase_for_select, @student.phase), class: "form-control"
-      .form-group
-        = label_tag :entrance_year, "入学年份"
-        = select_tag "student[entrance_year]", options_for_select(User.entrance_year_for_select, @student.entrance_year), class: "form-control"
-    .right-part
-      .form-group
         = label_tag :mobile, "手机"
         = text_field_tag "student[mobile]", @student.mobile, autofocus: false, class: "form-control"
       .form-group
@@ -31,6 +21,19 @@
       .form-group
         = label_tag :parent_name, "家长姓名"
         = text_field_tag "student[parent_name]", @student.parent_name, autofocus: false, class: "form-control"
+    .right-part
+      .form-group
+        = label_tag :password, "密码"
+        = password_field_tag "student[password]", "", autofocus: false, class: "form-control"
+      .form-group
+        = label_tag :email, "邮箱"
+        = text_field_tag "student[email]", @student.email, autofocus: false, class: "form-control"
+      .form-group
+        = label_tag :phase, "学段"
+        = select_tag "student[phase]", options_for_select(User.phase_for_select, @student.phase), class: "form-control"
+      .form-group
+        = label_tag :entrance_year, "入学年份"
+        = select_tag "student[entrance_year]", options_for_select(User.entrance_year_for_select, @student.entrance_year), class: "form-control"
       .form-group
         = label_tag :parent_mobile, "家长电话"
         = text_field_tag "student[parent_mobile]", @student.parent_mobile, autofocus: false, class: "form-control"
