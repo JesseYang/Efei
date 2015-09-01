@@ -124,6 +124,7 @@ module UserComponents::Student
       self.update_attributes({
         password: Encryption.encrypt_password(student["password"])
       })
+    end
     true
   end
 
