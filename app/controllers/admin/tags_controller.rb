@@ -3,6 +3,7 @@ class Admin::TagsController < Admin::ApplicationController
 
   def create
     @video = Video.find(params[:video_id])
+    @all_videos = Video.where(video_url: @video.video_url)
 
     tag = {
       "tag_type" => params[:tag]["tag_type"].to_i,
@@ -15,8 +16,10 @@ class Admin::TagsController < Admin::ApplicationController
       tag["episode_id"] = params[:tag]["episode_id"]
     end
 
-    @video.tags << tag
-    @video.save
+    @all_videos.each do |v|
+      v.tags << tag
+      v.save
+    end
     
     redirect_to controller: "admin/videos", action: :show, id: @video.id.to_s and return
   end
