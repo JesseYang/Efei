@@ -126,7 +126,7 @@ class Video
       type: self.video_type,
       name: self.name,
       video_order: order,
-      time: self.time,
+      time: self.time.to_i,
       page: self.page || -1,
       question_name: self.question_name || "",
       content: self.content.join("^^^"),
