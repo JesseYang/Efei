@@ -327,4 +327,16 @@ class Question
       self.update_attribute(:image_path, new_image_path)
     end
   end
+
+  def info_for_tablet
+    {
+      server_id: self.id.to_s,
+      type: self.type,
+      subject: self.subject,
+      content: self.content,
+      items: self.items,
+      answer: self.answer,
+      answer_content: self.answer_content
+    }
+  end
 end

@@ -21,6 +21,9 @@ class Homework < Node
   has_one :compose
   has_many :notes
   belongs_to :lesson, class_name: "Lesson", inverse_of: :homework
+  belongs_to :lesson_pre_test, class_name: "Lesson", inverse_of: :pre_test
+  belongs_to :lesson_exercise, class_name: "Lesson", inverse_of: :exercise
+  belongs_to :lesson_post_test, class_name: "Lesson", inverse_of: :post_test
 
   include HTTParty
   base_uri Rails.application.config.word_host
@@ -266,5 +269,19 @@ class Homework < Node
     end
     self.province = "全国" if self.province.blank?
     self.save
+  end
+
+  def info_for_tablet(type)
+      info = {
+        server_id: self.id.to_s,
+        type: type,
+        q_ids: self.q_ids,
+        questions: [ ]
+      }
+      self.q_ids.each do |qid|
+        q = Question.find(qid)
+        info[:questions] << q.info_for_tablet
+      end
+      info
   end
 end

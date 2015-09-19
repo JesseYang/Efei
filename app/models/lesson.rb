@@ -9,6 +9,9 @@ class Lesson
   belongs_to :course, class_name: "Course", inverse_of: :lessons
   has_many :videos, class_name: "Video", inverse_of: :lesson
   has_one :homework, class_name: "Homework", inverse_of: :lesson
+  has_one :pre_test, class_name: "Homework", inverse_of: :lesson_pre_test
+  has_one :exercise, class_name: "Homework", inverse_of: :lesson_exercise
+  has_one :post_test, class_name: "Homework", inverse_of: :lesson_post_test
 
   has_many :learn_logs
   has_many :action_logs
