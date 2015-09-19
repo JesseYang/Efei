@@ -336,6 +336,7 @@ class Question
       content: self.content.join("__,__"),
       items: self.items.join("__,__"),
       answer: self.answer,
+      update_at: self.updated_at.to_s,
       answer_content: self.answer_content.join("__,__")
     }
   end
