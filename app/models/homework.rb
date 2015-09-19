@@ -275,7 +275,7 @@ class Homework < Node
       info = {
         server_id: self.id.to_s,
         type: type,
-        q_ids: self.q_ids,
+        q_ids: self.q_ids.join("__,__"),
         questions: [ ]
       }
       self.q_ids.each do |qid|

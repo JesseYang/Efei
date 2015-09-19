@@ -333,10 +333,10 @@ class Question
       server_id: self.id.to_s,
       type: self.type,
       subject: self.subject,
-      content: self.content,
-      items: self.items,
+      content: self.content.join("__,__"),
+      items: self.items.join("__,__"),
       answer: self.answer,
-      answer_content: self.answer_content
+      answer_content: self.answer_content("__,__")
     }
   end
 end
