@@ -338,6 +338,7 @@ class Question
       answer: self.answer,
       update_at: self.updated_at.to_s,
       image_path: self.image_path,
+      duration: 2,
       answer_content: self.answer_content.join("__,__")
     }
   end
