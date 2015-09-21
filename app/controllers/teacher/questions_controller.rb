@@ -106,6 +106,8 @@ class Teacher::QuestionsController < Teacher::ApplicationController
 
   def update_video
     q = Question.find(params[:id])
+    q.duration = params[:duration].to_i
+    q.save
     v = q.video
 
     if params[:video_content].blank?

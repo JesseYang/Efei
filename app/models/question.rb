@@ -19,6 +19,7 @@ class Question
   field :external_id, type: String
   field :scale_figure, type: Boolean, default: false
   field :raw_cache, type: Array, default: []
+  field :duration, type: Integer, default: 2
 
   # for demo
   field :demo, type: Boolean, default: false
@@ -340,7 +341,7 @@ class Question
       answer: self.answer,
       update_at: self.updated_at.to_s,
       image_path: self.image_path,
-      duration: 2,
+      duration: self.duration,
       answer_content: (self.answer_content || []).join("__,__")
     }
   end

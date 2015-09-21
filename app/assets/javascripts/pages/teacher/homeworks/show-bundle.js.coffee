@@ -59,11 +59,13 @@ $ ->
     $("#videoModal").modal("show")
     qid = $(this).closest(".btn-group").attr("data-qid")
     video_url = $(this).closest(".btn-group").attr("data-videourl")
+    duration = $(this).closest(".btn-group").attr("data-duration")
     if video_url == undefined || video_url == ""
       $(".question-video").addClass("hide")
     else
       $(".question-video").removeClass("hide")
       $(".question-video").attr("src", video_url)
+    $("#videoModal form #duration").val(duration)
     $("#videoModal form").attr("action", "/teacher/questions/" + qid + "/update_video")
 
   $(".replace-btn").click ->
