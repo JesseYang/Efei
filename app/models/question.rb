@@ -334,12 +334,12 @@ class Question
       type: self.type,
       subject: self.subject,
       content: self.content.join("__,__"),
-      items: self.items.join("__,__"),
+      items: (self.items || []).join("__,__"),
       answer: self.answer,
       update_at: self.updated_at.to_s,
       image_path: self.image_path,
       duration: 2,
-      answer_content: self.answer_content.join("__,__")
+      answer_content: (self.answer_content || []).join("__,__")
     }
   end
 end
