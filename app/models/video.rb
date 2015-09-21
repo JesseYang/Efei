@@ -14,6 +14,7 @@ class Video
   # => name: String, only for index tags
   # => episode_id: String, only for episode tags
   # => duration: Integer, only for example tags
+  # => question_id: String, only for example tags
   field :tags, type: Array, default: []
 
   # for example videos, the question content
@@ -144,7 +145,8 @@ class Video
         name: t["name"],
         duration: t["duration"],
         video_id: self.id.to_s,
-        episode_id: t["episode_id"] || ""
+        episode_id: t["episode_id"] || "",
+        question_id: t["question_id"] || ""
       }
     end
   end

@@ -22,6 +22,17 @@ class Lesson
     course_name + " " + self.name
   end
 
+  def exercises_for_select
+    if self.exercise.blank?
+      return { "没有对应练习" => -1 }
+    end
+    hash = { "请选择" => -1 }
+    self.exercise.q_ids.each_with_index do |e, i|
+      hash["第#{i+1}题"] = e
+    end
+    hash
+  end
+
   def has_video?
     return true if self.videos.present?
     self.video_id_ary.each do |e|

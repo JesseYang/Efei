@@ -16,6 +16,10 @@ class Admin::TagsController < Admin::ApplicationController
       tag["episode_id"] = params[:tag]["episode_id"]
     end
 
+    if params[:tag]["question_id"].to_s != "-1"
+      tag["question_id"] = params[:tag]["question_id"]
+    end
+
     @all_videos.each do |v|
       v.tags << tag
       v.save
