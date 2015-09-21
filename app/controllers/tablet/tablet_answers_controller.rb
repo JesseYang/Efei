@@ -4,6 +4,6 @@ class Tablet::TabletAnswersController < Tablet::ApplicationController
   # params[:exercise_id]
   # params[:tablet_answer]
   def create
-
+    render json: { success: true } and return
   end
 end
