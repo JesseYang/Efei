@@ -30,11 +30,11 @@ class Admin::LessonsController < Admin::ApplicationController
 
     @lesson.name = params[:lesson]["name"]
     pre_test = Homework.where(id: params[:lesson]["pre_test_id"]).first
-    @lesson.pre_test = pre_test if pre_test.present?
+    @lesson.pre_test = pre_test if pre_test.present? && pre_test != @lesson.pre_test
     exercise = Homework.where(id: params[:lesson]["exercise_id"]).first
-    @lesson.exercise = exercise if exercise.present?
+    @lesson.exercise = exercise if exercise.present? && exercise != @lesson.exercise
     post_test = Homework.where(id: params[:lesson]["post_test_id"]).first
-    @lesson.post_test = post_test if post_test.present?
+    @lesson.post_test = post_test if post_test.present? && post_test != @lesson.post_test
     
     # update the lesson_id_ary for the course
     index = params[:lesson]["order"].to_i - 1
