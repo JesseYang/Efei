@@ -62,9 +62,12 @@ $ ->
     duration = $(this).closest(".btn-group").attr("data-duration")
     if video_url == undefined || video_url == ""
       $(".question-video").addClass("hide")
+      $(".video-name").addClass("hide")
     else
       $(".question-video").removeClass("hide")
       $(".question-video").attr("src", video_url)
+      $(".video-name").removeClass("hide")
+      $(".video-name").text("视频名称：" + video_url)
     $("#videoModal form #duration").val(duration)
     $("#videoModal form").attr("action", "/teacher/questions/" + qid + "/update_video")
 

@@ -143,6 +143,7 @@
           .form-group
             = label_tag :duration, "学生做题时间预期（分钟）"
             = text_field_tag "duration", "", class: "form-control"
+          %label.video-name
           %video{width: "640", src: "", controls: "controls", class: "question-video"} 您的浏览器不支持 video 标签。
           .form-group
             = label_tag :video_content, "上传视频文件（mp4格式）"
