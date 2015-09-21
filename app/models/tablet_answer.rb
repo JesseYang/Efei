@@ -11,6 +11,15 @@ class TabletAnswer
   belongs_to :exercise, class_name: "Homework", inverse_of: :tablet_answers
   belongs_to :student, class_name: "User", inverse_of: :student_answers
 
+  def self.update_exercise(student, exercise, question_id, answer, duration)
+    tablet_answer = TabletAnswer.where(student_id: student.id, exercise_id: exercise.id).first ||  TabletAnswer.new
+    tablet_answer.answer_content[question_id] = {
+      answer: answer,
+      duration: duration
+    }
+    tablet_answer.save
+  end
+
   def self.create_new(student, exercise, data)
     tablet_answer = TabletAnswer.where(student_id: student.id, exercise_id: exercise.id).first ||  TabletAnswer.new
     tablet_answer.exercise = exercise

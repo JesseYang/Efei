@@ -6,7 +6,11 @@ class Tablet::TabletAnswersController < Tablet::ApplicationController
   def create
     student = User.find_by_auth_key(params[:auth_key])
     exercise = Homework.find(params[:exercise_id])
-    TabletAnswer.create_new(student, exercise, params[:tablet_answer])
+    if params[:type] == "pre_test"
+      TabletAnswer.create_new(student, exercise, params[:tablet_answer])
+    elsif params[:type] == "exercise"
+      TabletAnswer.update_exercise(student,exercise, params[:question_id], params[:answer], params[:duration])
+    end
     render json: { success: true } and return
   end
 end
