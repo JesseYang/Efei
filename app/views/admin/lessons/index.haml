@@ -22,7 +22,7 @@
           %th.col-md-1= "课后测试"
           %th.col-md-1 操作
         - @lessons.each do |l|
-          %tr{data: {id: l.id.to_s, index: (l.course.lesson_id_ary.index(l.id.to_s) + 1).to_s, homeworkid: l.homework.try(:id).to_s, pretestid: l.pre_test.try(:id).to_s, exerciseid: l.exercise.try(:id).to_s, posttestid: l.post_test.try(:id).to_s}
+          %tr{data: {id: l.id.to_s, index: (l.course.lesson_id_ary.index(l.id.to_s) + 1).to_s, homeworkid: l.homework.try(:id).to_s, pretestid: l.pre_test.try(:id).to_s, exerciseid: l.exercise.try(:id).to_s, posttestid: l.post_test.try(:id).to_s}}
             %td.name-td= l.name
             %td.order-td= l.order
             %td.homework-td
