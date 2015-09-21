@@ -6,7 +6,9 @@ $ ->
     $("#editLesson form").attr("action", "/admin/lessons/" + $(this).closest("tr").attr("data-id"))
     $("#editLesson #lesson_name").val($(this).closest("tr").find(".name-td").text())
     $("#editLesson #lesson_order").val($(this).closest("tr").attr("data-index"))
-    $("#editLesson #lesson_homework_id").val($(this).closest("tr").attr("data-homeworkid"))
+    $("#editLesson #lesson_pre_test_id").val($(this).closest("tr").attr("data-pretestid"))
+    $("#editLesson #lesson_exercise_id").val($(this).closest("tr").attr("data-exerciseid"))
+    $("#editLesson #lesson_post_test_id").val($(this).closest("tr").attr("data-posttestid"))
     false
 
   $(".btn-filter").click ->

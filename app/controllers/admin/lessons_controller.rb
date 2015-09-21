@@ -29,8 +29,12 @@ class Admin::LessonsController < Admin::ApplicationController
     course = @lesson.course
 
     @lesson.name = params[:lesson]["name"]
-    homework = Homework.where(id: params[:lesson]["homework_id"]).first
-    @lesson.homework = homework if homework.present?
+    pre_test = Homework.where(id: params[:lesson]["pre_test_id"]).first
+    @lesson.pre_test = pre_test if pre_test.present?
+    exercise = Homework.where(id: params[:lesson]["exercise_id"]).first
+    @lesson.exercise = exercise if exercise.present?
+    post_test = Homework.where(id: params[:lesson]["post_test_id"]).first
+    @lesson.post_test = post_test if post_test.present?
     
     # update the lesson_id_ary for the course
     index = params[:lesson]["order"].to_i - 1
@@ -49,8 +53,12 @@ class Admin::LessonsController < Admin::ApplicationController
 
     @lesson = Lesson.new(name: params[:lesson]["name"])
     @lesson.course = course
-    homework = Homework.where(id: params[:lesson]["homework_id"]).first
-    @lesson.homework = homework if homework.present?
+    pre_test = Homework.where(id: params[:lesson]["pre_test_id"]).first
+    @lesson.pre_test = pre_test if pre_test.present?
+    exercise = Homework.where(id: params[:lesson]["exercise_id"]).first
+    @lesson.exercise = exercise if exercise.present?
+    post_test = Homework.where(id: params[:lesson]["post_test_id"]).first
+    @lesson.post_test = post_test if post_test.present?
     @lesson.save
     @lesson.touch_parents
 

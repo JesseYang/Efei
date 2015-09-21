@@ -15,18 +15,22 @@
     - else
       %table#course-table.table.table-striped
         %tr
-          / %th.col-md-1= "课程"
-          / %th.col-md-1= "科目"
           %th.col-md-1= "名称"
           %th.col-md-1= "序号"
-          %th.col-md-1= "练习"
+          %th.col-md-1= "课前摸底"
+          %th.col-md-1= "课上练习"
+          %th.col-md-1= "课后测试"
           %th.col-md-1 操作
         - @lessons.each do |l|
-          %tr{data: {id: l.id.to_s, index: (l.course.lesson_id_ary.index(l.id.to_s) + 1).to_s, homeworkid: l.homework.try(:id).to_s}}
+          %tr{data: {id: l.id.to_s, index: (l.course.lesson_id_ary.index(l.id.to_s) + 1).to_s, homeworkid: l.homework.try(:id).to_s, pretestid: l.pre_test.try(:id).to_s, exerciseid: l.exercise.try(:id).to_s, posttestid: l.post_test.try(:id).to_s}
             %td.name-td= l.name
             %td.order-td= l.order
             %td.homework-td
-              %a{href: l.homework.present? ? teacher_homework_path(l.homework) : "javascript:void(0);", target: "_blank"}= l.homework.try(:name).to_s
+              %a{href: l.pre_test.present? ? teacher_homework_path(l.pre_test) : "javascript:void(0);", target: "_blank"}= l.pre_test.try(:name).to_s
+            %td.homework-td
+              %a{href: l.exercise.present? ? teacher_homework_path(l.exercise) : "javascript:void(0);", target: "_blank"}= l.exercise.try(:name).to_s
+            %td.homework-td
+              %a{href: l.post_test.present? ? teacher_homework_path(l.post_test) : "javascript:void(0);", target: "_blank"}= l.post_test.try(:name).to_s
             %td
               = link_to "删除", { controller: "admin/lessons", action: "destroy", id: l._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
               = link_to "编辑", "javascript:void(0);", :class => 'btn btn-primary btn-xs edit-lesson'
@@ -51,8 +55,14 @@
             = label_tag :order, "序号（从1开始）"
             = text_field_tag "lesson[order]", "", autofocus: false, class: "form-control"
           .form-group
-            = label_tag :homework_id, "绑定练习"
-            = select_tag "lesson[homework_id]", options_for_select(Homework.homeworks_for_select), class: "form-control"
+            = label_tag :pre_test_id, "绑定课前摸底"
+            = select_tag "lesson[pre_test_id]", options_for_select(Homework.homeworks_for_select), class: "form-control"
+          .form-group
+            = label_tag :exercise_id, "绑定课上练习"
+            = select_tag "lesson[exercise_id]", options_for_select(Homework.homeworks_for_select), class: "form-control"
+          .form-group
+            = label_tag :post_test_id, "绑定课后测试"
+            = select_tag "lesson[post_test_id]", options_for_select(Homework.homeworks_for_select), class: "form-control"
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'
@@ -75,8 +85,14 @@
             = label_tag :order, "序号（从1开始）"
             = text_field_tag "lesson[order]", "", autofocus: false, class: "form-control"
           .form-group
-            = label_tag :homework_id, "绑定练习"
-            = select_tag "lesson[homework_id]", options_for_select(Homework.homeworks_for_select), class: "form-control"
+            = label_tag :pre_test_id, "绑定课前摸底"
+            = select_tag "lesson[pre_test_id]", options_for_select(Homework.homeworks_for_select), class: "form-control"
+          .form-group
+            = label_tag :exercise_id, "绑定课上练习"
+            = select_tag "lesson[exercise_id]", options_for_select(Homework.homeworks_for_select), class: "form-control"
+          .form-group
+            = label_tag :post_test_id, "绑定课后测试"
+            = select_tag "lesson[post_test_id]", options_for_select(Homework.homeworks_for_select), class: "form-control"
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "更新", :class => 'btn-primary btn'
