@@ -55,6 +55,17 @@ $ ->
     combine_questions()
     $("#combineModal").modal("hide")
 
+  $(".video-btn").click ->
+    $("#videoModal").modal("show")
+    qid = $(this).closest(".btn-group").attr("data-qid")
+    video_url = $(this).closest(".btn-group").attr("data-videourl")
+    if video_url == undefined || video_url == ""
+      $(".question-video").addClass("hide")
+    else
+      $(".question-video").removeClass("hide")
+      $(".question-video").attr("src", video_url)
+    $("#videoModal form").attr("action", "/teacher/questions/" + qid + "/update_video")
+
   $(".replace-btn").click ->
     $("#replaceModal").modal("show")
     qid = $(this).closest(".btn-group").attr("data-qid")

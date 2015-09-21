@@ -26,6 +26,8 @@ class Question
   has_and_belongs_to_many :composes, class_name: "Compose", inverse_of: :questions
   has_many :notes
 
+  has_one :video, class_name: "Video", inverse_of: :question
+
   has_and_belongs_to_many :points, class_name: "Point", inverse_of: :questions
 
   include HTTParty

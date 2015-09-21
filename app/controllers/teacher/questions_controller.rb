@@ -104,6 +104,42 @@ class Teacher::QuestionsController < Teacher::ApplicationController
     redirect_to teacher_homework_path(h) and return
   end
 
+  def update_video
+    q = Question.find(params[:id])
+    v = q.video
+
+    if params[:video_content].blank?
+      # just remove the old video
+      if v.present? && v.video_url.present?
+        File.delete("public" + v.video_url) if File.exist?("public" + v.video_url)
+        v.update_attribute(:video_url, "")
+      end
+    else
+      video_content = VideoContent.new
+      video_content.video = params[:video_content]
+      filetype = "mp4"
+      video_content.store_video!
+      filepath = video_content.video.file.file
+      video_url = "/videos/" + filepath.split("/")[-1]
+      if v.present?
+        # first delete the old video
+        if v.video_url.present? && File.exist?("public" + v.video_url)
+          File.delete("public" + v.video_url)
+        end
+        v.video_url = video_url
+        v.save
+      else
+        @video = Video.new(video_type: 4,
+          name: "",
+          video_url: video_url)
+        @video.save
+        q.video = @video
+        q.save
+      end
+    end
+    redirect_to teacher_homework_path(Homework.find(params[:homework_id])) and return
+  end
+
   def export
     @question = Question.find(params[:id])
     redirect_to URI.encode Rails.application.config.word_host + "/#{@question.generate}"

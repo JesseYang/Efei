@@ -3,7 +3,7 @@ class Video
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  # 1 for knowledge, 2 for example, 3 for episode
+  # 1 for knowledge, 2 for example, 3 for episode, 4 for question
   field :video_type, type: Integer
   field :name, type: String
   field :video_url, type: String
@@ -27,6 +27,7 @@ class Video
   field :question_name, type: String
 
   belongs_to :lesson, class_name: "Lesson", inverse_of: :videos
+  belongs_to :question, class_name: "Question", inverse_of: :question
 
   has_many :learn_logs, class_name: "LearnLog", inverse_of: :videos
   has_many :original_learn_logs, class_name: "LearnLog", inverse_of: :original_video

@@ -388,6 +388,7 @@ Rails.application.routes.draw do
         get :point_list
       end
       member do
+        post :update_video
         get :ensure_qr_code
         get :stat
         post :replace
