@@ -20,6 +20,7 @@ class Homework < Node
   has_many :answers, class_name: "Answer", inverse_of: :homework
   has_one :compose
   has_many :notes
+  has_many :tablet_answers, class_name: "TabletAnswer", inverse_of: :exercise
   belongs_to :lesson, class_name: "Lesson", inverse_of: :homework
   belongs_to :lesson_pre_test, class_name: "Lesson", inverse_of: :pre_test
   belongs_to :lesson_exercise, class_name: "Lesson", inverse_of: :exercise

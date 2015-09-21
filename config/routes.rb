@@ -187,6 +187,9 @@ Rails.application.routes.draw do
   end
 
   namespace :tablet do
+    resources :tablet_answers do
+    end
+
     resources :homeworks do
     end
 
