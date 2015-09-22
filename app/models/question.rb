@@ -338,7 +338,7 @@ class Question
       subject: self.subject,
       content: self.content.join("__,__"),
       items: (self.items || []).join("__,__"),
-      answer: self.answer,
+      answer: self.answer || -1,
       update_at: self.updated_at.to_s,
       image_path: self.image_path,
       duration: self.duration,
