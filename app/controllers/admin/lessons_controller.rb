@@ -29,12 +29,25 @@ class Admin::LessonsController < Admin::ApplicationController
     course = @lesson.course
 
     @lesson.name = params[:lesson]["name"]
-    pre_test = Homework.where(id: params[:lesson]["pre_test_id"]).first
-    @lesson.pre_test = pre_test if pre_test.present? && pre_test != @lesson.pre_test
-    exercise = Homework.where(id: params[:lesson]["exercise_id"]).first
-    @lesson.exercise = exercise if exercise.present? && exercise != @lesson.exercise
-    post_test = Homework.where(id: params[:lesson]["post_test_id"]).first
-    @lesson.post_test = post_test if post_test.present? && post_test != @lesson.post_test
+
+    if params[:lesson]["pre_test_id"] == "-1"
+      @lesson.pre_test = nil
+    else
+      pre_test = Homework.where(id: params[:lesson]["pre_test_id"]).first
+      @lesson.pre_test = pre_test if pre_test.present? && pre_test != @lesson.pre_test
+    end
+    if params[:lesson]["exercise_id"] == "-1"
+      @lesson.exercise = nil
+    else
+      exercise = Homework.where(id: params[:lesson]["exercise_id"]).first
+      @lesson.exercise = exercise if exercise.present? && exercise != @lesson.exercise
+    end
+    if params[:lesson]["post_test_id"] == "-1"
+      @lesson.post_test = nil
+    else
+      post_test = Homework.where(id: params[:lesson]["post_test_id"]).first
+      @lesson.post_test = post_test if post_test.present? && post_test != @lesson.post_test
+    end
     
     # update the lesson_id_ary for the course
     index = params[:lesson]["order"].to_i - 1
