@@ -342,7 +342,8 @@ class Question
       update_at: self.updated_at.to_s,
       image_path: self.image_path,
       duration: self.duration,
-      video_id: self.video.id.to_s,
+      video_id: self.video.try(:id).to_s,
+      video_url: self.video.try(:video_url).to_s,
       answer_content: (self.answer_content || []).join("__,__")
     }
   end
