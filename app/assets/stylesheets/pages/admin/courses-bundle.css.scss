@@ -1,5 +1,46 @@
 @import "compass/utilities/general/clearfix";
 
+#snapshots {
+  float: right;
+  width: 30%;
+}
+
+#video-for-browse {
+  float: left;
+}
+
+#video-canvas-wrapper {
+  position: relative;
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  video {
+    width: 100%;
+  }
+}
+
+#point-ul {
+  list-style-type: none;
+  padding-left: 30px;
+  padding-right: 30px;
+  li {
+    margin-top: 5px;
+    list-style-type: none;
+  }
+}
+
+.inline-title {
+  display: inline;
+  margin-right: 40px;
+}
+
+#bottom {
+  height: 50px;
+}
+
 .paginator-wrapper {
   margin-bottom: 10px;
   float: left;

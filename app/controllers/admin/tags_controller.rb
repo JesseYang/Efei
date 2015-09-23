@@ -5,19 +5,28 @@ class Admin::TagsController < Admin::ApplicationController
     @video = Video.find(params[:video_id])
     @all_videos = Video.where(video_url: @video.video_url)
 
-    tag = {
-      "tag_type" => params[:tag]["tag_type"].to_i,
-      "name" => params[:tag]["name"],
-      "time" => params[:tag]["time"].to_i,
-      "duration" => params[:tag]["duration"].to_i
-    }
+    if params[:tag]["tag_type"].to_i != 4
+      tag = {
+        "tag_type" => params[:tag]["tag_type"].to_i,
+        "name" => params[:tag]["name"],
+        "time" => params[:tag]["time"].to_i,
+        "duration" => params[:tag]["duration"].to_i
+      }
 
-    if params[:tag]["episode_id"].to_s != "-1"
-      tag["episode_id"] = params[:tag]["episode_id"]
-    end
+      if params[:tag]["episode_id"].to_s != "-1"
+        tag["episode_id"] = params[:tag]["episode_id"]
+      end
 
-    if params[:tag]["question_id"].to_s != "-1"
-      tag["question_id"] = params[:tag]["question_id"]
+      if params[:tag]["question_id"].to_s != "-1"
+        tag["question_id"] = params[:tag]["question_id"]
+      end
+    else
+      snapshot = Snapshot.find(params[:tag]["snapshot_id"])
+      tag = {
+        "tag_type" => params[:tag]["tag_type"].to_i,
+        "time" => snapshot.time.round,
+        "snapshot_id" => snapshot.id.to_s
+      }
     end
 
     @all_videos.each do |v|

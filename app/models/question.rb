@@ -26,6 +26,7 @@ class Question
   has_and_belongs_to_many :homeworks, class_name: "Homework", inverse_of: :questions
   has_and_belongs_to_many :composes, class_name: "Compose", inverse_of: :questions
   has_many :notes
+  has_many :snapshots
 
   has_one :video, class_name: "Video", inverse_of: :question
 

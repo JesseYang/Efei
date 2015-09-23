@@ -22,6 +22,23 @@ class Lesson
     course_name + " " + self.name
   end
 
+  def questions_for_select
+    if self.exercise.blank? && self.pre_test.blank? && self.post_test.blank?
+      return { "没有对应练习" => -1 }
+    end
+    hash = { "请选择" => -1 }
+    (self.pre_test.try(:q_ids) || [ ]).each_with_index do |e, i|
+      hash["课前例题：第#{i+1}题"] = e
+    end
+    (self.post_test.try(:q_ids) || [ ]).each_with_index do |e, i|
+      hash["课后测试：第#{i+1}题"] = e
+    end
+    (self.exercise.try(:q_ids) || [ ]).each_with_index do |e, i|
+      hash["课上练习：第#{i+1}题"] = e
+    end
+    hash
+  end
+
   def exercises_for_select
     if self.exercise.blank?
       return { "没有对应练习" => -1 }

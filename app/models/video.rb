@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'float'
 class Video
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -9,12 +10,13 @@ class Video
   field :video_url, type: String
 
   # structure of one element in tags:
-  # => tag_type: Integer, 1 for index, 2 for episode, 3 for example
+  # => tag_type: Integer, 1 for index, 2 for episode, 3 for example, 4 for summary
   # => time: Integer
   # => name: String, only for index tags
   # => episode_id: String, only for episode tags
   # => duration: Integer, only for example tags
   # => question_id: String, only for example tags
+  # => snapshot_id: String, only for summary tags
   field :tags, type: Array, default: []
 
   # for example videos, the question content
@@ -33,6 +35,8 @@ class Video
   has_many :original_learn_logs, class_name: "LearnLog", inverse_of: :original_video
   has_many :action_logs
 
+  has_many :snapshots
+
   def touch_parents
     self.lesson.try(:touch)
     self.lesson.try(:touch_parents)
@@ -47,6 +51,14 @@ class Video
     end
   end
 
+  def snapshots_for_select
+    hash = { "请选择" => -1 }
+    self.snapshots.each do |s|
+      hash[s.time.to_time] = s.id.to_s
+    end
+    hash
+  end
+
   def episodes_for_select
     hash = { "请选择" => -1 }
     self.lesson.videos.where(video_type: 3).each do |v|
@@ -58,6 +70,7 @@ class Video
   def self.existing_video_content_for_select
     hash = { "请选择" => -1 }
     Video.all.each do |v|
+      next if v.lesson.blank?
       hash[v.course_name + ", " + v.lesson_name + ", " + v.name] = v.id.to_s
     end
     hash
@@ -77,7 +90,8 @@ class Video
       "请选择" => -1,
       "索引" => 1,
       "知识片段" => 2,
-      "例题" => 3
+      "例题" => 3,
+      "截图" => 4
     }
   end
 
@@ -102,6 +116,8 @@ class Video
       "知识片段"
     when 3
       "例题"
+    when 4
+      "截图"
     else
       "未知"
     end

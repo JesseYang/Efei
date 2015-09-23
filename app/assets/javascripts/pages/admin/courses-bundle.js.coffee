@@ -1,4 +1,75 @@
+#= require "../admin/_templates/point_ele"
+#= require 'utility/ajax'
 $ ->
+
+  $("#newSnapshot form").submit ->
+    key_point = [ ]
+    $("#point-ul li").each ->
+      key_point.push {
+        position: [$(this).find(".x").text(), $(this).find(".y").text()]
+        desc: $(this).find("input").val()
+      }
+    $.postJSON(
+      '/admin/snapshots/',
+      {
+        video_id: window.video_id
+        time: $("#newSnapshot video")[0].currentTime
+        key_point: key_point
+        question_id: $("#newSnapshot #question_id").val()
+      },
+      (retval) ->
+        if !retval.success
+          $.page_notification("服务器出错，请刷新重试")
+        else
+          window.location.href = "/admin/videos/#{window.video_id}"
+    )
+    false
+
+  $(".btn-select").click ->
+    $("#video-canvas-wrapper canvas").removeClass("hide")
+    $(this).attr("disabled", true)
+    $("#video-canvas-wrapper video")[0].controls = false
+
+  $("canvas").click ->
+    pre_x = $("#video-canvas-wrapper video")[0].getBoundingClientRect().left
+    pre_y = $("#video-canvas-wrapper video")[0].getBoundingClientRect().top
+    x = event.x - pre_x
+    y = event.y - pre_y
+    ctx = $(this)[0].getContext("2d")
+    ctx.beginPath()
+    # ctx.fillText("1", x, y)
+    ctx.arc(x, y, 10, 0, 2 * Math.PI)
+    ctx.lineWidth = 5
+    ctx.fillStyle = "#FF0000"
+    ctx.strokeStyle = "#FF0000"
+    ctx.stroke()
+    point_ele_data = { x: x, y: y }
+    point_ele = $(HandlebarsTemplates["point_ele"](point_ele_data))
+    $("#point-ul").append(point_ele)
+
+  $("canvas").dblclick ->
+    ctx = $(this)[0].getContext("2d")
+    ctx.clearRect(0, 0, $(this).width(), $(this).height())
+    $(this).addClass("hide")
+    $(".btn-select").attr("disabled", false)
+    $("#point-ul li").remove()
+    $("#video-canvas-wrapper video")[0].controls = true
+
+  $("#tag_tag_type").change ->
+    if $(this).val() == "4"
+      $("#snapshot-selector-wrapper").removeClass("hide")
+      $("#form-ele-wrapper").addClass("hide")
+    else
+      $("#snapshot-selector-wrapper").addClass("hide")
+      $("#form-ele-wrapper").removeClass("hide")
+
+
+
+
+
+
+
+
   $(".admin-nav .courses").addClass("active")
 
   $(".edit-lesson").click ->

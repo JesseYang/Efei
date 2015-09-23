@@ -102,6 +102,9 @@ Rails.application.routes.draw do
 
     resources :tags do
     end
+
+    resources :snapshots do
+    end
   end
 
   match "/weixin_js_signature" => 'application#signature', :via => :get
