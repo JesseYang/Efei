@@ -159,8 +159,8 @@ class Video
       {
         type: t["tag_type"],
         time: t["time"],
-        name: t["name"],
-        duration: t["duration"],
+        name: t["name"] || "",
+        duration: t["duration"] || 0,
         video_id: self.id.to_s,
         episode_id: t["episode_id"] || "",
         question_id: t["question_id"] || "",
