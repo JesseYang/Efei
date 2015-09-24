@@ -24,7 +24,7 @@ class Snapshot
     {
       server_id: self.id.to_s,
       time: self.time,
-      key_point: self.key_point.map { |e| e["position"].join(",") + "," + e["desc"] } .join(";")
+      key_point: self.key_point.map { |e| e["position"].join(",") + "," + e["desc"] } .join(";"),
       video_id: self.video.id.to_s
     }
   end
