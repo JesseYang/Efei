@@ -163,7 +163,9 @@ class Video
         duration: t["duration"],
         video_id: self.id.to_s,
         episode_id: t["episode_id"] || "",
-        question_id: t["question_id"] || ""
+        question_id: t["question_id"] || "",
+        snapshot_id: t["snapshot_id"] || "",
+        snapshot: t["snapshot_id"].present? ? Snapshot.find(t["snapshot_id"]).info_for_tablet : ""
       }
     end
   end
