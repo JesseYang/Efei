@@ -59,6 +59,7 @@ $ ->
     $("#videoModal").modal("show")
     qid = $(this).closest(".btn-group").attr("data-qid")
     video_url = $(this).closest(".btn-group").attr("data-videourl")
+    video_id = $(this).closest(".btn-group").attr("data-vid")
     duration = $(this).closest(".btn-group").attr("data-duration")
     if video_url == undefined || video_url == ""
       $(".question-video").addClass("hide")
@@ -68,6 +69,7 @@ $ ->
       $(".question-video").attr("src", video_url)
       $(".video-name").removeClass("hide")
       $(".video-name").text("视频名称：" + video_url)
+      $(".video-detail-url").attr("href", "/admin/videos/#{video_id}?homework_id=#{window.homework_id}&question_id=#{qid}")
     $("#videoModal form #duration").val(duration)
     $("#videoModal form").attr("action", "/teacher/questions/" + qid + "/update_video")
 
