@@ -190,6 +190,9 @@ Rails.application.routes.draw do
   end
 
   namespace :tablet do
+    resources :summaries do
+    end
+    
     resources :tablet_answers do
     end
 

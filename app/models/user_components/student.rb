@@ -30,6 +30,9 @@ module UserComponents::Student
     has_many :action_logs, class_name: "LearnLog", inverse_of: :student
 
     has_many :student_weixin_binds, class_name: "WeixinBind", inverse_of: :student
+
+    has_many :tablet_answers, class_name: "TabletAnswer", inverse_of: :student
+    has_many :summaries, class_name: "Summary", inverse_of: :student
   end
 
   module ClassMethods

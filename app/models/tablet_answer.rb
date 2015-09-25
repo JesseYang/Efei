@@ -9,7 +9,7 @@ class TabletAnswer
   field :answer_content, type: Hash, default: { }
 
   belongs_to :exercise, class_name: "Homework", inverse_of: :tablet_answers
-  belongs_to :student, class_name: "User", inverse_of: :student_answers
+  belongs_to :student, class_name: "User", inverse_of: :tablet_answers
 
   def self.update_exercise(student, exercise, question_id, answer, duration)
     tablet_answer = TabletAnswer.where(student_id: student.id, exercise_id: exercise.id).first ||  TabletAnswer.new

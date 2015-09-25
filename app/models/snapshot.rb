@@ -12,6 +12,8 @@ class Snapshot
   belongs_to :video
   belongs_to :question
 
+  has_many :summaries, class_name: "Summary", inverse_of: :snapshot
+
 
   def delete_tags
     v = self.video

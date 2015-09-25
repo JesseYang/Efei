@@ -37,13 +37,15 @@ $ ->
     y = event.y - pre_y
     ctx = $(this)[0].getContext("2d")
     ctx.beginPath()
-    # ctx.fillText("1", x, y)
     ctx.arc(x, y, 10, 0, 2 * Math.PI)
     ctx.lineWidth = 5
     ctx.fillStyle = "#FF0000"
     ctx.strokeStyle = "#FF0000"
     ctx.stroke()
-    point_ele_data = { x: x, y: y }
+    point_ele_data = {
+      x: x / $("#newSnapshot video").width()
+      y: y / $("#newSnapshot video").height()
+    }
     point_ele = $(HandlebarsTemplates["point_ele"](point_ele_data))
     $("#point-ul").append(point_ele)
 
