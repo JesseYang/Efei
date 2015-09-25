@@ -7,12 +7,14 @@ class TabletAnswer
   # => answer
   # => duration
   field :answer_content, type: Hash, default: { }
+  # type can be pre_test, exercise, or post_test
+  field :type, type: String, default: ""
 
   belongs_to :exercise, class_name: "Homework", inverse_of: :tablet_answers
   belongs_to :student, class_name: "User", inverse_of: :tablet_answers
 
-  def self.update_exercise(student, exercise, question_id, answer, duration)
-    tablet_answer = TabletAnswer.where(student_id: student.id, exercise_id: exercise.id).first ||  TabletAnswer.new
+  def self.update_exercise(student, exercise, question_id, answer, duration, type)
+    tablet_answer = TabletAnswer.where(student_id: student.id, exercise_id: exercise.id).first ||  TabletAnswer.new(type: type)
     tablet_answer.answer_content[question_id] = {
       answer: answer,
       duration: duration
@@ -20,8 +22,8 @@ class TabletAnswer
     tablet_answer.save
   end
 
-  def self.create_new(student, exercise, data)
-    tablet_answer = TabletAnswer.where(student_id: student.id, exercise_id: exercise.id).first ||  TabletAnswer.new
+  def self.create_new(student, exercise, data, type)
+    tablet_answer = TabletAnswer.where(student_id: student.id, exercise_id: exercise.id).first ||  TabletAnswer.new(type: type)
     tablet_answer.exercise = exercise
     tablet_answer.student = student
     answer_content = { }
