@@ -5,7 +5,7 @@ class Tablet::SummariesController < Tablet::ApplicationController
   # params[:checked]
   def create
     student = User.find_by_auth_key(params[:auth_key])
-    snapshot = Homework.find(params[:snapshot_id])
+    snapshot = Snapshot.find(params[:snapshot_id])
     Summary.create_new(student, snapshot, params[:checked])
     render json: { success: true } and return
   end
