@@ -2,7 +2,21 @@
 #= require 'utility/ajax'
 $ ->
 
-  $("#newSnapshot form").submit ->
+  $("#new-snapshot .btn-cancel").click ->
+    $("#new-snapshot").addClass("hide")
+    $("#snapshots").removeClass("hide")
+    ctx = $("canvas")[0].getContext("2d")
+    ctx.clearRect(0, 0, $("canvas").width(), $("canvas").height())
+    $("canvas").addClass("hide")
+    $(".btn-select").attr("disabled", false)
+    $("#point-ul li").remove()
+    $("#video-canvas-wrapper video")[0].controls = true
+
+  $(".btn-new-snapshot").click ->
+    $("#new-snapshot").removeClass("hide")
+    $("#snapshots").addClass("hide")
+
+  $("#new-snapshot form").submit ->
     key_point = [ ]
     $("#point-ul li").each ->
       key_point.push {
@@ -13,9 +27,9 @@ $ ->
       '/admin/snapshots/',
       {
         video_id: window.video_id
-        time: $("#newSnapshot video")[0].currentTime
+        time: $("#video-canvas-wrapper video")[0].currentTime
         key_point: key_point
-        question_id: $("#newSnapshot #question_id").val()
+        question_id: $("#new-snapshot #question_id").val()
       },
       (retval) ->
         if !retval.success
@@ -43,8 +57,8 @@ $ ->
     ctx.strokeStyle = "#FF0000"
     ctx.stroke()
     point_ele_data = {
-      x: x / $("#newSnapshot video").width()
-      y: y / $("#newSnapshot video").height()
+      x: x / $("#video-canvas-wrapper video").width()
+      y: y / $("#video-canvas-wrapper video").height()
     }
     point_ele = $(HandlebarsTemplates["point_ele"](point_ele_data))
     $("#point-ul").append(point_ele)

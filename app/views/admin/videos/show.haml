@@ -20,9 +20,26 @@
     %h3= "推荐完成时间：" + @video.time.to_s + "分钟"
     %h3= "例题所在页面：" + @video.page.to_s + "页"
     %h3= "例题名称：" + @video.question_name.to_s
-  %video#video-for_browse{width: "640", src: "#{@video.video_url}", controls: "controls"} 您的浏览器不支持 video 标签。
+  #video-canvas-wrapper
+    %video{width: "640", src: "#{@video.video_url}", controls: "controls"} 您的浏览器不支持 video 标签。
+    %canvas.hide{width: "640", height: "360"}
+  #new-snapshot.hide
+    = form_tag(admin_snapshots_path, method: "post", multipart: true) do
+      %h3#new-snapshot-title 创建新截图
+      %ul#point-ul
+      - if @video.lesson.present?
+        .form-group
+          = label_tag :question_id, "题目"
+          = select_tag "question_id", options_for_select(@video.lesson.questions_for_select, -1), class: "form-control"
+      - else
+        .form-group.hide
+          = text_field_tag "tag[question_id]", params[:question_id], autofocus: false
+      %a.btn.btn-default.btn-select{href: "#", "aria-hidden" => "true"} 选点
+      %a.btn.btn-default.btn-cancel{href: "#", "aria-hidden" => "true"} 取消
+      = submit_tag "创建", :class => 'btn-primary btn'
   #snapshots
     - if @video.snapshots.present?
+      %h3#snapshot-list 截图列表
       %table#snapshot-table.table.table-striped
         %tr
           %th.col-md-1= "时间"
@@ -57,7 +74,7 @@
             %td
               = link_to "删除", { controller: "admin/tags", action: "destroy", id: t["time"], video_id: @video.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
     %button.btn.btn-primary{data: {toggle: "modal", target: "#newTag"} } 创建新标签
-    %button.btn.btn-primary{data: {toggle: "modal", target: "#newSnapshot"} } 创建新截图
+    %button.btn.btn-new-snapshot.btn-primary 创建新截图
     #bottom
 
 #newTag.modal.fade
@@ -97,29 +114,5 @@
               .form-group.hide
                 = text_field_tag "tag[question_id]", params[:question_id], autofocus: false
         .modal-footer
-          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-          = submit_tag "创建", :class => 'btn-primary btn'
-
-#newSnapshot.modal.fade
-  .modal-dialog
-    .modal-content
-      = form_tag(admin_snapshots_path, method: "post", multipart: true) do
-        .modal-header
-          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-          %h3 创建新截图
-        .modal-body
-          #video-canvas-wrapper
-            %video{width: "640", src: "#{@video.video_url}", controls: "controls"} 您的浏览器不支持 video 标签。
-            %canvas.hide{width: "568", height: "355"}
-          %ul#point-ul
-          - if @video.lesson.present?
-            .form-group
-              = label_tag :question_id, "题目"
-              = select_tag "question_id", options_for_select(@video.lesson.questions_for_select, -1), class: "form-control"
-          - else
-            .form-group.hide
-              = text_field_tag "tag[question_id]", params[:question_id], autofocus: false
-        .modal-footer
-          %a.btn.btn-default.btn-select{href: "#", "aria-hidden" => "true"} 选点
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'

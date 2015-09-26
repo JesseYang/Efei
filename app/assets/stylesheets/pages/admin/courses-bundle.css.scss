@@ -1,24 +1,22 @@
 @import "compass/utilities/general/clearfix";
 
-#snapshots {
+#snapshots, #new-snapshot {
   float: right;
   width: 30%;
 }
 
-#video-for-browse {
-  float: left;
+#new-snapshot-title, #snapshot-list {
+  margin: 0px;
 }
 
 #video-canvas-wrapper {
+  float: left;
   position: relative;
   canvas {
     position: absolute;
     top: 0;
     left: 0;
     z-index: 1000;
-  }
-  video {
-    width: 100%;
   }
 }
 
