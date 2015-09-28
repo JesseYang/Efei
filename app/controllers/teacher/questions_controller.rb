@@ -115,17 +115,23 @@ class Teacher::QuestionsController < Teacher::ApplicationController
 
   def update_video
     q = Question.find(params[:id])
-    q.duration = params[:duration].to_i
-    q.save
+    h = Homework.find(params[:homework_id])
+    h.q_durations[q.id.to_s] = params[:duration].to_i
+    h.q_scores[q.id.to_s] = params[:score].to_i
+    h.q_knowledges[q.id.to_s] = params[:knowledge]
+    h.save
     v = q.video
 
+=begin
     if params[:video_content].blank?
       # just remove the old video
       if v.present? && v.video_url.present?
         File.delete("public" + v.video_url) if File.exist?("public" + v.video_url)
         v.update_attribute(:video_url, "")
       end
-    else
+    end
+=end
+    if params[:video_content].present?
       video_content = VideoContent.new
       video_content.video = params[:video_content]
       filetype = "mp4"

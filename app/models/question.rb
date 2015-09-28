@@ -20,8 +20,6 @@ class Question
   field :scale_figure, type: Boolean, default: false
   field :raw_cache, type: Array, default: []
 
-  field :duration, type: Integer, default: 2
-
   # for demo
   field :demo, type: Boolean, default: false
   has_and_belongs_to_many :homeworks, class_name: "Homework", inverse_of: :questions
@@ -341,7 +339,8 @@ class Question
     end
   end
 
-  def info_for_tablet
+  def info_for_tablet(homework)
+    q_index = homework.q_ids.index(self.id.to_s)
     {
       server_id: self.id.to_s,
       type: self.type,
@@ -351,7 +350,9 @@ class Question
       answer: self.answer || -1,
       update_at: self.updated_at.to_s,
       image_path: self.image_path,
-      duration: self.duration,
+      duration: homework.q_durations[self.id.to_s] || 2,
+      score: homework.q_scores[self.id.to_s] || 0,
+      knowledges: homework.q_knowledges[self.id.to_s] || "",
       video_id: self.video.try(:id).to_s,
       video_url: self.video.try(:video_url).to_s,
       answer_content: (self.answer_content || []).join("__,__")

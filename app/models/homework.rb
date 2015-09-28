@@ -4,8 +4,11 @@ class Homework < Node
   # user, exercise, paper
   field :type, type: String, default: "user"
   field :subject, type: Integer
-  field :q_ids, type: Array, default: []
   field :tag_set, type: String, default: "不懂,不会,不对,典型题"
+  field :q_ids, type: Array, default: []
+  field :q_durations, type: Array, default: { }
+  field :q_scores, type: Array, default: { }
+  field :q_knowledges, type: Array, default: { }
   ### for "paper" homeworks
   field :materials, type: Array, default: []
   field :year, type: Integer, default: 0
@@ -282,7 +285,7 @@ class Homework < Node
       }
       self.q_ids.each do |qid|
         q = Question.find(qid)
-        info[:questions] << q.info_for_tablet
+        info[:questions] << q.info_for_tablet(self)
       end
       info
   end

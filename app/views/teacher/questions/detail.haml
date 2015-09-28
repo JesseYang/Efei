@@ -60,13 +60,13 @@
           - if @homework.present?
             .form-group
               = label_tag :duration, "学生做题时间预期（分钟）"
-              = text_field_tag "duration", "", class: "form-control"
+              = text_field_tag "duration", @homework.q_durations[@q.id.to_s], class: "form-control"
             .form-group
               = label_tag :score, "分数"
-              = text_field_tag "score", "", class: "form-control"
+              = text_field_tag "score", @homework.q_scores[@q.id.to_s], class: "form-control"
             .form-group
               = label_tag :knowledge, "知识点"
-              = text_field_tag "knowledge", "", class: "form-control"
+              = text_field_tag "knowledge", @homework.q_knowledges[@q.id.to_s], class: "form-control"
             .form-group.hide
               = text_field_tag "homework_id", @homework.id.to_s
           = submit_tag "确定", :class => 'btn-primary btn'
