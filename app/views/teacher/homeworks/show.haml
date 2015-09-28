@@ -65,7 +65,7 @@
               = render :partial => "partials/question_content", locals: { content: q.answer_content, image_path: q.image_path }
         - if @editable
           .question-operation-div.hide
-            .btn-group.right{data: { qid: q.id.to_s, vid: q.video.try(:id).to_s, videourl: q.video.try(:video_url).to_s, duration: q.duration }}
+            .btn-group.right{data: { qid: q.id.to_s, vid: q.video.try(:id).to_s, videourl: q.video.try(:video_url).to_s }}
               = link_to "详细", "/teacher/questions/#{q.id.to_s}/detail?homework_id=#{@homework.id.to_s}", :method => "get", :class => 'btn btn-default btn-sm', :target => "_blank"
               = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm replace-btn', data: {qid: q.id.to_s}
               = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm insert-btn', data: {qid: q.id.to_s}
@@ -131,26 +131,3 @@
       .modal-footer
         %a.btn.btn-danger.ok{href: "#", "aria-hidden" => "true"} 确定
         %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
-
-#videoModal.modal.fade
-  .modal-dialog
-    .modal-content
-      = form_tag("", method: "post", multipart: true) do
-        .modal-header
-          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
-          %h3 讲解视频
-        .modal-body
-          .form-group
-            = label_tag :duration, "学生做题时间预期（分钟）"
-            = text_field_tag "duration", "", class: "form-control"
-          %label.video-name
-          %a.video-detail-url{href: "#"} 详细
-          %video{width: "640", src: "", controls: "controls", class: "question-video"} 您的浏览器不支持 video 标签。
-          .form-group
-            = label_tag :video_content, "上传视频文件（mp4格式）"
-            = file_field_tag "video_content"
-          .form-group.hide
-            = text_field_tag "homework_id", @homework.id.to_s
-        .modal-footer
-          = submit_tag "确定", :class => 'btn-primary btn'
-          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
