@@ -344,7 +344,7 @@ class Question
     {
       server_id: self.id.to_s,
       type: self.type,
-      subject: self.subject,
+      subject: self.subject || homework.subject,
       content: self.content.join("__,__"),
       items: (self.items || []).join("__,__"),
       answer: self.answer || -1,
