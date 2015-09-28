@@ -82,10 +82,10 @@ class Teacher::QuestionsController < Teacher::ApplicationController
 
   def detail
     @q = Question.find(params[:id])
-    if params[:homework_id].present?
-      @homework = Homework.find(params[:homework_id])
+    if @q.homeworks.length == 1
+      @homework = @q.homeworks[0]
     else
-      @homework = @q.homeworks.first
+      @homework = params[:homework_id].present? ? Homework.find(params[:homework_id]) : nil
     end
   end
 

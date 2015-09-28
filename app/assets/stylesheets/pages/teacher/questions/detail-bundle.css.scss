@@ -4,6 +4,17 @@
 @import "icons/homeworks/*.png";
 @import 'partials/question';
 
+#homework-selector, #homework-title-wrapper {
+  padding-top: 20px;
+  margin-left: 30px;
+  width: 20%;
+  @include inline-block;
+}
+
+.switch-homework {
+  margin-top: 20px;
+}
+
 #content-background {
   width: 100%;
   background-color: #EEEEEE;
@@ -49,17 +60,19 @@
   video {
     width: 100%;
   }
-  float: right;
+  float: left;
 }
 
 .homework-title {
-  padding-top: 20px;
   margin-left: 20px;
+  margin: 0px;
+  @include inline-block;
 }
 
 
 .other-fields {
-  padding-right: 20px;
+  padding-left: 20px;
+  margin-top: 40px;
   width: 50%;
-  float: left;
+  float: right;
 }

@@ -19,6 +19,7 @@ class Question
   field :external_id, type: String
   field :scale_figure, type: Boolean, default: false
   field :raw_cache, type: Array, default: []
+
   field :duration, type: Integer, default: 2
 
   # for demo
@@ -56,6 +57,14 @@ class Question
     else
       self.content + self.items + ["解答:"] + self.answer_content
     end
+  end
+
+  def homeworks_for_select
+    hash = { "请选择作业" => -1 }
+    self.homeworks.each do |h|
+      hash[h.name] = h.id.to_s
+    end
+    hash
   end
 
   def self.create_choice_question(raw_cache, content, items, answer, answer_content)

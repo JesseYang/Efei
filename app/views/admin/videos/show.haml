@@ -8,7 +8,7 @@
   - if @video.lesson.present?
     = link_to "返回本讲视频列表", { controller: "admin/videos", action: "index", lesson_id: @video.lesson.id.to_s }
   - if @video.question.present?
-    = link_to "返回作业", "/teacher/homeworks/#{params[:homework_id]}"
+    = link_to "题目详情", "/teacher/questions/#{params[:question_id]}/detail"
   %br
   - if @video.lesson.present?
     %h3.inline-title= "课程：" + @video.course_name
@@ -23,7 +23,6 @@
   #video-canvas-wrapper
     %video{width: "100%", src: "#{@video.video_url}", controls: "controls"} 您的浏览器不支持 video 标签。
     %canvas.hide
-    / %canvas.hide{width: "570", height: "356"}
   #check-snapshot.hide
     %h4#new-snapshot-title 查看截图
     %ul.point-ul

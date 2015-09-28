@@ -8,7 +8,14 @@
   #content-background
     #paper-top
     #paper
-      %h3.homework-title= "作业：" + @homework.name
+      - if @homework.present?
+        #homework-title-wrapper
+          %h3.homework-title= "作业：" + @homework.name
+          - if @q.homeworks.length > 1
+            %a.switch-homework{href: "/teacher/questions/" + @q.id.to_s + "/detail"} 切换作业
+      - else
+        #homework-selector
+          = select_tag "homework_id", options_for_select(@q.homeworks_for_select, -1), class: "form-control"
       .content-div{data: {"question-id" => @q.id.to_s, "question-type" => @q.type}}
         .question-content-div
           .question-content
@@ -50,17 +57,18 @@
               = render :partial => "partials/question_content", locals: { content: @q.answer_content, image_path: @q.image_path }
       = form_tag("/teacher/questions/" + @q.id.to_s + "/update_video", method: "post", multipart: true, id: "upload-video-form") do
         .other-fields
-          .form-group
-            = label_tag :duration, "学生做题时间预期（分钟）"
-            = text_field_tag "duration", "", class: "form-control"
-          .form-group
-            = label_tag :score, "分数"
-            = text_field_tag "score", "", class: "form-control"
-          .form-group
-            = label_tag :knowledge, "知识点"
-            = text_field_tag "knowledge", "", class: "form-control"
-          .form-group.hide
-            = text_field_tag "homework_id", @homework.id.to_s
+          - if @homework.present?
+            .form-group
+              = label_tag :duration, "学生做题时间预期（分钟）"
+              = text_field_tag "duration", "", class: "form-control"
+            .form-group
+              = label_tag :score, "分数"
+              = text_field_tag "score", "", class: "form-control"
+            .form-group
+              = label_tag :knowledge, "知识点"
+              = text_field_tag "knowledge", "", class: "form-control"
+            .form-group.hide
+              = text_field_tag "homework_id", @homework.id.to_s
           = submit_tag "确定", :class => 'btn-primary btn'
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
         .video-wrapper
@@ -68,7 +76,7 @@
             %span 讲解视频
             - if @q.video.try(:id).to_s != "" && @q.video.try(:video_url).to_s != ""
               %span (
-              %a.video-detail-url{href: "/admin/videos/#{@q.video.id.to_s}?homework_id=#{@homework.id.to_s}&question_id=#{@q.id.to_s}", target: "_blank"} 详细
+              %a.video-detail-url{href: "/admin/videos/#{@q.video.id.to_s}?question_id=#{@q.id.to_s}", target: "_blank"} 详细
               %span )
           - if @q.video.try(:id).to_s != "" && @q.video.try(:video_url).to_s != ""
             %video{src: @q.video.try(:video_url), controls: "controls", id: "question-video"} 您的浏览器不支持 video 标签。
