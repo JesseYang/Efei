@@ -51,10 +51,11 @@ $ ->
     y = event.y - pre_y
     ctx = $(this)[0].getContext("2d")
     ctx.beginPath()
-    ctx.arc(x, y, 10, 0, 2 * Math.PI)
-    ctx.lineWidth = 5
-    ctx.fillStyle = "#FF0000"
-    ctx.strokeStyle = "#FF0000"
+    ctx.rect(x-7.5, y-7.5, 15, 15)
+    # ctx.arc(x, y, 10, 0, 2 * Math.PI)
+    ctx.lineWidth = 2
+    ctx.fillStyle = "#00FFFF"
+    ctx.strokeStyle = "#00FFFF"
     ctx.stroke()
     point_ele_data = {
       x: x / $("#video-canvas-wrapper video").width()
