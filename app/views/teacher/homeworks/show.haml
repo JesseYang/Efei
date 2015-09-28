@@ -66,7 +66,7 @@
         - if @editable
           .question-operation-div.hide
             .btn-group.right{data: { qid: q.id.to_s, vid: q.video.try(:id).to_s, videourl: q.video.try(:video_url).to_s, duration: q.duration }}
-              = link_to "视频", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm video-btn', data: {qid: q.id.to_s}
+              = link_to "详细", "/teacher/questions/#{q.id.to_s}/detail?homework_id=#{@homework.id.to_s}", :method => "get", :class => 'btn btn-default btn-sm', :target => "_blank"
               = link_to "替换", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm replace-btn', data: {qid: q.id.to_s}
               = link_to "插入", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm insert-btn', data: {qid: q.id.to_s}
               = link_to "上移", "javascript:void(0)", :method => "get", :class => 'btn btn-default btn-sm move-up-btn'

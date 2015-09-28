@@ -2,6 +2,46 @@
 #= require 'utility/ajax'
 $ ->
 
+  refresh_canvas_size = ->
+    w = $("video").width()
+    h = $("video").height()
+    $("canvas")[0].width = w
+    $("canvas")[0].height = h
+
+  refresh_canvas_size()
+
+  $(".btn-return-screeshots").click ->
+    $("#check-snapshot").addClass("hide")
+    $("#check-snapshot .point-ul").empty()
+    $("#snapshots").removeClass("hide")
+    ctx = $("canvas")[0].getContext("2d")
+    ctx.clearRect(0, 0, $(this).width(), $(this).height())
+    $("canvas").addClass("hide")
+    $("video")[0].controls = true
+
+  $(".btn-check-snapshot").click ->
+    $("#snapshots").addClass("hide")
+    $("#check-snapshot").removeClass("hide")
+    sid = $(this).attr("data-id")
+    $.getJSON "/admin/snapshots/#{sid}", (data) ->
+      if data.success
+        refresh_canvas_size()
+        $("canvas").removeClass("hide")
+        $("video")[0].controls = false
+        ctx = $("canvas")[0].getContext("2d")
+        $("video")[0].currentTime = data.data.time
+        for key_point in data.data.key_point
+          ctx.beginPath()
+          ctx.rect(key_point.position[0]*$("canvas").width()-7.5, key_point.position[1]*$("canvas").height()-7.5, 15, 15)
+          ctx.lineWidth = 2
+          ctx.fillStyle = "#00FFFF"
+          ctx.strokeStyle = "#00FFFF"
+          ctx.stroke()
+          $("#check-snapshot .point-ul").append("<li>" + key_point.desc + "</li>")
+        console.log data.data
+      else
+        $.page_notification "服务器出错"
+
   $("#new-snapshot .btn-cancel").click ->
     $("#new-snapshot").addClass("hide")
     $("#snapshots").removeClass("hide")
@@ -9,7 +49,7 @@ $ ->
     ctx.clearRect(0, 0, $("canvas").width(), $("canvas").height())
     $("canvas").addClass("hide")
     $(".btn-select").attr("disabled", false)
-    $("#point-ul li").remove()
+    $("#new-snapshot .point-ul li").remove()
     $("#video-canvas-wrapper video")[0].controls = true
 
   $(".btn-new-snapshot").click ->
@@ -18,7 +58,7 @@ $ ->
 
   $("#new-snapshot form").submit ->
     key_point = [ ]
-    $("#point-ul li").each ->
+    $("#new-snapshot .point-ul li").each ->
       key_point.push {
         position: [$(this).find(".x").text(), $(this).find(".y").text()]
         desc: $(this).find("input").val()
@@ -40,9 +80,10 @@ $ ->
     false
 
   $(".btn-select").click ->
-    $("#video-canvas-wrapper canvas").removeClass("hide")
+    refresh_canvas_size()
+    $("canvas").removeClass("hide")
     $(this).attr("disabled", true)
-    $("#video-canvas-wrapper video")[0].controls = false
+    $("video")[0].controls = false
 
   $("canvas").click ->
     pre_x = $("#video-canvas-wrapper video")[0].getBoundingClientRect().left
@@ -52,24 +93,23 @@ $ ->
     ctx = $(this)[0].getContext("2d")
     ctx.beginPath()
     ctx.rect(x-7.5, y-7.5, 15, 15)
-    # ctx.arc(x, y, 10, 0, 2 * Math.PI)
     ctx.lineWidth = 2
     ctx.fillStyle = "#00FFFF"
     ctx.strokeStyle = "#00FFFF"
     ctx.stroke()
     point_ele_data = {
-      x: x / $("#video-canvas-wrapper video").width()
-      y: y / $("#video-canvas-wrapper video").height()
+      x: x / $("video").width()
+      y: y / $("video").height()
     }
     point_ele = $(HandlebarsTemplates["point_ele"](point_ele_data))
-    $("#point-ul").append(point_ele)
+    $("#new-snapshot .point-ul").append(point_ele)
 
   $("canvas").dblclick ->
     ctx = $(this)[0].getContext("2d")
     ctx.clearRect(0, 0, $(this).width(), $(this).height())
     $(this).addClass("hide")
     $(".btn-select").attr("disabled", false)
-    $("#point-ul li").remove()
+    $("#new-snapshot .point-ul li").remove()
     $("#video-canvas-wrapper video")[0].controls = true
 
   $("#tag_tag_type").change ->

@@ -400,6 +400,7 @@ Rails.application.routes.draw do
         post :replace
         post :insert
         get :export
+        get :detail
         put :update_info
       end
     end

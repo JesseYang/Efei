@@ -13,6 +13,11 @@ class Admin::SnapshotsController < Admin::ApplicationController
     render json: { success: true }
   end
 
+  def show
+    @snapshot = Snapshot.find(params[:id])
+    render json: { success: true, data: @snapshot } and return
+  end
+
   def destroy
     snapshot = Snapshot.find(params[:id])
     snapshot.delete_tags

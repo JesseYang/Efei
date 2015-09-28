@@ -80,6 +80,15 @@ class Teacher::QuestionsController < Teacher::ApplicationController
     end
   end
 
+  def detail
+    @q = Question.find(params[:id])
+    if params[:homework_id].present?
+      @homework = Homework.find(params[:homework_id])
+    else
+      @homework = @q.homeworks.first
+    end
+  end
+
   def show
     question = Question.where(id: params[:id]).first
     download_url = "#{Rails.application.config.word_host}/#{question.generate}"
@@ -139,7 +148,8 @@ class Teacher::QuestionsController < Teacher::ApplicationController
         q.save
       end
     end
-    redirect_to teacher_homework_path(Homework.find(params[:homework_id])) and return
+    redirect_to detail_teacher_question_path(q) + "?homework_id=" + params[:homework_id] and return
+    # redirect_to teacher_homework_path(Homework.find(params[:homework_id])) and return
   end
 
   def export

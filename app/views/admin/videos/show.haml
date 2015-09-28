@@ -21,12 +21,17 @@
     %h3= "例题所在页面：" + @video.page.to_s + "页"
     %h3= "例题名称：" + @video.question_name.to_s
   #video-canvas-wrapper
-    %video{width: "640", src: "#{@video.video_url}", controls: "controls"} 您的浏览器不支持 video 标签。
-    %canvas.hide{width: "640", height: "360"}
+    %video{width: "100%", src: "#{@video.video_url}", controls: "controls"} 您的浏览器不支持 video 标签。
+    %canvas.hide
+    / %canvas.hide{width: "570", height: "356"}
+  #check-snapshot.hide
+    %h4#new-snapshot-title 查看截图
+    %ul.point-ul
+    %a.btn.btn-primary.btn-return-screeshots{href: "javascript:void(0);"} 返回
   #new-snapshot.hide
     = form_tag(admin_snapshots_path, method: "post", multipart: true) do
-      %h3#new-snapshot-title 创建新截图
-      %ul#point-ul
+      %h4#new-snapshot-title 创建新截图
+      %ul.point-ul
       - if @video.lesson.present?
         .form-group
           = label_tag :question_id, "题目"
@@ -39,23 +44,26 @@
       = submit_tag "创建", :class => 'btn-primary btn'
   #snapshots
     - if @video.snapshots.present?
-      %h3#snapshot-list 截图列表
+      %h4#snapshot-list 截图列表
       %table#snapshot-table.table.table-striped
         %tr
-          %th.col-md-1= "时间"
-          %th.col-md-1= "关键点"
+          %th.col-md-1= "时间（秒）"
+          %th.col-md-1= "关键点数量"
           %th.col-md-1= "操作"
         - (@video.snapshots).each_with_index do |s, i|
           %tr
-            %td= s.time
-            %td= s.key_point.map { |e| e["desc"] } .join(", ")
+            %td= s.time.round(1)
+            %td= s.key_point.length
             %td
               = link_to "删除", { controller: "admin/snapshots", action: "destroy", id: s.id.to_s, video_id: @video.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+              = link_to "查看", "javascript:void(0);", :class => 'btn btn-primary btn-xs btn-check-snapshot', data: {id: s.id.to_s}
+              = link_to "题目", "/teacher/questions/#{s.question.id.to_s}/detail", :class => 'btn btn-default btn-xs', target: "_blank"
   .clear-both
   .lib-content
     - if @video.tags.blank?
       %h4 没有标签
     - else
+      %h4 标签列表
       %table#course-table.table.table-striped
         %tr
           %th.col-md-1= "标签类型"

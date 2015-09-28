@@ -1,0 +1,65 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/utilities/general/clearfix";
+@import "icons/homeworks/*.png";
+@import 'partials/question';
+
+#content-background {
+  width: 100%;
+  background-color: #EEEEEE;
+  #paper-top, #paper-bottom {
+    width: 100%;
+    height: 30px;
+    background-color: #EEEEEE;
+  }
+  #paper {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    background-color: white;
+    .content-div {
+      position: relative;
+      background-color: white;
+      padding: 40px 80px 40px 80px;
+      border-bottom: 1px solid #DDDDDD;
+      .question-operation-div {
+        position: absolute;
+        top: 20px;
+        right: 80px;
+        padding: 5px;
+        background-color: white;
+        .btn {
+          background-color: lighten(#E6E6E6, 5%);
+          &:hover {
+            background-color: #E6E6E6;
+            border-color: #E6E6E6;
+          }
+        }
+      }
+    }
+  }
+}
+
+#upload-video-form {
+  padding: 20px;
+}
+
+.video-wrapper {
+  width: 50%;
+  video {
+    width: 100%;
+  }
+  float: right;
+}
+
+.homework-title {
+  padding-top: 20px;
+  margin-left: 20px;
+}
+
+
+.other-fields {
+  padding-right: 20px;
+  width: 50%;
+  float: left;
+}
