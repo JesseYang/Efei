@@ -208,6 +208,9 @@ class Document
       items << q_part_text[-2].scan(/^\s*[(（]?C[)）]?\s*[\.．:：]?(.+)/)[0][0].strip
       items << q_part_text[-1].scan(/^\s*[(（]?D[)）]?\s*[\.．:：]?(.+)/)[0][0].strip
       content = q_part_text[0..-5]
+    elsif q_part_text.join.include?("___")
+      q_type = "blank"
+      content = q_part_text
     else
       q_type = "analysis"
       content = q_part_text
@@ -245,6 +248,7 @@ class Document
       else
         answer_content = a_part
       end
+      answer_content = answer_content.select { |e| e.present? }
     end
     [answer, answer_content]
   end
