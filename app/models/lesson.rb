@@ -13,7 +13,6 @@ class Lesson
   has_one :exercise, class_name: "Homework", inverse_of: :lesson_exercise
   has_one :post_test, class_name: "Homework", inverse_of: :lesson_post_test
 
-  has_many :learn_logs
   has_many :action_logs
 
   def name_with_course_and_teacher
