@@ -26,9 +26,6 @@ module UserComponents::Student
     has_and_belongs_to_many :klasses, class_name: "Klass", inverse_of: :students
     has_many :scores, class_name: "Score", inverse_of: :student
 
-    has_many :learn_logs, class_name: "LearnLog", inverse_of: :student
-    has_many :action_logs, class_name: "LearnLog", inverse_of: :student
-
     has_many :student_weixin_binds, class_name: "WeixinBind", inverse_of: :student
 
     has_many :tablet_answers, class_name: "TabletAnswer", inverse_of: :student

@@ -31,10 +31,6 @@ class Video
   belongs_to :lesson, class_name: "Lesson", inverse_of: :videos
   belongs_to :question, class_name: "Question", inverse_of: :question
 
-  has_many :learn_logs, class_name: "LearnLog", inverse_of: :videos
-  has_many :original_learn_logs, class_name: "LearnLog", inverse_of: :original_video
-  has_many :action_logs
-
   has_many :snapshots
 
   def touch_parents

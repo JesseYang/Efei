@@ -23,7 +23,6 @@ class Course
   has_many :lessons, class_name: "Lesson", inverse_of: :course
   belongs_to :teacher, class_name: "User", inverse_of: :courses
 
-  has_many :learn_logs
   has_many :action_logs
 
 
