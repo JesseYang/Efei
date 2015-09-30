@@ -19,9 +19,8 @@ class ActionLog
     id_ary = [ ]
     logs.each do |l|
       id_ary << l.delete("id")
-      Logger.info "AAAAAAAAAAAAAAAAAAA"
-      Logger.info l.inspect
-      Logger.info "AAAAAAAAAAAAAAAAAAA"
+      auth_key = l.delete("auth_key")
+      l["student_id"] = User.find_by_auth_key(auth_key).id.to_s
       ActionLog.create(l)
     end
     id_ary
