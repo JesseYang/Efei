@@ -115,8 +115,11 @@ class Teacher::QuestionsController < Teacher::ApplicationController
 
   def remove_snapshot_image
     q = Question.find(params[:id])
-    q.snapshot_images.delete_at(params[:index].to_i)
+    img_url = q.snapshot_images.delete_at(params[:index].to_i)
     q.save
+    if File.exist?("public#{img_url}")
+      File.delete("public#{img_url}")
+    end
     render json: {success: true} and return
   end
 

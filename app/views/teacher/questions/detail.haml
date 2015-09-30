@@ -90,7 +90,7 @@
           - if @q.snapshot_images.present?
             - @q.snapshot_images.each_with_index do |e, i|
               .image-wrapper
-                %img{src: e}
+                %img.snapshot-image{src: e}
                 = link_to image_tag("button_delete.png", width: "20px"), "javascript:void(0);", data: {index: i, id: @q.id.to_s}, class: "hide"
             %br
           .wrapper

@@ -19,8 +19,9 @@
   @include inline-block;
   padding: 10px;
   max-width: 80%;
-  img {
+  .snapshot-image {
     max-width: 100%;
+    border: solid 1px black;
   }
   a {
     position: absolute;

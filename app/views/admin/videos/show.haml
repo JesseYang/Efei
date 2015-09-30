@@ -25,9 +25,13 @@
     %canvas.hide
   #check-snapshot.hide
     %h4#check-snapshot-title 查看截图
-    %span 绑定题目
-    .wrapper
-      = select_tag "update_question_id", options_for_select(@video.lesson.questions_for_select, -1), class: "form-control"
+    - if @video.lesson.present?
+      %span 绑定题目
+      .wrapper
+        = select_tag "update_question_id", options_for_select(@video.lesson.questions_for_select, -1), class: "form-control"
+    - else
+      .form-group.hide
+        = text_field_tag "tag[update_question_id]", params[:update_question_id], autofocus: false
     %br
     %span 关键点文字描述
     %ul.point-ul
