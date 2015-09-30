@@ -5,6 +5,10 @@
   @include inline-block;
 }
 
+.bottom-space {
+  height: 20px;
+}
+
 #snapshots, #new-snapshot, #check-snapshot {
   margin-top: 20px;
   float: right;

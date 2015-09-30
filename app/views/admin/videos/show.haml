@@ -33,6 +33,7 @@
     %ul.point-ul
     %a.btn.btn-primary.btn-update-snapshot{href: "javascript:void(0);"} 更新
     %a.btn.btn-default.btn-return-snapshots{href: "javascript:void(0);"} 返回
+    .bottom-space
   #new-snapshot.hide
     = form_tag(admin_snapshots_path, method: "post", multipart: true) do
       %h4#new-snapshot-title 创建新截图

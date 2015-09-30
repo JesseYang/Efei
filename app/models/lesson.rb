@@ -44,7 +44,7 @@ class Lesson
     end
     hash = { "请选择" => -1 }
     self.exercise.q_ids.each_with_index do |e, i|
-      hash["第#{i+1}题"] = e
+      hash["练习#{i+1}"] = e
     end
     hash
   end
