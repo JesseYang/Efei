@@ -89,7 +89,7 @@
               = link_to "删除", { controller: "admin/tags", action: "destroy", id: t["time"], video_id: @video.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
     %button.btn.btn-primary{data: {toggle: "modal", target: "#newTag"} } 创建新标签
     %button.btn.btn-new-snapshot.btn-primary 创建新截图
-    #bottom
+    .bottom-space
 
 #newTag.modal.fade
   .modal-dialog
