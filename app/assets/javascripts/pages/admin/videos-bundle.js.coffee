@@ -30,6 +30,9 @@ $ ->
     )
 
   $(".btn-return-snapshots").click ->
+    return_snapshot()
+
+  return_snapshot = ->
     $("#check-snapshot").addClass("hide")
     $("#check-snapshot .point-ul").empty()
     $("#snapshots").removeClass("hide")
@@ -74,6 +77,7 @@ $ ->
     $("#video-canvas-wrapper video")[0].controls = true
 
   $(".btn-new-snapshot").click ->
+    return_snapshot()
     $("#new-snapshot").removeClass("hide")
     $("#snapshots").addClass("hide")
 
@@ -105,6 +109,7 @@ $ ->
     $("canvas").removeClass("hide")
     $(this).attr("disabled", true)
     $("video")[0].controls = false
+    $("#key-point-ul-title").removeClass("hide")
 
   $("canvas").click ->
     pre_x = $("#video-canvas-wrapper video")[0].getBoundingClientRect().left
@@ -124,6 +129,7 @@ $ ->
     }
     point_ele = $(HandlebarsTemplates["point_ele"](point_ele_data))
     $("#new-snapshot .point-ul").append(point_ele)
+    $("#key-point-ul-title").removeClass("hide")
 
   $("canvas").dblclick ->
     ctx = $(this)[0].getContext("2d")
@@ -132,6 +138,7 @@ $ ->
     $(".btn-select").attr("disabled", false)
     $("#new-snapshot .point-ul li").remove()
     $("#video-canvas-wrapper video")[0].controls = true
+    $("#key-point-ul-title").addClass("hide")
 
   $("#tag_tag_type").change ->
     if $(this).val() == "4"
