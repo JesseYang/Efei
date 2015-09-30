@@ -19,6 +19,9 @@ class ActionLog
     id_ary = [ ]
     logs.each do |l|
       id_ary << l.delete("id")
+      Logger.info "AAAAAAAAAAAAAAAAAAA"
+      Logger.info l.inspect
+      Logger.info "AAAAAAAAAAAAAAAAAAA"
       ActionLog.create(l)
     end
     id_ary
