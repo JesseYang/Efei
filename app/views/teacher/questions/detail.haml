@@ -85,5 +85,10 @@
           .form-group
             = label_tag :video_content, "上传视频文件（mp4格式）"
             = file_field_tag "video_content"
+          - if @q.explain_images.present?
+            %img{src: @q.explain_images[0]}
+          .form-group
+            = label_tag :image_content, "上传解析图片（mp4格式）"
+            = file_field_tag "image_content"
         .clear-both
     #paper-bottom

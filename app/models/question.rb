@@ -20,6 +20,8 @@ class Question
   field :scale_figure, type: Boolean, default: false
   field :raw_cache, type: Array, default: []
 
+  field :explain_images, type: Array, default: []
+
   # for demo
   field :demo, type: Boolean, default: false
   has_and_belongs_to_many :homeworks, class_name: "Homework", inverse_of: :questions

@@ -10,7 +10,26 @@ $ ->
 
   refresh_canvas_size()
 
-  $(".btn-return-screeshots").click ->
+  $(".btn-update-snapshot").click ->
+    question_id = $("#update_question_id").val()
+    sid = $("#check-snapshot").attr("data-id")
+    key_point = [ ]
+    $("#check-snapshot .point-ul li").each ->
+      key_point.push $(this).find("input").val()
+    $.putJSON(
+      '/admin/snapshots/' + sid,
+      {
+        key_point: key_point
+        question_id
+      },
+      (retval) ->
+        if !retval.success
+          $.page_notification("服务器出错，请刷新重试")
+        else
+          $.page_notification("更新成功")
+    )
+
+  $(".btn-return-snapshots").click ->
     $("#check-snapshot").addClass("hide")
     $("#check-snapshot .point-ul").empty()
     $("#snapshots").removeClass("hide")
@@ -23,6 +42,7 @@ $ ->
     $("#snapshots").addClass("hide")
     $("#check-snapshot").removeClass("hide")
     sid = $(this).attr("data-id")
+    $("#check-snapshot").attr("data-id", sid)
     $.getJSON "/admin/snapshots/#{sid}", (data) ->
       if data.success
         refresh_canvas_size()
@@ -30,6 +50,7 @@ $ ->
         $("video")[0].controls = false
         ctx = $("canvas")[0].getContext("2d")
         $("video")[0].currentTime = data.data.time
+        $("#update_question_id").val(data.data.question_id)
         for key_point in data.data.key_point
           ctx.beginPath()
           ctx.rect(key_point.position[0]*$("canvas").width()-7.5, key_point.position[1]*$("canvas").height()-7.5, 15, 15)
@@ -37,7 +58,7 @@ $ ->
           ctx.fillStyle = "#00FFFF"
           ctx.strokeStyle = "#00FFFF"
           ctx.stroke()
-          $("#check-snapshot .point-ul").append("<li>" + key_point.desc + "</li>")
+          $("#check-snapshot .point-ul").append("<li><input type=text class=form-control value=" + key_point.desc + "></li>")
         console.log data.data
       else
         $.page_notification "服务器出错"

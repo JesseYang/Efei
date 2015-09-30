@@ -24,9 +24,15 @@
     %video{width: "100%", src: "#{@video.video_url}", controls: "controls"} 您的浏览器不支持 video 标签。
     %canvas.hide
   #check-snapshot.hide
-    %h4#new-snapshot-title 查看截图
+    %h4#check-snapshot-title 查看截图
+    %span 绑定题目
+    .wrapper
+      = select_tag "update_question_id", options_for_select(@video.lesson.questions_for_select, -1), class: "form-control"
+    %br
+    %span 关键点文字描述
     %ul.point-ul
-    %a.btn.btn-primary.btn-return-screeshots{href: "javascript:void(0);"} 返回
+    %a.btn.btn-primary.btn-update-snapshot{href: "javascript:void(0);"} 更新
+    %a.btn.btn-default.btn-return-snapshots{href: "javascript:void(0);"} 返回
   #new-snapshot.hide
     = form_tag(admin_snapshots_path, method: "post", multipart: true) do
       %h4#new-snapshot-title 创建新截图

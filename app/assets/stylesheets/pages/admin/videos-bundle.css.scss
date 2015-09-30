@@ -1,4 +1,9 @@
 @import "compass/utilities/general/clearfix";
+@import "compass/css3/inline-block";
+
+.wrapper {
+  @include inline-block;
+}
 
 #snapshots, #new-snapshot, #check-snapshot {
   margin-top: 20px;

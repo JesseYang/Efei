@@ -15,7 +15,18 @@ class Admin::SnapshotsController < Admin::ApplicationController
 
   def show
     @snapshot = Snapshot.find(params[:id])
-    render json: { success: true, data: @snapshot } and return
+    render json: { success: true, data: @snapshot.info_for_check } and return
+  end
+
+  def update
+    @snapshot = Snapshot.find(params[:id])
+    @question = Question.find(params[:question_id])
+    @snapshot.question = @question
+    params[:key_point].each_with_index do |desc, i|
+      @snapshot.key_point[i]["desc"] = desc
+    end
+    @snapshot.save
+    render json: { success: true }
   end
 
   def destroy

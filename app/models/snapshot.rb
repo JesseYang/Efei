@@ -22,6 +22,14 @@ class Snapshot
     v.save
   end
 
+  def info_for_check
+    {
+      time: self.time,
+      key_point: self.key_point,
+      question_id: self.question.id.to_s
+    }
+  end
+
   def info_for_tablet
     {
       server_id: self.id.to_s,
