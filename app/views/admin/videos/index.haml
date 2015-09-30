@@ -18,7 +18,7 @@
           %th.col-md-1= "名称"
           %th.col-md-1= "序号"
           %th.col-md-2= "文件名"
-          / %th.col-md-1= "时长"
+          %th.col-md-1= "时长"
           %th.col-md-1 操作
         - @videos.each do |v|
           %tr
@@ -26,7 +26,7 @@
             %td= v.name
             %td= v.order
             %td= v.video_url.to_s
-            / %td= v.time
+            %td= v.duration
             %td
               = link_to "删除", { controller: "admin/videos", action: "destroy", id: v.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
               = link_to "详细", { controller: "admin/videos", action: "show", id: v._id.to_s }, :class => 'btn btn-primary btn-xs'

@@ -85,10 +85,19 @@
           .form-group
             = label_tag :video_content, "上传视频文件（mp4格式）"
             = file_field_tag "video_content"
-          - if @q.explain_images.present?
-            %img{src: @q.explain_images[0]}
-          .form-group
-            = label_tag :image_content, "上传解析图片（mp4格式）"
-            = file_field_tag "image_content"
+          .snapshot-image-title
+            %span 讲解截图
+          - if @q.snapshot_images.present?
+            - @q.snapshot_images.each_with_index do |e, i|
+              .image-wrapper
+                %img{src: e}
+                = link_to image_tag("button_delete.png", width: "20px"), "javascript:void(0);", data: {index: i, id: @q.id.to_s}, class: "hide"
+            %br
+          .wrapper
+            .form-group
+              = label_tag :image_content, "上传解析图片（png格式）"
+              = file_field_tag "image_content"
+          = check_box_tag "inverse", "yes", true
+          = label_tag :inverse, "反色"
         .clear-both
     #paper-bottom

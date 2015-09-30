@@ -113,6 +113,13 @@ class Teacher::QuestionsController < Teacher::ApplicationController
     redirect_to teacher_homework_path(h) and return
   end
 
+  def remove_snapshot_image
+    q = Question.find(params[:id])
+    q.snapshot_images.delete_at(params[:index].to_i)
+    q.save
+    render json: {success: true} and return
+  end
+
   def update_video
     q = Question.find(params[:id])
     h = Homework.find(params[:homework_id])
@@ -122,15 +129,21 @@ class Teacher::QuestionsController < Teacher::ApplicationController
     h.save
     v = q.video
 
-=begin
-    if params[:video_content].blank?
-      # just remove the old video
-      if v.present? && v.video_url.present?
-        File.delete("public" + v.video_url) if File.exist?("public" + v.video_url)
-        v.update_attribute(:video_url, "")
+    if params[:image_content].present?
+      snapshot_image = SnapshotImage.new
+      snapshot_image.snapshot_image = params[:image_content]
+      filetype = "png"
+      snapshot_image.store_snapshot_image!
+      filepath = snapshot_image.snapshot_image.file.file
+      image_url = "/snapshot_images/" + filepath.split("/")[-1]
+      if params[:inverse] == "yes"
+        m = Magick::Image.read("public#{image_url}")
+        m[0].negate.write("public#{image_url}")
       end
+      q.snapshot_images << image_url
+      q.save
     end
-=end
+
     if params[:video_content].present?
       video_content = VideoContent.new
       video_content.video = params[:video_content]
@@ -155,7 +168,6 @@ class Teacher::QuestionsController < Teacher::ApplicationController
       end
     end
     redirect_to detail_teacher_question_path(q) + "?homework_id=" + params[:homework_id] and return
-    # redirect_to teacher_homework_path(Homework.find(params[:homework_id])) and return
   end
 
   def export

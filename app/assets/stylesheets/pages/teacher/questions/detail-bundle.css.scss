@@ -10,6 +10,29 @@
   @include inline-block;
 }
 
+.wrapper {
+  @include inline-block;
+}
+
+.image-wrapper {
+  position: relative;
+  @include inline-block;
+  padding: 10px;
+  max-width: 80%;
+  img {
+    max-width: 100%;
+  }
+  a {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.snapshot-image-title {
+  margin-top: 20px;
+}
+
 .switch-homework {
   margin-left: 30px;
 }

@@ -391,6 +391,7 @@ Rails.application.routes.draw do
         get :point_list
       end
       member do
+        delete :remove_snapshot_image
         post :update_video
         get :ensure_qr_code
         get :stat

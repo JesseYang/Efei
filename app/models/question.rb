@@ -20,7 +20,7 @@ class Question
   field :scale_figure, type: Boolean, default: false
   field :raw_cache, type: Array, default: []
 
-  field :explain_images, type: Array, default: []
+  field :snapshot_images, type: Array, default: []
 
   # for demo
   field :demo, type: Boolean, default: false

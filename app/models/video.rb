@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'float'
+require 'integer'
 class Video
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -116,6 +117,15 @@ class Video
       "截图"
     else
       "未知"
+    end
+  end
+
+  def duration
+    begin
+      v = FFMPEG::Movie.new("public#{self.video_url}")
+      return v.duration.to_time
+    rescue
+      return 0
     end
   end
 
