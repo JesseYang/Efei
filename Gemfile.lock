@@ -242,6 +242,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    streamio-ffmpeg (1.0.0)
     string_utf8 (0.1.1)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
@@ -299,6 +300,7 @@ DEPENDENCIES
   sass-rails!
   sidekiq (~> 3.2.6)
   sinatra
+  streamio-ffmpeg
   string_utf8 (~> 0.1.1)
   therubyracer
   uglifier (~> 2.5.3)

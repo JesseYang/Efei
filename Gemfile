@@ -9,6 +9,7 @@ gem 'prawn', '2.0.2'
 
 gem 'sinatra', :require => nil
 
+gem 'streamio-ffmpeg', '~> 1.0.0'
 gem 'mongoid', '~> 4.0.0'
 gem 'haml', '~> 4.0.5'
 gem 'httparty', '~> 0.13.3'
