@@ -33,4 +33,14 @@ class TabletAnswer
     tablet_answer.answer_content = answer_content
     tablet_answer.save
   end
+
+  def is_correct?(qid)
+    q = Question.find(qid)
+    return false if self.answer_content[qid].blank?
+    if q.type == "blank" || q.type = "analysis"
+      return self.answer_content[qid]["answer"] > 0
+    else
+      return self.answer_content[qid]["answer"] == q.answer
+    end
+  end
 end

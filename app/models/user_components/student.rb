@@ -30,6 +30,7 @@ module UserComponents::Student
 
     has_many :tablet_answers, class_name: "TabletAnswer", inverse_of: :student
     has_many :summaries, class_name: "Summary", inverse_of: :student
+    has_many :reports, class_name: "Report", inverse_of: :student
   end
 
   module ClassMethods
