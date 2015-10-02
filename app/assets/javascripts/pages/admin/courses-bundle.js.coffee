@@ -5,7 +5,7 @@ $ ->
   $(".btn-edit-video").click ->
     $("#editVideo").modal("show")
     vid = $(this).attr("data-id")
-    vname = $(this).attr("data-name")
+    vname = $(this).closest("tr").find(".video-name").html()
     $("#editVideo form").attr("data-id", vid)
     $("#editVideo #video_name").val(vname)
 
