@@ -2,7 +2,7 @@
 class Tablet::ActionLogsController < Tablet::ApplicationController
 
   def index
-    @logs = ActionLog.all.asc(:happen_at)
+    @logs = ActionLog.all.asc(:log_id)
   end
 
   def create

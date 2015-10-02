@@ -14,23 +14,38 @@
     - else
       %table#course-table.table.table-striped
         %tr
-          / %th.col-md-1= "视频类型"
           %th.col-md-1= "名称"
           %th.col-md-1= "序号"
           %th.col-md-2= "文件名"
           %th.col-md-1= "时长"
           %th.col-md-1 操作
         - @videos.each do |v|
-          %tr
-            / %td= Video.show_type(v.video_type)
-            %td= v.name
-            %td= v.order
+          %tr{ data: {id: v.id.to_s} }
+            %td.video-name= v.name
+            %td.video-order= v.order
             %td= v.video_url.to_s
             %td= v.duration
             %td
-              = link_to "删除", { controller: "admin/videos", action: "destroy", id: v.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
+              = link_to "编辑", "javascript:void(0);", :class => 'btn btn-primary btn-xs btn-edit-video', data: { id: v.id.to_s, name: v.name, order: v.order }
               = link_to "详细", { controller: "admin/videos", action: "show", id: v._id.to_s }, :class => 'btn btn-primary btn-xs'
+              = link_to "删除", { controller: "admin/videos", action: "destroy", id: v.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
     %button.btn.btn-primary.btn-new{data: {toggle: "modal", target: "#newVideo"} } 创建新视频
+
+#editVideo.modal.fade
+  .modal-dialog
+    .modal-content
+      = form_tag("", method: "put", multipart: true) do
+        .modal-header
+          %button.close{type: "button", "data-dismiss" => "modal", "aria-hidden" => "true"} &times;
+          %h3 编辑视频名称
+        .modal-body
+          .form-group
+            = label_tag :subject, "名称"
+            = text_field_tag "video[name]", "", autofocus: true, class: "form-control"
+        .modal-footer
+          %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
+          = submit_tag "更新", :class => 'btn-primary btn'
+
 
 #newVideo.modal.fade
   .modal-dialog

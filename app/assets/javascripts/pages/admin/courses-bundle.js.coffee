@@ -2,6 +2,30 @@
 #= require 'utility/ajax'
 $ ->
 
+  $(".btn-edit-video").click ->
+    $("#editVideo").modal("show")
+    vid = $(this).attr("data-id")
+    vname = $(this).attr("data-name")
+    $("#editVideo form").attr("data-id", vid)
+    $("#editVideo #video_name").val(vname)
+
+  $("#editVideo form").submit ->
+    vid = $(this).attr("data-id")
+    vname = $(this).find("#video_name").val()
+    vorder = $(this).find("#video_order").val()
+    $.putJSON '/admin/videos/' + $(this).attr("data-id"),
+      {
+        name: $(this).find("#video_name").val()
+      }, (data) ->
+        if data.success
+          $("#editVideo").modal("hide")
+          $.page_notification "更新完成"
+          tr = $("table").find("[data-id='" + vid + "']")
+          tr.find(".video-name").html(vname)
+        else
+          $.page_notification "操作失败，请刷新页面重试"
+    return false
+
   $(".admin-nav .courses").addClass("active")
 
   $(".edit-lesson").click ->

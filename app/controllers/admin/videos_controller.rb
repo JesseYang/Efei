@@ -61,6 +61,14 @@ class Admin::VideosController < Admin::ApplicationController
     redirect_to action: :index, lesson_id: lesson.id.to_s and return
   end
 
+
+  def update
+    v = Video.find(params[:id])
+    v.name = params[:video]["name"]
+    v.save
+    render json: {success: true} and return
+  end
+
   def destroy
     @video = Video.find(params[:id])
     lesson = @video.lesson
