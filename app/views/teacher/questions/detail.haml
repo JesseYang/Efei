@@ -20,6 +20,8 @@
         #homework-selector
           = select_tag "homework_id", options_for_select(@q.homeworks_for_select, -1), class: "form-control"
       .content-div{data: {"question-id" => @q.id.to_s, "question-type" => @q.type}}
+        .question-index
+          %span= "第#{@homework.q_ids.index(@q.id.to_s) + 1}题. "
         .question-content-div
           .question-content
             = render :partial => "partials/question_content", locals: { content: @q.content, image_path: @q.image_path }
