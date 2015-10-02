@@ -50,7 +50,7 @@ class ActionLog
   def self.batch_create(logs)
     id_ary = [ ]
     logs.each do |l|
-      id_ary << l.delete("id")
+      id_ary << l.delete("log_id")
       auth_key = l.delete("auth_key")
       l["student_id"] = User.find_by_auth_key(auth_key).id.to_s
       if ActionLog.where(device_id: l["device_id"], log_id: l["log_id"]).first.present?

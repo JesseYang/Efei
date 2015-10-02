@@ -219,6 +219,9 @@ Rails.application.routes.draw do
     end
 
     resources :action_logs do
+      collection do
+        delete :clear
+      end
     end
   end
 

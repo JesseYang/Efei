@@ -9,4 +9,9 @@ class Tablet::ActionLogsController < Tablet::ApplicationController
     retval = ActionLog.batch_create(params[:logs])
     render json: { success: true, max_id: retval.max } and return
   end
+
+  def clear
+    ActionLog.destroy_all
+    redirect_to action: :index and return
+  end
 end
