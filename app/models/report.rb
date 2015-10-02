@@ -10,7 +10,7 @@ class Report
   # calculate from logs
   field :time_dist, type: Array, default: [ ]
 
-  belongs_to :lesson, class_name: "User", inverse_of: :reports
+  belongs_to :lesson, class_name: "Lesson", inverse_of: :reports
   belongs_to :student, class_name: "User", inverse_of: :reports
 
   def self.create_new(lesson, user)

@@ -13,6 +13,7 @@
           %h3.homework-title
             %span 作业：
             = link_to @homework.name, teacher_homework_path(@homework)
+            %span= "（第" + (@homework.q_ids.index(@q.id.to_s) + 1).to_s + "题）"
           - if @q.homeworks.length > 1
             %a.switch-homework{href: "/teacher/questions/" + @q.id.to_s + "/detail"} 切换作业
       - else

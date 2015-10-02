@@ -185,6 +185,7 @@ Rails.application.routes.draw do
       member do
         get :exercise
         get :record
+        get :report
       end
     end
   end

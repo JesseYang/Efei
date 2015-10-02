@@ -1,0 +1,82 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/css3/border-radius";
+@import "compass/utilities/general/clearfix";
+@import 'icons/weixin/*.png';
+
+.study-time-table-wrapper {
+  margin-left: 3vw;
+  margin-right: 3vw;
+  padding-top: 10px;
+}
+
+body {
+  margin-bottom: 50px;
+}
+
+#scrollUp {
+  bottom: 70px;
+}
+
+#footer{
+  border-top: #CCC solid 1px;
+  position:fixed;
+  height:50px;
+  background-color: white;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  margin-bottom:0px;
+  table {
+    width: 100%;
+    td {
+      width: 50%;
+    }
+  }
+  .bottom-nav {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    vertical-align: center;
+    @include inline-block;
+    @include one-line(50px);
+    font-size: 18px;
+  }
+  a {
+    text-decoration: none;
+    background-color: white;
+    color: $weixin-bg;
+  }
+  span {
+    background-color: #EEE;
+    color: $weixin-bg;
+  }
+  .record-td {
+    border-right: #CCC solid 1px;
+  }
+}
+
+.header {
+  border-bottom: #CCC 1px solid ;
+}
+
+h4 {
+  padding-bottom: 10px;
+  margin-bottom: 0px;
+}
+
+.info {
+  float: right;
+  color: #999;
+  margin-right: 5vw;
+}
+
+p {
+  margin-left: 3vw;
+  margin-right: 3vw;
+}
+
+.summary {
+  margin-top: 10px;
+}
+

@@ -21,4 +21,10 @@ class Array
     end
     for_edit_ary.join("\r")
   end
+
+  def to_time
+    start_at = Time.at(self[0]).strftime('%Y-%m-%d %H:%M')
+    end_at = Time.at(self[1]).strftime('%H:%M')
+    return start_at + " 到 " + end_at
+  end
 end
