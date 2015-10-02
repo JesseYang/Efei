@@ -1,0 +1,14 @@
+%table.table.table-striped
+  %tr
+    %th 设备id
+    %th 日志id
+    %th 发生时间
+    %th 行为代码
+    %th 行为描述
+  - @logs.each do |e|
+    %tr
+      %td= e.device_id
+      %td= e.log_id
+      %td= Time.at(e.happen_at)
+      %td= e.action
+      %td= ActionLog.action_desc(e.action)
