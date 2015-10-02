@@ -25,6 +25,8 @@
         .question-separator
           %span.combine-questions.hide ------- 双击此处合并前后两道题目 -------
       .content-div{data: {"question-id" => q.id.to_s, "question-type" => q.type}}
+        .question-index
+          %span= "#{i+1}. "
         .question-content-div
           .question-content
             = render :partial => "partials/question_content", locals: { content: q.content, image_path: q.image_path }
