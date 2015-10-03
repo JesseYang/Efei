@@ -9,9 +9,30 @@ body {
   margin-bottom: 50px;
 }
 
-#scrollUp {
-  bottom: 70px;
+.exercise-title-wrapper {
+  padding-top: 20px;
+  .exercise-title {
+    @include inline-block;
+    font-size: 18px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+  }
 }
+
+.snapshot-summary {
+  padding-top: 10px;
+  font-size: 16px;
+  color: red;
+}
+
+.analysis-image {
+  .snapshot-image {
+    width: 600px;
+    max-width: 94vw;
+    border: 1px solid #CCC;
+  }
+}
+
 
 #footer{
   border-top: #CCC solid 1px;
@@ -72,12 +93,8 @@ h4 {
   float: right;
 }
 
-.question-content-div {
-  border-bottom: #EEE solid 1px;
-}
-
 .content-block {
-  margin: 10px 3vw 10px 3vw;
+  margin: 10px 0 10px 0;
   font-size: 16px;
   .right-answer {
     color: #00BBBD;
@@ -136,17 +153,41 @@ h4 {
   }
 }
 
+.span-wrong {
+  color: #EB4F38;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.span-right {
+  color: #00BBBD;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
 .one-question {
   padding-top: 10px;
   padding-bottom: 10px;
-  &.not-last-ele {
-    border-bottom: #999 solid 1px;
-  }
+  margin-left: 3vw;
+  margin-right: 3vw;
+  border-bottom: #EEE solid 1px;
 }
 
 .icon {
   @include size(32px, 32px);
   @include inline-block;
+}
+
+.ic-expand {
+  @include size(16px, 16px);
+  @include inline-block;
+  @include weixin-sprite(expand16);
+}
+
+.ic-contract {
+  @include size(16px, 16px);
+  @include inline-block;
+  @include weixin-sprite(expand16);
 }
 
 .image-wrapper {

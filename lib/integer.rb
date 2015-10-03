@@ -14,7 +14,7 @@ class Integer
       str += (time / 60).to_s + "分"
       time = time % 60
     end
-    if time > 0
+    if time >= 0
       str += time.to_s + "秒"
     end
   end

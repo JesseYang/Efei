@@ -186,6 +186,7 @@ Rails.application.routes.draw do
         get :exercise
         get :record
         get :report
+        get :time_dist
       end
     end
   end

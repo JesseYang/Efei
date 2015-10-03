@@ -10,6 +10,25 @@
   padding-top: 10px;
 }
 
+.point-score-table-title {
+  font-weight: bold;
+}
+
+.time-dist-title {
+  margin-left: 3vw;
+  font-weight: bold;
+}
+
+.score-progress {
+  color: red;
+}
+
+.point-score-table-wrapper {
+  width: 94vw;
+  margin-left: 3vw;
+  margin-right: 3vw;
+}
+
 body {
   margin-bottom: 50px;
 }
@@ -71,12 +90,9 @@ h4 {
   margin-right: 5vw;
 }
 
-p {
-  margin-left: 3vw;
-  margin-right: 3vw;
-}
-
 .summary {
   margin-top: 10px;
+  margin-left: 3vw;
+  margin-right: 3vw;
 }
 

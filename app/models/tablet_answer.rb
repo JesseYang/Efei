@@ -39,7 +39,7 @@ class TabletAnswer
   def is_correct?(qid)
     q = Question.find(qid)
     return false if self.answer_content[qid].blank?
-    if q.type == "blank" || q.type = "analysis"
+    if q.type == "blank" || q.type == "analysis"
       return self.answer_content[qid]["answer"] > 0
     else
       return self.answer_content[qid]["answer"] == q.answer
