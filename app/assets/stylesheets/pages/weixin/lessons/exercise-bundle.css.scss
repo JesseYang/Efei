@@ -10,6 +10,7 @@ body {
 }
 
 .exercise-title-wrapper {
+  cursor: pointer;
   padding-top: 20px;
   .exercise-title {
     @include inline-block;
@@ -187,7 +188,7 @@ h4 {
 .ic-contract {
   @include size(16px, 16px);
   @include inline-block;
-  @include weixin-sprite(expand16);
+  @include weixin-sprite(contract16);
 }
 
 .image-wrapper {
