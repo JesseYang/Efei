@@ -15,6 +15,8 @@ class TabletAnswer
 
   def self.update_exercise(student, exercise, question_id, answer, duration, type)
     tablet_answer = TabletAnswer.where(student_id: student.id, exercise_id: exercise.id).first ||  TabletAnswer.new(type: type)
+    tablet_answer.exercise = exercise
+    tablet_answer.student = student
     tablet_answer.answer_content[question_id] = {
       answer: answer,
       duration: duration

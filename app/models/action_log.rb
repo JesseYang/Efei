@@ -67,7 +67,8 @@ class ActionLog
         video_time_2: l["video_time_2"],
         question_id: l["question_id"],
         snapshot_id: l["snapshot_id"],
-        student_id: l["student_id"]
+        student_id: l["student_id"],
+        lesson_id: l["lesson_id"]
       })
     end
     id_ary
