@@ -27,9 +27,10 @@ body {
 }
 
 .analysis-image {
+  width: 600px;
+  max-width: 94vw;
   .snapshot-image {
-    width: 600px;
-    max-width: 94vw;
+    width: 100%;
     border: 1px solid #CCC;
   }
 }

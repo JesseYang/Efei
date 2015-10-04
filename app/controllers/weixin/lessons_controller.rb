@@ -7,6 +7,7 @@ class Weixin::LessonsController < Weixin::ApplicationController
     lesson_index = @lesson.course.lesson_id_ary.index(params[:id])
     @title = Lesson.lesson_helper(lesson_index) + @lesson.name
     @student = User.find(params[:student_id])
+    @return_path = weixin_course_path(@lesson.course)
 
     @pre_test = @lesson.pre_test
     @exercise = @lesson.exercise
@@ -23,6 +24,7 @@ class Weixin::LessonsController < Weixin::ApplicationController
   def report
     @student = User.find(params[:student_id])
     @lesson = Lesson.find(params[:id])
+    @return_path = weixin_course_path(@lesson.course)
     lesson_index = @lesson.course.lesson_id_ary.index(params[:id])
     @title = Lesson.lesson_helper(lesson_index) + @lesson.name
     @report = @student.reports.where(lesson_id: @lesson.id.to_s).first
