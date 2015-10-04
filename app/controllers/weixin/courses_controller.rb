@@ -38,6 +38,7 @@ class Weixin::CoursesController < Weixin::ApplicationController
     @course = Course.find(params[:id])
     @lessons = @course.lesson_id_ary.map { |e| Lesson.find(e) }
     @title = @course.name
+    @courses = @current_user.student_courses
   end
 
   def exercise
