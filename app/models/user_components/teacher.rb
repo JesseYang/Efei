@@ -7,11 +7,6 @@ module UserComponents::Teacher
     field :subject, type: Integer
     field :teacher_desc, type: String
 
-    # for homework platform
-    field :homework, type: Boolean, default: false
-    field :auth_code, type: String, default: ""
-    has_one :teacher_weixin_bind, class_name: "PlatformBind", inverse_of: :teacher
-
     # for tablet app
     field :avatar_url, type: String, default: ""
     field :desc, type: String, default: ""

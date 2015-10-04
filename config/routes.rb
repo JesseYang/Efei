@@ -21,41 +21,6 @@ Rails.application.routes.draw do
 
   match '/' => 'welcome#weixin', :via => :post
 
-  namespace :client do
-    resources :homeworks do
-      collection do
-        get :test
-      end
-    end
-  end
-
-  namespace :homework do
-    resources :scores do
-    end
-    resources :exams do
-      member do
-        get :scan
-      end
-    end
-    resources :users do
-      collection do
-        get :pre_bind
-        get :expire
-        get :bind_info
-        post :bind
-      end
-      member do
-        post :unbind
-        get :post_bind
-      end
-    end
-    resources :klasses do
-      collection do
-        get :list
-      end
-    end
-  end
-
   namespace :admin do
     resources :supers do
     end
