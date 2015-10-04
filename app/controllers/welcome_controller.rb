@@ -54,18 +54,16 @@ class WelcomeController < ApplicationController
         retval = data.to_xml(root: "xml").gsub(/item-\d/, "item").gsub("<Article>", "").gsub("</Article>", "")
         render :xml => retval and return
       end
-=begin
       if params[:xml]["Event"] == "subscribe"
         data = {
           "ToUserName" => params[:xml]["FromUserName"],
           "FromUserName" => params[:xml]["ToUserName"],
           "CreateTime" => Time.now.to_i,
           "MsgType" => "text",
-          "Content" => "有福啦！易飞学堂邀请顶级名师团为吉林父老举办免费讲座！8月开讲，点击<a href='http://efei.org/lecture_users/new'>这里</a>报名！！！"
+          "Content" => "欢迎关注易飞学堂"
         }
         render :xml => data.to_xml(root: "xml") and return
       end
-=end
     end
   end
 
