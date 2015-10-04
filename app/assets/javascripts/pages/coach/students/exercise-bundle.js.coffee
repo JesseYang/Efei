@@ -1,2 +1,2 @@
-#= require "jweixin-1.0.0"
+#= require partials/_exercise
 $ ->

@@ -2,27 +2,11 @@
   = javascript_include_tag "pages/coach/students/show-bundle"
   = stylesheet_link_tag "pages/coach/students/show-bundle", :media => "all"
 
-- @local_courses.each do |lc|
+.qr-code-image-wrapper
+  %img{src: @image_url}
+
+- @courses.each do |c|
   .one-course-wrapper
     .one-course
       .left-part
-        = link_to lc.name, "javascript:void(0);"
-      .right-icon
-        %a.right.slide-left-link{href: "javascript:void(0);"}
-          %i.icon.slide-left
-    .operation-div
-      .left-icon
-        %a.left.slide-right-link{href: "javascript:void(0);"}
-          %i.icon.slide-right
-      %table.operation-table
-        %tr
-          %td
-            %a.exercise-link{href: exercise_coach_student_path(@student) + "?local_course_id=#{lc.id.to_s}"}
-              %i.icon.exercise
-              %span 练习反馈
-              .clear-both
-          %td
-            %a.report-link{href: report_coach_student_path(@student) + "?local_course_id=#{lc.id.to_s}"}
-              %i.icon.report
-              %span 学情报告
-              .clear-both
+        = link_to c.name, course_coach_student_path(@student) + "?course_id=" + c.id.to_s

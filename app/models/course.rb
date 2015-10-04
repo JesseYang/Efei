@@ -18,7 +18,7 @@ class Course
 
   field :ready, type: Boolean, default: false
 
-  has_many :local_courses, class_name: "LocalCourse", inverse_of: :course
+  has_and_belongs_to_many :students, class_name: "User", inverse_of: :student_courses
 
   has_many :lessons, class_name: "Lesson", inverse_of: :course
   belongs_to :teacher, class_name: "User", inverse_of: :courses

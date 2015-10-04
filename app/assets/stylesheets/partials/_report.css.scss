@@ -1,0 +1,60 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/css3/border-radius";
+@import "compass/utilities/general/clearfix";
+@import 'icons/weixin/*.png';
+
+.study-time-table-wrapper {
+  margin-left: 3vw;
+  margin-right: 3vw;
+  padding-top: 10px;
+}
+
+.point-score-table-title {
+  font-weight: bold;
+}
+
+.time-dist-title {
+  margin-left: 3vw;
+  font-weight: bold;
+}
+
+.score-progress {
+  color: red;
+}
+
+.point-score-table-wrapper {
+  width: 94vw;
+  margin-left: 3vw;
+  margin-right: 3vw;
+}
+
+body {
+  margin-bottom: 50px;
+}
+
+#scrollUp {
+  bottom: 70px;
+}
+
+.header {
+  border-bottom: #CCC 1px solid ;
+}
+
+h4 {
+  padding-bottom: 10px;
+  margin-bottom: 0px;
+}
+
+.info {
+  float: right;
+  color: #999;
+  margin-right: 5vw;
+}
+
+.summary {
+  margin-top: 10px;
+  margin-left: 3vw;
+  margin-right: 3vw;
+}
+

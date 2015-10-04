@@ -1,0 +1,164 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/css3/border-radius";
+@import "compass/utilities/general/clearfix";
+@import 'icons/weixin/*.png';
+
+
+body {
+  margin-bottom: 50px;
+}
+
+.exercise-title-wrapper {
+  cursor: pointer;
+  padding-top: 20px;
+  .exercise-title {
+    @include inline-block;
+    font-size: 18px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+  }
+}
+
+.snapshot-summary {
+  padding-top: 10px;
+  font-size: 16px;
+  color: red;
+}
+
+.analysis-image {
+  .snapshot-image {
+    width: 600px;
+    max-width: 94vw;
+    border: 1px solid #CCC;
+  }
+}
+
+
+.header {
+  border-bottom: #CCC solid 1px;
+}
+
+h4 {
+  padding-bottom: 10px;
+  margin-bottom: 0px;
+}
+
+.info {
+  float: left;
+  color: #999;
+  margin-left: 3vw;
+}
+
+.paginator-part {
+  margin-right: 3vw;
+  @include inline-block;
+  float: right;
+}
+
+.content-block {
+  margin: 10px 0 10px 0;
+  font-size: 16px;
+  .right-answer {
+    color: #00BBBD;
+  }
+  .wrong-answer {
+    color: #EB4F38;
+  }
+  .answer-tip {
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.8em;
+  }
+}
+
+.answer-item-ul {
+  padding-left: 0px;
+  list-style-type: none;
+  a {
+    text-decoration: none;
+    .A {
+      @include weixin-sprite(A32);
+    }
+    .B {
+      @include weixin-sprite(B32);
+    }
+    .C {
+      @include weixin-sprite(C32);
+    }
+    .D {
+      @include weixin-sprite(D32);
+    }
+    .A-right {
+      @include weixin-sprite(A_right32);
+    }
+    .B-right {
+      @include weixin-sprite(B_right32);
+    }
+    .C-right {
+      @include weixin-sprite(C_right32);
+    }
+    .D-right {
+      @include weixin-sprite(D_right32);
+    }
+    .A-wrong {
+      @include weixin-sprite(A_wrong32);
+    }
+    .B-wrong {
+      @include weixin-sprite(B_wrong32);
+    }
+    .C-wrong {
+      @include weixin-sprite(C_wrong32);
+    }
+    .D-wrong {
+      @include weixin-sprite(D_wrong32);
+    }
+  }
+}
+
+.span-wrong {
+  color: #EB4F38;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.span-right {
+  color: #00BBBD;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.one-question {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 3vw;
+  margin-right: 3vw;
+  border-bottom: #EEE solid 1px;
+}
+
+.icon {
+  @include size(32px, 32px);
+  @include inline-block;
+}
+
+.ic-expand {
+  @include size(16px, 16px);
+  @include inline-block;
+  @include weixin-sprite(expand16);
+}
+
+.ic-contract {
+  @include size(16px, 16px);
+  @include inline-block;
+  @include weixin-sprite(contract16);
+}
+
+.image-wrapper {
+  width: 80vw;
+  margin-left: 10vw;
+  margin-right: 10vw;
+  img {
+    width: 100%;
+  }
+}
+

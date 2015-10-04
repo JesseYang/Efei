@@ -128,6 +128,7 @@ Rails.application.routes.draw do
       member do
         get :exercise
         get :report
+        get :course
       end
     end
     resources :reports do

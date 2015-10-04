@@ -10,15 +10,19 @@
   @include inline-block;
 }
 
-.qr-code-image-wrapper {
+.course-name {
   border-bottom: #E5E5E5 solid 1px;
+  font-size: 1.2em;
+  text-align: center;
+  @include one-line(80px);
+  position: relative; 
 }
 
-.one-course-wrapper {
+.one-lesson-wrapper {
   position: relative;
 }
 
-.one-course {
+.one-lesson {
   height: 80px;
   border-bottom: #E5E5E5 solid 1px;
   .left-part {

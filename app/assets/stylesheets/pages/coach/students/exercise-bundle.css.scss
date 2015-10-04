@@ -1,40 +1,48 @@
-@import 'common';
-@import "compass/css3";
-@import "compass/css3/border-radius";
-@import "compass/utilities/general/clearfix";
-@import 'icons/weixin/*.png';
+@import 'partials/exercise';
 
-
-h4 {
-  border-bottom: #CCC solid 1px;
-  padding-bottom: 10px;
-  margin-bottom: 0px;
+.course-name, .lesson-name {
+  border-bottom: #E5E5E5 solid 1px;
+  font-size: 1.2em;
+  text-align: center;
+  @include one-line(30px);
+  position: relative; 
 }
 
-ul {
-  list-style: none;
-  padding-left: 0px;
-  margin-bottom: 0px;
-  li {
-    list-style: none;
-    height: 50px;
-    text-align: center;
-    a {
-      border-bottom: #CCC solid 1px;
-      background-color: #F4F4F4;
-      font-size: 1.2em;
-      cursor: pointer;
-      display: block;
-      @include one-line(50px);
-      color: $coach-bg;
-      text-decoration: none;
-      text-align: center;
-      &:hover {
-        background-color: #E6E6E6;
-        text-decoration: none;
-        color: $coach-bg;
-      }
+#footer{
+  border-top: #CCC solid 1px;
+  position:fixed;
+  height:50px;
+  background-color: white;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  margin-bottom:0px;
+  table {
+    width: 100%;
+    td {
+      width: 50%;
     }
+  }
+  .bottom-nav {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    vertical-align: center;
+    @include inline-block;
+    @include one-line(50px);
+    font-size: 18px;
+  }
+  a {
+    text-decoration: none;
+    background-color: white;
+    color: $weixin-bg;
+  }
+  span {
+    background-color: #EEE;
+    color: $weixin-bg;
+  }
+  .record-td {
+    border-right: #CCC solid 1px;
   }
 }
 

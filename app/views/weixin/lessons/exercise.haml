@@ -1,56 +1,15 @@
 - content_for :app_head do
   = javascript_include_tag "pages/weixin/lessons/exercise-bundle"
   = stylesheet_link_tag "pages/weixin/lessons/exercise-bundle", :media => "all"
+  :javascript
+    window.student_id="#{@current_user.id.to_s}"
 
-- title = ["课后测试", "课上练习", "课前例题"]
-- ["post-test", "exercise", "pre-test"].each_with_index do |e, ei|
-  .exercise-title-wrapper
-    %i.icon.hide{class: "ic-expand", id: "ic-" + e + "-expand"}
-    %i.icon{class: "ic-contract", id: "ic-" + e + "-contract"}
-    %h4.exercise-title= title[ei]
-  %div{class: e + "-wrapper"}
-    - @exercises[ei].q_ids.each_with_index do |qid, i|
-      - @question = Question.find(qid)
-      .one-question{ class: @exercise.q_ids.length == i+1 ? "last-ele" : "not-last-ele" }
-        .question-content-div.content-block
-          .question-content
-            = render :partial => "partials/question_content", locals: { content: @question.content, image_path: @question.image_path, q_index: i+1 }
-          - if @question.type == "choice"
-            .question-items{data: {"question-answer" => @question.answer}}
-              %ul.answer-item-ul
-                - @question.items.each_with_index do |item, index|
-                  %li
-                    %a{class: d2c(index) + "-link", href: "javascript:void(0);"}
-                      - if @question.answer.present? && @question.answer.to_i == index
-                        %i.icon{class: d2c(index) + "-right"}
-                      - elsif @answers[ei].answer_content[qid]["answer"] == index
-                        %i.icon{class: d2c(index) + "-wrong"}
-                      - else
-                        %i.icon{class: d2c(index)}
-                    %span.item-content= item.render_question(@question.image_path).html_safe
-          - if @answers[ei].is_correct?(qid)
-            %span.span-right 回答正确
-            %span.span-right= "用时" + @answers[ei].answer_content[qid]["duration"].to_time.to_s
-          - else
-            %span.span-wrong 回答错误
-            %span.span-wrong= "用时" + @answers[ei].answer_content[qid]["duration"].to_time.to_s
-        .analysis-image
-          - @question.snapshot_images.each do |image_url|
-            %img{src: image_url, class: "snapshot-image"}
-        .snapshot-summary
-          %span 个人重点及易错点
-          %ul
-            - @question.snapshots.each do |snapshot|
-              - @summary = snapshot.summaries.where(student_id: @current_user.id).first
-              - if @summary.present?
-                - @summary.checked.each_with_index do |checked, i|
-                  - if checked
-                    %li= snapshot.key_point[i]["desc"]
+= render :partial => "partials/exercise", locals: { exercises: @exercises, answers: @answers, student: @student }
 
 #footer
   %table
     %tr
       %td.record-td
-        =link_to "学习记录", report_weixin_lesson_path(@lesson), { class: "bottom-nav" }
+        =link_to "学习记录", report_weixin_lesson_path(@lesson) + "?student_id=" + @student.id.to_s, { class: "bottom-nav" }
       %td.exercise-td
         %span.bottom-nav= "练习反馈"

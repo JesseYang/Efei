@@ -4,42 +4,9 @@
   :javascript
     window.report_id="#{@report.id.to_s}"
     window.lesson_id="#{@lesson.id.to_s}"
+    window.student_id="#{@current_user.id.to_s}"
 
-.study-time-table-wrapper
-  %table.study-time-table
-    %tr
-      %td
-        学习时间：
-      %td
-        - @report.study_time.each do |e|
-          %span= e.to_time
-          %br
-      %td= "，共" + @report.total_time
-
-- pre_score = @report.pre_score
-- post_score = @report.post_score
-- delta_score = post_score - pre_score
-
-%p.summary= "课前评测：" + pre_score.to_s + "；课后评测：" + post_score.to_s
-
-%p.summary.score-progress= "通过今天的课程，提高了" + delta_score.to_s + "分"
-
-%span.summary.point-score-table-title 知识点分项评测表
-.point-score-table-wrapper
-  %table.point-score-table.table.table-striped
-    %tr
-      %th 知识点
-      %th 课前评测
-      %th 课后评测
-    - @report.point_score.each do |k,v|
-      %tr
-        %td= k
-        %td= v["pre_score"]
-        %td= v["post_score"]
-
-%span.summary.time-dist-title 学习时间分布
-
-#time-dist-figure
+= render :partial => "partials/report", locals: { report: @report }
 
 #footer
   %table
@@ -47,4 +14,4 @@
       %td.record-td
         %span.bottom-nav= "学习记录"
       %td.exercise-td
-        =link_to "练习反馈", exercise_weixin_lesson_path(@lesson), { class: "bottom-nav" }
+        =link_to "练习反馈", exercise_weixin_lesson_path(@lesson) + "?student_id=" + @current_user.id.to_s, { class: "bottom-nav" }

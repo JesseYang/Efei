@@ -1,2 +1,2 @@
+#= require partials/_report
 $ ->
-  $(".content-wrapper").dotdotdot()

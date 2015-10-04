@@ -1,29 +1,23 @@
 - content_for :app_head do
   = javascript_include_tag "pages/coach/students/report-bundle"
   = stylesheet_link_tag "pages/coach/students/report-bundle", :media => "all"
+  :javascript
+    window.report_id="#{@report.id.to_s}"
+    window.lesson_id="#{@lesson.id.to_s}"
+    window.student_id="#{@student.id.to_s}"
 
-%h4.course-name-tip= @local_course.name + " 学情报告"
+%p.course-name
+  %span= @course.name
+%p.lesson-name
+  %span= @lesson.name
 
-- if @reports.blank?
-  .info= "还没有为#{@student.name}撰写学情报告"
 
-%table
-  - @reports.each do |r|
-    %tr.one-report
-      %td.left-part
-        %span.month= r.month
-        %br
-        %span.day= r.day
-      %td.middle-part
-        .content-wrapper
-          - if r.finish == false
-            %span.unsubmit-tip 未提交
-          %p= r.content_in_short
-        .info
-          %span= r.info
-      %td.right-part
-        %a.right.slide-right-link{href: coach_report_path(r) + "?student_id=#{@student.id.to_s}&local_course_id=#{@local_course.id.to_s}"}
-          %i.icon.slide-right
+= render :partial => "partials/report", locals: { report: @report }
 
-.new-wrapper
-  = link_to "新建", new_coach_report_path + "?student_id=#{@student.id.to_s}&local_course_id=#{@local_course.id.to_s}", { class: "new-btn btn btn-warning" }
+#footer
+  %table
+    %tr
+      %td.record-td
+        %span.bottom-nav= "学习记录"
+      %td.exercise-td
+        =link_to "练习反馈", exercise_coach_student_path(@student) + "?lesson_id=" + @lesson.id.to_s, { class: "bottom-nav" }

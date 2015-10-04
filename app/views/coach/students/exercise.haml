@@ -2,9 +2,17 @@
   = javascript_include_tag "pages/coach/students/exercise-bundle"
   = stylesheet_link_tag "pages/coach/students/exercise-bundle", :media => "all"
 
-%h4.course-name-tip= @local_course.name + " 练习反馈"
+%p.course-name
+  %span= @course.name
+%p.lesson-name
+  %span= @lesson.name
 
-%ul
-  - @lessons.each_with_index do |l, i|
-    %li
-      = link_to lesson_helper(i) + l.name.my_trim(6) + (Answer.ensure_answer(@student, l.homework, @current_user).try(:finish) ? "（已完成）" : ""), coach_exercise_path(l) + "?local_course_id=" + @local_course.id.to_s + "&index=" + i.to_s + "&student_id=" + @student.id.to_s
+= render :partial => "partials/exercise", locals: { exercises: @exercises, answers: @answers, student: @student }
+
+#footer
+  %table
+    %tr
+      %td.record-td
+        =link_to "学习记录", report_coach_student_path(@student) + "?lesson_id=" + @lesson.id.to_s, { class: "bottom-nav" }
+      %td.exercise-td
+        %span.bottom-nav= "练习反馈"
