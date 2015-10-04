@@ -1,4 +1,3 @@
-#= require "./_templates/local_course_item"
 #= require 'utility/ajax'
 $ ->
   $(".admin-nav .supers").addClass("active")
