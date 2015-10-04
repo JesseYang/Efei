@@ -139,24 +139,9 @@ class Weixin
         },
 =end
         {
-          "name" => "我的易飞",
-          "sub_button" => [
-            {
-              "type" => "view", 
-              "name" => "我的课程", 
-              "url" => "http://efei.org/weixin/courses/redirect"
-            },
-            {
-              "type" => "view", 
-              "name" => "我的课表", 
-              "url" => "http://efei.org/weixin/schedules/redirect"
-            },
-            {
-              "type" => "view", 
-              "name" => "学情报告", 
-              "url" => "http://efei.org/weixin/reports/redirect"
-            }
-          ]
+          "type" => "view", 
+          "name" => "我的课程", 
+          "url" => "http://efei.org/weixin/courses/redirect"
         }
       ]
     }
