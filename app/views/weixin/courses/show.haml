@@ -13,6 +13,6 @@
     %a.right.turnoff-link{href: "javascript:void(0);"}
       %i.icon.turnoff
   %ul
-    - @local_courses.each do |lc|
+    - @courses.each do |c|
       %li
-        = link_to lc.name, weixin_course_path(lc)
+        = link_to c.name, weixin_course_path(c)
