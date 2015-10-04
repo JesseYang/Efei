@@ -8,8 +8,8 @@ class Weixin::CoursesController < Weixin::ApplicationController
 
   def index
     # redirect to the recent course page
-    @local_course = @current_user.student_local_courses.first
-    redirect_to weixin_course_path(@local_course) and return
+    @course = @current_user.student_courses.first
+    redirect_to weixin_course_path(@course) and return
 =begin
     @current = (params[:current] || 1).to_i
     @subject = (params[:subject] || 0).to_i
@@ -35,10 +35,9 @@ class Weixin::CoursesController < Weixin::ApplicationController
   end
 
   def show
-    @local_courses = @current_user.student_local_courses
-    @local_course = LocalCourse.find(params[:id])
-    @lessons = @local_course.course.lesson_id_ary.map { |e| Lesson.find(e) }
-    @title = @local_course.name
+    @course = Course.find(params[:id])
+    @lessons = @course.lesson_id_ary.map { |e| Lesson.find(e) }
+    @title = @course.name
   end
 
   def exercise
