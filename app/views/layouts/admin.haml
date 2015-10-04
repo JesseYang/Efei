@@ -25,9 +25,9 @@
       - if @current_user.super_admin || @current_user.permission & 8 == 8
         %li.coaches
           = link_to "辅导老师", { controller: "admin/coaches", action: "index" }
-      - if @current_user.super_admin || @current_user.permission & 16 == 16
-        %li.local_courses
-          = link_to "本地课程", { controller: "admin/local_courses", action: "index" }
+      / - if @current_user.super_admin || @current_user.permission & 16 == 16
+      /   %li.local_courses
+      /     = link_to "本地课程", { controller: "admin/local_courses", action: "index" }
       - if @current_user.super_admin || @current_user.permission & 32 == 32
         %li.students
           = link_to "学生", { controller: "admin/students", action: "index" }
