@@ -63,6 +63,10 @@
       = form_tag("/teacher/questions/" + @q.id.to_s + "/update_video", method: "post", multipart: true, id: "upload-video-form") do
         .other-fields
           - if @homework.present?
+            - if @q.type == "choice"
+              .form-group
+                = label_tag :answer, "选择题答案"
+                = select_tag "answer", options_for_select({"请选择" => -1, "A" => 0, "B" => 1, "C" => 2, "D" => 3}, @q.answer || -1), class: "form-control"
             .form-group
               = label_tag :duration, "学生做题时间预期（分钟）"
               = text_field_tag "duration", @homework.q_durations[@q.id.to_s], class: "form-control"

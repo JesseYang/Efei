@@ -125,6 +125,10 @@ class Teacher::QuestionsController < Teacher::ApplicationController
 
   def update_video
     q = Question.find(params[:id])
+    if q.type == "choice"
+      q.answer = params[:answer].to_i
+      q.save
+    end
     h = Homework.find(params[:homework_id])
     h.q_durations[q.id.to_s] = params[:duration].to_i
     h.q_scores[q.id.to_s] = params[:score].to_i
