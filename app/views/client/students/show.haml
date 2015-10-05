@@ -13,11 +13,11 @@
         = text_field_tag "student[mobile]", @student.mobile, :autofocus => true, :placeholder => "手机号", class: "form-control"
       .form-group
         = text_field_tag "student[email]", @student.email, :autofocus => true, :placeholder => "邮箱", class: "form-control"
+      .qr-code-image-wrapper
+        %img{src: @image_url}
       .content
       = submit_tag "更新", class: "btn btn-primary bind-btn form-control"
 
-.qr-code-image-wrapper
-  %img{src: @image_url}
 
 #footer
   %table

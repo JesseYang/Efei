@@ -39,6 +39,13 @@ class Client::StudentsController < Client::ApplicationController
     @return_path = client_students_path
     @student = User.find(params[:id])
     @title = @student.name
+
+    image_url = "public/pdf/#{@student.id.to_s}.png"
+    if !File.exist?(image_url)
+      qr = RQRCode::QRCode.new(@student.id.to_s, :size => 4, :level => :h )
+      png = qr.to_img
+      png.resize(150, 150).save(image_url)
+    end
     @image_url = "/pdf/#{@student.id.to_s}.png"
   end
 
