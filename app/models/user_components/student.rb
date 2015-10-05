@@ -141,8 +141,8 @@ module UserComponents::Student
   end
 
   def student_course_id_str
-    self.student_local_courses.map do |e|
-      e.course.id.to_s
+    self.student_courses.map do |e|
+      e.id.to_s
     end .join(',')
   end
 
