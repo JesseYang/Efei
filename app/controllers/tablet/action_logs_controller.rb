@@ -7,9 +7,6 @@ class Tablet::ActionLogsController < Tablet::ApplicationController
 
   def create
     retval = ActionLog.batch_create(params[:logs])
-    logger.info "AAAAAAAAAAAAAAAAAAA"
-    logger.info retval.inspect
-    logger.info "AAAAAAAAAAAAAAAAAAA"
     render json: { success: true, max_id: retval.max } and return
   end
 

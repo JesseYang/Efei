@@ -82,9 +82,6 @@ class Teacher::MaterialsController < Teacher::ApplicationController
         params[:items_3].split("\r\n")]
     end
     @material.save
-    logger.info "AAAAAAAAAAAAAAAAAAAA"
-    logger.info params.inspect
-    logger.info "AAAAAAAAAAAAAAAAAAAA"
     redirect_to teacher_material_path(id: @material.id.to_s, preview: true) and return
   end
 end
