@@ -132,12 +132,12 @@
                   = select_tag "tag[episode_id]", options_for_select(@video.episodes_for_select, -1), class: "form-control"
             - if @video.lesson.present?
               .field-wrapper
-                .col-sm-12
-                  %ul.tag-question-ul
-                  = text_field_tag "tag[question_id]", "", autofocus: false, class: "hide"
                 .form-group.col-sm-12
                   = label_tag :question_id, "题目"
                   = select_tag "select_question", options_for_select(@video.lesson.exercises_for_select, -1), class: "form-control"
+                .col-sm-12
+                  %ul.tag-question-ul
+                  = text_field_tag "tag[question_id]", "", autofocus: false, class: "hide"
             - else
               = text_field_tag "tag[question_id]", params[:question_id], autofocus: false
         .modal-footer
