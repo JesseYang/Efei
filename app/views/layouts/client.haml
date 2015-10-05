@@ -2,6 +2,17 @@
   = stylesheet_link_tag "layouts/client-layout", :media => "all"
   = javascript_include_tag "layouts/client-layout"
   = yield :head
+- content_for :app_nav do
+  #client-navbar
+    %a.left.return-link{href: @return_path.present? ? @return_path : "javascript:void(0)"}
+      %i.icon.return
+    %h1#title= @title
+    - if (params[:controller] == "client/coaches" && params[:action] == "index") || (params[:controller] == "client/students" && params[:action] == "index") 
+      %a.right.new-link{href: "javascript:void(0);"}
+        %i.icon.new
+    - else
+      %a.right.user-link{href: bind_info_client_users_path}
+        %i.icon.user
 - content_for :app_content do
   = yield
 

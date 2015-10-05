@@ -8,6 +8,7 @@ class User
   include UserComponents::Student
   include UserComponents::Teacher
   include UserComponents::Coach
+  include UserComponents::Client
   include UserComponents::SchoolAdmin
 
   # user basic info

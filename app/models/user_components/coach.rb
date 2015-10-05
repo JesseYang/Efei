@@ -9,15 +9,18 @@ module UserComponents::Coach
     has_many :coach_weixin_bind, class_name: "WeixinBind", inverse_of: :coach
 
     has_and_belongs_to_many :students, class_name: "User", inverse_of: :coaches
+    belongs_to :coach_client, class_name: "User", inverse_of: :client_coaches
 
   end
 
   module ClassMethods
     def create_coach(coach)
-      return ErrCode::COACH_NUMBER_EXIST if User.where(coach_number: coach["coach_number"]).present?
+      client = User.find(coach["client_id"])
+      return ErrCode::COACH_NUMBER_EXIST if client.client_coaches.where(coach_number: coach["coach_number"]).present?
       return ErrCode::EMAIL_EXIST if User.where(email: coach["email"]).present?
       return ErrCode::MOBILE_EXIST if User.where(mobile: coach["mobile"]).present?
       coach = User.create({
+        coach_client_id: client.id.to_s,
         name: coach["name"],
         coach_number: coach["coach_number"],
         password: Encryption.encrypt_password(coach["password"]),

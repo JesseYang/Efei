@@ -30,6 +30,8 @@ module ErrCode
   EMAIL_EXIST = -61
   MOBILE_EXIST = -62
 
+  CLIENT_NAME_EXIST = -70
+
 
   def self.ret_false(code)
     retval = { success: false }

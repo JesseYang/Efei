@@ -31,6 +31,8 @@ module UserComponents::Student
     has_many :tablet_answers, class_name: "TabletAnswer", inverse_of: :student
     has_many :summaries, class_name: "Summary", inverse_of: :student
     has_many :reports, class_name: "Report", inverse_of: :student
+
+    belongs_to :student_client, class_name: "User", inverse_of: :client_students
   end
 
   module ClassMethods
@@ -48,7 +50,11 @@ module UserComponents::Student
     end
 
     def create_student(student)
+      client = User.find(student["client_id"])
+      return ErrCode::EMAIL_EXIST if User.where(email: student["email"]).present?
+      return ErrCode::MOBILE_EXIST if User.where(mobile: student["mobile"]).present?
       new_student = User.create({
+        student_client_id: client.id.to_s,
         tablet: true,
         name: student["name"],
         password: Encryption.encrypt_password(student["password"]),

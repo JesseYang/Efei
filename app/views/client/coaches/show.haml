@@ -1,0 +1,12 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/coach/students/show-bundle"
+  = stylesheet_link_tag "pages/coach/students/show-bundle", :media => "all"
+
+.qr-code-image-wrapper
+  %img{src: @image_url}
+
+- @courses.each do |c|
+  .one-course-wrapper
+    .one-course
+      .left-part
+        = link_to c.name, course_coach_student_path(@student) + "?course_id=" + c.id.to_s

@@ -1,0 +1,31 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/client/students/courses-bundle"
+  = stylesheet_link_tag "pages/client/students/courses-bundle", :media => "all"
+  :javascript
+    window.client_id="#{@current_user.id.to_s}"
+
+%h4= "共#{@courses.length}个课程"
+
+%ul
+  - @courses.each do |c|
+    %li
+      = link_to c.name, "javascript:void(0);", class: "item"
+      = link_to "删除", "/client/students/" + @student.id + "/delete_course?course_id=" + c.id.to_s, method: "delete", class: "delete-course"
+
+.wrapper
+  = form_tag(new_course_client_student_path(@student), method: "post", multipart: true) do
+    %fieldset
+      .form-group
+        = text_field_tag "new_course", "", :autofocus => true, :placeholder => "报名课程", class: "form-control"
+      = submit_tag "报名", class: "btn btn-primary bind-btn form-control"
+
+
+#footer
+  %table
+    %tr
+      %td.not-right-td
+        =link_to "信息", client_student_path(@student), { class: "bottom-nav" }
+      %td.not-right-td
+        =link_to "老师", coaches_client_student_path(@student), { class: "bottom-nav" }
+      %td
+        %span.bottom-nav= "课程"

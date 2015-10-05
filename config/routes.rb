@@ -73,6 +73,47 @@ Rails.application.routes.draw do
   end
 
   match "/weixin_js_signature" => 'application#signature', :via => :get
+  namespace :client do
+    resources :courses do
+      collection do
+        get :list
+      end
+    end
+    resources :users do
+      collection do
+        get :pre_bind
+        get :expire
+        get :bind_info
+        post :bind
+        get :main_page
+      end
+      member do
+        post :unbind
+        get :post_bind
+      end
+    end
+
+    resources :students do
+      member do
+        get :coaches
+        post :new_coach
+        delete :delete_coach
+        get :courses
+        post :new_course
+        delete :delete_course
+      end
+    end
+
+    resources :coaches do
+      collection do
+        get :list
+      end
+      member do
+        get :students
+      end
+    end
+  end
+
   namespace :coach do
     resources :users do
       collection do
@@ -216,9 +257,6 @@ Rails.application.routes.draw do
   end
 
   resources :schools do
-  end
-
-  resources :lecture_users do
   end
 
   namespace :teacher do

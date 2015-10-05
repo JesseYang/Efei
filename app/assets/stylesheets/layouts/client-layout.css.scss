@@ -1,3 +1,57 @@
 @import 'utility';
 @import 'compass/css3';
 @import 'common';
+@import 'icons/client/*.png';
+
+body {
+  min-width: 0px;
+}
+
+.course-name-tip {
+  text-align: center;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+#client-navbar {
+  text-align: center;
+  background-color: $client-bg;
+  height: 50px;
+  .icon {
+    @include size(24px, 24px);
+    @include inline-block;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+    .new {
+      margin-top: 13px;
+      margin-right: 13px;
+      @include client-sprite(new24);
+    }
+    .user {
+      margin-top: 13px;
+      margin-right: 13px;
+      @include client-sprite(user24);
+    }
+    .return {
+      margin-top: 13px;
+      margin-left: 13px;
+      @include client-sprite(return24);
+    }
+  }
+  #title {
+    @include inline-block;
+    margin: auto;
+    line-height: 50px;
+    color: white;
+    font-size: 22px;
+    text-align: center;
+  }
+}

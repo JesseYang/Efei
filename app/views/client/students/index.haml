@@ -1,0 +1,10 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/client/students/index-bundle"
+  = stylesheet_link_tag "pages/client/students/index-bundle", :media => "all"
+
+%h4= "您当前共#{@students.length}位学生"
+
+%ul
+  - @students.each do |s|
+    %li
+      = link_to s.name, client_student_path(s)
