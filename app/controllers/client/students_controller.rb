@@ -12,6 +12,11 @@ class Client::StudentsController < Client::ApplicationController
     @students = @current_user.client_students
   end
 
+  def list
+    @students = @current_user.client_students
+    render json: {success: true, data: @students.map { |e| e.name }} and return
+  end
+
   def new
     @title = "创建学生"
   end

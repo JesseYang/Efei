@@ -26,10 +26,43 @@ class Client::CoachesController < Client::ApplicationController
     redirect_to client_coaches_path and return
   end
 
+  def update
+    @coach = User.find(params[:id])
+    retval = @coach.update_coach(params[:coach])
+    if retval == true
+      flash[:notice] = "更新成功"
+    end
+    redirect_to client_coach_path(@coach) and return
+  end
+
   def show
+    @return_path = client_coaches_path
+    @coach = User.find(params[:id])
+    @title = @coach.name
   end
 
   def students
-    
+    @return_path = client_coaches_path
+    @coach = User.find(params[:id])
+    @students = @coach.students
+    @title = @coach.name + "的学生"
+  end
+
+  def new_student
+    @coach = User.find(params[:id])
+    @student = @current_user.client_students.where(name: params[:new_student]).first
+    @coach.students << @student
+    flash[:notice] = "添加成功"
+    redirect_to action: :students and return
+  end
+
+  def delete_student
+    @coach = User.find(params[:id])
+    @student = @current_user.client_students.where(id: params[:student_id]).first
+    if @student.present?
+      @coach.students.delete(@student)
+      flash[:notice] = "删除成功"
+    end
+    redirect_to action: :students and return
   end
 end

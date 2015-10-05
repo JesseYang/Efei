@@ -1,0 +1,102 @@
+@import 'common';
+@import "compass/css3";
+@import "compass/css3/border-radius";
+@import "compass/utilities/general/clearfix";
+@import 'icons/weixin/*.png';
+
+body {
+  min-width: 0px;
+  text-align: center;
+}
+
+li {
+  position: relative;
+  .delete-student {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    font-size: 16px;
+  }
+}
+
+.wrapper {
+  @include inline-block;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16px;
+}
+
+h4 {
+  border-bottom: #CCC solid 1px;
+  padding-bottom: 10px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0px;
+  margin-bottom: 0px;
+  li {
+    list-style: none;
+    height: 50px;
+    text-align: center;
+    .item {
+      border-bottom: #CCC solid 1px;
+      background-color: #F4F4F4;
+      font-size: 1.2em;
+      cursor: pointer;
+      display: block;
+      @include one-line(50px);
+      color: $client-bg;
+      text-decoration: none;
+      text-align: center;
+      &:hover {
+        background-color: #E6E6E6;
+        text-decoration: none;
+        color: $client-bg;
+      }
+    }
+  }
+}
+
+
+#footer{
+  border-top: #CCC solid 1px;
+  position:fixed;
+  height:50px;
+  background-color: white;
+  bottom:0px;
+  left:0px;
+  right:0px;
+  margin-bottom:0px;
+  table {
+    width: 100%;
+    td {
+      width: 33%;
+    }
+  }
+  .bottom-nav {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    vertical-align: center;
+    @include inline-block;
+    @include one-line(50px);
+    font-size: 18px;
+  }
+  a {
+    text-decoration: none;
+    background-color: white;
+    color: $weixin-bg;
+  }
+  span {
+    background-color: #EEE;
+    color: $weixin-bg;
+  }
+  .not-right-td {
+    border-right: #CCC solid 1px;
+  }
+}
+

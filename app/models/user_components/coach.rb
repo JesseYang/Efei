@@ -40,9 +40,9 @@ module UserComponents::Coach
   end
 
   def update_coach(coach)
-    return ErrCode::COACH_NUMBER_EXIST if User.where(coach_number: coach["coach_number"]).present?
-    return ErrCode::EMAIL_EXIST if User.where(email: coach["email"]).present?
-    return ErrCode::MOBILE_EXIST if User.where(mobile: coach["mobile"]).present?
+    # return ErrCode::COACH_NUMBER_EXIST if User.where(coach_number: coach["coach_number"]).present?
+    # return ErrCode::EMAIL_EXIST if User.where(email: coach["email"]).present?
+    # return ErrCode::MOBILE_EXIST if User.where(mobile: coach["mobile"]).present?
     self.name = coach["name"]
     self.coach_number = coach["coach_number"]
     self.email = coach["email"]

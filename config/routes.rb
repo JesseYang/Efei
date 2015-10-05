@@ -94,6 +94,9 @@ Rails.application.routes.draw do
     end
 
     resources :students do
+      collection do
+        get :list
+      end
       member do
         get :coaches
         post :new_coach
@@ -110,6 +113,8 @@ Rails.application.routes.draw do
       end
       member do
         get :students
+        post :new_student
+        delete :delete_student
       end
     end
   end
