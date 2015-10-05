@@ -38,14 +38,14 @@ class Client::CoachesController < Client::ApplicationController
   def show
     @return_path = client_coaches_path
     @coach = User.find(params[:id])
-    @title = @coach.name
+    @title = "教师：" + @coach.name
   end
 
   def students
     @return_path = client_coaches_path
     @coach = User.find(params[:id])
     @students = @coach.students
-    @title = @coach.name + "的学生"
+    @title = "教师：" + @coach.name + "的学生"
   end
 
   def new_student

@@ -38,7 +38,7 @@ class Client::StudentsController < Client::ApplicationController
   def show
     @return_path = client_students_path
     @student = User.find(params[:id])
-    @title = @student.name
+    @title = "学生：" + @student.name
 
     image_url = "public/pdf/#{@student.id.to_s}.png"
     if !File.exist?(image_url)
@@ -53,7 +53,7 @@ class Client::StudentsController < Client::ApplicationController
     @return_path = client_students_path
     @student = User.find(params[:id])
     @coaches = @student.coaches
-    @title = @student.name + "的老师"
+    @title = "学生：" + @student.name + "的老师"
   end
 
   def new_coach
@@ -78,7 +78,7 @@ class Client::StudentsController < Client::ApplicationController
     @return_path = client_students_path
     @student = User.find(params[:id])
     @courses = @student.student_courses
-    @title = @student.name + "的课程"
+    @title = "学生：" + @student.name + "的课程"
   end
 
   def new_course

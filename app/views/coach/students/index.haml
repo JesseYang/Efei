@@ -7,4 +7,4 @@
 %ul
   - @students.each do |s|
     %li
-      = link_to s.name + "（#{s.student_number}）", coach_student_path(s)
+      = link_to s.name, coach_student_path(s)

@@ -1,0 +1,10 @@
+- content_for :app_head do
+  / = javascript_include_tag "pages/client/coaches/index-bundle"
+  = stylesheet_link_tag "pages/client/courses/index-bundle", :media => "all"
+
+%h4= "您当前共#{@courses.length}门课程"
+
+%ul
+  - @courses.each do |c|
+    %li
+      = link_to c.name, "javascript:void(0);"
