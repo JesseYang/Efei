@@ -1,0 +1,31 @@
+- content_for :app_head do
+  = javascript_include_tag "pages/client/students/coaches-bundle"
+  = stylesheet_link_tag "pages/client/students/coaches-bundle", :media => "all"
+  :javascript
+    window.client_id="#{@current_user.id.to_s}"
+
+%h4= "共#{@coaches.length}位老师"
+
+%ul
+  - @coaches.each do |c|
+    %li
+      = link_to c.name, "javascript:void(0);", class: "item"
+      = link_to "删除", "/client/students/" + @student.id + "/delete_coach?coach_id=" + c.id.to_s, method: "delete", class: "delete-coach"
+
+.wrapper
+  = form_tag(new_coach_client_student_path(@student), method: "post", multipart: true) do
+    %fieldset
+      .form-group
+        = text_field_tag "new_coach", "", :autofocus => true, :placeholder => "新老师", class: "form-control"
+      = submit_tag "添加", class: "btn btn-primary bind-btn form-control"
+
+
+#footer
+  %table
+    %tr
+      %td.not-right-td
+        =link_to "信息", client_student_path(@student), { class: "bottom-nav" }
+      %td.not-right-td
+        %span.bottom-nav= "老师"
+      %td
+        =link_to "课程", courses_client_student_path(@student), { class: "bottom-nav" }

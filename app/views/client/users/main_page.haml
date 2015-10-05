@@ -1,0 +1,11 @@
+- content_for :app_head do
+  / = javascript_include_tag "pages/client/users/main-page-bundle"
+  = stylesheet_link_tag "pages/client/users/main-page-bundle", :media => "all"
+
+%ul
+  %li
+    = link_to "老师列表", client_coaches_path
+  %li
+    = link_to "学生列表", client_students_path
+  %li
+    = link_to "已开课程", "javascript:void(0);"

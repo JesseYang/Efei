@@ -1,0 +1,18 @@
+- content_for :app_head do
+  / = javascript_include_tag "pages/client/coaches/new-bundle"
+  = stylesheet_link_tag "pages/client/coaches/new-bundle", :media => "all"
+
+.wrapper
+  %p 填写学生资料并创建
+  = form_tag(client_students_path, method: "post", multipart: true) do
+    %fieldset
+      .form-group
+        = text_field_tag "student[name]", "", :autofocus => true, :placeholder => "学生姓名", class: "form-control"
+      .form-group
+        = password_field_tag "student[password]", "", :autofocus => true, :placeholder => "学生密码", class: "form-control"
+      .form-group
+        = text_field_tag "student[mobile]", "", :autofocus => true, :placeholder => "手机号", class: "form-control"
+      .form-group
+        = text_field_tag "student[email]", "", :autofocus => true, :placeholder => "邮箱", class: "form-control"
+      .content
+      = submit_tag "创建", class: "btn btn-primary bind-btn form-control"
