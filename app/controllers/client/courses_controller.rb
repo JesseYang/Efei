@@ -3,6 +3,8 @@ class Client::CoursesController < Client::ApplicationController
   skip_before_filter :client_init, only: :redirect
 
   def index
+    @return_path = main_page_client_users_path
+    @title = "已开课程"
     @courses = Course.all
   end
 

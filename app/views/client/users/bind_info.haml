@@ -6,7 +6,7 @@
 .info
   %p
     %span= "您的微信（#{@weixin_bind.nickname}）已与机构（#{@current_user.client_name}）绑定。"
-  = link_to "首页", main_page_client_users_path, { class: "btn btn-warning form-control" }
+  = link_to "首页", main_page_client_users_path, { class: "btn btn-primary form-control" }
   = form_tag(unbind_client_user_path(@weixin_bind), id: "bind-weixin-form", method: "post", multipart: true) do
     %fieldset
       = submit_tag "解除绑定", class: "btn btn-danger btn-primary unbind-btn form-control"
