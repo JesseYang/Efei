@@ -5,6 +5,13 @@
   @include inline-block;
 }
 
+
+.field-wrapper {
+  @include clearfix;
+  margin-bottom: 5px;
+}
+
+
 .bottom-space {
   height: 20px;
 }

@@ -16,7 +16,7 @@ class Video
   # => name: String, only for index tags
   # => episode_id: String, only for episode tags
   # => duration: Integer, only for example tags
-  # => question_id: String, only for example tags
+  # => question_id: Array, only for example tags
   # => snapshot_id: String, only for summary tags
   field :tags, type: Array, default: []
 

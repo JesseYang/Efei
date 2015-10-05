@@ -17,9 +17,7 @@ class Admin::TagsController < Admin::ApplicationController
         tag["episode_id"] = params[:tag]["episode_id"]
       end
 
-      if params[:tag]["question_id"].to_s != "-1"
-        tag["question_id"] = params[:tag]["question_id"]
-      end
+      tag["question_id"] = params[:tag]["question_id"].split(',')
     else
       snapshot = Snapshot.find(params[:tag]["snapshot_id"])
       tag = {

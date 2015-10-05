@@ -2,6 +2,21 @@
 #= require 'utility/ajax'
 $ ->
 
+  $(".admin-nav .courses").addClass("active")
+
+  $("#select_question").change ->
+    text = $(this).find("option:selected").text()
+    id = $(this).find("option:selected").val()
+    str = $("#tag_question_id").val()
+    if id == "-1" || str.indexOf(id) >= 0
+      return
+    $(".tag-question-ul").append("<li>" + text + "</li>")
+    if str == ""
+      str = id
+    else
+      str = str + "," + id
+    $("#tag_question_id").val(str)
+
   refresh_canvas_size = ->
     w = $("video").width()
     h = $("video").height()
@@ -147,3 +162,5 @@ $ ->
     else
       $("#snapshot-selector-wrapper").addClass("hide")
       $("#form-ele-wrapper").removeClass("hide")
+      $(".tag-question-ul li").remove()
+      $("#tag_question_id").val("")
