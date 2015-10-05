@@ -153,8 +153,8 @@ module UserComponents::Student
   end
 
   def completed_lesson_id_str
-    self.student_answers.map do |e|
-      e.homework.lesson.try(:id).to_s
+    self.reports.where(finish: true).map do |e|
+      e.lesson.try(:id).to_s
     end .join(',')
   end
 

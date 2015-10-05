@@ -4,6 +4,7 @@ class Report
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  field :finish, type: Boolean, default: false
   # calculate from logs
   field :study_time, type: Array, default: [ ]
   # calculate from tablet answer and homeworks
@@ -14,12 +15,21 @@ class Report
   belongs_to :lesson, class_name: "Lesson", inverse_of: :reports
   belongs_to :student, class_name: "User", inverse_of: :reports
 
-  def self.create_new(lesson, user)
-    r = Report.create(lesson_id: lesson.id, student_id: user.id)
-    r.calculate_point_score
-    r.calculate_study_time
-    r.calculate_time_dist
-    r
+  def self.find_or_create_new(lesson, user)
+    r = Report.where(lesson_id: lesson.id, student_id: user.id).first || Report.create(lesson_id: lesson.id, student_id: user.id)
+    if r.finish
+      return r
+    else
+      post_test = r.lesson.post_test
+      post_test_answer = post_test.tablet_answers.where(student_id: r.student_id).first
+      if post_test_answer.present?
+        r.update_attribute(:finish, true)
+        r.calculate_point_score
+        r.calculate_study_time
+        r.calculate_time_dist
+      end
+      return r
+    end
   end
 
   def self.point_score_init_ele
