@@ -17,7 +17,12 @@ class Coach::UsersController < Coach::ApplicationController
   def bind
     coach_number = params[:coach_number]
     coach_password = params[:coach_password]
-    c = User.where(coach_number: coach_number, password: Encryption.encrypt_password(coach_password)).first
+    client = User.where(client_name: params[:coach_client_name]).first
+    if client.blank?
+      flash[:error] = "机构不存在"
+      redirect_to action: :pre_bind and return
+    end
+    c = client.client_coaches.where(coach_number: coach_number, password: Encryption.encrypt_password(coach_password)).first
     if c.blank?
       flash[:error] = "员工号或者密码不正确"
       redirect_to action: :pre_bind and return
