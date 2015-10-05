@@ -39,6 +39,7 @@ class Client::StudentsController < Client::ApplicationController
     @return_path = client_students_path
     @student = User.find(params[:id])
     @title = @student.name
+    @image_url = "/pdf/#{@student.id.to_s}.png"
   end
 
   def coaches
