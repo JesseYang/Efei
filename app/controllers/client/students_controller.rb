@@ -18,6 +18,7 @@ class Client::StudentsController < Client::ApplicationController
   end
 
   def new
+    @return_path = client_students_path
     @title = "创建学生"
   end
 
@@ -95,5 +96,11 @@ class Client::StudentsController < Client::ApplicationController
     @student.student_courses.delete(@course)
     flash[:notice] = "删除成功"
     redirect_to action: :courses and return
+  end
+
+  def destroy
+    @student = User.find(params[:id])
+    @student.destroy
+    redirect_to client_students_path and return
   end
 end
