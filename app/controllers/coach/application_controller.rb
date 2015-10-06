@@ -6,8 +6,8 @@ class Coach::ApplicationController < ApplicationController
 
   def coach_init
     ##### for test in local server #####
-    @current_user = User.where(coach_number: "001").first
-    return
+    # @current_user = User.where(coach_number: "001").first
+    # return
     ####################################
 
     if params[:code].present?
