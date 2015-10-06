@@ -29,7 +29,7 @@ $ ->
         email_mobile: email_mobile
         password: password
       },
-      (retval) ->
+      (data) ->
         if retval.success
           window.location.href = data.url
         else
