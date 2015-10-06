@@ -8,3 +8,4 @@
   - @students.each do |s|
     %li
       = link_to s.name, client_student_path(s)
+      = link_to "删除", "/client/students/" + @student.id, method: "delete", class: "delete-student"
