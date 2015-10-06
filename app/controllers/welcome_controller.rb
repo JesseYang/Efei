@@ -24,7 +24,7 @@ class WelcomeController < ApplicationController
           "FromUserName" => params[:xml]["ToUserName"],
           "CreateTime" => Time.now.to_i,
           "MsgType" => "text",
-          "Content" => "<a href='#{Platform.generate_authorize_link(Rails.application.config.server_host + "/client/users/main_page")}/'>管理平台</a>"
+          "Content" => "<a href='#{Weixin.generate_authorize_link(Rails.application.config.server_host + "/client/users/main_page")}/'>管理平台</a>"
         }
         render :xml => data.to_xml(root: "xml") and return
       else
