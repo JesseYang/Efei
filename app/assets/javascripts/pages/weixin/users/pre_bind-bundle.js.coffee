@@ -30,7 +30,7 @@ $ ->
         password: password
       },
       (data) ->
-        if retval.success
+        if data.success
           window.location.href = data.url
         else
           $.page_notification("帐号或者密码错误")
