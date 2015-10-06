@@ -7,5 +7,5 @@
 %ul
   - @students.each do |s|
     %li
-      = link_to s.name, client_student_path(s)
+      = link_to s.name, client_student_path(s), class: "student-detail"
       = link_to "删除", "/client/students/" + s.id, method: "delete", class: "delete-student"
