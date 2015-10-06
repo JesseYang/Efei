@@ -26,20 +26,30 @@ class Coach::UsersController < Coach::ApplicationController
   end
 
   def bind
-    coach_number = params[:coach_number]
-    coach_password = params[:coach_password]
-    client = User.where(client_name: params[:coach_client_name]).first
-    if client.blank?
-      flash[:error] = "机构不存在"
-      redirect_to action: :pre_bind and return
+    if params[:coach_id].present?
+      c = User.where(id: params[:coach_id]).first
+      if c.blank?
+        render json: { success: false } and return
+      else
+        url = Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/users/#{c.id.to_s}/post_bind", true)
+        render json: { success: true, url: url } and return
+      end
+    else
+      coach_number = params[:coach_number]
+      coach_password = params[:coach_password]
+      client = User.where(client_name: params[:coach_client_name]).first
+      if client.blank?
+        flash[:error] = "机构不存在"
+        redirect_to action: :pre_bind and return
+      end
+      c = client.client_coaches.where(coach_number: coach_number, password: Encryption.encrypt_password(coach_password)).first
+      if c.blank?
+        flash[:error] = "教师工号或者密码不正确"
+        redirect_to action: :pre_bind and return
+      end
+      url = Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/users/#{c.id.to_s}/post_bind", true)
+      redirect_to url and return
     end
-    c = client.client_coaches.where(coach_number: coach_number, password: Encryption.encrypt_password(coach_password)).first
-    if c.blank?
-      flash[:error] = "教师工号或者密码不正确"
-      redirect_to action: :pre_bind and return
-    end
-    url = Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/users/#{c.id.to_s}/post_bind", true)
-    redirect_to url and return
   end
 
   def post_bind

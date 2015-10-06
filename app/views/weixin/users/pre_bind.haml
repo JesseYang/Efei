@@ -4,6 +4,7 @@
 
 - content_for :app_content do
   .wrapper
+    %p 请输入帐号和密码完成和微信帐号的绑定
     = form_tag(bind_weixin_users_path, method: "post", multipart: true, class: "bind-form") do
       %fieldset
         .form-group
