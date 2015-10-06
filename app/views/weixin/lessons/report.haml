@@ -2,9 +2,9 @@
   = javascript_include_tag "pages/weixin/lessons/report-bundle"
   = stylesheet_link_tag "pages/weixin/lessons/report-bundle", :media => "all"
   :javascript
-    window.report_id="#{@report.id.to_s}"
-    window.lesson_id="#{@lesson.id.to_s}"
-    window.student_id="#{@current_user.id.to_s}"
+    window.report_id="#{@report.try(:id).to_s}"
+    window.lesson_id="#{@lesson.try(:id).to_s}"
+    window.student_id="#{@current_user.try(:id).to_s}"
 
 = render :partial => "partials/report", locals: { report: @report }
 

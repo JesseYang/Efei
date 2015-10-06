@@ -6,7 +6,7 @@ class Weixin::ApplicationController < ApplicationController
 
   def weixin_init
     ##### for test in local server #####
-    # @current_user = User.where(mobile: '13000001111').first
+    # @current_user = User.where(mobile: '13842123841').first
     # return
     ####################################
 

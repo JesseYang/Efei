@@ -15,7 +15,7 @@ $ ->
           },
           (data) ->
             if data.success
-              window.location = data.url
+              window.location.href = data.url
             else
               $.page_notification("二维码不正确")
         )

@@ -18,23 +18,25 @@
   position: relative; 
 }
 
-.one-lesson-wrapper {
-  position: relative;
-}
-
-.one-lesson {
-  height: 80px;
-  border-bottom: #E5E5E5 solid 1px;
-  .left-part {
-    margin-left: 2%;
-    a {
+#lesson-ul {
+  list-style: none;
+  padding-left: 0px;
+  margin-bottom: 0px;
+  li {
+    list-style: none;
+    height: auto;
+    text-align: left;
+    border-bottom: #CCC solid 1px;
+    .lesson-link {
+      background-color: #F4F4F4;
       font-size: 1.2em;
       cursor: pointer;
       display: block;
-      @include one-line(80px);
+      @include one-line(50px);
       color: $coach-bg;
       text-decoration: none;
-      text-align: center;
+      text-align: left;
+      padding-left: 3vw;
       &:hover {
         text-decoration: none;
         color: $coach-bg;

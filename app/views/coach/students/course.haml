@@ -1,12 +1,14 @@
 - content_for :app_head do
-  = javascript_include_tag "pages/coach/students/course-bundle"
+  / = javascript_include_tag "pages/coach/students/course-bundle"
   = stylesheet_link_tag "pages/coach/students/course-bundle", :media => "all"
 
-%p.course-name
+.course-name
   %span= @course.name
 
-- @course.lessons.each do |l|
-  .one-lesson-wrapper
-    .one-lesson
-      .left-part
-        = link_to l.name, report_coach_student_path(@student) + "?lesson_id=" + l.id.to_s
+%ul#lesson-ul
+  - @course.lessons.each_with_index do |l, i|
+    %li
+      - if Report.finish_lesson?(l, @student)
+        = link_to lesson_helper(i) + l.name + "（已完成）", report_coach_student_path(@student) + "?lesson_id=" + l.id.to_s, { class: 'lesson-link' }
+      - else
+        = link_to lesson_helper(i) + l.name, "javascript:void(0);", { class: 'lesson-link' }

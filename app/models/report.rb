@@ -32,6 +32,11 @@ class Report
     end
   end
 
+  def self.finish_lesson?(lesson, user)
+    r = Report.where(lesson_id: lesson.id, student_id: user.id).first
+    r.present? && r.finish
+  end
+
   def self.point_score_init_ele
     {
       pre_score: 0,

@@ -5,7 +5,11 @@
 %ul#lesson-ul
   - @lessons.each_with_index do |l, i|
     %li
-      = link_to lesson_helper(i) + l.name, report_weixin_lesson_path(l) + "?student_id=" + @current_user.id.to_s, { class: 'lesson-link' }
+      - if Report.finish_lesson?(l, @current_user)
+        = link_to lesson_helper(i) + l.name + "（已完成）", report_weixin_lesson_path(l) + "?student_id=" + @current_user.id.to_s, { class: 'lesson-link' }
+      - else
+        = link_to lesson_helper(i) + l.name, "javascript:void(0);", { class: 'lesson-link' }
+
 
 #left-filter
   .filter-title
