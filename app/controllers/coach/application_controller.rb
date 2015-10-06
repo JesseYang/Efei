@@ -34,15 +34,19 @@ class Coach::ApplicationController < ApplicationController
     # try to find user by open id in cookie
     @open_id = cookies[:coach_open_id]
     @weixin_bind = WeixinBind.find_coach_by_open_id(@open_id)
-    if @weixin_bind.present? && @weixin_bind.coach.present?
-      @current_user = @weixin_bind.coach
-    else
-      # the open id in the cookies is wrong or expires
-      @current_user = nil
-      cookies.delete(:coach_open_id, :domain => :all)
-      # ask the user to quit
-      redirect_to controller: "coach/users", action: :expire and return
+    if @weixin_bind.present?
+      if @weixin_bind.coach.blank?
+        @weixin_bind.destroy
+      else
+        @current_user = @weixin_bind.coach
+        return
+      end
     end
+    # the open id in the cookies is wrong or expires
+    @current_user = nil
+    cookies.delete(:coach_open_id, :domain => :all)
+    # ask the user to quit
+    redirect_to controller: "coach/users", action: :expire and return
   end
 
   def render_with_auth_key(value = nil)
