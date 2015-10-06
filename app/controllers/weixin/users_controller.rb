@@ -26,9 +26,16 @@ class Weixin::UsersController < Weixin::ApplicationController
   end
 
   def bind
-    s = User.where(id: params[:student_id]).first
-    if s.blank?
-      render json: { success: false } and return
+    if params[:student_id].present?
+      s = User.where(id: params[:student_id]).first
+      if s.blank?
+        render json: { success: false } and return
+      end
+    else
+      s = User.find_by_email_mobile(params[:email_mobile])
+      if s.blank? || s.password != Encryption.encrypt_password(params[:password])
+        render json: { success: false } and return
+      end
     end
     url = Weixin.generate_authorize_link(Rails.application.config.server_host + "/weixin/users/#{s.id.to_s}/post_bind", true)
     render json: { success: true, url: url } and return

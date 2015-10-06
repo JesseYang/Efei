@@ -6,8 +6,8 @@ class Client::ApplicationController < ApplicationController
 
   def client_init
     ##### for test in local server #####
-    # @current_user = User.where(is_client: true).first
-    # return
+    @current_user = User.where(is_client: true).first
+    return
     ####################################
 
     if params[:code].present?

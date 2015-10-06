@@ -6,8 +6,8 @@ class Weixin::ApplicationController < ApplicationController
 
   def weixin_init
     ##### for test in local server #####
-    # @current_user = User.where(mobile: '13000001111').first
-    # return
+    @current_user = User.where(mobile: '13000001111').first
+    return
     ####################################
 
     if params[:code].present?

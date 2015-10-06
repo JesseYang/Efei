@@ -4,5 +4,13 @@
 
 - content_for :app_content do
   .wrapper
-    %p 请扫描二维码与微信帐号绑定
+    = form_tag(bind_weixin_users_path, method: "post", multipart: true, class: "bind-form") do
+      %fieldset
+        .form-group
+          = text_field_tag "email_mobile", "", :autofocus => true, :placeholder => "邮箱或手机号", class: "form-control"
+        .form-group
+          = password_field_tag "password", "", :autofocus => true, :placeholder => "密码", class: "form-control"
+        .content
+        = submit_tag "绑定", class: "btn btn-primary form-control"
+    %p 也可以扫描二维码与微信帐号绑定
     = link_to "开始扫描", "javascript:void(0);", class: "btn btn-primary bind-btn form-control"

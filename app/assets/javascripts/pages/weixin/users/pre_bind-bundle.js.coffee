@@ -19,3 +19,20 @@ $ ->
             else
               $.page_notification("二维码不正确")
         )
+
+  $(".bind-form").submit ->
+    email_mobile = $("#email_mobile").val()
+    password = $("#password").val()
+    $.postJSON(
+      '/weixin/users/bind',
+      {
+        email_mobile: email_mobile
+        password: password
+      },
+      (retval) ->
+        if retval.success
+          window.location.href = data.url
+        else
+          $.page_notification("帐号或者密码错误")
+    )
+    return false

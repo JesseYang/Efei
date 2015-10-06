@@ -9,6 +9,10 @@ body {
   text-align: center;
 }
 
+form {
+  margin-bottom: 20px;
+}
+
 .wrapper {
   @include inline-block;
   margin-top: 50px;
