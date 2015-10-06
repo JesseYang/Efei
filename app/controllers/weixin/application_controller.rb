@@ -34,7 +34,7 @@ class Weixin::ApplicationController < ApplicationController
     # try to find user by open id in cookie
     @open_id = cookies[:student_open_id]
     @weixin_bind = WeixinBind.find_student_by_open_id(@open_id)
-    if @weixin_bind.present?
+    if @weixin_bind.present? && @weixin_bind.student.present?
       @current_user = @weixin_bind.student
     else
       # the open id in the cookies is wrong or expires

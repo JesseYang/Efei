@@ -34,7 +34,7 @@ class Coach::ApplicationController < ApplicationController
     # try to find user by open id in cookie
     @open_id = cookies[:coach_open_id]
     @weixin_bind = WeixinBind.find_coach_by_open_id(@open_id)
-    if @weixin_bind.present?
+    if @weixin_bind.present? && @weixin_bind.coach.present?
       @current_user = @weixin_bind.coach
     else
       # the open id in the cookies is wrong or expires

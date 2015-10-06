@@ -34,7 +34,7 @@ class Client::ApplicationController < ApplicationController
     # try to find user by open id in cookie
     @open_id = cookies[:client_open_id]
     @weixin_bind = WeixinBind.find_client_by_open_id(@open_id)
-    if @weixin_bind.present?
+    if @weixin_bind.present? && @weixin_bind.client.present?
       @current_user = @weixin_bind.client
     else
       # the open id in the cookies is wrong or expires
