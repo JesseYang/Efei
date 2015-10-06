@@ -4,6 +4,15 @@
 @import "compass/utilities/general/clearfix";
 @import 'icons/weixin/*.png';
 
+h4 {
+  border-bottom: #CCC solid 1px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  text-align: center;
+}
+
 #left-filter {
   position: absolute;
   left: 0px;

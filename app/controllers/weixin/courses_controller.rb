@@ -8,11 +8,9 @@ class Weixin::CoursesController < Weixin::ApplicationController
 
   def index
     # redirect to the recent course page
+    @title = "课程列表"
     @course = @current_user.student_courses.first
-    if @course.blank?
-      flash[:notice] = "你还没有报名课程"
-      redirect_to bind_info_weixin_users_path and return
-    else
+    if @course.present?
       redirect_to weixin_course_path(@course) and return
     end
 =begin
