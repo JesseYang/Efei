@@ -7,7 +7,8 @@ class Tablet::TabletAnswersController < Tablet::ApplicationController
   def create
     student = User.find_by_auth_key(params[:auth_key])
     exercise = Homework.find(params[:exercise_id])
-    TabletAnswer.create_new(student, exercise, params[:tablet_answer], params[:type])
+    qid_ary = params[:question_id].split(',')
+    TabletAnswer.create_new(student, exercise, qid_ary, params[:tablet_answer], params[:type])
     render json: { success: true } and return
   end
 end

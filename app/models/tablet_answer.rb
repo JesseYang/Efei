@@ -13,12 +13,12 @@ class TabletAnswer
   belongs_to :exercise, class_name: "Homework", inverse_of: :tablet_answers
   belongs_to :student, class_name: "User", inverse_of: :tablet_answers
 
-  def self.create_new(student, exercise, data, type)
+  def self.create_new(student, exercise, qid_ary, data, type)
     tablet_answer = TabletAnswer.where(student_id: student.id, exercise_id: exercise.id).first ||  TabletAnswer.new(type: type)
     tablet_answer.exercise = exercise
     tablet_answer.student = student
     answer_content = { }
-    exercise.q_ids.each_with_index do |qid, i|
+    qid_ary.each_with_index do |qid, i|
       answer_content[qid] = { answer: data["answer"][i], duration: data["duration"][i] }
     end
     tablet_answer.answer_content = answer_content
