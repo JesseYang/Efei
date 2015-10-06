@@ -7,7 +7,7 @@ class Weixin::UsersController < Weixin::ApplicationController
   end
 
   def bind_info
-    @return_path = params[:prev_link].present? ? params[:prev_link] : request.referrer
+    @return_path = (params[:prev_link].present? ? params[:prev_link] : request.referrer) || weixin_courses_path
     @title = "帐号绑定"
   end
 

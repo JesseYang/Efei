@@ -7,7 +7,7 @@ class Coach::UsersController < Coach::ApplicationController
   end
 
   def bind_info
-    @return_path = params[:prev_link].present? ? params[:prev_link] : request.referrer
+    @return_path = (params[:prev_link].present? ? params[:prev_link] : request.referrer) || coach_students_path
     @title = "帐号绑定"
   end
 
