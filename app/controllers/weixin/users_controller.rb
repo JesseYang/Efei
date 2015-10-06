@@ -7,12 +7,22 @@ class Weixin::UsersController < Weixin::ApplicationController
   end
 
   def bind_info
-    @return_path = request.referrer
+    @return_path = params[:prev_link].present? ? params[:prev_link] : request.referrer
     @title = "帐号绑定"
   end
 
+  def password
+    @return_path = params[:prev_link].present? ? params[:prev_link] : request.referrer
+    @title = "修改密码"
+  end
+
+  def change_password
+    value = @current_user.change_password(params[:cur_password], params[:new_password])
+    value = { success: true } if value.nil?
+    render json: value
+  end
+
   def expire
-    
   end
 
   def bind

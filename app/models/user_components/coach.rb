@@ -17,8 +17,9 @@ module UserComponents::Coach
     def create_coach(coach)
       client = User.find(coach["client_id"])
       return ErrCode::COACH_NUMBER_EXIST if client.client_coaches.where(coach_number: coach["coach_number"]).present?
-      return ErrCode::EMAIL_EXIST if User.where(email: coach["email"]).present?
-      return ErrCode::MOBILE_EXIST if User.where(mobile: coach["mobile"]).present?
+      return ErrCode::BLANK_EMAIL_MOBILE if coach["email"].blank? && coach["mobile"].blank?
+      return ErrCode::EMAIL_EXIST if coach["email"].present? && User.where(email: coach["email"]).present?
+      return ErrCode::MOBILE_EXIST if coach["mobile"].present? && User.where(mobile: coach["mobile"]).present?
       coach = User.create({
         coach_client_id: client.id.to_s,
         name: coach["name"],

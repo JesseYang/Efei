@@ -13,3 +13,10 @@
     %fieldset
       = submit_tag "解除绑定", class: "btn btn-danger btn-primary unbind-btn form-control"
 
+#footer
+  %table
+    %tr
+      %td.record-td
+        %span.bottom-nav= "帐号绑定"
+      %td.exercise-td
+        =link_to "修改密码", password_weixin_users_path + "?prev_link=" + @return_path, { class: "bottom-nav" }

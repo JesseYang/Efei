@@ -51,8 +51,9 @@ module UserComponents::Student
 
     def create_student(student)
       client = User.find(student["client_id"])
-      return ErrCode::EMAIL_EXIST if User.where(email: student["email"]).present?
-      return ErrCode::MOBILE_EXIST if User.where(mobile: student["mobile"]).present?
+      return ErrCode::BLANK_EMAIL_MOBILE if student["email"].blank? && student["mobile"].blank?
+      return ErrCode::EMAIL_EXIST if student["email"].present? && User.where(email: student["email"]).present?
+      return ErrCode::MOBILE_EXIST if student["mobile"].present? && User.where(mobile: student["mobile"]).present?
       new_student = User.create({
         student_client_id: client.id.to_s,
         tablet: true,

@@ -7,8 +7,19 @@ class Coach::UsersController < Coach::ApplicationController
   end
 
   def bind_info
-    @return_path = request.referrer
+    @return_path = params[:prev_link].present? ? params[:prev_link] : request.referrer
     @title = "帐号绑定"
+  end
+
+  def password
+    @return_path = params[:prev_link].present? ? params[:prev_link] : request.referrer
+    @title = "修改密码"
+  end
+
+  def change_password
+    value = @current_user.change_password(params[:cur_password], params[:new_password])
+    value = { success: true } if value.nil?
+    render json: value
   end
 
   def expire
@@ -24,7 +35,7 @@ class Coach::UsersController < Coach::ApplicationController
     end
     c = client.client_coaches.where(coach_number: coach_number, password: Encryption.encrypt_password(coach_password)).first
     if c.blank?
-      flash[:error] = "员工号或者密码不正确"
+      flash[:error] = "教师工号或者密码不正确"
       redirect_to action: :pre_bind and return
     end
     url = Weixin.generate_authorize_link(Rails.application.config.server_host + "/coach/users/#{c.id.to_s}/post_bind", true)

@@ -24,6 +24,18 @@ class Client::CoachesController < Client::ApplicationController
 
   def create
     c = User.create_coach(params[:coach].merge({"client_id" => @current_user.id.to_s}))
+    case c
+    when ErrCode::BLANK_EMAIL_MOBILE
+      flash[:notice] = "请填写邮箱或手机号"
+    when ErrCode::COACH_NUMBER_EXIST
+      flash[:notice] = "教师工号已经存在"
+    when ErrCode::EMAIL_EXIST
+      flash[:notice] = "邮箱已存在"
+    when ErrCode::MOBILE_EXIST
+      flash[:notice] = "手机号已存在"
+    else
+      flash[:notice] = "创建成功"
+    end
     redirect_to client_coaches_path and return
   end
 
@@ -52,8 +64,12 @@ class Client::CoachesController < Client::ApplicationController
   def new_student
     @coach = User.find(params[:id])
     @student = @current_user.client_students.where(name: params[:new_student]).first
-    @coach.students << @student
-    flash[:notice] = "添加成功"
+    if @sutdent.blank?
+      flash[:notice] = "学生不存在"
+    else
+      @coach.students << @student
+      flash[:notice] = "添加成功"
+    end
     redirect_to action: :students and return
   end
 

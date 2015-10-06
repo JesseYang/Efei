@@ -84,6 +84,8 @@ Rails.application.routes.draw do
         get :pre_bind
         get :expire
         get :bind_info
+        get :password
+        post :change_password
         post :bind
         get :main_page
       end
@@ -125,6 +127,8 @@ Rails.application.routes.draw do
         get :pre_bind
         get :expire
         get :bind_info
+        get :password
+        post :change_password
         post :bind
       end
       member do
@@ -160,6 +164,8 @@ Rails.application.routes.draw do
         get :pre_bind
         get :expire
         get :bind_info
+        get :password
+        post :change_password
         post :bind
       end
       member do
