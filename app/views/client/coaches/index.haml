@@ -8,4 +8,4 @@
   - @coaches.each do |c|
     %li
       = link_to c.name, client_coach_path(c)
-      = link_to "删除", "/client/coaches/" + @coach.id, method: "delete", class: "delete-coach"
+      = link_to "删除", "/client/coaches/" + c.id, method: "delete", class: "delete-coach"
