@@ -118,15 +118,15 @@ module UserComponents::Student
   def update_student(student)
     self.update_attributes({
       name: student["name"],
-        email: student["email"],
-        mobile: student["mobile"],
-        city: student["city"],
-        school_name: student["school_name"],
-        phase: student["phase"],
-        entrance_year: student["entrance_year"],
-        student_number: student["student_number"],
-        parent_name: student["parent_name"],
-        parent_mobile: student["parent_mobile"]
+      email: student["email"],
+      mobile: student["mobile"],
+      city: student["city"],
+      school_name: student["school_name"],
+      phase: student["phase"],
+      entrance_year: student["entrance_year"],
+      student_number: student["student_number"],
+      parent_name: student["parent_name"],
+      parent_mobile: student["parent_mobile"]
     })
     if student["password"].present?
       self.update_attributes({

@@ -42,4 +42,4 @@
                 = link_to "删除", { controller: "admin/students", action: "destroy", id: e._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
                 = link_to "编辑", edit_admin_student_path(e), :class => 'btn btn-primary btn-xs edit-coach'
                 = link_to "详细", { controller: "admin/students", action: "show", id: e.id.to_s}, :class => 'btn btn-primary btn-xs'
-    %a.btn.btn-new.btn-primary{ href: new_admin_student_path } 创建新学生
+    / %a.btn.btn-new.btn-primary{ href: new_admin_student_path } 创建新学生

@@ -1,0 +1,68 @@
+@import "compass/css3/inline-block";
+@import "compass/utilities/general/clearfix";
+
+.paginator-wrapper {
+  margin-bottom: 10px;
+}
+
+.filter-wrapper {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  #course_subject {
+    margin-right: 10px;
+    display: inline-block;
+    width: auto;
+  }
+  #course_type {
+    display: inline-block;
+    width: auto;
+  }
+  @include clearfix;
+}
+
+.btn-new {
+  margin-bottom: 30px;
+}
+
+.form-wrapper, .client-show-wrapper {
+  width: 60vw;
+  margin-left: 20vw;
+  margin-right: 20vw;
+  margin-bottom: 30px;
+}
+
+#new_local_course {
+  width: 50%;
+  @include inline-block;
+  margin-left: 20px;
+}
+
+.left-part {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+.right-part {
+  float: right;
+  width: 50%;
+  padding: 10px;
+}
+
+.top-content-wrapper, .client-info {
+  @include clearfix;
+}
+
+.paginator-wrapper {
+  float: left;
+}
+
+.client-search-box {
+  float: right;
+}
+
+.local-course-info {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+

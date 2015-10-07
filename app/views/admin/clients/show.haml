@@ -1,0 +1,33 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/clients-bundle"
+  = stylesheet_link_tag "pages/admin/clients-bundle", :media => "all"
+  :javascript
+    window.client_id="#{@client.id.to_s}"
+
+
+.client-show-wrapper
+  = link_to "返回机构列表", admin_clients_path, class: "btn btn-primary"
+  .client-info
+    .left-part
+      %p.name= "姓名：" + @client.name
+      %p.email= "邮箱：" + @client.email
+      %p.mobile= "手机：" + @client.mobile
+    .right-part
+      %p.client-name= "机构名称：" + @client.client_name
+      %p.city= "城市：" + @client.city
+
+  - if @client.client_courses.blank?
+    %h4 未开通任何课程
+  - else
+    %h4 已开通课程：
+    .table-responsive
+      %table.table.table-striped
+        %tr
+          %th.col-md-1= "类型"
+          %th.col-md-3= "名称"
+        - @client.client_courses.each do |c|
+          %tr{data: {id: c.id.to_s}}
+            %td
+              %span= c.type_text
+            %td
+              %a.course-name{href: admin_course_path(c)}= c.name

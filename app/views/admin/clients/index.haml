@@ -1,0 +1,39 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/clients-bundle"
+  = stylesheet_link_tag "pages/admin/clients-bundle", :media => "all"
+  :javascript
+
+.container
+  .lib-content
+    - if @clients["data"].blank?
+      %h4
+        符合条件的机构
+    - else
+      .top-content-wrapper
+        .paginator-wrapper
+          = paginator_mini @clients
+        .client-search-box
+          %input#input-search{:placeholder => "机构名称、邮箱或者手机号", :type => "text", :value => params[:keyword]}
+          = link_to "搜索", "javascript:void(0);", class: "btn btn-primary btn-sm client-search-btn"
+      .table-responsive
+        %table.table.table-striped
+          %tr
+            %th.col-md-1= "机构名称"
+            %th.col-md-1= "城市"
+            %th.col-md-1= "负责人姓名"
+            %th.col-md-2= "邮箱"
+            %th.col-md-2= "手机"
+            %th.col-md-2 操作
+          - @clients["data"].each do |e|
+            %tr
+              %td
+                = link_to e.client_name, { controller: "admin/clients", action: "show", id: e.id.to_s}
+              %td= e.city
+              %td= e.name
+              %td= e.email
+              %td= e.mobile
+              %td
+                = link_to "删除", { controller: "admin/clients", action: "destroy", id: e._id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs', :data => {:confirm => '确定删除？'}
+                = link_to "编辑", edit_admin_client_path(e), :class => 'btn btn-primary btn-xs edit-client'
+                = link_to "详细", { controller: "admin/clients", action: "show", id: e.id.to_s}, :class => 'btn btn-primary btn-xs'
+    %a.btn.btn-new.btn-primary{ href: new_admin_client_path } 创建新机构

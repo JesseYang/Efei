@@ -1,0 +1,30 @@
+- content_for :head do
+  = javascript_include_tag "pages/admin/clients-bundle"
+  = stylesheet_link_tag "pages/admin/clients-bundle", :media => "all"
+  :javascript
+
+.form-wrapper
+  = form_tag(@new ? admin_clients_path : admin_client_path(@client), method: @new ? "post" : "put", multipart: true) do
+    .left-part
+      .form-group
+        = label_tag :name, "姓名"
+        = text_field_tag "client[name]", @client.name, autofocus: true, class: "form-control"
+      .form-group
+        = label_tag :mobile, "手机"
+        = text_field_tag "client[mobile]", @client.mobile, autofocus: false, class: "form-control"
+      .form-group
+        = label_tag :city, "城市"
+        = text_field_tag "client[city]", @client.city, autofocus: false, class: "form-control"
+    .right-part
+      .form-group
+        = label_tag :city, "机构名称"
+        = text_field_tag "client[client_name]", @client.city, autofocus: false, class: "form-control"
+      .form-group
+        = label_tag :password, "密码"
+        = password_field_tag "client[password]", "", autofocus: false, class: "form-control"
+      .form-group
+        = label_tag :email, "邮箱"
+        = text_field_tag "client[email]", @client.email, autofocus: false, class: "form-control"
+    .clear-both
+    = link_to "取消", { controller: "admin/clients", action: "index"}, class: "btn btn-default"
+    = submit_tag @new ? "创建" : "更新", :class => 'btn-primary btn'

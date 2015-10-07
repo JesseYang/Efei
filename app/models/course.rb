@@ -22,6 +22,7 @@ class Course
 
   has_many :lessons, class_name: "Lesson", inverse_of: :course
   belongs_to :teacher, class_name: "User", inverse_of: :courses
+  belongs_to :client, class_name: "User", inverse_of: :client_courses
 
   has_many :action_logs
 

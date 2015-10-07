@@ -70,6 +70,9 @@ class ActionLog
         student_id: l["student_id"],
         lesson_id: l["lesson_id"]
       })
+      if l["action"] == LEAVE_LESSON
+        Report.find_or_create_new(Lesson.find(l["lesson_id"]), User.find(l["student_id"]))
+      end
     end
     id_ary
   end

@@ -19,6 +19,9 @@
       - if @current_user.super_admin || @current_user.permission & 2 == 2
         %li.courses
           = link_to "课程列表", { controller: "admin/courses", action: "index" }
+      - if @current_user.super_admin || @current_user.permission & 32 == 32
+        %li.clients
+          = link_to "机构", { controller: "admin/clients", action: "index" }
       - if @current_user.super_admin || @current_user.permission & 4 == 4
         %li.news
           = link_to "新闻列表", { controller: "admin/weixin_news", action: "index" }

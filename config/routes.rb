@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :supers do
     end
+    resources :clients do
+    end
     resources :students do
       member do
         get :download_cover
