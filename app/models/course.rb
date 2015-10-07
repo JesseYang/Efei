@@ -64,9 +64,12 @@ class Course
     hash = { "全部" => 0, "学期课" => 1, "模块课" => 2 }
   end
 
-  def self.courses_for_select
+  def self.courses_for_select(ready = nil)
     hash = { "请选择" => -1 }
     Course.all.each do |c|
+      if ready && c.ready != true
+        next
+      end
       hash[c.name_with_teacher] = c.id.to_s
     end
     hash

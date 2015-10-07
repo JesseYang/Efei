@@ -53,23 +53,21 @@ class Admin::ClientsController < Admin::ApplicationController
     render action: :new
   end
 
-  def add_course
-=begin
-    @student = User.find(params[:id])
-    @local_course = LocalCourse.find(params[:local_course_id])
-    if !@student.student_local_courses.include?(@local_course)
-      @student.student_local_courses << @local_course
+  def open_course
+    @client = User.find(params[:id])
+    @course = Course.find(params[:course_id])
+    if !@client.client_courses.include?(@course)
+      @client.client_courses << @course
     end
-=end
-    render json: { success: true }
+    flash[:notice] = "成功开通课程"
+    redirect_to admin_client_path(@client) and return
   end
 
-  def remove_course
-=begin
-    @student = User.find(params[:id])
-    @local_course = LocalCourse.find(params[:local_course_id])
-    @student.student_local_courses.delete(@local_course)
-=end
-    render json: { success: true }
+  def close_course
+    @client = User.find(params[:id])
+    @course = Course.find(params[:course_id])
+    @client.client_courses.delete(@course)
+    flash[:notice] = "课程已关闭"
+    redirect_to admin_client_path(@client) and return
   end
 end

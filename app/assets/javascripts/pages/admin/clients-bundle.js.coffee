@@ -13,3 +13,4 @@ $ ->
   search = ->
     keyword = $("#input-search").val()
     window.location.href = "/admin/clients?keyword=" + keyword
+

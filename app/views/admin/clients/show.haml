@@ -25,9 +25,19 @@
         %tr
           %th.col-md-1= "类型"
           %th.col-md-3= "名称"
+          %th.col-md-3= "操作"
         - @client.client_courses.each do |c|
           %tr{data: {id: c.id.to_s}}
             %td
               %span= c.type_text
             %td
-              %a.course-name{href: admin_course_path(c)}= c.name
+              %a.course-name{href: admin_lessons_path + "?course_id=#{c.id.to_s}"}= c.name
+            %td
+              = link_to "删除", close_course_admin_client_path(@client) + "?course_id=#{c.id.to_s}", :method => "delete", :class => 'btn btn-danger btn-xs', :data => {:confirm => '确定删除？'}
+  %h4 开通新课程
+
+  = form_tag(open_course_admin_client_path(@client), method: "post", multipart: true) do
+    .form-group
+      = select_tag "course_id", options_for_select(Course.courses_for_select(true), -1), class: "form-control"
+    .clear-both
+    = submit_tag "开通", :class => 'btn-primary btn'

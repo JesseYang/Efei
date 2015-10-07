@@ -5,11 +5,11 @@ class Client::CoursesController < Client::ApplicationController
   def index
     @return_path = main_page_client_users_path
     @title = "已开课程"
-    @courses = Course.all
+    @courses = @current_user.client_courses
   end
 
   def list
-    @courses = Course.all
+    @courses = @current_user.client_courses
     render json: {success: true, data: @courses.map { |e| e.name }} and return
   end
 end

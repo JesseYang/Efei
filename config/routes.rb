@@ -25,6 +25,10 @@ Rails.application.routes.draw do
     resources :supers do
     end
     resources :clients do
+      member do
+        post :open_course
+        delete :close_course
+      end
     end
     resources :students do
       member do
