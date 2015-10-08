@@ -91,11 +91,8 @@ class Admin::LessonsController < Admin::ApplicationController
     course = @lesson.course
     if !@lesson.has_video?
       if course.present?
-        lesson_index = course.lesson_id_ary.index(@lesson.id.to_s)
-        if lesson_index != -1
-          course.lesson_id_ary[lesson_index] = nil
-          course.save
-        end
+        course.lesson_id_ary.delete(@lesson.id.to_s)
+        course.save
       end
       @lesson.destroy
     end
