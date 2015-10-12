@@ -34,4 +34,31 @@ class TabletAnswer
       return self.answer_content[qid]["answer"] == q.answer
     end
   end
+
+  def get_score(qid)
+    rec_dur = self.exercise.q_durations[qid]
+    dur = self.answer_content[qid]["duration"]
+    correct = self.is_correct?(qid)
+    if !correct
+      0.0
+    else
+      1.0 * TabletAnswer.duration_coeff(rec_dur, dur)
+    end
+  end
+
+  def self.duration_coeff(rec_dur, dur)
+    return 1 if rec_dur.to_i == 0
+    ratio = dur * 1.0 / rec_dur;
+    if ratio <= 0.8
+      1
+    elsif ratio <= 1
+      0.85
+    elsif ratio <= 1.5
+      0.7
+    elsif ratio <= 2
+      0.55
+    else
+      0.4
+    end
+  end
 end

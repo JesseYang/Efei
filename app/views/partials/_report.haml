@@ -13,22 +13,22 @@
 - post_score = report.post_score
 - delta_score = post_score - pre_score
 
-%p.summary= "课前评测：" + pre_score.to_s + "；课后评测：" + post_score.to_s
+%p.summary= "综合评测（满分100）：课前" + pre_score.to_s + "；课后" + post_score.to_s
 
 %p.summary.score-progress= "通过今天的课程，提高了" + delta_score.to_s + "分"
 
-%span.summary.point-score-table-title 知识点分项评测表
+%span.summary.point-score-table-title 知识点分项评测表（满分10）
 .point-score-table-wrapper
   %table.point-score-table.table.table-striped
     %tr
       %th 知识点
       %th 课前评测
       %th 课后评测
-    - report.point_score.each do |k,v|
+    - report.point_score["knowledge"].each do |k,v|
       %tr
         %td= k
-        %td= v["pre_score"]
-        %td= v["post_score"]
+        %td= v[0]
+        %td= v[1]
 
 %span.summary.time-dist-title 学习时间分布
 

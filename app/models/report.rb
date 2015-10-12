@@ -53,37 +53,68 @@ class Report
 
   def calculate_point_score
     point_score = { }
+
     pre_test = self.lesson.pre_test
     post_test = self.lesson.post_test
     exercise = self.lesson.exercise
     pre_test_answer = pre_test.tablet_answers.where(student_id: self.student_id).first
     exercise_answer = exercise.tablet_answers.where(student_id: self.student_id).first
     post_test_answer = post_test.tablet_answers.where(student_id: self.student_id).first
+
+    result = { "pre" => 0, "post" => 0, "knowledge" => { } }
+    norm = { "pre" => 0, "post" => 0, "knowledge" => { } }
+
+    pre_qs = { }
     pre_test.q_ids.each do |pre_test_qid|
       knowledge = pre_test.q_knowledges[pre_test_qid]
-      ele = point_score[knowledge] || Report.point_score_init_ele
-      ele[:pre_test_qid] << pre_test_qid
-      ele[:pre_total_score] += pre_test.q_scores[pre_test_qid]
-      ele[:pre_score] += pre_test_answer.is_correct?(pre_test_qid) ? pre_test.q_scores[pre_test_qid] : 0
-      point_score[knowledge] = ele
+      total = pre_test.q_scores[pre_test_qid]
+      score = pre_test_answer.get_score(pre_test_qid)
+      pre_qs[pre_test_qid] = [knowledge, score, total]
+      result["pre"] += score * total
+      norm["pre"] += total
+      result["knowledge"][knowledge] ||= [0, 0]
+      result["knowledge"][knowledge][0] += score * total
+      norm["knowledge"][knowledge] ||= [0, 0]
+      norm["knowledge"][knowledge][0] += total
     end
-    exercise.q_ids.each do |exercise_qid|
-      knowledge = exercise.q_knowledges[exercise_qid]
-      ele = point_score[knowledge] || Report.point_score_init_ele
-      ele[:exercise_qid] << exercise_qid
-      ele[:exercise_total_score] += exercise.q_scores[exercise_qid]
-      ele[:exercise_score] += exercise_answer.is_correct?(exercise_qid) ? exercise.q_scores[exercise_qid] : 0
-      point_score[knowledge] = ele
-    end
+
+    post_qs = { }
     post_test.q_ids.each do |post_test_qid|
       knowledge = post_test.q_knowledges[post_test_qid]
-      ele = point_score[knowledge] || Report.point_score_init_ele
-      ele[:post_test_qid] << post_test_qid
-      ele[:post_total_score] += post_test.q_scores[post_test_qid]
-      ele[:post_score] += post_test_answer.is_correct?(post_test_qid) ? post_test.q_scores[post_test_qid] : 0
-      point_score[knowledge] = ele
+      total = post_test.q_scores[post_test_qid]
+      score = post_test_answer.get_score(post_test_qid)
+      post_qs[post_test_qid] = [knowledge, score, total]
+      result["post"] += score * total
+      norm["post"] += total
+      result["knowledge"][knowledge] ||= [0, 0]
+      result["knowledge"][knowledge][1] += score * total
+      norm["knowledge"][knowledge] ||= [0, 0]
+      norm["knowledge"][knowledge][1] += total
     end
-    self.point_score = point_score
+
+    exercise_qs = { }
+    exercise.q_ids.each do |exercise_qid|
+      knowledge = exercise.q_knowledges[exercise_qid]
+      total = exercise.q_scores[exercise_qid]
+      score = exercise_answer.get_score(exercise_qid)
+      exercise_qs[exercise_qid] = [knowledge, score, total]
+      result["post"] += score * total
+      norm["post"] += total
+      result["knowledge"][knowledge] ||= [0, 0]
+      result["knowledge"][knowledge][1] += score * total
+      norm["knowledge"][knowledge] ||= [0, 0]
+      norm["knowledge"][knowledge][1] += total
+    end
+
+    result["pre"] = result["pre"] / norm["pre"] * 100
+    result["post"] = result["post"] / norm["post"] * 100
+
+    result["knowledge"].each do |k, v|
+      result["knowledge"][k][0] = result["knowledge"][k][0] / norm["knowledge"][k][0] * 10
+      result["knowledge"][k][1] = result["knowledge"][k][1] / norm["knowledge"][k][1] * 10
+    end
+
+    self.point_score = result
     self.save
   end
 
@@ -150,19 +181,11 @@ class Report
   end
 
   def pre_score
-    pre_score = 0
-    self.point_score.each do |k, v|
-      pre_score += v["pre_score"]
-    end
-    pre_score
+    self.point_score["pre"]
   end
 
   def post_score
-    post_score = 0
-    self.point_score.each do |k, v|
-      post_score += v["post_score"]
-    end
-    post_score
+    self.point_score["post"]
   end
 
   def time_dist_desc
