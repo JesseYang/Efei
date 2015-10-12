@@ -9,11 +9,15 @@ $ ->
         title:
           text: null
         series: [{
+          name: "时长"
           type: 'pie'
           data: data.data
         }]
         credits:
           enabled: false
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        }
         plotOptions:
           pie:
             cursor: 'pointer'

@@ -81,6 +81,7 @@ class Weixin
   def self.update_menu
     data = {
       "button" => [
+=begin
         {
           "type" => "view",
           "name" => "政策法规",
@@ -91,7 +92,6 @@ class Weixin
           "name" => "课程介绍",
           "url" => "http://efei.org/"
         },
-=begin
         {
           "name" => "易飞好学",
           "sub_button" => [
