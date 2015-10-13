@@ -9,6 +9,8 @@
           %br
       %td= "，共" + report.total_time
 
+%p.summary= "学习内容：" + report.study_content_desc
+
 - pre_score = report.pre_score
 - post_score = report.post_score
 - delta_score = post_score - pre_score

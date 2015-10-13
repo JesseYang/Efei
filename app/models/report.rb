@@ -244,6 +244,24 @@ class Report
     desc
   end
 
+  def study_content_desc
+    knowledge = [ ]
+    self.video_dist.each do |k, v|
+      knowledge << k
+    end
+    desc = self.lesson.name + "，具体包括"
+    knowledge.each_with_index do |k, i|
+      if i < knowledge.length - 2
+        desc += k + "、"
+      elsif i < knowledge.length - 1
+        desc += k + "以及"
+      else
+        desc += k
+      end
+    end
+    desc
+  end
+
   def time_dist_desc
     desc = [ ]
     self.time_dist.each do |k, v|
