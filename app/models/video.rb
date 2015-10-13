@@ -9,6 +9,7 @@ class Video
   field :video_type, type: Integer
   field :name, type: String
   field :video_url, type: String
+  field :knowledge, type: String
 
   # structure of one element in tags:
   # => tag_type: Integer, 1 for index, 2 for episode, 3 for example, 4 for summary

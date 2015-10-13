@@ -35,6 +35,11 @@ class Weixin::LessonsController < Weixin::ApplicationController
     render json: { success: true, data: @report.time_dist_desc } and return
   end
 
+  def video_dist
+    @report = User.find(params[:student_id]).reports.where(lesson_id: params[:id]).first
+    render json: { success: true, data: @report.video_dist_desc } and return
+  end
+
   def record
     @local_course = LocalCourse.find(params[:local_course_id])
     @return_path = weixin_course_path(@local_course)

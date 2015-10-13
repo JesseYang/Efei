@@ -211,6 +211,7 @@ Rails.application.routes.draw do
         get :record
         get :report
         get :time_dist
+        get :video_dist
       end
     end
   end

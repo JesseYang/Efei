@@ -43,7 +43,7 @@ class Admin::VideosController < Admin::ApplicationController
     # @video = Video.new(video_type: params[:video]["video_type"].to_i,
     @video = Video.new(video_type: 1,
       name: params[:video]["name"],
-      # time: params[:video]["time"],
+      time: params[:video]["knowledge"],
       video_url: video_url)
     @video.lesson = lesson
     @video.save
@@ -65,6 +65,7 @@ class Admin::VideosController < Admin::ApplicationController
   def update
     v = Video.find(params[:id])
     v.name = params[:video]["name"]
+    v.knowledge = params[:video]["knowledge"]
     v.save
     render json: {success: true} and return
   end

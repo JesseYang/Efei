@@ -11,6 +11,8 @@ class Report
   field :point_score, type: Hash, default: { }
   # calculate from logs
   field :time_dist, type: Hash, default: { }
+  # calculate from logs and videos
+  field :video_dist, type: Hash, default: { }
 
   belongs_to :lesson, class_name: "Lesson", inverse_of: :reports
   belongs_to :student, class_name: "User", inverse_of: :reports
@@ -22,11 +24,13 @@ class Report
     else
       post_test = r.lesson.post_test
       post_test_answer = post_test.tablet_answers.where(student_id: r.student_id).first
+      action_logs = ActionLog.where(lesson_id: self.lesson_id, student_id: self.student_id).asc(:happen_at)
       if post_test_answer.present?
         r.update_attribute(:finish, true)
         r.calculate_point_score
-        r.calculate_study_time
-        r.calculate_time_dist
+        r.calculate_study_time(action_logs)
+        r.calculate_time_dist(action_logs)
+        r.calculate_video_dist(action_logs)
       end
       return r
     end
@@ -119,8 +123,8 @@ class Report
   end
 
   def calculate_study_time
-    action_logs = ActionLog.where(lesson_id: self.lesson_id, student_id: self.student_id)
-      .where(:action.in => [ActionLog::ENTRY_LESSON, ActionLog:: LEAVE_LESSON]).asc(:happen_at)
+    action_logs = ActionLog.where(lesson_id: self.lesson_id, student_id: self.student_id).asc(:happen_at)
+    action_logs = action_logs.where(:action.in => [ActionLog::ENTRY_LESSON, ActionLog:: LEAVE_LESSON])
     study_time = [ ]
     start_time = 0
     action_logs.each do |log|
@@ -137,9 +141,52 @@ class Report
     self.save
   end
 
+  def calculate_video_dist
+    action_logs = ActionLog.where(lesson_id: self.lesson_id, student_id: self.student_id).asc(:happen_at)
+    video_dist = { }
+    watch_video = false
+    current_knowledge = ""
+    cur_start_time = 0
+    action_logs.each do |log|
+      if log.action == ActionLog::SWITCH_VIDEO
+        if watch_video
+          # first calculate last video time
+          if current_knowledge.present?
+            video_dist[current_knowledge] ||= 0
+            video_dist[current_knowledge] += log.happen_at - cur_start_time
+          end
+        end
+        # then enter next video
+        current_knowledge = log.video.knowledge
+        cur_start_time = log.happen_at
+        watch_video = true
+        next
+      end
+      if watch_video
+        # find leave video log
+        if ActionLog::LEAVE_VIDEO_ARY.include? log.action
+          if current_knowledge.present?
+            video_dist[current_knowledge] ||= 0
+            video_dist[current_knowledge] += log.happen_at - cur_start_time
+          end
+          watch_video = false
+        end
+      else
+        # find enter video log
+        if ActionLog::ENTRY_VIDEO_ARY.include? log.action
+          current_knowledge = log.video.knowledge
+          cur_start_time = log.happen_at
+          watch_video = true
+        end
+      end
+    end
+    self.video_dist = video_dist
+    self.save
+  end
+
   def calculate_time_dist
     action_logs = ActionLog.where(lesson_id: self.lesson_id, student_id: self.student_id).asc(:happen_at)
-    time_dist = { "pre_test" => 0, "video" => 0, "snapshot" => 0, "exercise" => 0, "post_test" => 0, "other" => 0 }
+    time_dist = { "video" => 0, "pre_test" => 0, "snapshot" => 0, "exercise" => 0, "post_test" => 0, "other" => 0 }
     status = nil
     last_time = 0
     action_logs.each do |log|
@@ -186,6 +233,15 @@ class Report
 
   def post_score
     self.point_score["post"]
+  end
+
+  def video_dist_desc
+    desc = [ ]
+    self.video_dist.each do |k, v|
+      next if k.blank? || v == 0
+      desc << [k, v]
+    end
+    desc
   end
 
   def time_dist_desc

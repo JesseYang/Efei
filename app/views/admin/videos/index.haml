@@ -15,13 +15,15 @@
       %table#course-table.table.table-striped
         %tr
           %th.col-md-1= "名称"
+          %th.col-md-3= "知识点"
           %th.col-md-1= "序号"
-          %th.col-md-2= "文件名"
+          %th.col-md-4= "文件名"
           %th.col-md-1= "时长"
-          %th.col-md-1 操作
+          %th.col-md-2 操作
         - @videos.each do |v|
           %tr{ data: {id: v.id.to_s} }
             %td.video-name= v.name
+            %td.video-knowledge= v.knowledge
             %td.video-order= v.order
             %td= v.video_url.to_s
             %td= v.duration
@@ -42,6 +44,9 @@
           .form-group
             = label_tag :subject, "名称"
             = text_field_tag "video[name]", "", autofocus: true, class: "form-control"
+          .form-group
+            = label_tag :subject, "知识点"
+            = text_field_tag "video[knowledge]", "", autofocus: true, class: "form-control"
         .modal-footer
           %a.btn.btn-default{href: "#", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "更新", :class => 'btn-primary btn'
@@ -64,6 +69,9 @@
             = label_tag :subject, "名称"
             = text_field_tag "video[name]", "", autofocus: true, class: "form-control"
           .form-group
+            = label_tag :subject, "知识点"
+            = text_field_tag "video[knowledge]", "", autofocus: true, class: "form-control"
+          .form-group
             = label_tag :order, "序号（从1开始）"
             = text_field_tag "video[order]", "", autofocus: false, class: "form-control"
           / .form-group
@@ -82,7 +90,8 @@
             .form-group
               = label_tag :course_selector_lable, "视频：", class: "col-sm-2 control-label"
               .col-sm-10
-                = select_tag "existing_video_content", options_for_select(Video.existing_video_content_for_select, -1), class: "form-control"
+                / = select_tag "existing_video_content", options_for_select(Video.existing_video_content_for_select, -1), class: "form-control"
+                = select_tag "existing_video_content", options_for_select({ "请选择" => -1 }), class: "form-control"
           .form-group
             = label_tag :video_content, "或上传视频文件（mp4格式）"
             = file_field_tag "video_content"

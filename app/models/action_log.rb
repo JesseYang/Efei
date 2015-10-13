@@ -42,6 +42,7 @@ class ActionLog
   ENTRY_POST_TEST_ARY = [ENTRY_POST_TEST, RETURN_POST_TEST_RESULT]
   ENTRY_OTHER_ARY = [PAUSE_VIDEO]
   LEAVE_ARY = [LEAVE_LESSON]
+  LEAVE_VIDEO_ARY = [ENTRY_PRE_TEST, SWITCH_VIDEO, ENTRY_SUMMARY, ENTRY_POST_TEST, RETURN_POST_TEST_RESULT, PAUSE_VIDEO, LEAVE_LESSON]
 
 
   belongs_to :lesson
@@ -120,5 +121,13 @@ class ActionLog
     when 19
       return "离开课程"
     end
+  end
+
+  def video
+    video_id_1.present? ? Video.find(video_id_1) : nil
+  end
+
+  def another_video
+    video_id_2.present? ? Video.find(video_id_2) : nil
   end
 end

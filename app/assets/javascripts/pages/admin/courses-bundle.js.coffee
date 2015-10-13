@@ -6,22 +6,27 @@ $ ->
     $("#editVideo").modal("show")
     vid = $(this).attr("data-id")
     vname = $(this).closest("tr").find(".video-name").html()
+    vknowledge = $(this).closest("tr").find(".video-knowledge").html()
     $("#editVideo form").attr("data-id", vid)
     $("#editVideo #video_name").val(vname)
+    $("#editVideo #video_knowledge").val(vknowledge)
 
   $("#editVideo form").submit ->
     vid = $(this).attr("data-id")
     vname = $(this).find("#video_name").val()
+    vknowledge = $(this).find("#video_knowledge").val()
     vorder = $(this).find("#video_order").val()
     $.putJSON '/admin/videos/' + $(this).attr("data-id"),
       {
         name: $(this).find("#video_name").val()
+        knowledge: $(this).find("#video_knowledge").val()
       }, (data) ->
         if data.success
           $("#editVideo").modal("hide")
           $.page_notification "更新完成"
           tr = $("table").find("[data-id='" + vid + "']")
           tr.find(".video-name").html(vname)
+          tr.find(".video-knowledge").html(vknowledge)
         else
           $.page_notification "操作失败，请刷新页面重试"
     return false
