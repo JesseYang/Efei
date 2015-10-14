@@ -46,7 +46,8 @@ $ ->
   $(".btn-filter").click ->
     subject = $("#course_subject").val()
     type = $("#course_type").val()
-    window.location.href = "/admin/courses?subject=#{subject}&type=#{type}"
+    status = $("#course_status").val()
+    window.location.href = "/admin/courses?subject=#{subject}&type=#{type}&status=#{status}"
 
   $(".btn-edit").click ->
     tr = $(this).closest("tr")
