@@ -32,7 +32,7 @@
           %th.col-md-1= "讲义封面"
           %th.col-md-3 操作
         - @courses["data"].each do |c|
-          %tr{data: { id: c.id.to_s, teacher_id: c.teacher.id.to_s, subject: c.subject, name: c.name, type: c.course_type, start_at: Time.at(c.start_at).strftime("%Y/%m/%d"), end_at: Time.at(c.end_at).strftime("%Y/%m/%d"), grade: c.grade, desc: c.desc, suggestion: c.suggestion }}
+          %tr{data: { id: c.id.to_s, teacher_id: c.teacher.id.to_s, subject: c.subject, name: c.name, type: c.course_type, grade: c.grade, desc: c.desc, suggestion: c.suggestion }}
             %td= c.teacher.name
             %td= Subject::NAME[c.subject]
             %td= c.name
