@@ -36,9 +36,9 @@ class Course
     if type != 0
       courses = courses.where(course_type: type)
     end
-    if status == 1
+    if status == 0
       courses = courses.where(ready: true)
-    elsif status == 2
+    elsif status == 1
       courses = courses.where(ready: false)
     end
     courses
@@ -58,8 +58,7 @@ class Course
   end
 
   def self.status_for_select
-    hash = { "全部" => 0, "上架" => 1, "下架" => 2 }
-    
+    hash = { "上架" => 0, "下架" => 1, "全部" => 2 }
   end
 
   def self.type_for_select

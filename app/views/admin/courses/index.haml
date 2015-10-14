@@ -14,7 +14,7 @@
         = label_tag :course_type, "类型"
         = select_tag "course[type]", options_for_select(Course.type_for_select_with_all, params[:type] || 0), class: "form-control"
         = label_tag :course_status, "状态"
-        = select_tag "course[status]", options_for_select(Course.status_for_select, params[:status] || 1), class: "form-control"
+        = select_tag "course[status]", options_for_select(Course.status_for_select, params[:status] || 0), class: "form-control"
         = link_to "筛选", "javascript:void(0);", class: "btn btn-primary btn-filter"
 
     - if @courses["data"].blank?
