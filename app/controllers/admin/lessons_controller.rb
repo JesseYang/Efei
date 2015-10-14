@@ -66,6 +66,7 @@ class Admin::LessonsController < Admin::ApplicationController
 
     @lesson = Lesson.new(name: params[:lesson]["name"])
     @lesson.course = course
+    @lesson.save
     pre_test = Homework.where(id: params[:lesson]["pre_test_id"]).first
     @lesson.pre_test = pre_test if pre_test.present?
     exercise = Homework.where(id: params[:lesson]["exercise_id"]).first
