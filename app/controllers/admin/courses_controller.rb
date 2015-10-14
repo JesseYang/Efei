@@ -18,8 +18,8 @@ class Admin::CoursesController < Admin::ApplicationController
     filepath = textbook.textbook.file.file
     textbook_url = "/textbooks/" + filepath.split("/")[-1]
 
-    start_at = Time.mktime(*params[:course]["start_at"].split("/"))
-    end_at = Time.mktime(*params[:course]["end_at"].split("/"))
+    # start_at = Time.mktime(*params[:course]["start_at"].split("/"))
+    # end_at = Time.mktime(*params[:course]["end_at"].split("/"))
     teacher = User.find(params[:course]["teacher_id"])
 
     @course = Course.new(name: params[:course]["name"],
