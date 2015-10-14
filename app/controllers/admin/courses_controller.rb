@@ -25,8 +25,8 @@ class Admin::CoursesController < Admin::ApplicationController
     @course = Course.new(name: params[:course]["name"],
       subject: params[:course]["subject"],
       course_type: params[:course]["type"],
-      start_at: start_at,
-      end_at: end_at,
+      # start_at: start_at,
+      # end_at: end_at,
       grade: params[:course]["grade"],
       desc: params[:course]["desc"],
       suggestion: params[:course]["suggestion"],
@@ -59,10 +59,10 @@ class Admin::CoursesController < Admin::ApplicationController
     c.name = params[:course]["name"]
     c.subject = params[:course]["subject"]
     c.course_type = params[:course]["type"]
-    start_at = Time.mktime(*params[:course]["start_at"].split("/"))
-    end_at = Time.mktime(*params[:course]["end_at"].split("/"))
-    c.start_at = start_at
-    c.end_at = end_at
+    # start_at = Time.mktime(*params[:course]["start_at"].split("/"))
+    # end_at = Time.mktime(*params[:course]["end_at"].split("/"))
+    # c.start_at = start_at
+    # c.end_at = end_at
     c.grade = params[:course]["grade"]
     c.desc = params[:course]["desc"]
     c.suggestion = params[:course]["suggestion"]
