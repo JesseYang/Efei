@@ -27,7 +27,7 @@ class Course
   has_many :action_logs
 
 
-  def self.filter(subject, type)
+  def self.filter(subject, type, status)
     if subject != 0
       courses = Course.where(subject: subject)
     else
