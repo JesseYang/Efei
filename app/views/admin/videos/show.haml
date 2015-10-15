@@ -8,7 +8,7 @@
   - if @video.lesson.present?
     = link_to "返回本讲视频列表", { controller: "admin/videos", action: "index", lesson_id: @video.lesson.id.to_s }
   - if @video.question.present?
-    = link_to "题目详情", "/teacher/questions/#{params[:question_id]}/detail"
+    = link_to "题目详情", "/teacher/questions/#{@video.question_id.to_s}/detail"
   %br
   - if @video.lesson.present?
     %h3.inline-title= "课程：" + @video.course_name
@@ -48,7 +48,7 @@
             = select_tag "question_id", options_for_select(@video.lesson.questions_for_select, -1), class: "form-control"
       - else
         .form-group.hide
-          = text_field_tag "tag[question_id]", params[:question_id], autofocus: false
+          = text_field_tag "tag[question_id]", @video.question_id.to_s, autofocus: false
       %span#key-point-ul-title.hide 关键点文字描述
       %ul.point-ul
       %a.btn.btn-default.btn-select{href: "javascript:void(0);", "aria-hidden" => "true"} 选点
@@ -139,7 +139,7 @@
                   %ul.tag-question-ul
                   = text_field_tag "tag[question_id]", "", autofocus: false, class: "hide"
             - else
-              = text_field_tag "tag[question_id]", params[:question_id], autofocus: false
+              = text_field_tag "tag[question_id]", @video.question_id.to_s, autofocus: false
         .modal-footer
           %a.btn.btn-default{href: "javascript:void(0);", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'

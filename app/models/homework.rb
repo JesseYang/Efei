@@ -194,6 +194,28 @@ class Homework < Node
     end
   end
 
+  def refresh_score
+    one_score = 100 / self.q_ids.length
+    self.q_ids.each do |qid|
+      if self.q_scores[qid].to_i == 0
+        self.q_scores[qid] = one_score
+      end
+    end
+    self.save
+  end
+
+  def refresh_duration
+    self.q_ids.each do |qid|
+      next if self.q_durations[qid] != 0
+      q = Question.find(qid)
+      next if q.video.blank?
+      duration = q.video.duration
+      minute = duration * 1.0 / 60
+      self.q_durations[qid] = [(minute / 2).round, 1].max
+    end
+    self.save
+  end
+
   def last_update_time
     self.updated_at.today? ? self.updated_at.strftime("%H点%M分") : self.updated_at.strftime("%Y年%m月%d日")
   end
