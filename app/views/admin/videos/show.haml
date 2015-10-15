@@ -139,7 +139,7 @@
                   %ul.tag-question-ul
                   = text_field_tag "tag[question_id]", "", autofocus: false, class: "hide"
             - else
-              = text_field_tag "tag[question_id]", @video.question_id.to_s, autofocus: false
+              = text_field_tag "tag[question_id]", @video.question_id.to_s, autofocus: false, class: "hide"
         .modal-footer
           %a.btn.btn-default{href: "javascript:void(0);", data: {dismiss: "modal"}, "aria-hidden" => "true"} 取消
           = submit_tag "创建", :class => 'btn-primary btn'
