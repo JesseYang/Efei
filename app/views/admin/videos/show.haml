@@ -48,7 +48,7 @@
             = select_tag "question_id", options_for_select(@video.lesson.questions_for_select, -1), class: "form-control"
       - else
         .form-group.hide
-          = text_field_tag "tag[question_id]", @video.question_id.to_s, autofocus: false
+          = text_field_tag "question_id", @video.question_id.to_s, autofocus: false
       %span#key-point-ul-title.hide 关键点文字描述
       %ul.point-ul
       %a.btn.btn-default.btn-select{href: "javascript:void(0);", "aria-hidden" => "true"} 选点
