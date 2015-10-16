@@ -26,6 +26,7 @@ module UserComponents::Client
         email: client["email"],
         mobile: client["mobile"],
         city: client["city"],
+        tablet: true,
         is_client: true
       })
     end

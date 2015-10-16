@@ -107,7 +107,8 @@ class User
     return {
       success: true,
       auth_key: u.generate_auth_key,
-      admin: u.admin,
+      # admin: u.admin,
+      admin: u.is_client,
       course_id_str: u.student_course_id_str,
       completed_lesson_id_str: u.completed_lesson_id_str,
       status: u.studies,
