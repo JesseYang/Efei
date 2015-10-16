@@ -1,3 +1,4 @@
+- require 'integer'
 .study-time-table-wrapper
   %table.study-time-table
     %tr
@@ -29,8 +30,8 @@
     - report.point_score["knowledge"].each do |k,v|
       %tr
         %td= k
-        %td= v[0]
-        %td= v[1]
+        %td= v[0].round.to_abcd
+        %td= v[1].round.to_abcd
 
 %span.summary.time-dist-title 学习时间分布
 
