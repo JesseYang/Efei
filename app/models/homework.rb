@@ -209,7 +209,7 @@ class Homework < Node
       next if self.q_durations[qid] != 0
       q = Question.find(qid)
       next if q.video.blank?
-      duration = q.video.duration
+      duration = q.video.duration("int")
       minute = duration * 1.0 / 60
       self.q_durations[qid] = [(minute / 2).round, 1].max
     end
