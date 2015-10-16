@@ -36,6 +36,7 @@ class User
   field :permission, type: Integer, default: 0
 
   has_many :feedbacks
+  has_many :action_logs, class_name: "ActionLog", inverse_of: :student
 
   include HTTParty
   base_uri Rails.application.config.word_host

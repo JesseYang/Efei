@@ -24,9 +24,6 @@ class Course
   belongs_to :teacher, class_name: "User", inverse_of: :courses
   belongs_to :client, class_name: "User", inverse_of: :client_courses
 
-  has_many :action_logs
-
-
   def self.filter(subject, type, status)
     if subject != 0
       courses = Course.where(subject: subject)
