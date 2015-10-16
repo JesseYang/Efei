@@ -71,7 +71,8 @@ class Report
     pre_qs = { }
     pre_test.q_ids.each do |pre_test_qid|
       knowledge = pre_test.q_knowledges[pre_test_qid]
-      total = pre_test.q_scores[pre_test_qid]
+      # total = pre_test.q_scores[pre_test_qid]
+      total = 10
       score = pre_test_answer.get_score(pre_test_qid)
       pre_qs[pre_test_qid] = [knowledge, score, total]
       result["pre"] += score * total
@@ -85,7 +86,8 @@ class Report
     post_qs = { }
     post_test.q_ids.each do |post_test_qid|
       knowledge = post_test.q_knowledges[post_test_qid]
-      total = post_test.q_scores[post_test_qid]
+      # total = post_test.q_scores[post_test_qid]
+      total = 10
       score = post_test_answer.get_score(post_test_qid)
       post_qs[post_test_qid] = [knowledge, score, total]
       result["post"] += score * total
@@ -99,7 +101,8 @@ class Report
     exercise_qs = { }
     exercise.q_ids.each do |exercise_qid|
       knowledge = exercise.q_knowledges[exercise_qid]
-      total = exercise.q_scores[exercise_qid]
+      # total = exercise.q_scores[exercise_qid]
+      total = 10
       score = exercise_answer.get_score(exercise_qid)
       exercise_qs[exercise_qid] = [knowledge, score, total]
       result["post"] += score * total
