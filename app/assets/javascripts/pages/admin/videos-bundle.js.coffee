@@ -31,11 +31,13 @@ $ ->
     key_point = [ ]
     $("#check-snapshot .point-ul li").each ->
       key_point.push $(this).find("input").val()
+    video_end = $("#check-snapshot #video_end").attr("checked") == "checked"
     $.putJSON(
       '/admin/snapshots/' + sid,
       {
         key_point: key_point
-        question_id
+        question_id: question_id
+        video_end: video_end
       },
       (retval) ->
         if !retval.success
@@ -67,7 +69,10 @@ $ ->
         $("canvas").removeClass("hide")
         $("video")[0].controls = false
         ctx = $("canvas")[0].getContext("2d")
-        $("video")[0].currentTime = data.data.time
+        if data.data.time == -1
+          $("video")[0].currentTime = $("video")[0].duration
+        else
+          $("video")[0].currentTime = data.data.time
         $("#update_question_id").val(data.data.question_id)
         for key_point in data.data.key_point
           ctx.beginPath()
@@ -103,6 +108,7 @@ $ ->
         position: [$(this).find(".x").text(), $(this).find(".y").text()]
         desc: $(this).find("input").val()
       }
+    video_end = $("#new-snapshot #video_end").attr("checked") == "checked"
     $.postJSON(
       '/admin/snapshots/',
       {
@@ -110,6 +116,7 @@ $ ->
         time: $("#video-canvas-wrapper video")[0].currentTime
         key_point: key_point
         question_id: $("#new-snapshot #question_id").val()
+        video_end: video_end
       },
       (retval) ->
         if !retval.success

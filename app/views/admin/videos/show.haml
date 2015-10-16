@@ -32,6 +32,9 @@
     - else
       .form-group.hide
         = text_field_tag "tag[update_question_id]", params[:update_question_id], autofocus: false
+    .form-group
+      %span 视频末尾
+      = check_box_tag 'video_end', 'yes', false
     %br
     %span 关键点文字描述
     %ul.point-ul
@@ -49,6 +52,9 @@
       - else
         .form-group.hide
           = text_field_tag "question_id", @video.question_id.to_s, autofocus: false
+      .form-group
+        %span 视频末尾
+        = check_box_tag 'video_end', 'yes', false
       %span#key-point-ul-title.hide 关键点文字描述
       %ul.point-ul
       %a.btn.btn-default.btn-select{href: "javascript:void(0);", "aria-hidden" => "true"} 选点

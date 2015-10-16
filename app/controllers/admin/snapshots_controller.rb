@@ -4,7 +4,7 @@ class Admin::SnapshotsController < Admin::ApplicationController
   def create
     @video = Video.find(params[:video_id])
     s = Snapshot.create(
-      time: params[:time],
+      time: params[:video_end].to_s == "true" ? -1 : params[:time].to_f,
       key_point: params[:key_point],
       question_id: params[:question_id],
       video_id: params[:video_id]
@@ -24,6 +24,9 @@ class Admin::SnapshotsController < Admin::ApplicationController
     @snapshot.question = @question
     params[:key_point].each_with_index do |desc, i|
       @snapshot.key_point[i]["desc"] = desc
+    end
+    if params[:video_end].to_s == "true"
+      @snapshot.time = -1
     end
     @snapshot.save
     render json: { success: true }
