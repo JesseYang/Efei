@@ -35,7 +35,6 @@
     .form-group
       %span 视频末尾
       = check_box_tag 'video_end', 'yes', false
-    %br
     %span 关键点文字描述
     %ul.point-ul
     %a.btn.btn-primary.btn-update-snapshot{href: "javascript:void(0);"} 更新
@@ -70,7 +69,7 @@
           %th.col-md-1= "操作"
         - (@video.snapshots).each_with_index do |s, i|
           %tr
-            %td= s.time.round(1)
+            %td.snapshot-time= s.time == -1 ? "视频末尾" : s.time.round(1)
             %td= s.key_point.length
             %td
               = link_to "删除", { controller: "admin/snapshots", action: "destroy", id: s.id.to_s, video_id: @video.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
@@ -93,7 +92,7 @@
         - (@video.tags || []).each_with_index do |t, i|
           %tr
             %td= Video.show_tag_type(t["tag_type"])
-            %td= t["time"]
+            %td= t["time"].to_time
             %td= t["duration"]
             %td= t["name"]
             %td= t["episode_id"].present? ? Video.find(t["episode_id"]).name : ""
