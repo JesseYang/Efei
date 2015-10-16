@@ -64,12 +64,12 @@
       %h4#snapshot-list 截图列表
       %table#snapshot-table.table.table-striped
         %tr
-          %th.col-md-1= "时间（秒）"
+          %th.col-md-1= "时间点"
           %th.col-md-1= "关键点数量"
           %th.col-md-1= "操作"
         - (@video.snapshots).each_with_index do |s, i|
           %tr
-            %td.snapshot-time= s.time == -1 ? "视频末尾" : s.time.round(1)
+            %td.snapshot-time= s.time == -1 ? "视频末尾" : s.time.round(1).to_time
             %td= s.key_point.length
             %td
               = link_to "删除", { controller: "admin/snapshots", action: "destroy", id: s.id.to_s, video_id: @video.id.to_s }, :method => "delete", :class => 'btn btn-danger btn-xs'
