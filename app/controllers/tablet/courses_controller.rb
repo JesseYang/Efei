@@ -13,15 +13,19 @@ class Tablet::CoursesController < Tablet::ApplicationController
     end
   end
 
+  def client_courses
+    @client.present? ? @client.client_courses : Course.all
+  end
+
   def index
-    courses = @client.client_courses.where(ready: true).desc(:created_at).map do |c|
+    courses = client_courses.where(ready: true).desc(:created_at).map do |c|
       c.info_for_tablet
     end
     render_with_auth_key({courses: courses}) and return
   end
 
   def show
-    c = @client.client_courses.where(id: params[:id]).first
+    c = client_courses.where(id: params[:id]).first
     render_with_auth_key({course: c.info_for_tablet}) and return
   end
 
