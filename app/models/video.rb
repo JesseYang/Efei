@@ -121,10 +121,10 @@ class Video
     end
   end
 
-  def duration
+  def duration(style = "string")
     begin
       v = FFMPEG::Movie.new("public#{self.video_url}")
-      return v.duration.to_time
+      return ( style == "string" ? v.duration.to_time : v.duration )
     rescue
       return 0
     end
