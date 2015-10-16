@@ -21,7 +21,7 @@ class TabletAnswer
     qid_ary.each_with_index do |qid, i|
       answer_content[qid] = { answer: data["answer"][i], duration: data["duration"][i] }
     end
-    tablet_answer.answer_content = answer_content
+    tablet_answer.answer_content = tablet_answer.answer_content.merge(answer_content)
     tablet_answer.save
   end
 
