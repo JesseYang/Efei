@@ -24,7 +24,7 @@ class Report
     else
       post_test = r.lesson.post_test
       post_test_answer = post_test.tablet_answers.where(student_id: r.student_id).first
-      action_logs = ActionLog.where(lesson_id: self.lesson_id, student_id: self.student_id).asc(:happen_at)
+      action_logs = ActionLog.where(lesson_id: r.lesson_id, student_id: r.student_id).asc(:happen_at)
       if post_test_answer.present?
         r.update_attribute(:finish, true)
         r.calculate_point_score
