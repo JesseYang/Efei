@@ -18,7 +18,8 @@
 
 %p.summary= "综合评测（满分100）：课前" + pre_score.to_s + "；课后" + post_score.to_s
 
-%p.summary.score-progress= "通过今天的课程，提高了" + delta_score.to_s + "分"
+- if delta_score > 0
+  %p.summary.score-progress= "通过今天的课程，提高了" + delta_score.to_s + "分"
 
 %span.summary.point-score-table-title 知识点分项评测表（满分10）
 .point-score-table-wrapper

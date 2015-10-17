@@ -112,8 +112,8 @@ class Report
       norm["knowledge"][knowledge][1] += total
     end
 
-    result["pre"] = result["pre"] / norm["pre"] * 100
-    result["post"] = result["post"] / norm["post"] * 100
+    result["pre"] = (result["pre"] / norm["pre"] * 100).round
+    result["post"] = (result["post"] / norm["post"] * 100).round
 
     result["knowledge"].each do |k, v|
       result["knowledge"][k][0] = result["knowledge"][k][0] / norm["knowledge"][k][0] * 10
