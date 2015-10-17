@@ -36,6 +36,8 @@ class TabletAnswer
   end
 
   def get_score(qid)
+    # if the question is not answered, the score is 0
+    return 0 if self.answer_content[qid].blank?
     rec_dur = self.exercise.q_durations[qid] * 60
     dur = self.answer_content[qid]["duration"]
     correct = self.is_correct?(qid)
