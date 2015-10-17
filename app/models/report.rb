@@ -159,7 +159,7 @@ class Report
           end
         end
         # then enter next video
-        current_knowledge = log.video.knowledge
+        current_knowledge = log.another_video.knowledge
         cur_start_time = log.happen_at
         watch_video = true
         next
@@ -211,7 +211,6 @@ class Report
         next
       end
       if status.present?
-        puts time_dist
         time_dist[status] += log.happen_at - last_time
       end
       status = new_status == "none" ? nil : new_status
