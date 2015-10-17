@@ -2,7 +2,8 @@
 class Tablet::ActionLogsController < Tablet::ApplicationController
 
   def index
-    @logs = ActionLog.all.asc(:log_id)
+    u = User.find(params[:student_id])
+    @logs = u.action_logs.all.asc(:log_id)
   end
 
   def create

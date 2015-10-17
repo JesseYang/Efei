@@ -24,13 +24,12 @@ class Report
     else
       post_test = r.lesson.post_test
       post_test_answer = post_test.tablet_answers.where(student_id: r.student_id).first
-      action_logs = ActionLog.where(lesson_id: r.lesson_id, student_id: r.student_id).asc(:happen_at)
       if post_test_answer.present?
         r.update_attribute(:finish, true)
         r.calculate_point_score
-        r.calculate_study_time(action_logs)
-        r.calculate_time_dist(action_logs)
-        r.calculate_video_dist(action_logs)
+        r.calculate_study_time
+        r.calculate_time_dist
+        r.calculate_video_dist
       end
       return r
     end

@@ -4,7 +4,7 @@
   :javascript
     window.report_id="#{@report.try(:id).to_s}"
     window.lesson_id="#{@lesson.try(:id).to_s}"
-    window.student_id="#{@current_user.try(:id).to_s}"
+    window.student_id="#{@student.try(:id).to_s}"
 
 = render :partial => "partials/report", locals: { report: @report }
 

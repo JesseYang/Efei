@@ -36,7 +36,7 @@ class TabletAnswer
   end
 
   def get_score(qid)
-    rec_dur = self.exercise.q_durations[qid]
+    rec_dur = self.exercise.q_durations[qid] * 60
     dur = self.answer_content[qid]["duration"]
     correct = self.is_correct?(qid)
     if !correct
