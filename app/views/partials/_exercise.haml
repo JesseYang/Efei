@@ -13,19 +13,18 @@
           .question-content
             = render :partial => "partials/question_content", locals: { content: question.content, image_path: question.image_path, q_index: i+1 }
           - if question.type == "choice"
-            - if answers[ei].answer_content[qid].present?
-              .question-items{data: {"question-answer" => question.answer}}
-                %ul.answer-item-ul
-                  - question.items.each_with_index do |item, index|
-                    %li
-                      %a{class: d2c(index) + "-link", href: "javascript:void(0);"}
-                        - if question.answer.present? && question.answer.to_i == index
-                          %i.icon{class: d2c(index) + "-right"}
-                        - elsif answers[ei].answer_content[qid]["answer"] == index
-                          %i.icon{class: d2c(index) + "-wrong"}
-                        - else
-                          %i.icon{class: d2c(index)}
-                      %span.item-content= item.render_question(question.image_path).html_safe
+            .question-items{data: {"question-answer" => question.answer}}
+              %ul.answer-item-ul
+                - question.items.each_with_index do |item, index|
+                  %li
+                    %a{class: d2c(index) + "-link", href: "javascript:void(0);"}
+                      - if question.answer.present? && question.answer.to_i == index
+                        %i.icon{class: d2c(index) + "-right"}
+                      - elsif answers[ei].answer_content[qid].present? && answers[ei].answer_content[qid]["answer"] == index
+                        %i.icon{class: d2c(index) + "-wrong"}
+                      - else
+                        %i.icon{class: d2c(index)}
+                    %span.item-content= item.render_question(question.image_path).html_safe
           - if answers[ei].is_correct?(qid)
             - if answers[ei].answer_content[qid].present?
               %span.span-right 回答正确
