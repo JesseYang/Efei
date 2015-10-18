@@ -49,6 +49,7 @@ class ActionLog
   belongs_to :student, class_name: "User", inverse_of: :action_logs
 
   def self.batch_create(logs)
+    id_pair_ary = [ ]
     id_ary = [ ]
     logs.each do |l|
       id_ary << l["log_id"]
@@ -71,9 +72,10 @@ class ActionLog
         student_id: l["student_id"],
         lesson_id: l["lesson_id"]
       })
-      if l["action"] == LEAVE_LESSON
-        Report.find_or_create_new(Lesson.find(l["lesson_id"]), User.find(l["student_id"]))
-      end
+      id_pair_ary << [l["lesson_id"], l["student_id"]] if !id_pair_ary.include?([l["lesson_id"], l["student_id"]])
+    end
+    id_pair_ary.each do |e|
+      Report.find_or_create_new(Lesson.find(e[0]), User.find(e[1]))
     end
     id_ary
   end

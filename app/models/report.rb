@@ -65,8 +65,9 @@ class Report
 
   def self.progress(lesson_id, user_id)
     r = Report.where(lesson_id: lesson_id, student_id: user_id).first
-    return { lesson_id: lesson_id, not_start: true, is_complete: false, video_id: "", video_time: -1 } if r.blank? || r.last_video_id.blank?
+    return { lesson_id: lesson_id, not_start: true, is_complete: false, video_id: "", video_time: -1 } if r.blank?
     return { lesson_id: lesson_id, not_start: false, is_complete: true, video_id: "", video_time: -1 } if r.finish == true
+    return { lesson_id: lesson_id, not_start: true, is_complete: false, video_id: "", video_time: -1 } if r.last_video_id.blank?
     return { lesson_id: lesson_id, not_start: false, is_complete: false, video_id: r.last_video_id, video_time: r.last_video_time}
   end
 
