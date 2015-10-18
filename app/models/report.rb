@@ -33,6 +33,8 @@ class Report
         r.calculate_study_time
         r.calculate_time_dist
         r.calculate_video_dist
+      else
+        r.find_last_video
       end
       return r
     end
