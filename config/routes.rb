@@ -227,6 +227,9 @@ Rails.application.routes.draw do
     end
 
     resources :courses do
+      member do
+        get :progress
+      end
     end
 
     resources :teachers do

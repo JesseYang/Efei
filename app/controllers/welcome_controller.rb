@@ -31,6 +31,7 @@ class WelcomeController < ApplicationController
         render text: "" and return
       end
     when "event"
+=begin
       if params[:xml]["Event"] == "CLICK" && ["MSWK", "ZCKD", "JYZT"].include?(params[:xml]["EventKey"])
         news = WeixinNews.where(active: true, type: params[:xml]["EventKey"]).desc(:created_at).limit(3)
         data = {
@@ -54,6 +55,7 @@ class WelcomeController < ApplicationController
         retval = data.to_xml(root: "xml").gsub(/item-\d/, "item").gsub("<Article>", "").gsub("</Article>", "")
         render :xml => retval and return
       end
+=end
       if params[:xml]["Event"] == "subscribe"
         data = {
           "ToUserName" => params[:xml]["FromUserName"],
@@ -63,6 +65,8 @@ class WelcomeController < ApplicationController
           "Content" => "欢迎关注易飞学堂"
         }
         render :xml => data.to_xml(root: "xml") and return
+      else
+        render text: "" and return
       end
     end
   end

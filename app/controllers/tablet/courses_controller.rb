@@ -32,4 +32,13 @@ class Tablet::CoursesController < Tablet::ApplicationController
   def create
     
   end
+
+  def progress
+    c = Course.find(params[:id])
+    progress = [ ]
+    c.lesson_id_ary.each do |lesson_id|
+      progress << Report.progress(lesson_id, @current_user.id.to_s)
+    end
+    render json: { progress: progress } and return
+  end
 end

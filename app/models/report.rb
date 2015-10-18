@@ -14,6 +14,9 @@ class Report
   # calculate from logs and videos
   field :video_dist, type: Hash, default: { }
 
+  field :last_video_id, type: String, default: ""
+  field :last_video_time, type: Integer, default: -1
+
   belongs_to :lesson, class_name: "Lesson", inverse_of: :reports
   belongs_to :student, class_name: "User", inverse_of: :reports
 
@@ -38,6 +41,33 @@ class Report
   def self.finish_lesson?(lesson, user)
     r = Report.where(lesson_id: lesson.id, student_id: user.id).first
     r.present? && r.finish
+  end
+
+  def find_last_video
+    index = -1
+    time = -1
+    video_id = ""
+    cur_lesson = self.lesson
+    ActionLog.where(lesson_id: self.lesson_id, student_id: self.student_id).each do |log|
+      if ActionLog::LEAVE_VIDEO_ARY.include? log.action
+        vid = log.video_id_1
+        cur_index = cur_lesson.video_id_ary.index(vid)
+        next if cur_index.blank? || cur_index < index
+        index = cur_index
+        time = log.video_time_1
+        video_id = vid
+      end
+    end
+    self.last_video_id = video_id
+    self.last_video_time = time
+    self.save
+  end
+
+  def self.progress(lesson_id, user_id)
+    r = Report.where(lesson_id: lesson_id, student_id: user_id).first
+    return { lesson_id: lesson_id, not_start: true, is_compelete: false, video_id: "", video_time: -1 } if r.blank? || r.last_video_id.blank?
+    return { lesson_id: lesson_id, not_start: false, is_compelete: true, video_id: "", video_time: -1 } if r.finish == true
+    return { lesson_id: lesson_id, not_start: false, is_compelete: false, video_id: r.last_video_id, video_time: r.last_video_time}
   end
 
   def self.point_score_init_ele
