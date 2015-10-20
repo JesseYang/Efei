@@ -50,7 +50,8 @@ class Report
     time = -1
     video_id = ""
     cur_lesson = self.lesson
-    ActionLog.where(lesson_id: self.lesson_id, student_id: self.student_id).each do |log|
+    action_logs = ActionLog.where(lesson_id: self.lesson_id, student_id: self.student_id)
+    action_logs.each do |log|
       if ActionLog::LEAVE_VIDEO_ARY.include? log.action
         vid = log.video_id_1
         cur_index = cur_lesson.video_id_ary.index(vid)
